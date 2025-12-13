@@ -1,12 +1,12 @@
 #include <Arduino.h>
-#include <WiFi.h>
-#include <ESPmDNS.h>
-#include <WiFiUdp.h>
-#include <ArduinoOTA.h>
-#include "secrets.h"
+// #include <WiFi.h>
+// #include <ESPmDNS.h>
+// #include <WiFiUdp.h>
+// #include <ArduinoOTA.h>
+// #include "secrets.h"
 
-const char* ssid = WIFI_SSID;
-const char* password = WIFI_PASSWORD;
+// const char* ssid = WIFI_SSID;
+// const char* password = WIFI_PASSWORD;
 
 // GPIO 35 is Input-only (GPI), so we use GPIO 32 for the LED
 const int ledPin = 32;
@@ -18,6 +18,7 @@ void setup() {
   // LED Setup
   pinMode(ledPin, OUTPUT);
 
+  /*
   // WiFi Setup
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
@@ -73,6 +74,7 @@ void setup() {
   Serial.println("Ready");
   Serial.print("IP address: ");
   Serial.println(WiFi.localIP());
+  */
 }
 
 unsigned long previousMillis = 0;
@@ -80,7 +82,7 @@ const long interval = 1000;
 int ledState = LOW;
 
 void loop() {
-  ArduinoOTA.handle();
+  // ArduinoOTA.handle();
   
   unsigned long currentMillis = millis();
 
