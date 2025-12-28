@@ -28,6 +28,9 @@ Audio audio;
 std::vector<String> playlist;
 int currentSongIndex = 0;
 
+// New flag to handle song transitions safely
+bool shouldPlayNext = false;
+
 int lastVolume = -1;
 unsigned long lastVolCheck = 0;
 
@@ -107,6 +110,18 @@ void writeFile(fs::FS &fs, const char * path, const char * message){
   file.close();
 }
 
+void fadeOut() {
+    int startVol = audio.getVolume();
+    for (int v = startVol; v >= 0; v--) {
+        audio.setVolume(v);
+        // Keep audio loop running while fading to prevent glitches
+        unsigned long start = millis();
+        while (millis() - start < 15) { 
+            audio.loop();
+        }
+    }
+}
+
 void playCurrentSong() {
     if (playlist.empty()) return;
     
@@ -116,7 +131,14 @@ void playCurrentSong() {
 
     String songName = playlist[currentSongIndex];
     Serial.printf("Playing: %s\n", songName.c_str());
+    
+    // Ensure previous playback is fully stopped before starting new one
+    if(audio.isRunning()) audio.stopSong();
+    
     audio.connecttoFS(SD, songName.c_str());
+    
+    // Force volume update in loop() so it snaps back to pot value
+    lastVolume = -1; 
 }
 
 // -------------------------------------
@@ -142,8 +164,8 @@ void setup() {
 
     // 1. Initialize SD Card
     // Note: We use the default SPI bus, so we don't need to pass SPI instance if using default pins
-    // Lower SPI frequency to 16MHz or 10MHz to improve stability and reduce read errors
-    if(!SD.begin(SD_CS, SPI, 16000000)){
+    // Lower SPI frequency to 4MHz to improve stability and reduce read errors (INVALID_FRAMEHEADER)
+    if(!SD.begin(SD_CS, SPI, 4000000)){
         Serial.println("Card Mount Failed");
         Serial.println("Check the following:");
         Serial.println("1. Wiring: CS->5, MOSI->23, MISO->19, CLK->18");
@@ -192,6 +214,15 @@ void setup() {
 void loop() {
     audio.loop();
 
+    // Check if we need to play the next song (triggered by EOF)
+    if (shouldPlayNext) {
+        shouldPlayNext = false; // Reset flag
+        // Small delay to ensure previous file handle is fully closed
+        delay(100); 
+        currentSongIndex++;
+        playCurrentSong();
+    }
+
     // --- Play/Pause Button Handling (Short Press = Toggle, Long Press = Stop) ---
     int currentPlayPauseState = digitalRead(BTN_PLAY_PAUSE);
 
@@ -239,6 +270,7 @@ void loop() {
             lastDebounceTime = millis();
             if (!isSystemOff) {
                 Serial.println("Next button pressed");
+                fadeOut();
                 audio.stopSong();
                 currentSongIndex++;
                 playCurrentSong();
@@ -249,6 +281,7 @@ void loop() {
             lastDebounceTime = millis();
             if (!isSystemOff) {
                 Serial.println("Prev button pressed");
+                fadeOut();
                 audio.stopSong();
                 currentSongIndex--;
                 if (currentSongIndex < 0) currentSongIndex = playlist.size() - 1;
@@ -268,8 +301,18 @@ void loop() {
         if (newVolume != lastVolume) {
             audio.setVolume(newVolume);
             lastVolume = newVolume;
-            // Serial.printf("Volume: %d\n", newVolume); 
+            Serial.printf("Volume Changed: %d\n", newVolume); 
         }
+    }
+
+    // Print song time and volume every second
+    static unsigned long lastTimePrint = 0;
+    if (audio.isRunning() && millis() - lastTimePrint > 1000) {
+        lastTimePrint = millis();
+        Serial.printf("Time: %3d / %3d sec | Vol: %d\n", 
+            audio.getAudioCurrentTime(), 
+            audio.getAudioFileDuration(),
+            audio.getVolume());
     }
     
     // Optional: Serial commands to control volume
@@ -298,7 +341,6 @@ void audio_info(const char *info){
 }
 void audio_eof_mp3(const char *info){  //end of file
     Serial.print("eof_mp3     "); Serial.println(info);
-    // Auto-advance to next song
-    currentSongIndex++;
-    playCurrentSong();
+    // Auto-advance to next song safely via loop
+    shouldPlayNext = true;
 }
