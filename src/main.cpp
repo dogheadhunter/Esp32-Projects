@@ -3,6 +3,7 @@
 #include "SD.h"
 #include "SPI.h"
 #include "Audio.h"
+#include <vector>
 
 // SD Card Pins (Standard VSPI)
 #define SD_CS          5
@@ -15,7 +16,31 @@
 #define I2S_BCLK       26
 #define I2S_LRC        25
 
+// Potentiometer Pin (Sensor VN = GPIO 39)
+#define POT_PIN        39
+
+// Button Pins
+#define BTN_PLAY_PAUSE 27
+#define BTN_NEXT       14
+#define BTN_PREV       13
+
 Audio audio;
+std::vector<String> playlist;
+int currentSongIndex = 0;
+
+int lastVolume = -1;
+unsigned long lastVolCheck = 0;
+
+// Button State Variables
+unsigned long lastDebounceTime = 0;
+const unsigned long debounceDelay = 200; // ms
+
+// Play/Pause Button State for Long Press
+int lastPlayPauseState = HIGH;
+unsigned long playPausePressStartTime = 0;
+bool playPauseLongPressHandled = false;
+const unsigned long longPressDuration = 1000; // 1 second for long press
+bool isSystemOff = false;
 
 // --- Helper Functions from SD Test ---
 
@@ -82,9 +107,34 @@ void writeFile(fs::FS &fs, const char * path, const char * message){
   file.close();
 }
 
+void playCurrentSong() {
+    if (playlist.empty()) return;
+    
+    // Ensure index is valid
+    if (currentSongIndex >= playlist.size()) currentSongIndex = 0;
+    if (currentSongIndex < 0) currentSongIndex = playlist.size() - 1;
+
+    String songName = playlist[currentSongIndex];
+    Serial.printf("Playing: %s\n", songName.c_str());
+    audio.connecttoFS(SD, songName.c_str());
+}
+
 // -------------------------------------
 
 void setup() {
+    // 0. Anti-pop: Drive I2S pins low immediately to stabilize them
+    pinMode(I2S_BCLK, OUTPUT);
+    digitalWrite(I2S_BCLK, LOW);
+    pinMode(I2S_LRC, OUTPUT);
+    digitalWrite(I2S_LRC, LOW);
+    pinMode(I2S_DOUT, OUTPUT);
+    digitalWrite(I2S_DOUT, LOW);
+
+    // Initialize Buttons with Internal Pull-ups
+    pinMode(BTN_PLAY_PAUSE, INPUT_PULLUP);
+    pinMode(BTN_NEXT, INPUT_PULLUP);
+    pinMode(BTN_PREV, INPUT_PULLUP);
+
     Serial.begin(115200);
     delay(1000); // Give power a moment to settle
     
@@ -92,7 +142,8 @@ void setup() {
 
     // 1. Initialize SD Card
     // Note: We use the default SPI bus, so we don't need to pass SPI instance if using default pins
-    if(!SD.begin(SD_CS)){
+    // Lower SPI frequency to 16MHz or 10MHz to improve stability and reduce read errors
+    if(!SD.begin(SD_CS, SPI, 16000000)){
         Serial.println("Card Mount Failed");
         Serial.println("Check the following:");
         Serial.println("1. Wiring: CS->5, MOSI->23, MISO->19, CLK->18");
@@ -114,41 +165,112 @@ void setup() {
 
     // 3. Initialize Audio
     audio.setPinout(I2S_BCLK, I2S_LRC, I2S_DOUT);
-    audio.setVolume(15); // 0...21
+    audio.setVolume(0); // Start silent to reduce pops. Loop will set correct volume.
 
-    // 4. Play File
-    // REPLACE "music.mp3" with the actual filename on your SD card!
-    // The library supports .mp3, .aac, .wav, .flac
-    if(SD.exists("/music.mp3")) {
-        audio.connecttoFS(SD, "/music.mp3");
-        Serial.println("Playing /music.mp3");
-    } else if (SD.exists("/song.mp3")) {
-        audio.connecttoFS(SD, "/song.mp3");
-        Serial.println("Playing /song.mp3");
-    } else {
-        Serial.println("Could not find /music.mp3 or /song.mp3");
-        
-        // Try to find the first MP3 file
-        File root = SD.open("/");
-        File file = root.openNextFile();
-        bool found = false;
-        while(file){
-            String fileName = String(file.name());
-            if(!file.isDirectory() && fileName.endsWith(".mp3")){
-                Serial.print("Found mp3: ");
-                Serial.println(fileName);
-                audio.connecttoFS(SD, fileName.c_str());
-                found = true;
-                break;
-            }
-            file = root.openNextFile();
+    // 4. Build Playlist
+    Serial.println("Scanning for MP3 files...");
+    File root = SD.open("/");
+    File file = root.openNextFile();
+    while(file){
+        String fileName = String(file.name());
+        if(!file.isDirectory() && fileName.endsWith(".mp3")){
+            if(!fileName.startsWith("/")) fileName = "/" + fileName;
+            playlist.push_back(fileName);
+            Serial.printf("Added to playlist: %s\n", fileName.c_str());
         }
-        if (!found) Serial.println("No MP3 files found on root.");
+        file = root.openNextFile();
+    }
+    
+    if (!playlist.empty()) {
+        Serial.printf("Found %d songs.\n", playlist.size());
+        playCurrentSong();
+    } else {
+        Serial.println("No MP3 files found!");
     }
 }
 
 void loop() {
     audio.loop();
+
+    // --- Play/Pause Button Handling (Short Press = Toggle, Long Press = Stop) ---
+    int currentPlayPauseState = digitalRead(BTN_PLAY_PAUSE);
+
+    // Button Pressed (Falling Edge)
+    if (lastPlayPauseState == HIGH && currentPlayPauseState == LOW) {
+        playPausePressStartTime = millis();
+        playPauseLongPressHandled = false;
+    }
+    
+    // Button Held Down
+    if (currentPlayPauseState == LOW) {
+        if (!playPauseLongPressHandled && (millis() - playPausePressStartTime > longPressDuration)) {
+            Serial.println("Long Press Detected: Stopping Song");
+            audio.stopSong();
+            isSystemOff = true;
+            playPauseLongPressHandled = true; // Ensure we don't trigger again
+        }
+    }
+
+    // Button Released (Rising Edge)
+    if (lastPlayPauseState == LOW && currentPlayPauseState == HIGH) {
+        // Only trigger short press action if long press wasn't handled
+        if (!playPauseLongPressHandled) {
+             // Simple debounce for release
+            if (millis() - playPausePressStartTime > 50) { 
+                if (isSystemOff) {
+                    // Wake up from off state
+                    isSystemOff = false;
+                    playCurrentSong();
+                } else {
+                    // Toggle Pause/Resume
+                    audio.pauseResume();
+                    Serial.println("Pause/Resume toggled");
+                }
+            }
+        }
+    }
+    lastPlayPauseState = currentPlayPauseState;
+
+
+    // --- Other Buttons (Simple Debounce) ---
+    if (millis() - lastDebounceTime > debounceDelay) {
+        // Next Track
+        if (digitalRead(BTN_NEXT) == LOW) {
+            lastDebounceTime = millis();
+            if (!isSystemOff) {
+                Serial.println("Next button pressed");
+                audio.stopSong();
+                currentSongIndex++;
+                playCurrentSong();
+            }
+        }
+        // Prev Track
+        else if (digitalRead(BTN_PREV) == LOW) {
+            lastDebounceTime = millis();
+            if (!isSystemOff) {
+                Serial.println("Prev button pressed");
+                audio.stopSong();
+                currentSongIndex--;
+                if (currentSongIndex < 0) currentSongIndex = playlist.size() - 1;
+                playCurrentSong();
+            }
+        }
+    }
+
+    // Check potentiometer every 100ms
+    if (millis() - lastVolCheck > 100) {
+        lastVolCheck = millis();
+        int potValue = analogRead(POT_PIN);
+        // Map 0-4095 (12-bit ADC) to 0-21 (Audio library volume range)
+        int newVolume = map(potValue, 0, 4095, 0, 21);
+        
+        // Only update if volume changed to prevent jitter
+        if (newVolume != lastVolume) {
+            audio.setVolume(newVolume);
+            lastVolume = newVolume;
+            // Serial.printf("Volume: %d\n", newVolume); 
+        }
+    }
     
     // Optional: Serial commands to control volume
     if(Serial.available()){
@@ -176,4 +298,7 @@ void audio_info(const char *info){
 }
 void audio_eof_mp3(const char *info){  //end of file
     Serial.print("eof_mp3     "); Serial.println(info);
+    // Auto-advance to next song
+    currentSongIndex++;
+    playCurrentSong();
 }
