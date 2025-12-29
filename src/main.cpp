@@ -188,6 +188,10 @@ void setup() {
     // 3. Initialize Audio
     audio.setPinout(I2S_BCLK, I2S_LRC, I2S_DOUT);
     audio.setVolume(0); // Start silent to reduce pops. Loop will set correct volume.
+    
+    // Increase buffer size to 64KB (default is ~16KB) to help smooth out SD card glitches
+    // We have plenty of free heap (~230KB), so this is safe.
+    audio.setBufsize(64000, 0);
 
     // 4. Build Playlist
     Serial.println("Scanning for MP3 files...");
@@ -293,15 +297,23 @@ void loop() {
     // Check potentiometer every 100ms
     if (millis() - lastVolCheck > 100) {
         lastVolCheck = millis();
-        int potValue = analogRead(POT_PIN);
+        
+        // Take multiple readings to average out noise
+        long sum = 0;
+        for(int i=0; i<10; i++) {
+            sum += analogRead(POT_PIN);
+            delay(1);
+        }
+        int potValue = sum / 10;
+
         // Map 0-4095 (12-bit ADC) to 0-21 (Audio library volume range)
         int newVolume = map(potValue, 0, 4095, 0, 21);
         
-        // Only update if volume changed to prevent jitter
+        // Only update if volume changed
         if (newVolume != lastVolume) {
-            audio.setVolume(newVolume);
-            lastVolume = newVolume;
-            Serial.printf("Volume Changed: %d\n", newVolume); 
+             audio.setVolume(newVolume);
+             lastVolume = newVolume;
+             Serial.printf("Volume Changed: %d\n", newVolume); 
         }
     }
 
