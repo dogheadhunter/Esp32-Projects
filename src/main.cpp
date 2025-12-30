@@ -2,7 +2,12 @@
 #include "FS.h"
 #include "SD.h"
 #include "SPI.h"
-#include "Audio.h"
+// #include "Audio.h" // REMOVED: Old Library
+#include "AudioFileSourceSD.h"
+#include "AudioGeneratorMP3.h"
+#include "AudioOutputI2S.h"
+#include "AudioFileSourceID3.h" // Optional: For ID3 tags
+
 #include <vector>
 #include <algorithm> // For std::sort
 #include <Preferences.h> // For saving mode across reboots
@@ -37,7 +42,12 @@ int bootMode = 0; // 0 = SD, 1 = Bluetooth
 // LED Indicator
 #define LED_PIN        2
 
-Audio audio;
+// Audio audio; // REMOVED
+AudioGeneratorMP3 *mp3;
+AudioFileSourceSD *file;
+AudioOutputI2S *out;
+AudioFileSourceID3 *id3;
+
 OneButton btnOne(BTN_PLAY_PAUSE, true, true); // Active Low, Enable Internal Pullup
 OneButton btnTwo(BTN_NEXT, true, true);       // Button 2: WiFi Reset
 OneButton btnThree(BTN_PREV, true, true);     // Button 3: Mode Switch
@@ -209,22 +219,24 @@ String getSongPath(int index) {
 }
 
 void fadeOut() {
-    int startVol = audio.getVolume();
-    for (int v = startVol; v >= 0; v--) {
-        audio.setVolume(v);
+    float startVol = lastVolume / 100.0;
+    for (float v = startVol; v >= 0; v -= 0.05) {
+        out->SetGain(v);
         unsigned long start = millis();
         while (millis() - start < 15) {
-            audio.loop();
+            if (mp3->isRunning()) mp3->loop();
         }
     }
+    out->SetGain(0);
 }
 
 void fadeIn(int targetVol) {
-    for (int v = 0; v <= targetVol; v++) {
-        audio.setVolume(v);
+    float target = targetVol / 100.0;
+    for (float v = 0; v <= target; v += 0.05) {
+        out->SetGain(v);
         unsigned long start = millis();
         while (millis() - start < 20) {
-            audio.loop();
+            if (mp3->isRunning()) mp3->loop();
         }
     }
 }
@@ -267,7 +279,7 @@ bool mountSDCard() {
 }
 
 void unmountSDCard() {
-    if (audio.isRunning()) audio.stopSong();
+    if (mp3->isRunning()) mp3->stop();
     SD.end();
     cardMounted = false;
     currentState = STATE_NO_CARD;
@@ -300,11 +312,22 @@ void playSongAtIndex(int index) {
     cleanSerialLine();
     Serial.printf("Playing [%d/%d]: %s\n", index + 1, totalSongs, path.c_str());
     
-    if (audio.isRunning()) audio.stopSong();
-    audio.connecttoFS(SD, path.c_str());
+    if (mp3->isRunning()) mp3->stop();
+    
+    // Create new file source
+    if (file) delete file;
+    file = new AudioFileSourceSD(path.c_str());
+    
+    // Optional: ID3
+    // if (id3) delete id3;
+    // id3 = new AudioFileSourceID3(file);
+    
+    mp3->begin(file, out);
+    
+    // Re-apply volume to ensure it persists across tracks
+    out->SetGain(lastVolume / 100.0);
     
     currentState = STATE_PLAYING;
-    if (lastVolume >= 0) audio.setVolume(lastVolume);
 }
 
 void playNextSong() {
@@ -329,27 +352,21 @@ void playNextSong() {
 void playPreviousSong() {
     if (totalSongs == 0) return;
     
-    // If more than 3 seconds in, restart current song
-    if (audio.getAudioCurrentTime() > 3) {
-        cleanSerialLine();
-        Serial.println("Restarting current song...");
-        playSongAtIndex(currentSongIndex);
-    } else {
-        int prevIndex = currentSongIndex - 1;
-        if (prevIndex < 0) prevIndex = totalSongs - 1;
-        playSongAtIndex(prevIndex);
-    }
+    // If more than 3 seconds in, restart current song (Approximate check)
+    // ESP8266Audio doesn't have a simple "getAudioCurrentTime" like the other lib
+    // So we just always go to previous for now, or we could track start time manually.
+    int prevIndex = currentSongIndex - 1;
+    if (prevIndex < 0) prevIndex = totalSongs - 1;
+    playSongAtIndex(prevIndex);
 }
 
 void togglePause() {
     if (currentState == STATE_PLAYING) {
-        audio.pauseResume();
         currentState = STATE_PAUSED;
         cleanSerialLine();
         Serial.println("Paused");
         blinkLED(2, 100);
     } else if (currentState == STATE_PAUSED) {
-        audio.pauseResume();
         currentState = STATE_PLAYING;
         cleanSerialLine();
         Serial.println("Resumed");
@@ -360,7 +377,7 @@ void powerOff() {
     cleanSerialLine();
     Serial.println("Powering off...");
     fadeOut();
-    audio.stopSong();
+    mp3->stop();
     currentState = STATE_OFF;
     setLED(false);
     blinkLED(3, 200);
@@ -436,7 +453,7 @@ void click2() {
         cleanSerialLine();
         Serial.println("Next track...");
         fadeOut();
-        audio.stopSong();
+        mp3->stop();
         playNextSong();
     }
 }
@@ -500,42 +517,6 @@ void setup() {
   // 2. Initialize Buttons
   // (Handled by OneButton, but we can set pin modes if needed, though OneButton does it)
 
-  // 3. Check for WiFi Reset (Improved Logic)
-  // We check if Button 2 (BTN_NEXT) is held down NOW, or within the next 2 seconds.
-  Serial.println(">> Hold BUTTON 2 (Next) now to reset WiFi settings... <<");
-  
-  bool resetRequested = false;
-  unsigned long startTime = millis();
-  
-  // Wait 2 seconds to see if user presses the button
-  while (millis() - startTime < 2000) {
-    if (digitalRead(BTN_NEXT) == LOW) {
-      resetRequested = true;
-      break; // Exit loop immediately if pressed
-    }
-    delay(10);
-  }
-
-  if (resetRequested) {
-    Serial.println("\n!!! Reset WiFi requested! !!!");
-    Serial.println("Holding for confirmation (keep holding)...");
-    
-    // Optional: Ensure they really mean it by making them hold it for 1 more second
-    delay(1000); 
-    if (digitalRead(BTN_NEXT) == LOW) {
-        Serial.println("Resetting WiFi Settings...");
-        WiFiManager wm;
-        wm.resetSettings();
-        Serial.println("WiFi settings erased. Restarting in 3 seconds...");
-        delay(3000);
-        ESP.restart();
-    } else {
-        Serial.println("Button released too early. Skipping reset.");
-    }
-  } else {
-    Serial.println("No reset requested. Continuing boot...");
-  }
-
   // 4. Initialize SD Card
     // Anti-pop
     pinMode(I2S_BCLK, OUTPUT); digitalWrite(I2S_BCLK, LOW);
@@ -564,6 +545,14 @@ void setup() {
     Serial.println("\n========================================");
     Serial.println("       ESP32 iPod Shuffle Clone");
     Serial.println("========================================");
+    
+    Serial.printf("Chip Model: %s\n", ESP.getChipModel());
+    Serial.printf("Chip Revision: %d\n", ESP.getChipRevision());
+    Serial.printf("CPU Freq: %d MHz\n", ESP.getCpuFreqMHz());
+    Serial.printf("Flash Size: %d MB\n", ESP.getFlashChipSize() / (1024 * 1024));
+    Serial.printf("Free Heap: %d bytes\n", ESP.getFreeHeap());
+    Serial.printf("SDK Version: %s\n", ESP.getSdkVersion());
+    Serial.println("========================================\n");
     
     // Check Boot Mode
     prefs.begin("player", true); // Read Only
@@ -598,16 +587,22 @@ void setup() {
     syncTimeWithNTP(resetWifi);
     delay(2000); // Increased wait for power stabilization
 
-    audio.setPinout(I2S_BCLK, I2S_LRC, I2S_DOUT);
-    audio.setVolume(0);
-    audio.forceMono(true); // Force mono output for single speaker
+    // Initialize ESP8266Audio Objects
+    out = new AudioOutputI2S();
+    out->SetPinout(I2S_BCLK, I2S_LRC, I2S_DOUT);
+    out->SetGain(0.0); // Start muted
+    out->SetOutputModeMono(true); // Force Mono
     
-    // RESEARCH FIXES:
-    // 1. Increase Buffer to 30KB (Max safe for heap) to handle SD latency
-    audio.setBufsize(30000, 0); 
-    
-    // 2. Increase Connection Timeout (helps if SD read stalls)
-    audio.setConnectionTimeout(500, 2500); 
+    mp3 = new AudioGeneratorMP3();
+
+    // Initialize Volume from Potentiometer
+    long sum = 0;
+    for (int i = 0; i < 10; i++) { sum += analogRead(POT_PIN); delay(2); }
+    int potValue = sum / 10;
+    float startGain = map(potValue, 0, 4095, 0, 100) / 100.0;
+    lastVolume = startGain * 100;
+    out->SetGain(startGain);
+    Serial.printf("Initial Volume: %.2f\n", startGain);
     
     if (mountSDCard()) {
         currentState = STATE_IDLE;
@@ -625,6 +620,12 @@ void setup() {
 // ============================================
 
 void loop() {
+    // === BUTTONS (Check First) ===
+    // OneButton Tick - Must be called frequently
+    btnOne.tick();
+    btnTwo.tick();
+    btnThree.tick();
+
     // === BLUETOOTH MODE LOOP ===
     if (bootMode == 1) {
         btManager.loop();
@@ -660,12 +661,14 @@ void loop() {
     }
 
     // === SD CARD MODE LOOP ===
-    unsigned long loopStart = millis();
-    if (cardMounted) audio.loop();
-    unsigned long loopDuration = millis() - loopStart;
-    if (loopDuration > 20) {
-        cleanSerialLine();
-        Serial.printf("WARNING: Loop took %lu ms\n", loopDuration);
+    if (mp3->isRunning()) {
+        if (currentState != STATE_PAUSED) {
+            if (!mp3->loop()) {
+                mp3->stop();
+                shouldPlayNext = true;
+                Serial.println("Song finished.");
+            }
+        }
     }
     
     if (shouldPlayNext) {
@@ -717,11 +720,7 @@ void loop() {
     }
     
     // === BUTTONS ===
-    
-    // OneButton Tick
-    btnOne.tick();
-    btnTwo.tick();
-    btnThree.tick();
+    // Moved to top of loop for better responsiveness
     
     // Shuffle Button (Dedicated) - Short Press: Toggle Shuffle, Long Press: Toggle Bluetooth
     int currentShuffleState = digitalRead(BTN_SHUFFLE);
@@ -758,12 +757,14 @@ void loop() {
         long sum = 0;
         for (int i = 0; i < 4; i++) { sum += analogRead(POT_PIN); } // Reduced samples to 4, removed delay
         int potValue = sum / 4;
-        int newVolume = map(potValue, 0, 4095, 0, 21);
-        if (newVolume != lastVolume) {
-            audio.setVolume(newVolume);
-            lastVolume = newVolume;
+        // Map to 0.0 - 1.0 for SetGain
+        float newGain = map(potValue, 0, 4095, 0, 100) / 100.0;
+        // Simple check to avoid spamming I2C
+        if (abs(newGain - (lastVolume/100.0)) > 0.02) {
+            out->SetGain(newGain);
+            lastVolume = newGain * 100;
             cleanSerialLine();
-            Serial.printf("Volume: %d\n", newVolume);
+            Serial.printf("Volume: %.2f\n", newGain);
         }
     }
     
@@ -772,15 +773,15 @@ void loop() {
     if (currentState == STATE_PLAYING && millis() - lastStatusPrint > 1000) {
         lastStatusPrint = millis();
         // Use \r to return to start of line, and pad with spaces to overwrite previous text
-        Serial.printf("\r[%s] [%s] %d/%d | %02d:%02d/%02d:%02d | Vol: %d | Heap: %d/%d   ",
+        Serial.printf("\r[%s] [%s] %d/%d | Vol: %d%% | Heap: %d (Min: %d) | Up: %lu s   ",
             shuffleMode ? "SHUF" : "SEQ",
             getSystemTime().c_str(),
             currentSongIndex + 1,
             totalSongs,
-            audio.getAudioCurrentTime() / 60, audio.getAudioCurrentTime() % 60,
-            audio.getAudioFileDuration() / 60, audio.getAudioFileDuration() % 60,
-            audio.getVolume(),
-            ESP.getFreeHeap(), ESP.getMaxAllocHeap());
+            lastVolume,
+            ESP.getFreeHeap(), 
+            ESP.getMinFreeHeap(),
+            millis() / 1000);
         lastPrintWasStatus = true;
     }
     
@@ -789,7 +790,7 @@ void loop() {
         String cmd = Serial.readStringUntil('\n');
         cmd.trim(); cmd.toLowerCase();
         cleanSerialLine();
-        if (cmd == "next" || cmd == "n") { fadeOut(); audio.stopSong(); playNextSong(); }
+        if (cmd == "next" || cmd == "n") { fadeOut(); mp3->stop(); playNextSong(); }
         else if (cmd == "prev" || cmd == "p") { fadeOut(); playPreviousSong(); }
         else if (cmd == "pause") togglePause();
         else if (cmd == "shuffle") toggleShuffle();
@@ -826,32 +827,11 @@ void loop() {
 }
 
 // ============================================
-// AUDIO CALLBACKS
+// AUDIO CALLBACKS (REMOVED - Not used by ESP8266Audio)
 // ============================================
-void audio_info(const char *info) {
-    cleanSerialLine();
-    Serial.print("info: "); Serial.println(info);
-    
-    // Check for corruption errors
-    if (strstr(info, "INVALID_FRAMEHEADER") || strstr(info, "INVALID_HUFFCODES")) {
-        Serial.println("\n!!! DATA CORRUPTION DETECTED !!!");
-        Serial.println("The MP3 decoder received bad data from the SD card.");
-        Serial.println("If this happens often, check wiring or lower SPI speed.");
-        Serial.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
-    }
-}
-void audio_bitrate(const char *info) {
-    cleanSerialLine();
-    Serial.print("bitrate: "); Serial.println(info);
-}
-void audio_eof_mp3(const char *info) {
-    cleanSerialLine();
-    Serial.print("eof: "); Serial.println(info);
-    shouldPlayNext = true;
-}
-void audio_id3data(const char *info) {
-    cleanSerialLine();
-    Serial.print("id3: "); Serial.println(info);
-}
-void audio_showstation(const char *info) {}
-void audio_showstreamtitle(const char *info) {}
+// void audio_info(const char *info) { ... }
+// void audio_bitrate(const char *info) { ... }
+// void audio_eof_mp3(const char *info) { ... }
+// void audio_id3data(const char *info) { ... }
+// void audio_showstation(const char *info) {}
+// void audio_showstreamtitle(const char *info) {}
