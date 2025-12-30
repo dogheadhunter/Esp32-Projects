@@ -20,7 +20,7 @@ void saveConfigCallback () {
   shouldSaveConfig = true;
 }
 
-void syncTimeWithNTP(bool resetSettings) {
+bool syncTimeWithNTP(bool resetSettings) {
     WiFiManager wm;
     
     // Set callback that gets called when connecting to previous WiFi fails, and enters Access Point mode
@@ -41,13 +41,10 @@ void syncTimeWithNTP(bool resetSettings) {
 
     Serial.println("Connecting to WiFi to sync time...");
     
-    // Set timeout to 180 seconds (3 minutes)
-    // If it can't connect, it will start an AP.
-    // If no one configures it in 3 mins, it returns false.
-    wm.setConfigPortalTimeout(180); 
+    // Set timeout to 20 seconds
+    wm.setConfigPortalTimeout(20); 
     
     // Enable Captive Portal (DNS Server)
-    // This forces the phone to open the config page automatically
     wm.setCaptivePortalEnable(true);
 
     // Automatically connect using saved credentials,
@@ -66,6 +63,13 @@ void syncTimeWithNTP(bool resetSettings) {
         }
 
         Serial.println("\nWiFi connected.");
+        Serial.print("IP Address: "); Serial.println(WiFi.localIP());
+        Serial.print("Subnet Mask: "); Serial.println(WiFi.subnetMask());
+        Serial.print("Gateway IP: "); Serial.println(WiFi.gatewayIP());
+        Serial.print("DNS Server: "); Serial.println(WiFi.dnsIP());
+        Serial.print("BSSID: "); Serial.println(WiFi.BSSIDstr());
+        Serial.print("RSSI (Signal Strength): "); Serial.print(WiFi.RSSI()); Serial.println(" dBm");
+        
         Serial.println("Fetching NTP time...");
         
         configTime(gmtOffset_sec, daylightOffset_sec, "pool.ntp.org", "time.nist.gov");
@@ -85,15 +89,16 @@ void syncTimeWithNTP(bool resetSettings) {
         } else {
             Serial.println("Failed to obtain time.");
         }
-        
-        // Disconnect WiFi to save power and reduce audio noise
-        // Note: WiFiManager might reconnect if we don't handle this carefully, 
-        // but for now we just disconnect.
-        WiFi.disconnect(true);
-        WiFi.mode(WIFI_OFF);
-        Serial.println("WiFi disconnected.");
-        delay(100); // Allow WiFi stack to shut down
     }
+    
+    // ALWAYS Disconnect WiFi to save power and reduce audio noise
+    // This fixes the "blips" / interference when WiFi fails but radio stays on
+    WiFi.disconnect(true);
+    WiFi.mode(WIFI_OFF);
+    Serial.println("WiFi disconnected (Radio OFF).");
+    delay(100); // Allow WiFi stack to shut down
+    
+    return res;
 }
 
 String getSystemTime() {
