@@ -70,6 +70,9 @@ bool syncTimeWithNTP(bool resetSettings) {
         Serial.print("BSSID: "); Serial.println(WiFi.BSSIDstr());
         Serial.print("RSSI (Signal Strength): "); Serial.print(WiFi.RSSI()); Serial.println(" dBm");
         
+        Serial.println("WiFi Connected! Skipping NTP Time Sync for testing...");
+        
+        /*
         Serial.println("Fetching NTP time...");
         
         configTime(gmtOffset_sec, daylightOffset_sec, "pool.ntp.org", "time.nist.gov");
@@ -89,6 +92,7 @@ bool syncTimeWithNTP(bool resetSettings) {
         } else {
             Serial.println("Failed to obtain time.");
         }
+        */
     }
     
     // ALWAYS Disconnect WiFi to save power and reduce audio noise
@@ -103,9 +107,13 @@ bool syncTimeWithNTP(bool resetSettings) {
 
 String getSystemTime() {
     struct tm timeinfo;
+    // DEBUG: Print raw time info if needed
     if(!getLocalTime(&timeinfo)){
+        // Serial.println("[DEBUG] getSystemTime: getLocalTime failed");
         return "--:--";
     }
+    // Serial.printf("[DEBUG] getSystemTime: Year=%d\n", timeinfo.tm_year + 1900);
+    
     char timeStringBuff[10];
     // %I is 12-hour format (01-12), %M is minute
     // %p adds AM/PM
