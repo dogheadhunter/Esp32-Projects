@@ -1,0 +1,576 @@
+
+========================================
+       ESP32 iPod Shuffle Clone
+========================================
+>> Booting into SD CARD MODE <<
+Connecting to WiFi to sync time...
+*wm:AutoConnect 
+*wm:Connecting to SAVED AP: SpectrumSetup-D8
+*wm:connectTimeout not set, ESP waitForConnectResult... 
+*wm:AutoConnect: SUCCESS 
+*wm:STA IP Address: 192.168.1.227
+
+WiFi connected.
+Fetching NTP time...
+Time synced successfully!
+Current time: Tuesday, December 30 2025 10:24:57
+WiFi disconnected.
+SD Card mounted.
+SD Card Type: 3
+SD Card Size: 29820 MB
+Loading playlist from cache...
+Found 752 songs in cache.
+Total Songs: 752
+Playing [144/752]: /Connie Francis - Frankie.mp3
+info: PSRAM not found, inputBufferSize: 17951 bytes
+info: buffers freed, free Heap: 93700 bytes
+info: Reading file: "/Connie Francis - Frankie.mp3"
+info: MP3Decoder has been initialized, free Heap: 65972 bytes , free stack 5716 DWORDs
+Volume: 5
+[SHUF] [10:25AM] 144/752 | 00:00/00:00 | Vol: 5 | Heap: 66020/38900   
+info: Content-Length: 2418443
+info: file has no mp3 tag, skip metadata
+info: Audio-Length: 2418443
+WARNING: Loop took 23 ms
+info: stream ready
+info: syncword found at pos 267
+info: syncword found at pos 0
+info: Channels: 2
+info: SampleRate: 48000
+info: BitsPerSample: 16
+info: BitRate: 128000
+[SHUF] [10:25AM] 144/752 | 00:00/02:29 | Vol: 5 | Heap: 66012/38900   [SHUF] [10:25AM] 144/752 | 00:01/02:30 | Vol: 5 | Heap: 66012/38900   [SHUF] [10:25AM] 144/752 | 00:02/02:31 | Vol: 5 | Heap: 66012/38900   [SHUF] [10:25AM] 144/752 | 00:03/02:31 | Vol: 5 | Heap: 66012/38900   [SHUF] [10:25AM] 144/752 | 00:04/02:31 | Vol: 5 | Heap: 66012/38900   [SHUF] [10:25AM] 144/752 | 00:05/02:31 | Vol: 5 | Heap: 66012/38900   [SHUF] [10:25AM] 144/752 | 00:06/02:31 | Vol: 5 | Heap: 66012/38900   [SHUF] [10:25AM] 144/752 | 00:07/02:31 | Vol: 5 | Heap: 66012/38900   [SHUF] [10:25AM] 144/752 | 00:08/02:31 | Vol: 5 | Heap: 66012/38900   [SHUF] [10:25AM] 144/752 | 00:09/02:31 | Vol: 5 | Heap: 66012/38900   [SHUF] [10:25AM] 144/752 | 00:10/02:31 | Vol: 5 | Heap: 66012/38900   [SHUF] [10:25AM] 144/752 | 00:11/02:31 | Vol: 5 | Heap: 66012/38900   [SHUF] [10:25AM] 144/752 | 00:12/02:31 | Vol: 5 | Heap: 66012/38900   
+Volume: 4
+Volume: 5
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+[SHUF] [10:25AM] 144/752 | 00:13/02:31 | Vol: 5 | Heap: 66012/38900   
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 21 ms
+WARNING: Loop took 22 ms
+[SHUF] [10:25AM] 144/752 | 00:13/02:31 | Vol: 5 | Heap: 66012/38900   
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 21 ms
+info: MP3 decode error -6 : INVALID_FRAMEHEADER
+
+!!! DATA CORRUPTION DETECTED !!!
+The MP3 decoder received bad data from the SD card.
+If this happens often, check wiring or lower SPI speed.
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+info: syncword found at pos 69
+info: syncword found at pos 0
+info: Channels: 2
+info: SampleRate: 48000
+info: BitsPerSample: 16
+info: BitRate: 128000
+[SHUF] [10:25AM] 144/752 | 00:13/02:36 | Vol: 5 | Heap: 66012/38900   
+info: Closing audio file "Connie Francis - Frankie.mp3"
+eof: Connie Francis - Frankie.mp3
+info: End of file "Connie Francis - Frankie.mp3"
+Playing [156/752]: /Dean Martin - Everybody Loves Somebody.mp3
+info: buffers freed, free Heap: 93684 bytes
+info: Reading file: "/Dean Martin - Everybody Loves Somebody.mp3"
+info: MP3Decoder has been initialized, free Heap: 65924 bytes , free stack 5556 DWORDs
+info: Content-Length: 2637559
+info: file has no mp3 tag, skip metadata
+info: Audio-Length: 2637559
+WARNING: Loop took 23 ms
+info: stream ready
+info: syncword found at pos 503
+info: syncword found at pos 0
+info: Channels: 2
+info: SampleRate: 48000
+info: BitsPerSample: 16
+info: BitRate: 128000
+[SHUF] [10:25AM] 156/752 | 00:00/00:00 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:25AM] 156/752 | 00:01/02:43 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:25AM] 156/752 | 00:02/02:44 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:25AM] 156/752 | 00:03/02:44 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:25AM] 156/752 | 00:04/02:44 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:25AM] 156/752 | 00:05/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:25AM] 156/752 | 00:06/02:44 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:25AM] 156/752 | 00:07/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:25AM] 156/752 | 00:08/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:25AM] 156/752 | 00:09/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:25AM] 156/752 | 00:10/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:25AM] 156/752 | 00:11/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:25AM] 156/752 | 00:12/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:25AM] 156/752 | 00:13/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:25AM] 156/752 | 00:14/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:25AM] 156/752 | 00:14/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:25AM] 156/752 | 00:15/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:25AM] 156/752 | 00:16/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:25AM] 156/752 | 00:17/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:25AM] 156/752 | 00:18/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:25AM] 156/752 | 00:19/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:25AM] 156/752 | 00:20/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:25AM] 156/752 | 00:21/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:25AM] 156/752 | 00:22/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:25AM] 156/752 | 00:23/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:25AM] 156/752 | 00:24/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:25AM] 156/752 | 00:25/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:25AM] 156/752 | 00:26/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:25AM] 156/752 | 00:27/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:25AM] 156/752 | 00:28/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:25AM] 156/752 | 00:29/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:25AM] 156/752 | 00:30/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:25AM] 156/752 | 00:31/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:25AM] 156/752 | 00:32/02:45 | Vol: 5 | Heap: 65988/38900   
+Volume: 4
+Volume: 5
+[SHUF] [10:25AM] 156/752 | 00:33/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:25AM] 156/752 | 00:34/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:25AM] 156/752 | 00:35/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:25AM] 156/752 | 00:36/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:25AM] 156/752 | 00:37/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:25AM] 156/752 | 00:38/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:25AM] 156/752 | 00:39/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:25AM] 156/752 | 00:40/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:26AM] 156/752 | 00:41/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:26AM] 156/752 | 00:42/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:26AM] 156/752 | 00:43/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:26AM] 156/752 | 00:44/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:26AM] 156/752 | 00:45/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:26AM] 156/752 | 00:46/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:26AM] 156/752 | 00:47/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:26AM] 156/752 | 00:48/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:26AM] 156/752 | 00:49/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:26AM] 156/752 | 00:50/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:26AM] 156/752 | 00:51/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:26AM] 156/752 | 00:52/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:26AM] 156/752 | 00:53/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:26AM] 156/752 | 00:54/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:26AM] 156/752 | 00:55/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:26AM] 156/752 | 00:56/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:26AM] 156/752 | 00:57/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:26AM] 156/752 | 00:58/02:45 | Vol: 5 | Heap: 65988/38900   
+Volume: 4
+Volume: 5
+[SHUF] [10:26AM] 156/752 | 00:59/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:26AM] 156/752 | 01:00/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:26AM] 156/752 | 01:01/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:26AM] 156/752 | 01:03/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:26AM] 156/752 | 01:04/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:26AM] 156/752 | 01:05/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:26AM] 156/752 | 01:06/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:26AM] 156/752 | 01:07/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:26AM] 156/752 | 01:08/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:26AM] 156/752 | 01:09/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:26AM] 156/752 | 01:10/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:26AM] 156/752 | 01:11/02:45 | Vol: 5 | Heap: 65988/38900   [SHUF] [10:26AM] 156/752 | 01:12/02:45 | Vol: 5 | Heap: 65988/38900   
+Restarting current song...
+Playing [156/752]: /Dean Martin - Everybody Loves Somebody.mp3
+info: Closing audio file "Dean Martin - Everybody Loves Somebody.mp3"
+info: buffers freed, free Heap: 93240 bytes
+info: Reading file: "/Dean Martin - Everybody Loves Somebody.mp3"
+info: MP3Decoder has been initialized, free Heap: 65480 bytes , free stack 5556 DWORDs
+info: Content-Length: 2637559
+info: file has no mp3 tag, skip metadata
+info: Audio-Length: 2637559
+info: stream ready
+info: syncword found at pos 503
+info: syncword found at pos 0
+info: Channels: 2
+info: SampleRate: 48000
+info: BitsPerSample: 16
+info: BitRate: 128000
+[SHUF] [10:26AM] 156/752 | 00:00/00:00 | Vol: 5 | Heap: 65544/38900   [SHUF] [10:26AM] 156/752 | 00:01/02:43 | Vol: 5 | Heap: 65544/38900   [SHUF] [10:26AM] 156/752 | 00:02/02:44 | Vol: 5 | Heap: 65544/38900   [SHUF] [10:26AM] 156/752 | 00:03/02:44 | Vol: 5 | Heap: 65544/38900   [SHUF] [10:26AM] 156/752 | 00:04/02:44 | Vol: 5 | Heap: 65544/38900   
+Restarting current song...
+Playing [156/752]: /Dean Martin - Everybody Loves Somebody.mp3
+info: Closing audio file "Dean Martin - Everybody Loves Somebody.mp3"
+info: buffers freed, free Heap: 93240 bytes
+info: Reading file: "/Dean Martin - Everybody Loves Somebody.mp3"
+info: MP3Decoder has been initialized, free Heap: 65480 bytes , free stack 5556 DWORDs
+info: Content-Length: 2637559
+info: file has no mp3 tag, skip metadata
+info: Audio-Length: 2637559
+info: stream ready
+info: syncword found at pos 503
+info: syncword found at pos 0
+info: Channels: 2
+info: SampleRate: 48000
+info: BitsPerSample: 16
+info: BitRate: 128000
+[SHUF] [10:26AM] 156/752 | 00:00/00:00 | Vol: 5 | Heap: 65544/38900   [SHUF] [10:26AM] 156/752 | 00:01/02:43 | Vol: 5 | Heap: 65544/38900   [SHUF] [10:26AM] 156/752 | 00:02/02:44 | Vol: 5 | Heap: 65544/38900   
+Playing [155/752]: /Dean Martin - Ain't That A Kick In The Head - Remastered 1997.mp3
+info: Closing audio file "Dean Martin - Everybody Loves Somebody.mp3"
+info: buffers freed, free Heap: 93208 bytes
+info: Reading file: "/Dean Martin - Ain't That A Kick In The Head - Remastered 1997.mp3"
+info: MP3Decoder has been initialized, free Heap: 65432 bytes , free stack 5556 DWORDs
+info: Content-Length: 2361210
+info: file has no mp3 tag, skip metadata
+info: Audio-Length: 2361210
+info: stream ready
+info: syncword found at pos 250
+info: syncword found at pos 0
+info: Channels: 2
+info: SampleRate: 48000
+info: BitsPerSample: 16
+info: BitRate: 128000
+[SHUF] [10:26AM] 155/752 | 00:00/00:00 | Vol: 5 | Heap: 65532/38900   
+Volume: 4
+Volume: 5
+[SHUF] [10:26AM] 155/752 | 00:01/02:26 | Vol: 5 | Heap: 65532/38900   [SHUF] [10:26AM] 155/752 | 00:02/02:26 | Vol: 5 | Heap: 65532/38900   ets Jun  8 2016 00:22:57
+
+rst:0x1 (POWERON_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1184
+load:0x40078000,len:13232
+load:0x40080400,len:3028
+entry 0x400805e4
+
+========================================
+       ESP32 iPod Shuffle Clone
+========================================
+>> Booting into SD CARD MODE <<
+Connecting to WiFi to sync time...
+*wm:AutoConnect 
+*wm:Connecting to SAVED AP: SpectrumSetup-D8
+*wm:connectTimeout not set, ESP waitForConnectResult... 
+*wm:AutoConnect: SUCCESS 
+*wm:STA IP Address: 192.168.1.227
+
+WiFi connected.
+Fetching NTP time...
+Time synced successfully!
+Current time: Tuesday, December 30 2025 10:26:45
+WiFi disconnected.
+SD Card mounted.
+SD Card Type: 3
+SD Card Size: 29820 MB
+Loading playlist from cache...
+Found 752 songs in cache.
+Total Songs: 752
+Playing [89/752]: /Bob Crosby  The Bob Cats - Dear Hearts And Gentle People.mp3
+info: PSRAM not found, inputBufferSize: 17951 bytes
+info: buffers freed, free Heap: 93692 bytes
+info: Reading file: "/Bob Crosby  The Bob Cats - Dear Hearts And Gentle People.mp3"
+info: MP3Decoder has been initialized, free Heap: 65924 bytes , free stack 5748 DWORDs
+Volume: 5
+[SHUF] [10:26AM] 89/752 | 00:00/00:00 | Vol: 5 | Heap: 66004/38900   
+info: Content-Length: 2134021
+info: file has no mp3 tag, skip metadata
+info: Audio-Length: 2134021
+WARNING: Loop took 24 ms
+info: stream ready
+info: syncword found at pos 5
+info: syncword found at pos 0
+info: Channels: 2
+info: SampleRate: 48000
+info: BitsPerSample: 16
+info: BitRate: 128000
+[SHUF] [10:26AM] 89/752 | 00:00/02:12 | Vol: 5 | Heap: 66012/38900   [SHUF] [10:26AM] 89/752 | 00:01/02:12 | Vol: 5 | Heap: 66012/38900   [SHUF] [10:26AM] 89/752 | 00:02/02:13 | Vol: 5 | Heap: 66012/38900   [SHUF] [10:26AM] 89/752 | 00:03/02:13 | Vol: 5 | Heap: 66004/38900   [SHUF] [10:26AM] 89/752 | 00:04/02:13 | Vol: 5 | Heap: 66012/38900   [SHUF] [10:26AM] 89/752 | 00:05/02:13 | Vol: 5 | Heap: 66012/38900   [SHUF] [10:26AM] 89/752 | 00:06/02:13 | Vol: 5 | Heap: 66012/38900   [SHUF] [10:26AM] 89/752 | 00:07/02:13 | Vol: 5 | Heap: 66012/38900   [SHUF] [10:26AM] 89/752 | 00:08/02:13 | Vol: 5 | Heap: 66012/38900   [SHUF] [10:26AM] 89/752 | 00:09/02:13 | Vol: 5 | Heap: 66012/38900   ets Jun  8 2016 00:22:57
+
+rst:0x1 (POWERON_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1184
+load:0x40078000,len:13232
+load:0x40080400,len:3028
+entry 0x400805e4
+
+========================================
+       ESP32 iPod Shuffle Clone
+========================================
+>> Booting into SD CARD MODE <<
+Connecting to WiFi to sync time...
+*wm:AutoConnect 
+*wm:Connecting to SAVED AP: SpectrumSetup-D8
+*wm:connectTimeout not set, ESP waitForConnectResult... 
+*wm:AutoConnect: SUCCESS 
+*wm:STA IP Address: 192.168.1.227
+
+WiFi connected.
+Fetching NTP time...
+Time synced successfully!
+Current time: Tuesday, December 30 2025 10:27:06
+WiFi disconnected.
+SD Card mounted.
+SD Card Type: 3
+SD Card Size: 29820 MB
+Loading playlist from cache...
+Found 752 songs in cache.
+Total Songs: 752
+Playing [313/752]: /Glenn Miller - Over the Rainbow.mp3
+info: PSRAM not found, inputBufferSize: 17951 bytes
+info: buffers freed, free Heap: 93684 bytes
+info: Reading file: "/Glenn Miller - Over the Rainbow.mp3"
+info: MP3Decoder has been initialized, free Heap: 65936 bytes , free stack 5684 DWORDs
+Volume: 5
+[SHUF] [10:27AM] 313/752 | 00:00/00:00 | Vol: 5 | Heap: 66000/38900   
+info: Content-Length: 2336579
+info: file has no mp3 tag, skip metadata
+info: Audio-Length: 2336579
+WARNING: Loop took 23 ms
+info: stream ready
+info: syncword found at pos 195
+info: syncword found at pos 0
+info: Channels: 2
+info: SampleRate: 48000
+info: BitsPerSample: 16
+info: BitRate: 128000
+ets Jun  8 2016 00:22:57
+
+rst:0x1 (POWERON_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1184
+load:0x40078000,len:13232
+load:0x40080400,len:3028
+entry 0x400805e4
+
+========================================
+       ESP32 iPod Shuffle Clone
+========================================
+>> Booting into SD CARD MODE <<
+Connecting to WiFi to sync time...
+*wm:AutoConnect 
+*wm:Connecting to SAVED AP: SpectrumSetup-D8
+*wm:connectTimeout not set, ESP waitForConnectResult... 
+*wm:AutoConnect: SUCCESS 
+*wm:STA IP Address: 192.168.1.227
+
+WiFi connected.
+Fetching NTP time...
+Time synced successfully!
+Current time: Tuesday, December 30 2025 10:27:15
+WiFi disconnected.
+SD Card mounted.
+SD Card Type: 3
+SD Card Size: 29820 MB
+Loading playlist from cache...
+Found 752 songs in cache.
+Total Songs: 752
+Playing [484/752]: /Marty Robbins - Billy The Kid.mp3
+info: PSRAM not found, inputBufferSize: 17951 bytes
+info: buffers freed, free Heap: 93688 bytes
+info: Reading file: "/Marty Robbins - Billy The Kid.mp3"
+info: MP3Decoder has been initialized, free Heap: 65948 bytes , free stack 5668 DWORDs
+info: Content-Length: 2229333
+info: file has no mp3 tag, skip metadata
+info: Audio-Length: 2229333
+Playing [483/752]: /Marty Robbins - Big Iron.mp3
+info: Closing audio file "Marty Robbins - Billy The Kid.mp3"
+info: buffers freed, free Heap: 93296 bytes
+info: Reading file: "/Marty Robbins - Big Iron.mp3"
+info: MP3Decoder has been initialized, free Heap: 65556 bytes , free stack 5540 DWORDs
+Volume: 5
+[SHUF] [10:27AM] 483/752 | 00:00/00:00 | Vol: 5 | Heap: 65604/38900   
+info: Content-Length: 3777626
+info: file has no mp3 tag, skip metadata
+info: Audio-Length: 3777626
+WARNING: Loop took 23 ms
+info: stream ready
+info: syncword found at pos 26
+info: syncword found at pos 0
+info: Channels: 2
+info: SampleRate: 48000
+info: BitsPerSample: 16
+info: BitRate: 128000
+[SHUF] [10:27AM] 483/752 | 00:00/03:53 | Vol: 5 | Heap: 65604/38900   [SHUF] [10:27AM] 483/752 | 00:01/03:54 | Vol: 5 | Heap: 65604/38900   [SHUF] [10:27AM] 483/752 | 00:02/03:55 | Vol: 5 | Heap: 65604/38900   
+Next track...
+info: Closing audio file "Marty Robbins - Big Iron.mp3"
+Playing [255/752]: /Fluffy Hunter - The Walkin' Blues.mp3
+info: buffers freed, free Heap: 93280 bytes
+info: Reading file: "/Fluffy Hunter - The Walkin' Blues.mp3"
+info: MP3Decoder has been initialized, free Heap: 65524 bytes , free stack 5540 DWORDs
+[SHUF] [10:27AM] 255/752 | 00:00/00:00 | Vol: 5 | Heap: 65588/38900   
+Next track...
+info: Content-Length: 2822441
+info: file has no mp3 tag, skip metadata
+info: Audio-Length: 2822441
+info: stream ready
+info: syncword found at pos 681
+info: syncword found at pos 0
+info: Channels: 2
+info: SampleRate: 48000
+info: BitsPerSample: 16
+info: BitRate: 128000
+info: Closing audio file "Fluffy Hunter - The Walkin' Blues.mp3"
+Playing [514/752]: /Nina Simone - Blue Prelude.mp3
+info: buffers freed, free Heap: 93284 bytes
+info: Reading file: "/Nina Simone - Blue Prelude.mp3"
+info: MP3Decoder has been initialized, free Heap: 65536 bytes , free stack 5540 DWORDs
+[SHUF] [10:27AM] 514/752 | 00:00/00:00 | Vol: 5 | Heap: 65596/38900   
+Next track...
+info: Content-Length: 3239108
+info: file has no mp3 tag, skip metadata
+info: Audio-Length: 3239108
+info: stream ready
+info: syncword found at pos 1092
+info: syncword found at pos 0
+info: Channels: 2
+info: SampleRate: 48000
+info: BitsPerSample: 16
+info: BitRate: 128000
+info: Closing audio file "Nina Simone - Blue Prelude.mp3"
+Playing [365/752]: /Jo Stafford - If I Loved You.mp3
+info: buffers freed, free Heap: 93280 bytes
+info: Reading file: "/Jo Stafford - If I Loved You.mp3"
+info: MP3Decoder has been initialized, free Heap: 65516 bytes , free stack 5540 DWORDs
+Next track...
+info: Content-Length: 2853958
+info: file has no mp3 tag, skip metadata
+info: Audio-Length: 2853958
+info: stream ready
+info: syncword found at pos 710
+info: syncword found at pos 0
+info: Channels: 2
+info: SampleRate: 48000
+info: BitsPerSample: 16
+info: BitRate: 128000
+info: Closing audio file "Jo Stafford - If I Loved You.mp3"
+Playing [54/752]: /Billie Holiday - Solitude.mp3
+info: buffers freed, free Heap: 93296 bytes
+info: Reading file: "/Billie Holiday - Solitude.mp3"
+info: MP3Decoder has been initialized, free Heap: 65552 bytes , free stack 5540 DWORDs
+[SHUF] [10:27AM] 54/752 | 00:00/00:00 | Vol: 5 | Heap: 65600/38900   
+info: Content-Length: 3326744
+info: file has no mp3 tag, skip metadata
+info: Audio-Length: 3326744
+WARNING: Loop took 23 ms
+info: stream ready
+Next track...
+info: syncword found at pos 1176
+info: syncword found at pos 0
+info: Channels: 2
+info: SampleRate: 48000
+info: BitsPerSample: 16
+info: BitRate: 128000
+info: Closing audio file "Billie Holiday - Solitude.mp3"
+Playing [122/752]: /Cab Calloway - Jumpin Jive.mp3
+info: buffers freed, free Heap: 93296 bytes
+info: Reading file: "/Cab Calloway - Jumpin Jive.mp3"
+info: MP3Decoder has been initialized, free Heap: 65552 bytes , free stack 5540 DWORDs
+Next track...
+info: Content-Length: 2719420
+info: file has no mp3 tag, skip metadata
+info: Audio-Length: 2719420
+info: stream ready
+info: syncword found at pos 572
+info: syncword found at pos 0
+info: Channels: 2
+info: SampleRate: 48000
+info: BitsPerSample: 16
+info: BitRate: 128000
+info: Closing audio file "Cab Calloway - Jumpin Jive.mp3"
+Playing [312/752]: /Glenn Miller - On A Little Street In Singapore.mp3
+info: buffers freed, free Heap: 93264 bytes
+info: Reading file: "/Glenn Miller - On A Little Street In Singapore.mp3"
+info: MP3Decoder has been initialized, free Heap: 65488 bytes , free stack 5540 DWORDs
+[SHUF] [10:27AM] 312/752 | 00:00/00:00 | Vol: 5 | Heap: 65568/38900   
+Next track...
+info: Content-Length: 2609122
+info: file has no mp3 tag, skip metadata
+info: Audio-Length: 2609122
+info: stream ready
+info: syncword found at pos 482
+info: syncword found at pos 0
+info: Channels: 2
+info: SampleRate: 48000
+info: BitsPerSample: 16
+info: BitRate: 128000
+info: Closing audio file "Glenn Miller - On A Little Street In Singapore.mp3"
+Playing [91/752]: /Bob Crosby - Happy Times.mp3
+info: buffers freed, free Heap: 93296 bytes
+info: Reading file: "/Bob Crosby - Happy Times.mp3"
+info: MP3Decoder has been initialized, free Heap: 65528 bytes , free stack 5540 DWORDs
+Next track...
+info: Content-Length: 2655997
+info: file has no mp3 tag, skip metadata
+info: Audio-Length: 2655997
+info: stream ready
+info: syncword found at pos 509
+info: syncword found at pos 0
+info: Channels: 2
+info: SampleRate: 48000
+info: BitsPerSample: 16
+info: BitRate: 128000
+info: Closing audio file "Bob Crosby - Happy Times.mp3"
+Playing [572/752]: /Ruth Wallis - Pizza.mp3
+info: buffers freed, free Heap: 93296 bytes
+info: Reading file: "/Ruth Wallis - Pizza.mp3"
+info: MP3Decoder has been initialized, free Heap: 65552 bytes , free stack 5540 DWORDs
+[SHUF] [10:27AM] 572/752 | 00:00/00:00 | Vol: 5 | Heap: 65600/38900   
+Next track...
+info: Content-Length: 2520688
+info: file has no mp3 tag, skip metadata
+info: Audio-Length: 2520688
+info: stream ready
+info: syncword found at pos 368
+info: syncword found at pos 0
+info: Channels: 2
+info: SampleRate: 48000
+info: BitsPerSample: 16
+info: BitRate: 128000
+info: Closing audio file "Ruth Wallis - Pizza.mp3"
+Playing [63/752]: /Billie Holiday Teddy Wilson - Here It Is Tomorrow Again (with Teddy Wilson  His Orchestra).mp3
+info: buffers freed, free Heap: 93232 bytes
+info: Reading file: "/Billie Holiday Teddy Wilson - Here It Is Tomorrow Again (with Teddy Wilson  His Orchestra).mp3"
+info: MP3Decoder has been initialized, free Heap: 65416 bytes , free stack 5540 DWORDs
+info: Content-Length: 2627218
+info: file has no mp3 tag, skip metadata
+info: Audio-Length: 2627218
+WARNING: Loop took 23 ms
+Next track...
+info: stream ready
+info: syncword found at pos 530
+info: syncword found at pos 0
+info: Channels: 2
+info: SampleRate: 48000
+info: BitsPerSample: 16
+info: BitRate: 128000
+info: Closing audio file "Billie Holiday Teddy Wilson - Here It Is Tomorrow Again (with Teddy Wilson  His Orchestra).mp3"
+Playing [8/752]: /Artie Shaw - Begin The Beguine.mp3
+info: buffers freed, free Heap: 93280 bytes
+info: Reading file: "/Artie Shaw - Begin The Beguine.mp3"
+info: MP3Decoder has been initialized, free Heap: 65520 bytes , free stack 5540 DWORDs
+info: Content-Length: 3143786
+info: file has no mp3 tag, skip metadata
+info: Audio-Length: 3143786
+WARNING: Loop took 23 ms
+info: stream ready
+info: syncword found at pos 1002
+info: syncword found at pos 0
+info: Channels: 2
+info: SampleRate: 48000
+info: BitsPerSample: 16
+info: BitRate: 128000
+Next track...
+info: Closing audio file "Artie Shaw - Begin The Beguine.mp3"
+Playing [80/752]: /Bing Crosby Lenny Hayton  His Orchestra - Brother Can You Spare a Dime (with Lenny Hayton  His Orchestra).mp3
+info: buffers freed, free Heap: 93216 bytes
+info: Reading file: "/Bing Crosby Lenny Hayton  His Orchestra - Brother Can You Spare a Dime (with Lenny Hayton  His Orchestra).mp3"
+info: MP3Decoder has been initialized, free Heap: 65400 bytes , free stack 5540 DWORDs
+Next track...
+info: Content-Length: 3087331
+info: file has no mp3 tag, skip metadata
+info: Audio-Length: 3087331
+info: stream ready
+info: syncword found at pos 995
+info: syncword found at pos 0
+info: Channels: 2
+info: SampleRate: 48000
+info: BitsPerSample: 16
+info: BitRate: 128000
+info: Closing audio file "Bing Crosby Lenny Hayton  His Orchestra - Brother Can You Spare a Dime (with Lenny Hayton  His Orchestra).mp3"
+Playing [344/752]: /Jackie Brenston  His Delta Cats - Rocket 88.mp3
+info: buffers freed, free Heap: 93264 bytes
+info: Reading file: "/Jackie Brenston  His Delta Cats - Rocket 88.mp3"
+info: MP3Decoder has been initialized, free Heap: 65500 bytes , free stack 5540 DWORDs
+[SHUF] [10:27AM] 344/752 | 00:00/00:00 | Vol: 5 | Heap: 65580/38900   
+info: Content-Length: 2679827
+info: file has no mp3 tag, skip metadata
+info: Audio-Length: 2679827
+WARNING: Loop took 23 ms
+info: stream ready
+info: syncword found at pos 531
+info: syncword found at pos 0
+info: Channels: 2
+info: SampleRate: 48000
+info: BitsPerSample: 16
+info: BitRate: 128000
+Playing [343/752]: /Jack Teagarden - Fare Thee Well To Harlem.mp3
+info: Closing audio file "Jackie Brenston  His Delta Cats - Rocket 88.mp3"
+info: buffers freed, free Heap: 93280 bytes
+info: Reading file: "/Jack Teagarden - Fare Thee Well To Harlem.mp3"
+info: MP3Decoder has been initialized, free Heap: 65520 bytes , free stack 5540 DWORDs
+info: Content-Length: 2950832
+info: file has no mp3 tag, skip metadata
+info: Audio-Length: 2950832
+info: stream ready
+info: syncword found at pos 816
+info: syncword found at pos 0
+info: Channels: 2
+info: SampleRate: 48000
+info: BitsPerSample: 16
+info: BitRate: 128000
+[SHUF] [10:27AM] 343/752 | 00:00/00:00 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:27AM] 343/752 | 00:01/03:03 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:27AM] 343/752 | 00:02/03:03 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:27AM] 343/752 | 00:03/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:27AM] 343/752 | 00:04/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:27AM] 343/752 | 00:05/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:27AM] 343/752 | 00:06/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:27AM] 343/752 | 00:07/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:27AM] 343/752 | 00:08/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:27AM] 343/752 | 00:08/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:27AM] 343/752 | 00:09/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:27AM] 343/752 | 00:10/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:27AM] 343/752 | 00:11/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:27AM] 343/752 | 00:12/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:27AM] 343/752 | 00:13/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:27AM] 343/752 | 00:14/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:27AM] 343/752 | 00:15/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:27AM] 343/752 | 00:16/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:27AM] 343/752 | 00:17/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:27AM] 343/752 | 00:18/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:27AM] 343/752 | 00:19/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:27AM] 343/752 | 00:20/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:27AM] 343/752 | 00:21/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:27AM] 343/752 | 00:22/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:27AM] 343/752 | 00:23/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:27AM] 343/752 | 00:24/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:27AM] 343/752 | 00:25/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 00:26/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 00:27/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 00:28/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 00:29/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 00:30/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 00:31/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 00:32/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 00:33/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 00:34/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 00:35/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 00:36/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 00:37/03:04 | Vol: 5 | Heap: 65584/38900   
+Volume: 4
+Volume: 5
+[SHUF] [10:28AM] 343/752 | 00:38/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 00:39/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 00:40/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 00:41/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 00:42/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 00:43/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 00:44/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 00:45/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 00:46/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 00:47/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 00:48/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 00:49/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 00:50/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 00:51/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 00:52/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 00:53/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 00:54/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 00:55/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 00:56/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 00:57/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 00:59/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 01:00/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 01:01/03:04 | Vol: 5 | Heap: 65584/38900   
+Volume: 4
+Volume: 5
+[SHUF] [10:28AM] 343/752 | 01:02/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 01:03/03:04 | Vol: 5 | Heap: 65584/38900   
+Volume: 4
+Volume: 5
+[SHUF] [10:28AM] 343/752 | 01:04/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 01:05/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 01:06/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 01:07/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 01:08/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 01:09/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 01:10/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 01:11/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 01:12/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 01:13/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 01:14/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 01:15/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 01:16/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 01:16/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 01:17/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 01:18/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 01:19/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 01:20/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 01:21/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 01:22/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 01:23/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 01:24/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:28AM] 343/752 | 01:25/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:29AM] 343/752 | 01:26/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:29AM] 343/752 | 01:27/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:29AM] 343/752 | 01:28/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:29AM] 343/752 | 01:29/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:29AM] 343/752 | 01:30/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:29AM] 343/752 | 01:31/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:29AM] 343/752 | 01:32/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:29AM] 343/752 | 01:33/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:29AM] 343/752 | 01:34/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:29AM] 343/752 | 01:35/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:29AM] 343/752 | 01:36/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:29AM] 343/752 | 01:37/03:04 | Vol: 5 | Heap: 65584/38900   
+Volume: 4
+Volume: 5
+[SHUF] [10:29AM] 343/752 | 01:38/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:29AM] 343/752 | 01:39/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:29AM] 343/752 | 01:40/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:29AM] 343/752 | 01:41/03:04 | Vol: 5 | Heap: 65584/38900   [SHUF] [10:29AM] 343/752 | 01:42/03:04 | Vol: 5 | Heap: 65616/38900   [SHUF] [10:29AM] 343/752 | 01:43/03:04 | Vol: 5 | Heap: 65616/38900   [SHUF] [10:29AM] 343/752 | 01:44/03:04 | Vol: 5 | Heap: 65616/38900   [SHUF] [10:29AM] 343/752 | 01:45/03:04 | Vol: 5 | Heap: 65616/38900   [SHUF] [10:29AM] 343/752 | 01:46/03:04 | Vol: 5 | Heap: 65616/38900   [SHUF] [10:29AM] 343/752 | 01:47/03:04 | Vol: 5 | Heap: 65616/38900   [SHUF] [10:29AM] 343/752 | 01:48/03:04 | Vol: 5 | Heap: 65616/38900   

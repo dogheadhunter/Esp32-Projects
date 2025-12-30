@@ -4,7 +4,7 @@
 #include <Arduino.h>
 
 // Syncs the internal RTC with NTP servers via WiFi
-void syncTimeWithNTP();
+void syncTimeWithNTP(bool resetSettings = false);
 
 // Returns a formatted string "HH:MM" of the current system time
 String getSystemTime();

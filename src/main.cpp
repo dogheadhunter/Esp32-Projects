@@ -5,9 +5,11 @@
 #include "Audio.h"
 #include <vector>
 #include <algorithm> // For std::sort
-#include <Preferences.h> // ADDED: For saving mode across reboots
-#include "WifiTime.h" // ADDED: WiFi Time Module
-#include "BluetoothManager.h" // ADDED: Bluetooth Manager
+#include <Preferences.h> // For saving mode across reboots
+#include "WifiTime.h" // WiFi Time Module
+#include "BluetoothManager.h" // Bluetooth Manager
+#include <WiFiManager.h> // ADDED: Required for WiFiManager
+#include <OneButton.h> // ADDED: For advanced button handling
 
 Preferences prefs;
 int bootMode = 0; // 0 = SD, 1 = Bluetooth
@@ -36,6 +38,9 @@ int bootMode = 0; // 0 = SD, 1 = Bluetooth
 #define LED_PIN        2
 
 Audio audio;
+OneButton btnOne(BTN_PLAY_PAUSE, true, true); // Active Low, Enable Internal Pullup
+OneButton btnTwo(BTN_NEXT, true, true);       // Button 2: WiFi Reset
+OneButton btnThree(BTN_PREV, true, true);     // Button 3: Mode Switch
 
 // --- State Machine ---
 enum PlayerState {
@@ -229,10 +234,14 @@ void fadeIn(int targetVol) {
 // ============================================
 
 bool mountSDCard() {
-    // Reduced SPI speed to 4MHz for better stability
-    if (SD.begin(SD_CS, SPI, 4000000)) {
+    // RESEARCH FIX: 
+    // Try 20MHz. 10MHz might be too slow, causing buffer underruns if the card has high latency.
+    // If this fails, we can try dropping to 10MHz or even 4MHz.
+    if (SD.begin(SD_CS, SPI, 20000000)) {
         cleanSerialLine();
         Serial.println("SD Card mounted.");
+        Serial.printf("SD Card Type: %d\n", SD.cardType());
+        Serial.printf("SD Card Size: %llu MB\n", SD.cardSize() / (1024 * 1024));
         
         // Check if user wants to force rescan (holding SHUFFLE button)
         if (digitalRead(BTN_SHUFFLE) == LOW) {
@@ -410,10 +419,124 @@ void exitBluetoothMode() {
 }
 
 // ============================================
+// BUTTON CALLBACKS
+// ============================================
+
+void click1() {
+    Serial.println("Button 1: Single Click (Play/Pause)");
+    if (currentState == STATE_OFF) powerOn();
+    else if (currentState == STATE_NO_CARD) { if (mountSDCard()) playNextSong(); }
+    else if (currentState == STATE_IDLE) playNextSong();
+    else togglePause();
+}
+
+void click2() {
+    Serial.println("Button 1: Double Click (Next)");
+    if (currentState == STATE_PLAYING || currentState == STATE_PAUSED) {
+        cleanSerialLine();
+        Serial.println("Next track...");
+        fadeOut();
+        audio.stopSong();
+        playNextSong();
+    }
+}
+
+void clickMulti() {
+    int n = btnOne.getNumberClicks();
+    Serial.printf("Button 1: Multi Click (%d)\n", n);
+    
+    // Only handle 3+ clicks here if click1/click2 are attached separately
+    if (n == 3) {
+        Serial.println("Action: Prev Song");
+        if (currentState == STATE_PLAYING || currentState == STATE_PAUSED) {
+            fadeOut();
+            playPreviousSong();
+            if (lastVolume >= 0) fadeIn(lastVolume);
+        }
+    }
+}
+
+void longPressStart() {
+    Serial.println("Button 1: Long Press (Toggle Shuffle)");
+    toggleShuffle();
+}
+
+void clickBtnTwo() {
+    Serial.println("Button 2: Resetting WiFi Settings...");
+    WiFiManager wm;
+    wm.resetSettings();
+    blinkLED(5, 100);
+    Serial.println("WiFi settings erased. Rebooting to Setup Mode...");
+    delay(1000);
+    ESP.restart();
+}
+
+void clickBtnThree() {
+    Serial.println("Button 3: Switching Mode...");
+    prefs.begin("player", false);
+    int currentMode = prefs.getInt("mode", 0);
+    int newMode = (currentMode == 0) ? 1 : 0; // Toggle 0 <-> 1
+    prefs.putInt("mode", newMode);
+    prefs.end();
+    
+    Serial.printf("Switching to %s Mode\n", newMode == 1 ? "BLUETOOTH" : "SD CARD");
+    blinkLED(3, 100);
+    delay(500);
+    ESP.restart();
+}
+
+// ============================================
 // SETUP
 // ============================================
 
 void setup() {
+  // 1. Setup Serial
+  Serial.begin(115200);
+  delay(1000); // Give serial monitor time to catch up
+  Serial.println("\n\n========================================");
+  Serial.println("       ESP32 iPod Shuffle Clone");
+  Serial.println("========================================");
+
+  // 2. Initialize Buttons
+  // (Handled by OneButton, but we can set pin modes if needed, though OneButton does it)
+
+  // 3. Check for WiFi Reset (Improved Logic)
+  // We check if Button 2 (BTN_NEXT) is held down NOW, or within the next 2 seconds.
+  Serial.println(">> Hold BUTTON 2 (Next) now to reset WiFi settings... <<");
+  
+  bool resetRequested = false;
+  unsigned long startTime = millis();
+  
+  // Wait 2 seconds to see if user presses the button
+  while (millis() - startTime < 2000) {
+    if (digitalRead(BTN_NEXT) == LOW) {
+      resetRequested = true;
+      break; // Exit loop immediately if pressed
+    }
+    delay(10);
+  }
+
+  if (resetRequested) {
+    Serial.println("\n!!! Reset WiFi requested! !!!");
+    Serial.println("Holding for confirmation (keep holding)...");
+    
+    // Optional: Ensure they really mean it by making them hold it for 1 more second
+    delay(1000); 
+    if (digitalRead(BTN_NEXT) == LOW) {
+        Serial.println("Resetting WiFi Settings...");
+        WiFiManager wm;
+        wm.resetSettings();
+        Serial.println("WiFi settings erased. Restarting in 3 seconds...");
+        delay(3000);
+        ESP.restart();
+    } else {
+        Serial.println("Button released too early. Skipping reset.");
+    }
+  } else {
+    Serial.println("No reset requested. Continuing boot...");
+  }
+
+  // 4. Initialize SD Card
     // Anti-pop
     pinMode(I2S_BCLK, OUTPUT); digitalWrite(I2S_BCLK, LOW);
     pinMode(I2S_LRC, OUTPUT); digitalWrite(I2S_LRC, LOW);
@@ -421,9 +544,18 @@ void setup() {
     
     pinMode(LED_PIN, OUTPUT); digitalWrite(LED_PIN, LOW);
     
-    pinMode(BTN_PLAY_PAUSE, INPUT_PULLUP);
-    pinMode(BTN_NEXT, INPUT_PULLUP);
-    pinMode(BTN_PREV, INPUT_PULLUP);
+    // OneButton Setup
+    // We use explicit handlers for 1 and 2 clicks for better reliability
+    btnOne.attachClick(click1);
+    btnOne.attachDoubleClick(click2);
+    btnOne.attachMultiClick(clickMulti); // Handles 3+ clicks
+    btnOne.attachLongPressStart(longPressStart);
+    btnOne.setClickTicks(400); // Make it snappier (default 600ms)
+    
+    btnTwo.attachClick(clickBtnTwo);
+    btnThree.attachClick(clickBtnThree);
+    
+    // Legacy Buttons
     pinMode(BTN_SHUFFLE, INPUT_PULLUP);
     
     Serial.begin(115200);
@@ -454,14 +586,28 @@ void setup() {
     
     Serial.println(">> Booting into SD CARD MODE <<");
     
+    // Check if user wants to reset WiFi settings (Hold BUTTON 2 on boot)
+    bool resetWifi = false;
+    if (digitalRead(BTN_NEXT) == LOW) {
+        Serial.println("Reset WiFi requested!");
+        blinkLED(5, 50);
+        resetWifi = true;
+    }
+
     // Sync time via WiFi (defined in src/WifiTime.cpp)
-    syncTimeWithNTP();
+    syncTimeWithNTP(resetWifi);
     delay(2000); // Increased wait for power stabilization
 
     audio.setPinout(I2S_BCLK, I2S_LRC, I2S_DOUT);
     audio.setVolume(0);
     audio.forceMono(true); // Force mono output for single speaker
-    audio.setBufsize(48000, 0); // Increased buffer to 48KB for stability (we have free heap now)
+    
+    // RESEARCH FIXES:
+    // 1. Increase Buffer to 30KB (Max safe for heap) to handle SD latency
+    audio.setBufsize(30000, 0); 
+    
+    // 2. Increase Connection Timeout (helps if SD read stalls)
+    audio.setConnectionTimeout(500, 2500); 
     
     if (mountSDCard()) {
         currentState = STATE_IDLE;
@@ -514,7 +660,13 @@ void loop() {
     }
 
     // === SD CARD MODE LOOP ===
+    unsigned long loopStart = millis();
     if (cardMounted) audio.loop();
+    unsigned long loopDuration = millis() - loopStart;
+    if (loopDuration > 20) {
+        cleanSerialLine();
+        Serial.printf("WARNING: Loop took %lu ms\n", loopDuration);
+    }
     
     if (shouldPlayNext) {
             shouldPlayNext = false;
@@ -527,7 +679,8 @@ void loop() {
             lastCardCheck = millis();
             
             // Only check if card is present, don't try to remount unless explicitly failed
-            if (cardMounted && !checkCardPresent()) {
+            // Skip check if playing to avoid SPI conflict/glitches
+            if (cardMounted && currentState != STATE_PLAYING && !checkCardPresent()) {
                 cleanSerialLine();
                 Serial.println("SD Card removed!");
                 unmountSDCard();
@@ -565,27 +718,10 @@ void loop() {
     
     // === BUTTONS ===
     
-    // Play/Pause
-    int currentPlayPauseState = digitalRead(BTN_PLAY_PAUSE);
-    if (lastPlayPauseState == HIGH && currentPlayPauseState == LOW) {
-        playPausePressStartTime = millis();
-        playPauseLongPressHandled = false;
-    }
-    if (currentPlayPauseState == LOW && !playPauseLongPressHandled) {
-        if (millis() - playPausePressStartTime > longPressDuration) {
-            if (currentState != STATE_OFF && currentState != STATE_NO_CARD) powerOff();
-            playPauseLongPressHandled = true;
-        }
-    }
-    if (lastPlayPauseState == LOW && currentPlayPauseState == HIGH) {
-        if (!playPauseLongPressHandled && (millis() - playPausePressStartTime > 50)) {
-            if (currentState == STATE_OFF) powerOn();
-            else if (currentState == STATE_NO_CARD) { if (mountSDCard()) playNextSong(); }
-            else if (currentState == STATE_IDLE) playNextSong();
-            else togglePause();
-        }
-    }
-    lastPlayPauseState = currentPlayPauseState;
+    // OneButton Tick
+    btnOne.tick();
+    btnTwo.tick();
+    btnThree.tick();
     
     // Shuffle Button (Dedicated) - Short Press: Toggle Shuffle, Long Press: Toggle Bluetooth
     int currentShuffleState = digitalRead(BTN_SHUFFLE);
@@ -611,32 +747,10 @@ void loop() {
     lastShuffleState = currentShuffleState;
     
     // Prev (Simple Press)
-    int currentPrevState = digitalRead(BTN_PREV);
-    if (lastPrevState == HIGH && currentPrevState == LOW) {
-        if (millis() - lastDebounceTime > 200) {
-            lastDebounceTime = millis();
-            if (currentState == STATE_PLAYING || currentState == STATE_PAUSED) {
-                fadeOut();
-                playPreviousSong();
-                if (lastVolume >= 0) fadeIn(lastVolume);
-            }
-        }
-    }
-    lastPrevState = currentPrevState;
+    // REMOVED: Handled by Button 1 Triple Click
     
     // Next
-    if (millis() - lastDebounceTime > debounceDelay) {
-        if (digitalRead(BTN_NEXT) == LOW) {
-            lastDebounceTime = millis();
-            if (currentState == STATE_PLAYING || currentState == STATE_PAUSED) {
-                cleanSerialLine();
-                Serial.println("Next track...");
-                fadeOut();
-                audio.stopSong();
-                playNextSong();
-            }
-        }
-    }
+    // REMOVED: Handled by Button 1 Double Click
     
     // Volume
     if (millis() - lastVolCheck > 100) {
@@ -658,14 +772,15 @@ void loop() {
     if (currentState == STATE_PLAYING && millis() - lastStatusPrint > 1000) {
         lastStatusPrint = millis();
         // Use \r to return to start of line, and pad with spaces to overwrite previous text
-        Serial.printf("\r[%s] [%s] %d/%d | %02d:%02d/%02d:%02d | Vol: %d   ",
+        Serial.printf("\r[%s] [%s] %d/%d | %02d:%02d/%02d:%02d | Vol: %d | Heap: %d/%d   ",
             shuffleMode ? "SHUF" : "SEQ",
             getSystemTime().c_str(),
             currentSongIndex + 1,
             totalSongs,
             audio.getAudioCurrentTime() / 60, audio.getAudioCurrentTime() % 60,
             audio.getAudioFileDuration() / 60, audio.getAudioFileDuration() % 60,
-            audio.getVolume());
+            audio.getVolume(),
+            ESP.getFreeHeap(), ESP.getMaxAllocHeap());
         lastPrintWasStatus = true;
     }
     
@@ -679,6 +794,30 @@ void loop() {
         else if (cmd == "pause") togglePause();
         else if (cmd == "shuffle") toggleShuffle();
         else if (cmd == "rescan") { SD.remove("/playlist.m3u"); Serial.println("Cache deleted. Reboot to rescan."); }
+        else if (cmd == "bench") {
+            Serial.println("Starting SD Card Benchmark...");
+            // CHANGED: Reduced buffer from 64KB to 16KB to fit in RAM
+            size_t bufSize = 16 * 1024; 
+            uint8_t *buf = (uint8_t*)malloc(bufSize);
+            
+            if (!buf) { Serial.println("Failed to allocate buffer for bench"); }
+            else {
+                File f = SD.open(getSongPath(currentSongIndex).c_str());
+                if (f) {
+                    unsigned long start = millis();
+                    size_t bytesRead = 0;
+                    // CHANGED: Increased loop count to still read 1MB total (64 * 16KB = 1MB)
+                    for (int i=0; i<64; i++) { 
+                        bytesRead += f.read(buf, bufSize);
+                    }
+                    unsigned long end = millis();
+                    f.close();
+                    float speed = (bytesRead / 1024.0) / ((end - start) / 1000.0);
+                    Serial.printf("Read %d bytes in %lu ms. Speed: %.2f KB/s\n", bytesRead, end - start, speed);
+                } else { Serial.println("Failed to open file for bench"); }
+                free(buf);
+            }
+        }
         else if (cmd == "status") {
             Serial.printf("State: %d | Shuffle: %d | Songs: %d | Index: %d\n", currentState, shuffleMode, totalSongs, currentSongIndex);
             Serial.printf("Heap: %d\n", ESP.getFreeHeap());
@@ -690,17 +829,29 @@ void loop() {
 // AUDIO CALLBACKS
 // ============================================
 void audio_info(const char *info) {
-    String msg = String(info);
-    // Filter out common spammy info messages
-    if (msg.indexOf("decode error") == -1 && msg.indexOf("syncword") == -1 && msg.indexOf("stream ready") == -1) {
-        cleanSerialLine();
-        Serial.print("info: "); Serial.println(info);
+    cleanSerialLine();
+    Serial.print("info: "); Serial.println(info);
+    
+    // Check for corruption errors
+    if (strstr(info, "INVALID_FRAMEHEADER") || strstr(info, "INVALID_HUFFCODES")) {
+        Serial.println("\n!!! DATA CORRUPTION DETECTED !!!");
+        Serial.println("The MP3 decoder received bad data from the SD card.");
+        Serial.println("If this happens often, check wiring or lower SPI speed.");
+        Serial.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
     }
+}
+void audio_bitrate(const char *info) {
+    cleanSerialLine();
+    Serial.print("bitrate: "); Serial.println(info);
 }
 void audio_eof_mp3(const char *info) {
     cleanSerialLine();
     Serial.print("eof: "); Serial.println(info);
     shouldPlayNext = true;
+}
+void audio_id3data(const char *info) {
+    cleanSerialLine();
+    Serial.print("id3: "); Serial.println(info);
 }
 void audio_showstation(const char *info) {}
 void audio_showstreamtitle(const char *info) {}

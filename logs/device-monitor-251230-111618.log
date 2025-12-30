@@ -1,0 +1,594 @@
+
+
+========================================
+       ESP32 iPod Shuffle Clone
+========================================
+>> Hold BUTTON 2 (Next) now to reset WiFi settings... <<
+No reset requested. Continuing boot...
+
+========================================
+       ESP32 iPod Shuffle Clone
+========================================
+>> Booting into SD CARD MODE <<
+Connecting to WiFi to sync time...
+*wm:AutoConnect 
+*wm:Connecting to SAVED AP: SpectrumSetup-D8
+*wm:connectTimeout not set, ESP waitForConnectResult... 
+*wm:AutoConnect: SUCCESS 
+*wm:STA IP Address: 192.168.1.227
+
+WiFi connected.
+Fetching NTP time...
+Time synced successfully!
+Current time: Tuesday, December 30 2025 11:16:23
+WiFi disconnected.
+SD Card mounted.
+SD Card Type: 3
+SD Card Size: 29820 MB
+Loading playlist from cache...
+Found 752 songs in cache.
+Total Songs: 752
+Playing [27/752]: /Big Joe Turner - I'm Still In The Dark.mp3
+info: PSRAM not found, inputBufferSize: 17951 bytes
+info: buffers freed, free Heap: 93260 bytes
+info: Reading file: "/Big Joe Turner - I'm Still In The Dark.mp3"
+info: MP3Decoder has been initialized, free Heap: 65512 bytes , free stack 5108 DWORDs
+Volume: 5
+[SHUF] [11:16AM] 27/752 | 00:00/00:00 | Vol: 5 | Heap: 65576/36852   
+info: Content-Length: 3292162
+info: file has no mp3 tag, skip metadata
+info: Audio-Length: 3292162
+WARNING: Loop took 23 ms
+info: stream ready
+info: syncword found at pos 1154
+info: syncword found at pos 0
+info: Channels: 2
+info: SampleRate: 48000
+info: BitsPerSample: 16
+info: BitRate: 128000
+[SHUF] [11:16AM] 27/752 | 00:00/03:23 | Vol: 5 | Heap: 65576/36852   [SHUF] [11:16AM] 27/752 | 00:01/03:24 | Vol: 5 | Heap: 65584/36852   
+Volume: 4
+Volume: 5
+[SHUF] [11:16AM] 27/752 | 00:02/03:25 | Vol: 5 | Heap: 65584/36852   [SHUF] [11:16AM] 27/752 | 00:03/03:25 | Vol: 5 | Heap: 65584/36852   [SHUF] [11:16AM] 27/752 | 00:04/03:25 | Vol: 5 | Heap: 65584/36852   [SHUF] [11:16AM] 27/752 | 00:05/03:25 | Vol: 5 | Heap: 65584/36852   Button 1: Single Click (Play/Pause)
+
+Paused
+Button 1: Single Click (Play/Pause)
+Resumed
+[SHUF] [11:16AM] 27/752 | 00:06/03:25 | Vol: 5 | Heap: 65584/36852   [SHUF] [11:16AM] 27/752 | 00:07/03:34 | Vol: 5 | Heap: 65584/36852   [SHUF] [11:16AM] 27/752 | 00:08/03:33 | Vol: 5 | Heap: 65584/36852   Button 1: Double Click (Next)
+
+Next track...
+info: Closing audio file "Big Joe Turner - I'm Still In The Dark.mp3"
+Playing [151/752]: /Count Basie Ella Fitzgerald - Shiny Stockings.mp3
+info: buffers freed, free Heap: 93252 bytes
+info: Reading file: "/Count Basie Ella Fitzgerald - Shiny Stockings.mp3"
+info: MP3Decoder has been initialized, free Heap: 65484 bytes , free stack 5108 DWORDs
+info: Content-Length: 3399015
+info: file has no mp3 tag, skip metadata
+info: Audio-Length: 3399015
+WARNING: Loop took 23 ms
+info: stream ready
+info: syncword found at pos 1255
+info: syncword found at pos 0
+info: Channels: 2
+info: SampleRate: 48000
+info: BitsPerSample: 16
+info: BitRate: 128000
+[SHUF] [11:16AM] 151/752 | 00:00/00:00 | Vol: 5 | Heap: 65564/36852   [SHUF] [11:16AM] 151/752 | 00:01/03:30 | Vol: 5 | Heap: 65564/36852   [SHUF] [11:16AM] 151/752 | 00:02/03:31 | Vol: 5 | Heap: 65564/36852   [SHUF] [11:16AM] 151/752 | 00:03/03:32 | Vol: 5 | Heap: 65564/36852   Button 1: Multi Click (4)
+[SHUF] [11:16AM] 151/752 | 00:04/03:32 | Vol: 5 | Heap: 65564/36852   [SHUF] [11:16AM] 151/752 | 00:05/03:32 | Vol: 5 | Heap: 65564/36852   [SHUF] [11:16AM] 151/752 | 00:05/03:32 | Vol: 5 | Heap: 65564/36852   [SHUF] [11:16AM] 151/752 | 00:06/03:32 | Vol: 5 | Heap: 65564/36852   Button 1: Multi Click (3)
+Action: Prev Song
+
+Restarting current song...
+Playing [151/752]: /Count Basie Ella Fitzgerald - Shiny Stockings.mp3
+info: Closing audio file "Count Basie Ella Fitzgerald - Shiny Stockings.mp3"
+info: buffers freed, free Heap: 92808 bytes
+info: Reading file: "/Count Basie Ella Fitzgerald - Shiny Stockings.mp3"
+info: MP3Decoder has been initialized, free Heap: 65040 bytes , free stack 5108 DWORDs
+info: Content-Length: 3399015
+info: file has no mp3 tag, skip metadata
+info: Audio-Length: 3399015
+info: stream ready
+info: syncword found at pos 1255
+info: syncword found at pos 0
+info: Channels: 2
+info: SampleRate: 48000
+info: BitsPerSample: 16
+info: BitRate: 128000
+[SHUF] [11:16AM] 151/752 | 00:00/00:00 | Vol: 5 | Heap: 65120/36852   [SHUF] [11:16AM] 151/752 | 00:01/03:30 | Vol: 5 | Heap: 65120/36852   [SHUF] [11:16AM] 151/752 | 00:02/03:31 | Vol: 5 | Heap: 65120/36852   [SHUF] [11:16AM] 151/752 | 00:03/03:32 | Vol: 5 | Heap: 65120/36852   Button 1: Multi Click (3)
+Action: Prev Song
+
+Playing [150/752]: /Count Basie - Harvard Blues.mp3
+info: Closing audio file "Count Basie Ella Fitzgerald - Shiny Stockings.mp3"
+info: buffers freed, free Heap: 92824 bytes
+info: Reading file: "/Count Basie - Harvard Blues.mp3"
+info: MP3Decoder has been initialized, free Heap: 65072 bytes , free stack 5108 DWORDs
+info: Content-Length: 3219121
+info: file has no mp3 tag, skip metadata
+info: Audio-Length: 3219121
+info: stream ready
+info: syncword found at pos 1073
+info: syncword found at pos 0
+info: Channels: 2
+info: SampleRate: 48000
+info: BitsPerSample: 16
+info: BitRate: 128000
+[SHUF] [11:16AM] 150/752 | 00:00/00:00 | Vol: 5 | Heap: 65136/36852   [SHUF] [11:16AM] 150/752 | 00:01/03:19 | Vol: 5 | Heap: 65136/36852   [SHUF] [11:16AM] 150/752 | 00:02/03:20 | Vol: 5 | Heap: 65136/36852   [SHUF] [11:16AM] 150/752 | 00:03/03:21 | Vol: 5 | Heap: 65136/36852   [SHUF] [11:16AM] 150/752 | 00:04/03:20 | Vol: 5 | Heap: 65136/36852   [SHUF] [11:16AM] 150/752 | 00:05/03:21 | Vol: 5 | Heap: 65136/36852   [SHUF] [11:16AM] 150/752 | 00:06/03:21 | Vol: 5 | Heap: 65136/36852   [SHUF] [11:16AM] 150/752 | 00:07/03:21 | Vol: 5 | Heap: 65136/36852   [SHUF] [11:16AM] 150/752 | 00:08/03:21 | Vol: 5 | Heap: 65136/36852   Button 1: Double Click (Next)
+
+Next track...
+info: Closing audio file "Count Basie - Harvard Blues.mp3"
+Playing [557/752]: /Roy Brown - Boogie At Midnight.mp3
+info: buffers freed, free Heap: 92820 bytes
+info: Reading file: "/Roy Brown - Boogie At Midnight.mp3"
+info: MP3Decoder has been initialized, free Heap: 65064 bytes , free stack 5108 DWORDs
+[SHUF] [11:17AM] 557/752 | 00:00/00:00 | Vol: 5 | Heap: 65128/36852   
+info: Content-Length: 2760556
+info: file has no mp3 tag, skip metadata
+info: Audio-Length: 2760556
+WARNING: Loop took 23 ms
+info: stream ready
+info: syncword found at pos 620
+info: syncword found at pos 0
+info: Channels: 2
+info: SampleRate: 48000
+info: BitsPerSample: 16
+info: BitRate: 128000
+[SHUF] [11:17AM] 557/752 | 00:00/02:50 | Vol: 5 | Heap: 65128/36852   [SHUF] [11:17AM] 557/752 | 00:01/02:51 | Vol: 5 | Heap: 65128/36852   Button 1: Single Click (Play/Pause)
+
+Paused
+Button 1: Single Click (Play/Pause)
+Resumed
+[SHUF] [11:17AM] 557/752 | 00:02/02:51 | Vol: 5 | Heap: 65128/36852   [SHUF] [11:17AM] 557/752 | 00:03/03:06 | Vol: 5 | Heap: 65128/36852   [SHUF] [11:17AM] 557/752 | 00:04/03:02 | Vol: 5 | Heap: 65128/36852   
+Shuffle: OFF
+[SEQ] [11:17AM] 557/752 | 00:06/02:59 | Vol: 5 | Heap: 65128/36852   
+Shuffle: ON
+[SHUF] [11:17AM] 557/752 | 00:07/02:58 | Vol: 5 | Heap: 65128/36852   [SHUF] [11:17AM] 557/752 | 00:08/02:57 | Vol: 5 | Heap: 65128/36852   
+Volume: 4
+Volume: 5
+[SHUF] [11:17AM] 557/752 | 00:09/02:57 | Vol: 5 | Heap: 65128/36852   [SHUF] [11:17AM] 557/752 | 00:10/02:56 | Vol: 5 | Heap: 65128/36852   [SHUF] [11:17AM] 557/752 | 00:11/02:56 | Vol: 5 | Heap: 65160/36852   [SHUF] [11:17AM] 557/752 | 00:12/02:56 | Vol: 5 | Heap: 65160/36852   [SHUF] [11:17AM] 557/752 | 00:12/02:56 | Vol: 5 | Heap: 65160/36852   [SHUF] [11:17AM] 557/752 | 00:13/02:55 | Vol: 5 | Heap: 65160/36852   
+Switching to Bluetooth Mode (Rebooting)...
+ets Jun  8 2016 00:22:57
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1184
+load:0x40078000,len:13232
+load:0x40080400,len:3028
+entry 0x400805e4
+
+
+========================================
+       ESP32 iPod Shuffle Clone
+========================================
+>> Hold BUTTON 2 (Next) now to reset WiFi settings... <<
+No reset requested. Continuing boot...
+
+========================================
+       ESP32 iPod Shuffle Clone
+========================================
+>> Booting into BLUETOOTH MODE <<
+Starting Bluetooth Sink: ESP32-iPod
+[BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   Exiting Bluetooth Mode (Rebooting)...
+ets Jun  8 2016 00:22:57
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1184
+load:0x40078000,len:13232
+load:0x40080400,len:3028
+entry 0x400805e4
+
+
+========================================
+       ESP32 iPod Shuffle Clone
+========================================
+>> Hold BUTTON 2 (Next) now to reset WiFi settings... <<
+No reset requested. Continuing boot...
+
+========================================
+       ESP32 iPod Shuffle Clone
+========================================
+>> Booting into SD CARD MODE <<
+Connecting to WiFi to sync time...
+*wm:AutoConnect 
+*wm:Connecting to SAVED AP: SpectrumSetup-D8
+*wm:connectTimeout not set, ESP waitForConnectResult... 
+*wm:AutoConnect: SUCCESS 
+*wm:STA IP Address: 192.168.1.227
+
+WiFi connected.
+Fetching NTP time...
+Time synced successfully!
+Current time: Tuesday, December 30 2025 11:17:37
+WiFi disconnected.
+SD Card mounted.
+SD Card Type: 3
+SD Card Size: 29820 MB
+Loading playlist from cache...
+Found 752 songs in cache.
+Total Songs: 752
+Playing [415/752]: /Julie London - Cry Me A River.mp3
+info: PSRAM not found, inputBufferSize: 17951 bytes
+info: buffers freed, free Heap: 93204 bytes
+info: Reading file: "/Julie London - Cry Me A River.mp3"
+info: MP3Decoder has been initialized, free Heap: 65456 bytes , free stack 5060 DWORDs
+Volume: 5
+[SHUF] [11:17AM] 415/752 | 00:00/00:00 | Vol: 5 | Heap: 65520/36852   
+info: Content-Length: 2862030
+info: file has no mp3 tag, skip metadata
+info: Audio-Length: 2862030
+WARNING: Loop took 23 ms
+info: stream ready
+info: syncword found at pos 718
+info: syncword found at pos 0
+info: Channels: 2
+info: SampleRate: 48000
+info: BitsPerSample: 16
+info: BitRate: 128000
+[SHUF] [11:17AM] 415/752 | 00:00/02:56 | Vol: 5 | Heap: 65520/36852   [SHUF] [11:17AM] 415/752 | 00:01/02:57 | Vol: 5 | Heap: 65520/36852   [SHUF] [11:17AM] 415/752 | 00:02/02:58 | Vol: 5 | Heap: 65520/36852   [SHUF] [11:17AM] 415/752 | 00:03/02:58 | Vol: 5 | Heap: 65520/36852   [SHUF] [11:17AM] 415/752 | 00:04/02:59 | Vol: 5 | Heap: 65520/36852   [SHUF] [11:17AM] 415/752 | 00:05/02:58 | Vol: 5 | Heap: 65520/36852   [SHUF] [11:17AM] 415/752 | 00:06/02:59 | Vol: 5 | Heap: 65520/36852   [SHUF] [11:17AM] 415/752 | 00:07/02:59 | Vol: 5 | Heap: 65520/36852   [SHUF] [11:17AM] 415/752 | 00:08/02:59 | Vol: 5 | Heap: 65520/36852   [SHUF] [11:17AM] 415/752 | 00:09/02:59 | Vol: 5 | Heap: 65520/36852   
+Volume: 4
+Volume: 5
+[SHUF] [11:17AM] 415/752 | 00:10/02:59 | Vol: 5 | Heap: 65520/36852   Button 2: Resetting WiFi Settings...
+*wm:resetSettings 
+*wm:SETTINGS ERASED 
+WiFi settings erased. Rebooting to Setup Mode...
+ets Jun  8 2016 00:22:57
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1184
+load:0x40078000,len:13232
+load:0x40080400,len:3028
+entry 0x400805e4
+
+
+========================================
+       ESP32 iPod Shuffle Clone
+========================================
+>> Hold BUTTON 2 (Next) now to reset WiFi settings... <<
+No reset requested. Continuing boot...
+
+========================================
+       ESP32 iPod Shuffle Clone
+========================================
+>> Booting into SD CARD MODE <<
+Connecting to WiFi to sync time...
+*wm:AutoConnect 
+*wm:No wifi saved, skipping 
+*wm:AutoConnect: FAILED for  95 ms
+*wm:StartAP with SSID:  ESP32-Radio-Setup
+*wm:AP IP address: 192.168.4.1
+Entered config mode
+192.168.4.1
+ESP32-Radio-Setup
+*wm:Starting Web Portal 
+[ 37372][E][WebServer.cpp:638] _handleRequest(): request handler not found
+*wm:5 networks found
+*wm:Connecting to NEW AP: SpectrumSetup-D8
+*wm:connectTimeout not set, ESP waitForConnectResult... 
+*wm:Connect to new AP [SUCCESS] 
+*wm:Got IP Address: 
+*wm:192.168.1.227 
+Should save config
+*wm:config portal exiting 
+Settings saved. Restarting to free up memory...
+ets Jun  8 2016 00:22:57
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1184
+load:0x40078000,len:13232
+load:0x40080400,len:3028
+entry 0x400805e4
+
+
+========================================
+       ESP32 iPod Shuffle Clone
+========================================
+>> Hold BUTTON 2 (Next) now to reset WiFi settings... <<
+No reset requested. Continuing boot...
+
+========================================
+       ESP32 iPod Shuffle Clone
+========================================
+>> Booting into SD CARD MODE <<
+Connecting to WiFi to sync time...
+*wm:AutoConnect 
+*wm:Connecting to SAVED AP: SpectrumSetup-D8
+*wm:connectTimeout not set, ESP waitForConnectResult... 
+*wm:AutoConnect: SUCCESS 
+*wm:STA IP Address: 192.168.1.227
+
+WiFi connected.
+Fetching NTP time...
+Time synced successfully!
+Current time: Tuesday, December 30 2025 11:19:32
+WiFi disconnected.
+SD Card mounted.
+SD Card Type: 3
+SD Card Size: 29820 MB
+Loading playlist from cache...
+Found 752 songs in cache.
+Total Songs: 752
+Playing [467/752]: /Louis Jordan - Caldonia.mp3
+info: PSRAM not found, inputBufferSize: 17951 bytes
+info: buffers freed, free Heap: 93220 bytes
+info: Reading file: "/Louis Jordan - Caldonia.mp3"
+info: MP3Decoder has been initialized, free Heap: 65484 bytes , free stack 5060 DWORDs
+Volume: 5
+[SHUF] [11:19AM] 467/752 | 00:00/00:00 | Vol: 5 | Heap: 65532/36852   
+info: Content-Length: 2619093
+info: file has no mp3 tag, skip metadata
+info: Audio-Length: 2619093
+WARNING: Loop took 24 ms
+info: stream ready
+info: syncword found at pos 469
+info: syncword found at pos 0
+info: Channels: 2
+info: SampleRate: 48000
+info: BitsPerSample: 16
+info: BitRate: 128000
+[SHUF] [11:19AM] 467/752 | 00:00/02:42 | Vol: 5 | Heap: 65528/36852   [SHUF] [11:19AM] 467/752 | 00:01/02:42 | Vol: 5 | Heap: 65528/36852   [SHUF] [11:19AM] 467/752 | 00:02/02:43 | Vol: 5 | Heap: 65532/36852   [SHUF] [11:19AM] 467/752 | 00:03/02:43 | Vol: 5 | Heap: 65528/36852   [SHUF] [11:19AM] 467/752 | 00:04/02:43 | Vol: 5 | Heap: 65524/36852   [SHUF] [11:19AM] 467/752 | 00:05/02:43 | Vol: 5 | Heap: 65524/36852   [SHUF] [11:19AM] 467/752 | 00:06/02:44 | Vol: 5 | Heap: 65524/36852   [SHUF] [11:19AM] 467/752 | 00:07/02:43 | Vol: 5 | Heap: 65524/36852   [SHUF] [11:19AM] 467/752 | 00:08/02:44 | Vol: 5 | Heap: 65524/36852   [SHUF] [11:19AM] 467/752 | 00:09/02:43 | Vol: 5 | Heap: 65524/36852   
+Volume: 6
+Volume: 7
+Volume: 8
+[SHUF] [11:19AM] 467/752 | 00:10/02:44 | Vol: 8 | Heap: 65524/36852   [SHUF] [11:19AM] 467/752 | 00:11/02:44 | Vol: 8 | Heap: 65524/36852   [SHUF] [11:19AM] 467/752 | 00:12/02:44 | Vol: 8 | Heap: 65524/36852   [SHUF] [11:19AM] 467/752 | 00:13/02:44 | Vol: 8 | Heap: 65524/36852   [SHUF] [11:19AM] 467/752 | 00:14/02:44 | Vol: 8 | Heap: 65524/36852   [SHUF] [11:19AM] 467/752 | 00:15/02:44 | Vol: 8 | Heap: 65524/36852   [SHUF] [11:19AM] 467/752 | 00:16/02:44 | Vol: 8 | Heap: 65524/36852   [SHUF] [11:19AM] 467/752 | 00:17/02:44 | Vol: 8 | Heap: 65524/36852   [SHUF] [11:19AM] 467/752 | 00:18/02:44 | Vol: 8 | Heap: 65524/36852   [SHUF] [11:19AM] 467/752 | 00:19/02:44 | Vol: 8 | Heap: 65524/36852   [SHUF] [11:19AM] 467/752 | 00:20/02:44 | Vol: 8 | Heap: 65524/36852   [SHUF] [11:20AM] 467/752 | 00:21/02:44 | Vol: 8 | Heap: 65524/36852   [SHUF] [11:20AM] 467/752 | 00:22/02:44 | Vol: 8 | Heap: 65524/36852   [SHUF] [11:20AM] 467/752 | 00:23/02:44 | Vol: 8 | Heap: 65524/36852   
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 23 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+[SHUF] [11:20AM] 467/752 | 00:24/02:44 | Vol: 8 | Heap: 65524/36852   
+WARNING: Loop took 23 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 23 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 23 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+[SHUF] [11:20AM] 467/752 | 00:24/02:44 | Vol: 8 | Heap: 65524/36852   
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 23 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 23 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 23 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+info: MP3 decode error -6 : INVALID_FRAMEHEADER
+
+!!! DATA CORRUPTION DETECTED !!!
+The MP3 decoder received bad data from the SD card.
+If this happens often, check wiring or lower SPI speed.
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+info: syncword found at pos 164
+info: syncword found at pos 0
+info: MP3 decode error -9 : INVALID_HUFFCODES
+
+!!! DATA CORRUPTION DETECTED !!!
+The MP3 decoder received bad data from the SD card.
+If this happens often, check wiring or lower SPI speed.
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+info: syncword found at pos 383
+info: syncword found at pos 0
+[SHUF] [11:20AM] 467/752 | 00:24/02:44 | Vol: 8 | Heap: 65524/36852   
+info: Channels: 2
+info: SampleRate: 48000
+info: BitsPerSample: 16
+info: BitRate: 128000
+info: Closing audio file "Louis Jordan - Caldonia.mp3"
+eof: Louis Jordan - Caldonia.mp3
+info: End of file "Louis Jordan - Caldonia.mp3"
+Playing [547/752]: /Ronnie Hilton - Veni Vidi Vici.mp3
+info: buffers freed, free Heap: 93204 bytes
+info: Reading file: "/Ronnie Hilton - Veni Vidi Vici.mp3"
+info: MP3Decoder has been initialized, free Heap: 65456 bytes , free stack 5060 DWORDs
+[SHUF] [11:20AM] 547/752 | 00:00/00:00 | Vol: 8 | Heap: 65520/36852   
+info: Content-Length: 2407303
+info: file has no mp3 tag, skip metadata
+info: Audio-Length: 2407303
+WARNING: Loop took 23 ms
+info: stream ready
+info: syncword found at pos 263
+info: syncword found at pos 0
+info: Channels: 2
+info: SampleRate: 48000
+info: BitsPerSample: 16
+info: BitRate: 128000
+[SHUF] [11:20AM] 547/752 | 00:00/02:29 | Vol: 8 | Heap: 65524/36852   [SHUF] [11:20AM] 547/752 | 00:01/02:29 | Vol: 8 | Heap: 65524/36852   [SHUF] [11:20AM] 547/752 | 00:02/02:30 | Vol: 8 | Heap: 65524/36852   [SHUF] [11:20AM] 547/752 | 00:03/02:30 | Vol: 8 | Heap: 65524/36852   [SHUF] [11:20AM] 547/752 | 00:04/02:30 | Vol: 8 | Heap: 65524/36852   [SHUF] [11:20AM] 547/752 | 00:05/02:30 | Vol: 8 | Heap: 65524/36852   [SHUF] [11:20AM] 547/752 | 00:06/02:30 | Vol: 8 | Heap: 65524/36852   [SHUF] [11:20AM] 547/752 | 00:07/02:30 | Vol: 8 | Heap: 65524/36852   
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+[SHUF] [11:20AM] 547/752 | 00:08/02:30 | Vol: 8 | Heap: 65524/36852   
+WARNING: Loop took 22 ms
+WARNING: Loop took 23 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 23 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+[SHUF] [11:20AM] 547/752 | 00:08/02:30 | Vol: 8 | Heap: 65524/36852   
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 23 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 23 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+[SHUF] [11:20AM] 547/752 | 00:08/02:30 | Vol: 8 | Heap: 65524/36852   
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+info: MP3 decode error -6 : INVALID_FRAMEHEADER
+
+!!! DATA CORRUPTION DETECTED !!!
+The MP3 decoder received bad data from the SD card.
+If this happens often, check wiring or lower SPI speed.
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+info: syncword found at pos 65
+info: Closing audio file "Ronnie Hilton - Veni Vidi Vici.mp3"
+eof: Ronnie Hilton - Veni Vidi Vici.mp3
+info: End of file "Ronnie Hilton - Veni Vidi Vici.mp3"
+Playing [239/752]: /Elvis Presley - That's All Right.mp3
+info: buffers freed, free Heap: 93204 bytes
+info: Reading file: "/Elvis Presley - That's All Right.mp3"
+info: MP3Decoder has been initialized, free Heap: 65452 bytes , free stack 5060 DWORDs
+[SHUF] [11:20AM] 239/752 | 00:00/00:00 | Vol: 8 | Heap: 65516/36852   
+info: Content-Length: 1848411
+info: file has no mp3 tag, skip metadata
+info: Audio-Length: 1848411
+WARNING: Loop took 23 ms
+info: streaord fou
+info: syncword found at pos 1307
+info: syncword found at pos 0
+info: Channels: 2
+info: SampleRate: 48000
+info: BitsPerSample: 16
+info: BitRate: 128000
+[SHUF] [11:20AM] 239/752 | 00:00/01:54 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:20AM] 239/752 | 00:01/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:20AM] 239/752 | 00:02/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:20AM] 239/752 | 00:03/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:20AM] 239/752 | 00:04/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:20AM] 239/752 | 00:05/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:20AM] 239/752 | 00:06/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:20AM] 239/752 | 00:07/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:20AM] 239/752 | 00:08/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:20AM] 239/752 | 00:09/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:20AM] 239/752 | 00:10/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:20AM] 239/752 | 00:11/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:20AM] 239/752 | 00:12/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:20AM] 239/752 | 00:13/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:20AM] 239/752 | 00:14/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:20AM] 239/752 | 00:15/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:20AM] 239/752 | 00:16/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:20AM] 239/752 | 00:17/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:20AM] 239/752 | 00:18/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:20AM] 239/752 | 00:19/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:20AM] 239/752 | 00:20/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:20AM] 239/752 | 00:21/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:20AM] 239/752 | 00:22/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:20AM] 239/752 | 00:23/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:20AM] 239/752 | 00:24/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:20AM] 239/752 | 00:25/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:20AM] 239/752 | 00:26/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:20AM] 239/752 | 00:27/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:20AM] 239/752 | 00:28/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:20AM] 239/752 | 00:29/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:20AM] 239/752 | 00:30/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:20AM] 239/752 | 00:31/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:20AM] 239/752 | 00:32/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:20AM] 239/752 | 00:33/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:20AM] 239/752 | 00:34/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:20AM] 239/752 | 00:35/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:20AM] 239/752 | 00:36/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:20AM] 239/752 | 00:37/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:20AM] 239/752 | 00:38/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:20AM] 239/752 | 00:39/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:21AM] 239/752 | 00:40/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:21AM] 239/752 | 00:41/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:21AM] 239/752 | 00:42/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:21AM] 239/752 | 00:43/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:21AM] 239/752 | 00:44/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:21AM] 239/752 | 00:45/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:21AM] 239/752 | 00:46/01:56 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:21AM] 239/752 | 00:47/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:21AM] 239/752 | 00:48/01:56 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:21AM] 239/752 | 00:49/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:21AM] 239/752 | 00:50/01:56 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:21AM] 239/752 | 00:51/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:21AM] 239/752 | 00:52/01:56 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:21AM] 239/752 | 00:53/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:21AM] 239/752 | 00:54/01:56 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:21AM] 239/752 | 00:55/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:21AM] 239/752 | 00:56/01:56 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:21AM] 239/752 | 00:57/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:21AM] 239/752 | 00:58/01:56 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:21AM] 239/752 | 00:59/01:56 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:21AM] 239/752 | 01:00/01:56 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:21AM] 239/752 | 01:01/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:21AM] 239/752 | 01:02/01:56 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:21AM] 239/752 | 01:03/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:21AM] 239/752 | 01:04/01:56 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:21AM] 239/752 | 01:05/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:21AM] 239/752 | 01:06/01:56 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:21AM] 239/752 | 01:07/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:21AM] 239/752 | 01:08/01:56 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:21AM] 239/752 | 01:09/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:21AM] 239/752 | 01:10/01:56 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:21AM] 239/752 | 01:11/01:55 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:21AM] 239/752 | 01:12/01:56 | Vol: 8 | Heap: 65512/36852   [SHUF] [11:21AM] 239/752 | 01:13/01:55 | Vol: 8 | Heap: 65544/36852   [SHUF] [11:21AM] 239/752 | 01:14/01:56 | Vol: 8 | Heap: 65544/36852   [SHUF] [11:21AM] 239/752 | 01:15/01:55 | Vol: 8 | Heap: 65544/36852   [SHUF] [11:21AM] 239/752 | 01:16/01:56 | Vol: 8 | Heap: 65544/36852   [SHUF] [11:21AM] 239/752 | 01:17/01:55 | Vol: 8 | Heap: 65544/36852   [SHUF] [11:21AM] 239/752 | 01:18/01:56 | Vol: 8 | Heap: 65544/36852   [SHUF] [11:21AM] 239/752 | 01:19/01:56 | Vol: 8 | Heap: 65544/36852   [SHUF] [11:21AM] 239/752 | 01:20/01:56 | Vol: 8 | Heap: 65544/36852   [SHUF] [11:21AM] 239/752 | 01:21/01:56 | Vol: 8 | Heap: 65544/36852   [SHUF] [11:21AM] 239/752 | 01:22/01:56 | Vol: 8 | Heap: 65544/36852   [SHUF] [11:21AM] 239/752 | 01:23/01:56 | Vol: 8 | Heap: 65544/36852   [SHUF] [11:21AM] 239/752 | 01:24/01:56 | Vol: 8 | Heap: 65544/36852   [SHUF] [11:21AM] 239/752 | 01:25/01:56 | Vol: 8 | Heap: 65544/36852   [SHUF] [11:21AM] 239/752 | 01:26/01:56 | Vol: 8 | Heap: 65544/36852   [SHUF] [11:21AM] 239/752 | 01:27/01:56 | Vol: 8 | Heap: 65544/36852   [SHUF] [11:21AM] 239/752 | 01:28/01:56 | Vol: 8 | Heap: 65544/36852   [SHUF] [11:21AM] 239/752 | 01:29/01:56 | Vol: 8 | Heap: 65544/36852   [SHUF] [11:21AM] 239/752 | 01:30/01:56 | Vol: 8 | Heap: 65544/36852   [SHUF] [11:21AM] 239/752 | 01:31/01:56 | Vol: 8 | Heap: 65544/36852   [SHUF] [11:21AM] 239/752 | 01:32/01:56 | Vol: 8 | Heap: 65544/36852   [SHUF] [11:21AM] 239/752 | 01:33/01:56 | Vol: 8 | Heap: 65544/36852   [SHUF] [11:21AM] 239/752 | 01:34/01:56 | Vol: 8 | Heap: 65544/36852   [SHUF] [11:21AM] 239/752 | 01:35/01:56 | Vol: 8 | Heap: 65544/36852   [SHUF] [11:21AM] 239/752 | 01:36/01:56 | Vol: 8 | Heap: 65544/36852   [SHUF] [11:21AM] 239/752 | 01:37/01:56 | Vol: 8 | Heap: 65544/36852   [SHUF] [11:21AM] 239/752 | 01:38/01:56 | Vol: 8 | Heap: 65544/36852   [SHUF] [11:21AM] 239/752 | 01:39/01:56 | Vol: 8 | Heap: 65544/36852   [SHUF] [11:22AM] 239/752 | 01:40/01:56 | Vol: 8 | Heap: 65544/36852   [SHUF] [11:22AM] 239/752 | 01:41/01:56 | Vol: 8 | Heap: 65544/36852   [SHUF] [11:22AM] 239/752 | 01:42/01:56 | Vol: 8 | Heap: 65544/36852   [SHUF] [11:22AM] 239/752 | 01:43/01:56 | Vol: 8 | Heap: 65544/36852   [SHUF] [11:22AM] 239/752 | 01:44/01:56 | Vol: 8 | Heap: 65544/36852   [SHUF] [11:22AM] 239/752 | 01:45/01:56 | Vol: 8 | Heap: 65544/36852   [SHUF] [11:22AM] 239/752 | 01:46/01:56 | Vol: 8 | Heap: 65544/36852   [SHUF] [11:22AM] 239/752 | 01:47/01:56 | Vol: 8 | Heap: 65544/36852   [SHUF] [11:22AM] 239/752 | 01:48/01:56 | Vol: 8 | Heap: 65544/36852   [SHUF] [11:22AM] 239/752 | 01:49/01:56 | Vol: 8 | Heap: 65544/36852   [SHUF] [11:22AM] 239/752 | 01:50/01:56 | Vol: 8 | Heap: 65544/36852   [SHUF] [11:22AM] 239/752 | 01:51/01:56 | Vol: 8 | Heap: 65544/36852   [SHUF] [11:22AM] 239/752 | 01:52/01:56 | Vol: 8 | Heap: 65544/36852   [SHUF] [11:22AM] 239/752 | 01:53/01:56 | Vol: 8 | Heap: 65544/36852   [SHUF] [11:22AM] 239/752 | 01:54/01:56 | Vol: 8 | Heap: 65544/36852   
+info: Closing audio file "Elvis Presley - That's All Right.mp3"
+eof: Elvis Presley - That's All Right.mp3
+info: End of file "Elvis Presley - That's All Right.mp3"
+Playing [25/752]: /Betty Hutton - Stuff Like That There.mp3
+info: buffers freed, free Heap: 93232 bytes
+info: Reading file: "/Betty Hutton - Stuff Like That There.mp3"
+info: MP3Decoder has been initialized, free Heap: 65476 bytes , free stack 5060 DWORDs
+info: Content-Length: 2883947
+info: file has no mp3 tag, skip metadata
+info: Audio-Length: 2883947
+WARNING: Loop took 23 ms
+info: stream ready
+info: syncword found at pos 747
+info: syncword found at pos 0
+info: Channels: 2
+info: SampleRate: 48000
+info: BitsPerSample: 16
+info: BitRate: 128000
+[SHUF] [11:22AM] 25/752 | 00:00/02:58 | Vol: 8 | Heap: 65544/36852   [SHUF] [11:22AM] 25/752 | 00:01/02:59 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:22AM] 25/752 | 00:02/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:22AM] 25/752 | 00:03/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:22AM] 25/752 | 00:04/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:22AM] 25/752 | 00:05/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:22AM] 25/752 | 00:06/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:22AM] 25/752 | 00:07/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:22AM] 25/752 | 00:08/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:22AM] 25/752 | 00:09/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:22AM] 25/752 | 00:10/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:22AM] 25/752 | 00:11/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:22AM] 25/752 | 00:12/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:22AM] 25/752 | 00:13/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:22AM] 25/752 | 00:14/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:22AM] 25/752 | 00:15/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:22AM] 25/752 | 00:16/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:22AM] 25/752 | 00:17/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:22AM] 25/752 | 00:18/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:22AM] 25/752 | 00:19/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:22AM] 25/752 | 00:20/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:22AM] 25/752 | 00:21/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:22AM] 25/752 | 00:22/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:22AM] 25/752 | 00:23/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:22AM] 25/752 | 00:24/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:22AM] 25/752 | 00:25/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:22AM] 25/752 | 00:26/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:22AM] 25/752 | 00:27/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:22AM] 25/752 | 00:28/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:22AM] 25/752 | 00:29/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:22AM] 25/752 | 00:30/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:22AM] 25/752 | 00:31/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:22AM] 25/752 | 00:32/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:22AM] 25/752 | 00:33/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:22AM] 25/752 | 00:34/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:22AM] 25/752 | 00:35/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:22AM] 25/752 | 00:36/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:22AM] 25/752 | 00:37/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:22AM] 25/752 | 00:38/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:22AM] 25/752 | 00:39/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:22AM] 25/752 | 00:40/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:22AM] 25/752 | 00:41/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:22AM] 25/752 | 00:42/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:22AM] 25/752 | 00:43/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:23AM] 25/752 | 00:44/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:23AM] 25/752 | 00:45/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:23AM] 25/752 | 00:46/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:23AM] 25/752 | 00:47/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:23AM] 25/752 | 00:48/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:23AM] 25/752 | 00:49/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:23AM] 25/752 | 00:50/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:23AM] 25/752 | 00:51/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:23AM] 25/752 | 00:52/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:23AM] 25/752 | 00:53/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:23AM] 25/752 | 00:54/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:23AM] 25/752 | 00:55/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:23AM] 25/752 | 00:56/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:23AM] 25/752 | 00:57/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:23AM] 25/752 | 00:58/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:23AM] 25/752 | 00:59/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:23AM] 25/752 | 01:00/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:23AM] 25/752 | 01:01/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:23AM] 25/752 | 01:02/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:23AM] 25/752 | 01:03/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:23AM] 25/752 | 01:04/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:23AM] 25/752 | 01:05/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:23AM] 25/752 | 01:06/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:23AM] 25/752 | 01:07/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:23AM] 25/752 | 01:08/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:23AM] 25/752 | 01:09/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:23AM] 25/752 | 01:10/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:23AM] 25/752 | 01:11/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:23AM] 25/752 | 01:12/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:23AM] 25/752 | 01:13/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:23AM] 25/752 | 01:14/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:23AM] 25/752 | 01:15/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:23AM] 25/752 | 01:16/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:23AM] 25/752 | 01:17/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:23AM] 25/752 | 01:18/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:23AM] 25/752 | 01:19/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:23AM] 25/752 | 01:20/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:23AM] 25/752 | 01:21/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:23AM] 25/752 | 01:22/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:23AM] 25/752 | 01:23/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:23AM] 25/752 | 01:24/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:23AM] 25/752 | 01:25/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:23AM] 25/752 | 01:26/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:23AM] 25/752 | 01:27/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:23AM] 25/752 | 01:28/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:23AM] 25/752 | 01:29/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:23AM] 25/752 | 01:30/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:23AM] 25/752 | 01:31/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:23AM] 25/752 | 01:32/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:23AM] 25/752 | 01:33/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:23AM] 25/752 | 01:34/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:23AM] 25/752 | 01:35/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:23AM] 25/752 | 01:36/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:23AM] 25/752 | 01:37/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:23AM] 25/752 | 01:38/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:23AM] 25/752 | 01:39/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:23AM] 25/752 | 01:40/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:23AM] 25/752 | 01:41/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:23AM] 25/752 | 01:42/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:23AM] 25/752 | 01:43/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:24AM] 25/752 | 01:44/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:24AM] 25/752 | 01:45/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:24AM] 25/752 | 01:46/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:24AM] 25/752 | 01:47/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:24AM] 25/752 | 01:48/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:24AM] 25/752 | 01:49/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:24AM] 25/752 | 01:50/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:24AM] 25/752 | 01:51/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:24AM] 25/752 | 01:52/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:24AM] 25/752 | 01:53/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:24AM] 25/752 | 01:54/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:24AM] 25/752 | 01:55/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:24AM] 25/752 | 01:56/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:24AM] 25/752 | 01:57/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:24AM] 25/752 | 01:58/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:24AM] 25/752 | 01:59/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:24AM] 25/752 | 02:00/03:00 | Vol: 8 | Heap: 65536/36852   
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 23 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+[SHUF] [11:24AM] 25/752 | 02:00/03:00 | Vol: 8 | Heap: 65536/36852   
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+WARNING: Loop took 22 ms
+info: MP3 decode error -6 : INVALID_FRAMEHEADER
+
+!!! DATA CORRUPTION DETECTED !!!
+The MP3 decoder received bad data from the SD card.
+If this happens often, check wiring or lower SPI speed.
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+info: syncword found at pos 331
+info: syncword found at pos 0
+info: MP3 decode error -9 : INVALID_HUFFCODES
+
+!!! DATA CORRUPTION DETECTED !!!
+The MP3 decoder received bad data from the SD card.
+If this happens often, check wiring or lower SPI speed.
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+info: syncword found at pos 383
+info: syncword found at pos 0
+info: Channels: 2
+info: SampleRate: 48000
+info: BitsPerSample: 16
+info: BitRate: 128000
+info: Closing audio file "Betty Hutton - Stuff Like That There.mp3"
+eof: Betty Hutton - Stuff Like That There.mp3
+info: End of file "Betty Hutton - Stuff Like That There.mp3"
+Playing [204/752]: /Ella Fitzgerald - Hard Hearted Hannah.mp3
+info: buffers freed, free Heap: 93224 bytes
+info: Reading file: "/Ella Fitzgerald - Hard Hearted Hannah.mp3"
+info: MP3Decoder has been initialized, free Heap: 65472 bytes , free stack 5060 DWORDs
+[SHUF] [11:24AM] 204/752 | 00:00/00:00 | Vol: 8 | Heap: 65536/36852   
+info: Content-Length: 2872797
+info: file has no mp3 tag, skip metadata
+info: Audio-Length: 2872797
+WARNING: Loop took 23 ms
+info: stream ready
+info: syncword found at pos 733
+info: syncword found at pos 0
+info: Channels: 2
+info: SampleRate: 48000
+info: BitsPerSample: 16
+info: BitRate: 128000
+[SHUF] [11:24AM] 204/752 | 00:00/02:57 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:24AM] 204/752 | 00:01/02:58 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:24AM] 204/752 | 00:02/02:59 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:24AM] 204/752 | 00:03/02:59 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:24AM] 204/752 | 00:04/02:59 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:24AM] 204/752 | 00:05/02:59 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:24AM] 204/752 | 00:06/02:59 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:24AM] 204/752 | 00:07/02:59 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:24AM] 204/752 | 00:08/02:59 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:24AM] 204/752 | 00:09/02:59 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:24AM] 204/752 | 00:10/02:59 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:24AM] 204/752 | 00:11/02:59 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:24AM] 204/752 | 00:12/02:59 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:24AM] 204/752 | 00:13/02:59 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:24AM] 204/752 | 00:14/02:59 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:24AM] 204/752 | 00:15/02:59 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:24AM] 204/752 | 00:16/02:59 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:24AM] 204/752 | 00:17/02:59 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:24AM] 204/752 | 00:18/02:59 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:24AM] 204/752 | 00:19/02:59 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:24AM] 204/752 | 00:20/02:59 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:24AM] 204/752 | 00:21/02:59 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:24AM] 204/752 | 00:22/02:59 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:24AM] 204/752 | 00:23/02:59 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:24AM] 204/752 | 00:24/02:59 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:24AM] 204/752 | 00:25/02:59 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:24AM] 204/752 | 00:26/02:59 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:24AM] 204/752 | 00:27/02:59 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:24AM] 204/752 | 00:28/02:59 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:24AM] 204/752 | 00:29/02:59 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:24AM] 204/752 | 00:30/02:59 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:24AM] 204/752 | 00:31/02:59 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:24AM] 204/752 | 00:32/02:59 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:24AM] 204/752 | 00:33/02:59 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:24AM] 204/752 | 00:34/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:24AM] 204/752 | 00:35/02:59 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:24AM] 204/752 | 00:36/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:24AM] 204/752 | 00:37/02:59 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:24AM] 204/752 | 00:38/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:24AM] 204/752 | 00:39/02:59 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:24AM] 204/752 | 00:40/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:25AM] 204/752 | 00:41/02:59 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:25AM] 204/752 | 00:42/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:25AM] 204/752 | 00:43/02:59 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:25AM] 204/752 | 00:44/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:25AM] 204/752 | 00:45/02:59 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:25AM] 204/752 | 00:46/03:00 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:25AM] 204/752 | 00:47/02:59 | Vol: 8 | Heap: 65548/36852   [SHUF] [11:25AM] 204/752 | 00:48/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:25AM] 204/752 | 00:49/02:59 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:25AM] 204/752 | 00:50/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:25AM] 204/752 | 00:51/02:59 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:25AM] 204/752 | 00:52/03:00 | Vol: 8 | Heap: 65536/36852   [SHUF] [11:25AM] 204/752 | 00:53/02:59 | Vol: 8 | Heap: 65536/36852   
