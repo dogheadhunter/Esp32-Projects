@@ -24,7 +24,19 @@ void saveConfigCallback () {
 }
 
 bool syncTimeWithNTP(bool resetSettings) {
-    timeSynced = false; // Reset flag
+    // Check if RTC is already valid (e.g. from soft reboot or deep sleep)
+    struct tm timeinfo;
+    // Try to get time with 10ms timeout to avoid blocking
+    if (getLocalTime(&timeinfo, 10) && (timeinfo.tm_year + 1900 > 2020)) {
+        Serial.println("RTC has valid time (Persisted).");
+        // Re-apply timezone rules so getLocalTime calculates the correct local time from the UTC RTC
+        configTime(gmtOffset_sec, daylightOffset_sec, "pool.ntp.org", "time.nist.gov");
+        timeSynced = true;
+    } else {
+        Serial.println("RTC time invalid (Cold Boot).");
+        timeSynced = false;
+    }
+
     WiFiManager wm;
     
     // Set callback that gets called when connecting to previous WiFi fails, and enters Access Point mode
@@ -45,8 +57,12 @@ bool syncTimeWithNTP(bool resetSettings) {
 
     Serial.println("Connecting to WiFi to sync time...");
     
-    // Set timeout to 20 seconds
-    wm.setConfigPortalTimeout(20); 
+    // Set timeout
+    // If resetting settings, give user 3 minutes to configure.
+    // Otherwise, give 60 seconds (enough to connect if needed, but not too long if router is down).
+    int timeout = resetSettings ? 180 : 60;
+    wm.setConfigPortalTimeout(timeout); 
+    Serial.printf("Config Portal Timeout: %d seconds\n", timeout);
     
     // Enable Captive Portal (DNS Server)
     wm.setCaptivePortalEnable(true);
@@ -90,10 +106,11 @@ bool syncTimeWithNTP(bool resetSettings) {
         if (retry < 5) {
             Serial.println("Time synced successfully!");
             Serial.println(&timeinfo, "Current time: %A, %B %d %Y %H:%M:%S");
-            timeSynced = true; // SAFE MODE: Only set true if we actually got time
+            timeSynced = true; 
         } else {
             Serial.println("Failed to obtain time.");
-            timeSynced = false;
+            // Keep previous state of timeSynced
+            if (timeSynced) Serial.println("Keeping existing valid RTC time.");
         }
     }
     
