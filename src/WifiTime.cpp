@@ -14,6 +14,9 @@ const int   daylightOffset_sec = 3600;
 // Flag to indicate if settings were saved
 bool shouldSaveConfig = false;
 
+// Global flag for time sync status
+bool timeSynced = false;
+
 // Callback notifying us of the need to save config
 void saveConfigCallback () {
   Serial.println("Should save config");
@@ -21,6 +24,7 @@ void saveConfigCallback () {
 }
 
 bool syncTimeWithNTP(bool resetSettings) {
+    timeSynced = false; // Reset flag
     WiFiManager wm;
     
     // Set callback that gets called when connecting to previous WiFi fails, and enters Access Point mode
@@ -70,9 +74,6 @@ bool syncTimeWithNTP(bool resetSettings) {
         Serial.print("BSSID: "); Serial.println(WiFi.BSSIDstr());
         Serial.print("RSSI (Signal Strength): "); Serial.print(WiFi.RSSI()); Serial.println(" dBm");
         
-        Serial.println("WiFi Connected! Skipping NTP Time Sync for testing...");
-        
-        /*
         Serial.println("Fetching NTP time...");
         
         configTime(gmtOffset_sec, daylightOffset_sec, "pool.ntp.org", "time.nist.gov");
@@ -89,10 +90,11 @@ bool syncTimeWithNTP(bool resetSettings) {
         if (retry < 5) {
             Serial.println("Time synced successfully!");
             Serial.println(&timeinfo, "Current time: %A, %B %d %Y %H:%M:%S");
+            timeSynced = true; // SAFE MODE: Only set true if we actually got time
         } else {
             Serial.println("Failed to obtain time.");
+            timeSynced = false;
         }
-        */
     }
     
     // ALWAYS Disconnect WiFi to save power and reduce audio noise
