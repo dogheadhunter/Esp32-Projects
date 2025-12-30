@@ -440,6 +440,11 @@ void setup() {
     
     if (bootMode == 1) {
         Serial.println(">> Booting into BLUETOOTH MODE <<");
+        
+        // Ensure I2S drivers are clean before starting
+        // This prevents "register I2S object failed" errors if the hardware is in a weird state
+        i2s_driver_uninstall(I2S_NUM_0);
+        
         currentState = STATE_BLUETOOTH;
         btManager.setup();
         btManager.start("ESP32-iPod");
