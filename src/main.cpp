@@ -773,15 +773,10 @@ void loop() {
     if (currentState == STATE_PLAYING && millis() - lastStatusPrint > 1000) {
         lastStatusPrint = millis();
         
-        // DEBUG: Time function removed for testing
-        // struct tm timeinfo;
-        // bool timeRetrieved = getLocalTime(&timeinfo);
-        // bool yearValid = (timeinfo.tm_year + 1900 > 2020);
-        
         // Use \r to return to start of line, and pad with spaces to overwrite previous text
-        Serial.printf("\r[%s] [WIFI-TEST] %d/%d | Vol: %d%% | Heap: %d (Min: %d) | Up: %lu s   ",
+        Serial.printf("\r[%s] [%s] %d/%d | Vol: %d%% | Heap: %d (Min: %d) | Up: %lu s   ",
             shuffleMode ? "SHUF" : "SEQ",
-            // (timeRetrieved && yearValid) ? getSystemTime().c_str() : "--:--",
+            timeSynced ? getSystemTime().c_str() : "--:--", // SAFE MODE: Only call getSystemTime if synced
             currentSongIndex + 1,
             totalSongs,
             lastVolume,
