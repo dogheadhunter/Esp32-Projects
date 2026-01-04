@@ -1,0 +1,598 @@
+=== DIAGNOSTIC MODE (ROUND 2) ===
+
+[TEST 4] Missing File Handling
+Attempting to play non-existent file...
+[  2332][E][vfs_api.cpp:105] open(): /sd/DOES_NOT_EXIST.mp3 does not exist, no permits for creation
+File failed to open (Expected).
+RESULT: PASS (Graceful failure)
+
+[TEST 5] Fisher-Yates Shuffle Logic
+Generating new shuffle order...
+Shuffle complete.
+Order: 0 9 6 8 2 3 7 1 5 4 
+RESULT: PASS (No duplicates in one pass)
+Testing Shuffle Wrap-Around...
+Generating new shuffle order...
+Shuffle complete.
+Playing [10/10]: /Amos Milburn - Wolf On The River.mp3
+Guru Meditation Error: Core  1 panic'ed (LoadProhibited). Exception was unhandled.
+
+Core  1 register dump:
+PC      : 0x400d1b86  PS      : 0x00060e30  A0      : 0x800d1c58  A1      : 0x3ffb21d0  
+A2      : 0x3ffc1e80  A3      : 0x3ffc21a4  A4      : 0x3ffc1e74  A5      : 0x3ffbdb6c  
+A6      : 0x3ffb2190  A7      : 0x00000008  A8      : 0x800d1b81  A9      : 0x3ffb2130  
+A10     : 0x00000000  A11     : 0x385fc940  A12     : 0x385fc940  A13     : 0x3ffb216c  
+A14     : 0x3ffc21a4  A15     : 0x3ffb216c  SAR     : 0x00000004  EXCCAUSE: 0x0000001c  
+EXCVADDR: 0x00000000  LBEG    : 0x40087359  LEND    : 0x40087369  LCOUNT  : 0xfffffff6  
+
+
+Backtrace: 0x400d1b83:0x3ffb21d0 0x400d1c55:0x3ffb2210 0x400d1ce5:0x3ffb2230 0x400d1e3f:0x3ffb2260 0x400d6866:0x3ffb2290
+
+
+
+
+ELF file SHA256: 1004dfb3a3e04729
+
+Rebooting...
+ets Jun  8 2016 00:22:57
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1184
+load:0x40078000,len:13232
+load:0x40080400,len:3028
+entry 0x400805e4
+=== DIAGNOSTIC MODE (ROUND 2) ===
+
+[TEST 4] Missing File Handling
+Attempting to play non-existent file...
+[  2318][E][vfs_api.cpp:105] open(): /sd/DOES_NOT_EXIST.mp3 does not exist, no permits for creation
+File failed to open (Expected).
+RESULT: PASS (Graceful failure)
+
+[TEST 5] Fisher-Yates Shuffle Logic
+Generating new shuffle order...
+Shuffle complete.
+Order: 9 3 8 1 5 7 4 2 6 0 
+RESULT: PASS (No duplicates in one pass)
+Testing Shuffle Wrap-Around...
+Generating new shuffle order...
+Shuffle complete.
+Playing [7/10]: /Zager & Evans - In the Year 2525.mp3
+Guru Meditation Error: Core  1 panic'ed (LoadProhibited). Exception was unhandled.
+
+Core  1 register dump:
+PC      : 0x400d1b86  PS      : 0x00060e30  A0      : 0x800d1c58  A1      : 0x3ffb21d0  
+A2      : 0x3ffc1e80  A3      : 0x3ffc21a4  A4      : 0x3ffc1e74  A5      : 0x3ffbdb6c  
+A6      : 0x3ffb2190  A7      : 0x00000008  A8      : 0x800d1b81  A9      : 0x3ffb2130  
+A10     : 0x00000000  A11     : 0xca467cd8  A12     : 0xca467cd8  A13     : 0x3ffb216c  
+A14     : 0x3ffc21a4  A15     : 0x3ffb216c  SAR     : 0x00000004  EXCCAUSE: 0x0000001c  
+EXCVADDR: 0x00000000  LBEG    : 0x40087359  LEND    : 0x40087369  LCOUNT  : 0xfffffff6  
+
+
+Backtrace: 0x400d1b83:0x3ffb21d0 0x400d1c55:0x3ffb2210 0x400d1ce5:0x3ffb2230 0x400d1e3f:0x3ffb2260 0x400d6866:0x3ffb2290
+
+
+
+
+ELF file SHA256: 1004dfb3a3e04729
+
+Rebooting...
+ets Jun  8 2016 00:22:57
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1184
+load:0x40078000,len:13232
+load:0x40080400,len:3028
+entry 0x400805e4
+=== DIAGNOSTIC MODE (ROUND 2) ===
+
+[TEST 4] Missing File Handling
+Attempting to play non-existent file...
+[  2318][E][vfs_api.cpp:105] open(): /sd/DOES_NOT_EXIST.mp3 does not exist, no permits for creation
+File failed to open (Expected).
+RESULT: PASS (Graceful failure)
+
+[TEST 5] Fisher-Yates Shuffle Logic
+Generating new shuffle order...
+Shuffle complete.
+Order: 7 9 6 8 5 0 3 4 2 1 
+RESULT: PASS (No duplicates in one pass)
+Testing Shuffle Wrap-Around...
+Generating new shuffle order...
+Shuffle complete.
+Playing [9/10]: /Amos Milburn - Atomic Baby.mp3
+Guru Meditation Error: Core  1 panic'ed (LoadProhibited). Exception was unhandled.
+
+Core  1 register dump:
+PC      : 0x400d1b86  PS      : 0x00060e30  A0      : 0x800d1c58  A1      : 0x3ffb21d0  
+A2      : 0x3ffc1e80  A3      : 0x3ffc21a4  A4      : 0x3ffc1e74  A5      : 0x3ffbdb6c  
+A6      : 0x3ffb2190  A7      : 0x00000008  A8      : 0x800d1b81  A9      : 0x3ffb2130  
+A10     : 0x00000000  A11     : 0x991ec74e  A12     : 0x991ec74e  A13     : 0x3ffb216c  
+A14     : 0x3ffc21a4  A15     : 0x3ffb216c  SAR     : 0x00000004  EXCCAUSE: 0x0000001c  
+EXCVADDR: 0x00000000  LBEG    : 0x40087359  LEND    : 0x40087369  LCOUNT  : 0xfffffff7  
+
+
+Backtrace: 0x400d1b83:0x3ffb21d0 0x400d1c55:0x3ffb2210 0x400d1ce5:0x3ffb2230 0x400d1e3f:0x3ffb2260 0x400d6866:0x3ffb2290
+
+
+
+
+ELF file SHA256: 1004dfb3a3e04729
+
+Rebooting...
+ets Jun  8 2016 00:22:57
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1184
+load:0x40078000,len:13232
+load:0x40080400,len:3028
+entry 0x400805e4
+=== DIAGNOSTIC MODE (ROUND 2) ===
+
+[TEST 4] Missing File Handling
+Attempting to play non-existent file...
+[  2318][E][vfs_api.cpp:105] open(): /sd/DOES_NOT_EXIST.mp3 does not exist, no permits for creation
+File failed to open (Expected).
+RESULT: PASS (Graceful failure)
+
+[TEST 5] Fisher-Yates Shuffle Logic
+Generating new shuffle order...
+Shuffle complete.
+Order: 1 3 7 8 4 5 6 2 9 0 
+RESULT: PASS (No duplicates in one pass)
+Testing Shuffle Wrap-Around...
+Generating new shuffle order...
+Shuffle complete.
+Playing [4/10]: /Wilson Pickett - Mustang Sally.mp3
+Guru Meditation Error: Core  1 panic'ed (LoadProhibited). Exception was unhandled.
+
+Core  1 register dump:
+PC      : 0x400d1b86  PS      : 0x00060e30  A0      : 0x800d1c58  A1      : 0x3ffb21d0  
+A2      : 0x3ffc1e80  A3      : 0x3ffc21a4  A4      : 0x3ffc1e74  A5      : 0x3ffbdb6c  
+A6      : 0x3ffb2190  A7      : 0x00000008  A8      : 0x800d1b81  A9      : 0x3ffb2130  
+A10     : 0x00000000  A11     : 0x1505f233  A12     : 0x1505f233  A13     : 0x3ffb216c  
+A14     : 0x3ffc21a4  A15     : 0x3ffb216c  SAR     : 0x00000004  EXCCAUSE: 0x0000001c  
+EXCVADDR: 0x00000000  LBEG    : 0x40087359  LEND    : 0x40087369  LCOUNT  : 0xfffffff6  
+
+
+Backtrace: 0x400d1b83:0x3ffb21d0 0x400d1c55:0x3ffb2210 0x400d1ce5:0x3ffb2230 0x400d1e3f:0x3ffb2260 0x400d6866:0x3ffb2290
+
+
+
+
+ELF file SHA256: 1004dfb3a3e04729
+
+Rebooting...
+ets Jun  8 2016 00:22:57
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1184
+load:0x40078000,len:13232
+load:0x40080400,len:3028
+entry 0x400805e4
+=== DIAGNOSTIC MODE (ROUND 2) ===
+
+[TEST 4] Missing File Handling
+Attempting to play non-existent file...
+[  2318][E][vfs_api.cpp:105] open(): /sd/DOES_NOT_EXIST.mp3 does not exist, no permits for creation
+File failed to open (Expected).
+RESULT: PASS (Graceful failure)
+
+[TEST 5] Fisher-Yates Shuffle Logic
+Generating new shuffle order...
+Shuffle complete.
+Order: 1 2 8 3 4 0 5 7 6 9 
+RESULT: PASS (No duplicates in one pass)
+Testing Shuffle Wrap-Around...
+Generating new shuffle order...
+Shuffle complete.
+Playing [6/10]: /Wynonie Harris - Grandma Plays The Numbers.mp3
+Guru Meditation Error: Core  1 panic'ed (LoadProhibited). Exception was unhandled.
+
+Core  1 register dump:
+PC      : 0x400d1b86  PS      : 0x00060e30  A0      : 0x800d1c58  A1      : 0x3ffb21d0  
+A2      : 0x3ffc1e80  A3      : 0x3ffc21a4  A4      : 0x3ffc1e74  A5      : 0x3ffbdb6c  
+A6      : 0x3ffb2190  A7      : 0x00000008  A8      : 0x800d1b81  A9      : 0x3ffb2130  
+A10     : 0x00000000  A11     : 0x2e50cd23  A12     : 0x2e50cd23  A13     : 0x3ffb216c  
+A14     : 0x3ffc21a4  A15     : 0x3ffb8d18  SAR     : 0x00000019  EXCCAUSE: 0x0000001c  
+EXCVADDR: 0x00000000  LBEG    : 0x40087359  LEND    : 0x40087369  LCOUNT  : 0xfffffff3  
+
+
+Backtrace: 0x400d1b83:0x3ffb21d0 0x400d1c55:0x3ffb2210 0x400d1ce5:0x3ffb2230 0x400d1e3f:0x3ffb2260 0x400d6866:0x3ffb2290
+
+
+
+
+ELF file SHA256: 1004dfb3a3e04729
+
+Rebooting...
+ets Jun  8 2016 00:22:57
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1184
+load:0x40078000,len:13232
+load:0x40080400,len:3028
+entry 0x400805e4
+=== DIAGNOSTIC MODE (ROUND 2) ===
+
+[TEST 4] Missing File Handling
+Attempting to play non-existent file...
+[  2318][E][vfs_api.cpp:105] open(): /sd/DOES_NOT_EXIST.mp3 does not exist, no permits for creation
+File failed to open (Expected).
+RESULT: PASS (Graceful failure)
+
+[TEST 5] Fisher-Yates Shuffle Logic
+Generating new shuffle order...
+Shuffle complete.
+Order: 3 8 2 0 5 6 4 1 7 9 
+RESULT: PASS (No duplicates in one pass)
+Testing Shuffle Wrap-Around...
+Generating new shuffle order...
+Shuffle complete.
+Playing [9/10]: /Amos Milburn - Atomic Baby.mp3
+Guru Meditation Error: Core  1 panic'ed (LoadProhibited). Exception was unhandled.
+
+Core  1 register dump:
+PC      : 0x400d1b86  PS      : 0x00060e30  A0      : 0x800d1c58  A1      : 0x3ffb21d0  
+A2      : 0x3ffc1e80  A3      : 0x3ffc21a4  A4      : 0x3ffc1e74  A5      : 0x3ffbdb6c  
+A6      : 0x3ffb2190  A7      : 0x00000008  A8      : 0x800d1b81  A9      : 0x3ffb2130  
+A10     : 0x00000000  A11     : 0x372277e9  A12     : 0x372277e9  A13     : 0x3ffb216c  
+A14     : 0x3ffc21a4  A15     : 0x3ffb216c  SAR     : 0x00000004  EXCCAUSE: 0x0000001c  
+EXCVADDR: 0x00000000  LBEG    : 0x40087359  LEND    : 0x40087369  LCOUNT  : 0xfffffff7  
+
+
+Backtrace: 0x400d1b83:0x3ffb21d0 0x400d1c55:0x3ffb2210 0x400d1ce5:0x3ffb2230 0x400d1e3f:0x3ffb2260 0x400d6866:0x3ffb2290
+
+
+
+
+ELF file SHA256: 1004dfb3a3e04729
+
+Rebooting...
+ets Jun  8 2016 00:22:57
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1184
+load:0x40078000,len:13232
+load:0x40080400,len:3028
+entry 0x400805e4
+=== DIAGNOSTIC MODE (ROUND 2) ===
+
+[TEST 4] Missing File Handling
+Attempting to play non-existent file...
+[  2318][E][vfs_api.cpp:105] open(): /sd/DOES_NOT_EXIST.mp3 does not exist, no permits for creation
+File failed to open (Expected).
+RESULT: PASS (Graceful failure)
+
+[TEST 5] Fisher-Yates Shuffle Logic
+Generating new shuffle order...
+Shuffle complete.
+Order: 3 8 0 9 6 5 4 7 2 1 
+RESULT: PASS (No duplicates in one pass)
+Testing Shuffle Wrap-Around...
+Generating new shuffle order...
+Shuffle complete.
+Playing [3/10]: /Webb Pierce - There Stands The Glass.mp3
+Guru Meditation Error: Core  1 panic'ed (LoadProhibited). Exception was unhandled.
+
+Core  1 register dump:
+PC      : 0x400d1b86  PS      : 0x00060e30  A0      : 0x800d1c58  A1      : 0x3ffb21d0  
+A2      : 0x3ffc1e80  A3      : 0x3ffc21a4  A4      : 0x3ffc1e74  A5      : 0x3ffbdb6c  
+A6      : 0x3ffb2190  A7      : 0x00000008  A8      : 0x800d1b81  A9      : 0x3ffb2130  
+A10     : 0x00000000  A11     : 0xc52c949b  A12     : 0xc52c949b  A13     : 0x3ffb216c  
+A14     : 0x3ffc21a4  A15     : 0x3ffb216c  SAR     : 0x00000004  EXCCAUSE: 0x0000001c  
+EXCVADDR: 0x00000000  LBEG    : 0x40087359  LEND    : 0x40087369  LCOUNT  : 0xfffffff5  
+
+
+Backtrace: 0x400d1b83:0x3ffb21d0 0x400d1c55:0x3ffb2210 0x400d1ce5:0x3ffb2230 0x400d1e3f:0x3ffb2260 0x400d6866:0x3ffb2290
+
+
+
+
+ELF file SHA256: 1004dfb3a3e04729
+
+Rebooting...
+ets Jun  8 2016 00:22:57
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1184
+load:0x40078000,len:13232
+load:0x40080400,len:3028
+entry 0x400805e4
+=== DIAGNOSTIC MODE (ROUND 2) ===
+
+[TEST 4] Missing File Handling
+Attempting to play non-existent file...
+[  2318][E][vfs_api.cpp:105] open(): /sd/DOES_NOT_EXIST.mp3 does not exist, no permits for creation
+File failed to open (Expected).
+RESULT: PASS (Graceful failure)
+
+[TEST 5] Fisher-Yates Shuffle Logic
+Generating new shuffle order...
+Shuffle complete.
+Order: 5 8 9 0 6 7 4 3 2 1 
+RESULT: PASS (No duplicates in one pass)
+Testing Shuffle Wrap-Around...
+Generating new shuffle order...
+Shuffle complete.
+Playing [9/10]: /Amos Milburn - Atomic Baby.mp3
+Guru Meditation Error: Core  1 panic'ed (LoadProhibited). Exception was unhandled.
+
+Core  1 register dump:
+PC      : 0x400d1b86  PS      : 0x00060030  A0      : 0x800d1c58  A1      : 0x3ffb21d0  
+A2      : 0x3ffc1e80  A3      : 0x3ffc21a4  A4      : 0x3ffc1e74  A5      : 0x3ffbdb6c  
+A6      : 0x3ffb2190  A7      : 0x00000008  A8      : 0x800d1b81  A9      : 0x3ffb2130  
+A10     : 0x00000000  A11     : 0x8aed7533  A12     : 0x8aed7533  A13     : 0x3ffb216c  
+A14     : 0x3ffc21a4  A15     : 0x3ffb216c  SAR     : 0x00000004  EXCCAUSE: 0x0000001c  
+EXCVADDR: 0x00000000  LBEG    : 0x40087359  LEND    : 0x40087369  LCOUNT  : 0xfffffff7  
+
+
+Backtrace: 0x400d1b83:0x3ffb21d0 0x400d1c55:0x3ffb2210 0x400d1ce5:0x3ffb2230 0x400d1e3f:0x3ffb2260 0x400d6866:0x3ffb2290
+
+
+
+
+ELF file SHA256: 1004dfb3a3e04729
+
+Rebooting...
+ets Jun  8 2016 00:22:57
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1184
+load:0x40078000,len:13232
+load:0x40080400,len:3028
+entry 0x400805e4
+=== DIAGNOSTIC MODE (ROUND 2) ===
+
+[TEST 4] Missing File Handling
+Attempting to play non-existent file...
+[  2318][E][vfs_api.cpp:105] open(): /sd/DOES_NOT_EXIST.mp3 does not exist, no permits for creation
+File failed to open (Expected).
+RESULT: PASS (Graceful failure)
+
+[TEST 5] Fisher-Yates Shuffle Logic
+Generating new shuffle order...
+Shuffle complete.
+Order: 7 9 4 6 1 2 3 5 8 0 
+RESULT: PASS (No duplicates in one pass)
+Testing Shuffle Wrap-Around...
+Generating new shuffle order...
+Shuffle complete.
+Playing [3/10]: /Webb Pierce - There Stands The Glass.mp3
+Guru Meditation Error: Core  1 panic'ed (LoadProhibited). Exception was unhandled.
+
+Core  1 register dump:
+PC      : 0x400d1b86  PS      : 0x00060e30  A0      : 0x800d1c58  A1      : 0x3ffb21d0  
+A2      : 0x3ffc1e80  A3      : 0x3ffc21a4  A4      : 0x3ffc1e74  A5      : 0x3ffbdb6c  
+A6      : 0x3ffb2190  A7      : 0x00000008  A8      : 0x800d1b81  A9      : 0x3ffb2130  
+A10     : 0x00000000  A11     : 0xc2405891  A12     : 0xc2405891  A13     : 0x3ffb216c  
+A14     : 0x3ffc21a4  A15     : 0x3ffb216c  SAR     : 0x00000004  EXCCAUSE: 0x0000001c  
+EXCVADDR: 0x00000000  LBEG    : 0x40087359  LEND    : 0x40087369  LCOUNT  : 0xfffffff5  
+
+
+Backtrace: 0x400d1b83:0x3ffb21d0 0x400d1c55:0x3ffb2210 0x400d1ce5:0x3ffb2230 0x400d1e3f:0x3ffb2260 0x400d6866:0x3ffb2290
+
+
+
+
+ELF file SHA256: 1004dfb3a3e04729
+
+Rebooting...
+ets Jun  8 2016 00:22:57
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1184
+load:0x40078000,len:13232
+load:0x40080400,len:3028
+entry 0x400805e4
+=== DIAGNOSTIC MODE (ROUND 2) ===
+
+[TEST 4] Missing File Handling
+Attempting to play non-existent file...
+[  2318][E][vfs_api.cpp:105] open(): /sd/DOES_NOT_EXIST.mp3 does not exist, no permits for creation
+File failed to open (Expected).
+RESULT: PASS (Graceful failure)
+
+[TEST 5] Fisher-Yates Shuffle Logic
+Generating new shuffle order...
+Shuffle complete.
+Order: 6 1 0 4 2 5 9 8 3 7 
+RESULT: PASS (No duplicates in one pass)
+Testing Shuffle Wrap-Around...
+Generating new shuffle order...
+Shuffle complete.
+Playing [7/10]: /Zager & Evans - In the Year 2525.mp3
+Guru Meditation Error: Core  1 panic'ed (LoadProhibited). Exception was unhandled.
+
+Core  1 register dump:
+PC      : 0x400d1b86  PS      : 0x00060e30  A0      : 0x800d1c58  A1      : 0x3ffb21d0  
+A2      : 0x3ffc1e80  A3      : 0x3ffc21a4  A4      : 0x3ffc1e74  A5      : 0x3ffbdb6c  
+A6      : 0x3ffb2190  A7      : 0x00000008  A8      : 0x800d1b81  A9      : 0x3ffb2130  
+A10     : 0x00000000  A11     : 0x7c99cf84  A12     : 0x7c99cf84  A13     : 0x3ffb216c  
+A14     : 0x3ffc21a4  A15     : 0x3ffb216c  SAR     : 0x00000004  EXCCAUSE: 0x0000001c  
+EXCVADDR: 0x00000000  LBEG    : 0x40087359  LEND    : 0x40087369  LCOUNT  : 0xfffffff6  
+
+
+Backtrace: 0x400d1b83:0x3ffb21d0 0x400d1c55:0x3ffb2210 0x400d1ce5:0x3ffb2230 0x400d1e3f:0x3ffb2260 0x400d6866:0x3ffb2290
+
+
+
+
+ELF file SHA256: 1004dfb3a3e04729
+
+Rebooting...
+ets Jun  8 2016 00:22:57
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1184
+load:0x40078000,len:13232
+load:0x40080400,len:3028
+entry 0x400805e4
+=== DIAGNOSTIC MODE (ROUND 2) ===
+
+[TEST 4] Missing File Handling
+Attempting to play non-existent file...
+[  2318][E][vfs_api.cpp:105] open(): /sd/DOES_NOT_EXIST.mp3 does not exist, no permits for creation
+File failed to open (Expected).
+RESULT: PASS (Graceful failure)
+
+[TEST 5] Fisher-Yates Shuffle Logic
+Generating new shuffle order...
+Shuffle complete.
+Order: 4 1 3 6 2 5 0 7 9 8 
+RESULT: PASS (No duplicates in one pass)
+Testing Shuffle Wrap-Around...
+Generating new shuffle order...
+Shuffle complete.
+Playing [3/10]: /Webb Pierce - There Stands The Glass.mp3
+Guru Meditation Error: Core  1 panic'ed (LoadProhibited). Exception was unhandled.
+
+Core  1 register dump:
+PC      : 0x400d1b86  PS      : 0x00060e30  A0      : 0x800d1c58  A1      : 0x3ffb21d0  
+A2      : 0x3ffc1e80  A3      : 0x3ffc21a4  A4      : 0x3ffc1e74  A5      : 0x3ffbdb6c  
+A6      : 0x3ffb2190  A7      : 0x00000008  A8      : 0x800d1b81  A9      : 0x3ffb2130  
+A10     : 0x00000000  A11     : 0x326d064b  A12     : 0x326d064b  A13     : 0x3ffb216c  
+A14     : 0x3ffc21a4  A15     : 0x3ffb216c  SAR     : 0x00000004  EXCCAUSE: 0x0000001c  
+EXCVADDR: 0x00000000  LBEG    : 0x40087359  LEND    : 0x40087369  LCOUNT  : 0xfffffff5  
+
+
+Backtrace: 0x400d1b83:0x3ffb21d0 0x400d1c55:0x3ffb2210 0x400d1ce5:0x3ffb2230 0x400d1e3f:0x3ffb2260 0x400d6866:0x3ffb2290
+
+
+
+
+ELF file SHA256: 1004dfb3a3e04729
+
+Rebooting...
+ets Jun  8 2016 00:22:57
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1184
+load:0x40078000,len:13232
+load:0x40080400,len:3028
+entry 0x400805e4
+=== DIAGNOSTIC MODE (ROUND 2) ===
+
+[TEST 4] Missing File Handling
+Attempting to play non-existent file...
+[  2318][E][vfs_api.cpp:105] open(): /sd/DOES_NOT_EXIST.mp3 does not exist, no permits for creation
+File failed to open (Expected).
+RESULT: PASS (Graceful failure)
+
+[TEST 5] Fisher-Yates Shuffle Logic
+Generating new shuffle order...
+Shuffle complete.
+Order: 9 3 0 1 8 6 5 2 7 4 
+RESULT: PASS (No duplicates in one pass)
+Testing Shuffle Wrap-Around...
+Generating new shuffle order...
+Shuffle complete.
+Playing [4/10]: /Wilson Pickett - Mustang Sally.mp3
+Guru Meditation Error: Core  1 panic'ed (LoadProhibited). Exception was unhandled.
+
+Core  1 register dump:
+PC      : 0x400d1b86  PS      : 0x00060e30  A0      : 0x800d1c58  A1      : 0x3ffb21d0  
+A2      : 0x3ffc1e80  A3      : 0x3ffc21a4  A4      : 0x3ffc1e74  A5      : 0x3ffbdb6c  
+A6      : 0x3ffb2190  A7      : 0x00000008  A8      : 0x800d1b81  A9      : 0x3ffb2130  
+A10     : 0x00000000  A11     : 0x576be6b5  A12     : 0x576be6b5  A13     : 0x3ffb216c  
+A14     : 0x3ffc21a4  A15     : 0x3ffb216c  SAR     : 0x00000004  EXCCAUSE: 0x0000001c  
+EXCVADDR: 0x00000000  LBEG    : 0x40087359  LEND    : 0x40087369  LCOUNT  : 0xfffffff6  
+
+
+Backtrace: 0x400d1b83:0x3ffb21d0 0x400d1c55:0x3ffb2210 0x400d1ce5:0x3ffb2230 0x400d1e3f:0x3ffb2260 0x400d6866:0x3ffb2290
+
+
+
+
+ELF file SHA256: 1004dfb3a3e04729
+
+Rebooting...
+ets Jun  8 2016 00:22:57
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1184
+load:0x40078000,len:13232
+load:0x40080400,len:3028
+entry 0x400805e4
+=== DIAGNOSTIC MODE (ROUND 2) ===
+
+[TEST 4] Missing File Handling
+Attempting to play non-existent file...
+[  2318][E][vfs_api.cpp:105] open(): /sd/DOES_NOT_EXIST.mp3 does not exist, no permits for creation
+File failed to open (Expected).
+RESULT: PASS (Graceful failure)
+
+[TEST 5] Fisher-Yates Shuffle Logic
+Generating new shuffle order...
+Shuffle complete.
+Order: 5 3 0 4 2 8 9 1 7 6 
+RESULT: PASS (No duplicates in one pass)
+Testing Shuffle Wrap-Around...
+Generating new shuffle order...
+Shuffle complete.
+Playing [9/10]: /Amos Milburn - Atomic Baby.mp3
+Guru Meditation Error: Core  1 panic'ed (LoadProhibited). Exception was unhandled.
+
+Core  1 register dump:
+PC      : 0x400d1b86  PS      : 0x00060e30  A0      : 0x800d1c58  A1      : 0x3ffb21d0  
+A2      : 0x3ffc1e80  A3      : 0x3ffc21a4  A4      : 0x3ffc1e74  A5      : 0x3ffbdb6c  
+A6      : 0x3ffb2190  A7      : 0x00000008  A8      : 0x800d1b81  A9      : 0x3ffb2130  
+A10     : 0x00000000  A11     : 0x48b2470c  A12     : 0x48b2470c  A13     : 0x3ffb216c  
+A14     : 0x3ffc21a4  A15     : 0x3ffb216c  SAR     : 0x00000004  EXCCAUSE: 0x0000001c  
+EXCVADDR: 0x00000000  LBEG    : 0x40087359  LEND    : 0x40087369  LCOUNT  : 0xfffffff7  
+
+
+Backtrace: 0x400d1b83:0x3ffb21d0 0x400d1c55:0x3ffb2210 0x400d1ce5:0x3ffb2230 0x400d1e3f:0x3ffb2260 0x400d6866:0x3ffb2290
+
+
+
+
+ELF file SHA256: 1004dfb3a3e04729
+
+Rebooting...
+ets Jun  8 2016 00:22:57
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1184
+load:0x40078000,len:13232
+load:0x40080400,len:3028
+entry 0x400805e4

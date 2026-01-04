@@ -1,45 +1,0 @@
-
-
-========================================
-       ESP32 iPod Shuffle Clone
-========================================
-
-========================================
-       ESP32 iPod Shuffle Clone
-========================================
-Chip Model: ESP32-D0WDQ6
-Chip Revision: 1
-CPU Freq: 240 MHz
-Flash Size: 4 MB
-Free Heap: 213084 bytes
-SDK Version: v4.4.7-dirty
-========================================
-
->> Booting into SD CARD MODE <<
-Connecting to WiFi to sync time...
-*wm:AutoConnect 
-*wm:No wifi saved, skipping 
-*wm:AutoConnect: FAILED for  92 ms
-*wm:StartAP with SSID:  ESP32-Radio-Setup
-*wm:AP IP address: 192.168.4.1
-Entered config mode
-192.168.4.1
-ESP32-Radio-Setup
-*wm:Starting Web Portal 
-*wm:config portal has timed out 
-*wm:config portal exiting 
-
-Failed to connect or hit timeout. Skipping time sync.
-WiFi disconnected (Radio OFF).
-Initial Volume: 0.19
-SD Card mounted.
-SD Card Type: 3
-SD Card Size: 29820 MB
-Loading playlist from cache...
-Found 752 songs in cache.
-Total Songs: 752
-Playing [212/752]: /Ella Fitzgerald - I Can't Get Started.mp3
-[SHUF] [--:--] 212/752 | Vol: 19% | Heap: 129104 (Min: 126928) | Up: 32 s   
-[SHUF] [--:--] 212/752 | Vol: 19% | Heap: 129104 (Min: 126928) | Up: 38 s   [SHUF] [--:--] 212/752 | Vol: 19% | Heap: 129104 (Min: 126928) | Up: 43 s   
-Volume: 0.25
-[SHUF] [--:--] 212/752 | Vol: 25% | Heap: 129104 (Min: 126928) | Up: 48 s   [SHUF] [--:--] 212/752 | Vol: 25% | Heap: 129104 (Min: 126928) | Up: 53 s   

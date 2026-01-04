@@ -1,0 +1,24 @@
+=== DIAGNOSTIC MODE (ROUND 2) ===
+
+[TEST 4] Missing File Handling
+Attempting to play non-existent file...
+[  2387][E][vfs_api.cpp:105] open(): /sd/DOES_NOT_EXIST.mp3 does not exist, no permits for creation
+File failed to open (Expected).
+RESULT: PASS (Graceful failure)
+
+[TEST 5] Fisher-Yates Shuffle Logic
+Generating new shuffle order...
+Shuffle complete.
+Order: 8 7 6 5 1 2 3 0 4 9 
+RESULT: PASS (No duplicates in one pass)
+Testing Shuffle Wrap-Around...
+Generating new shuffle order...
+Shuffle complete.
+Playing [1/10]: /Warren Smith - Uranium Rock.mp3
+RESULT: PASS (Regenerated and started at 0)
+
+[TEST 6] Sequential Wrap-Around
+Current: 4, Total: 5, Next: 0
+RESULT: PASS (Wrapped to 0)
+
+=== ALL TESTS COMPLETE ===

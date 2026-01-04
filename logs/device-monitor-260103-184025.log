@@ -1,0 +1,44 @@
+=== DIAGNOSTIC MODE (ROUND 3) ===
+
+=== STARTING TEST SUITE (ROUND 3) ===
+
+[TEST 1] Missing File Handling
+Attempting to play non-existent file...
+[  2367][E][vfs_api.cpp:105] open(): /sd/DOES_NOT_EXIST.mp3 does not exist, no permits for creation
+File failed to open (Expected).
+RESULT: PASS (Graceful failure)
+
+[TEST 2] Fisher-Yates Shuffle Logic
+Generating new shuffle order...
+Shuffle complete.
+Order: 2 0 8 4 6 3 9 1 5 7 
+RESULT: PASS (No duplicates in one pass)
+Testing Shuffle Wrap-Around...
+Generating new shuffle order...
+Shuffle complete.
+RESULT: PASS (Regenerated and started at 0)
+
+[TEST 3] Sequential Wrap-Around
+Current: 4, Total: 5, Next: 0
+RESULT: PASS (Wrapped to 0)
+
+[TEST 4] Garbage File Resilience
+[  2719][E][vfs_api.cpp:182] remove(): /garbage_test.mp3 does not exists or is directory
+Created garbage file.
+Attempting to play garbage file...
+Decoder accepted file. Running loop...
+Decoder stopped (loop returned false).
+RESULT: PASS (Stopped gracefully)
+
+[TEST 5] Rapid Fire (Memory Stress)
+Start Heap: 313948 bytes
+Skipping 20 songs rapidly...
+No songs found. Skipping test.
+
+[TEST 6] Long Filename Handling
+[  5142][E][vfs_api.cpp:182] remove(): /Test_Song_With_A_Very_Very_Very_Very_Very_Very_Very_Very_Long_Name_1234567890.mp3 does not exists or is directory
+Attempting to open long filename...
+File opened successfully.
+RESULT: PASS (Long filename supported)
+
+=== ALL TESTS COMPLETE ===

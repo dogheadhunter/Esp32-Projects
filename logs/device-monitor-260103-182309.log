@@ -1,0 +1,47 @@
+=== DIAGNOSTIC MODE ===
+Scanning SD card for MP3 files...
+...........................................................................
+Found 752 songs.
+
+[TEST 1] Rapid Fire Song Skipping (Memory Leak Check)
+Start Heap: 313692 bytes
+Playing [1/752]: /Warren Smith - Uranium Rock.mp3
+Skip 1... Heap: 313600
+Playing [2/752]: /Waylon Jennings - I'm a Long Way from Home.mp3
+Skip 2... Heap: 313600
+Playing [3/752]: /Webb Pierce - There Stands The Glass.mp3
+Skip 3... Heap: 313600
+Playing [4/752]: /Wilson Pickett - Mustang Sally.mp3
+Skip 4... Heap: 313600
+Playing [5/752]: /Woody Guthrie - I Ain't Got No Home In This World Anymore.mp3
+Skip 5... Heap: 313600
+Playing [6/752]: /Wynonie Harris - Grandma Plays The Numbers.mp3
+Skip 6... Heap: 313600
+Playing [7/752]: /Zager & Evans - In the Year 2525.mp3
+Skip 7... Heap: 313600
+Playing [8/752]: /Alberta Hunter - The Darktown Strutters' Ball.mp3
+Skip 8... Heap: 313600
+Playing [9/752]: /Amos Milburn - Atomic Baby.mp3
+Skip 9... Heap: 313600
+Playing [10/752]: /Amos Milburn - Wolf On The River.mp3
+Skip 10... Heap: 313600
+End Heap: 313600 bytes. Diff: -92 bytes
+RESULT: PASS (Heap stable)
+
+[TEST 2] Volume Stress (Smoothing Check)
+Targeting 0.1... Done.
+Targeting 0.9... Done.
+Targeting 0.1... Done.
+Targeting 0.9... Done.
+Targeting 0.5... Done.
+Targeting 0.0... Done.
+RESULT: PASS (If you didn't hear popping/cracking)
+
+[TEST 3] Watchdog Simulation
+Playing [11/752]: /Andy Williams - Butterfly.mp3
+Playing normally for 2 seconds...
+SIMULATING FREEZE (Blocking loop for 3s)...
+Watchdog logic triggered! Stopping...
+RESULT: PASS (Watchdog logic valid)
+
+=== ALL TESTS COMPLETE ===

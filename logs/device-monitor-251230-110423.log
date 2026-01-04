@@ -1,474 +1,0 @@
-
-
-========================================
-       ESP32 iPod Shuffle Clone
-========================================
->> Hold BUTTON 2 (Next) now to reset WiFi settings... <<
-No reset requested. Continuing boot...
-
-========================================
-       ESP32 iPod Shuffle Clone
-========================================
->> Booting into SD CARD MODE <<
-Connecting to WiFi to sync time...
-*wm:AutoConnect 
-*wm:Connecting to SAVED AP: SpectrumSetup-D8
-*wm:connectTimeout not set, ESP waitForConnectResult... 
-*wm:AutoConnect: SUCCESS 
-*wm:STA IP Address: 192.168.1.227
-
-WiFi connected.
-Fetching NTP time...
-Time synced successfully!
-Current time: Tuesday, December 30 2025 11:04:29
-WiFi disconnected.
-SD Card mounted.
-SD Card Type: 3
-SD Card Size: 29820 MB
-Loading playlist from cache...
-Found 752 songs in cache.
-Total Songs: 752
-Playing [741/752]: /Vaughn Monroe - Riders in the Sky.mp3
-info: PSRAM not found, inputBufferSize: 17951 bytes
-info: buffers freed, free Heap: 93284 bytes
-info: Reading file: "/Vaughn Monroe - Riders in the Sky.mp3"
-info: MP3Decoder has been initialized, free Heap: 65528 bytes , free stack 5044 DWORDs
-Volume: 5
-[SHUF] [11:04AM] 741/752 | 00:00/00:00 | Vol: 5 | Heap: 65592/36852   
-info: Content-Length: 2833204
-info: file has no mp3 tag, skip metadata
-info: Audio-Length: 2833204
-WARNING: Loop took 23 ms
-info: stream ready
-info: syncword found at pos 692
-info: syncword found at pos 0
-info: Channels: 2
-info: SampleRate: 48000
-info: BitsPerSample: 16
-info: BitRate: 128000
-[SHUF] [11:04AM] 741/752 | 00:00/02:55 | Vol: 5 | Heap: 65596/36852   [SHUF] [11:04AM] 741/752 | 00:01/02:56 | Vol: 5 | Heap: 65592/36852   [SHUF] [11:04AM] 741/752 | 00:02/02:57 | Vol: 5 | Heap: 65592/36852   [SHUF] [11:04AM] 741/752 | 00:03/02:56 | Vol: 5 | Heap: 65592/36852   [SHUF] [11:04AM] 741/752 | 00:04/02:57 | Vol: 5 | Heap: 65592/36852   [SHUF] [11:04AM] 741/752 | 00:05/02:57 | Vol: 5 | Heap: 65592/36852   [SHUF] [11:04AM] 741/752 | 00:06/02:57 | Vol: 5 | Heap: 65592/36852   [SHUF] [11:04AM] 741/752 | 00:07/02:57 | Vol: 5 | Heap: 65592/36852   [SHUF] [11:04AM] 741/752 | 00:08/02:57 | Vol: 5 | Heap: 65592/36852   [SHUF] [11:04AM] 741/752 | 00:09/02:57 | Vol: 5 | Heap: 65592/36852   [SHUF] [11:04AM] 741/752 | 00:10/02:57 | Vol: 5 | Heap: 65592/36852   [SHUF] [11:04AM] 741/752 | 00:11/02:57 | Vol: 5 | Heap: 65592/36852   [SHUF] [11:04AM] 741/752 | 00:12/02:57 | Vol: 5 | Heap: 65592/36852   Button 2: Resetting WiFi Settings...
-*wm:resetSettings 
-*wm:SETTINGS ERASED 
-WiFi settings erased. Rebooting to Setup Mode...
-ets Jun  8 2016 00:22:57
-
-rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
-configsip: 0, SPIWP:0xee
-clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
-mode:DIO, clock div:2
-load:0x3fff0030,len:1184
-load:0x40078000,len:13232
-load:0x40080400,len:3028
-entry 0x400805e4
-
-
-========================================
-       ESP32 iPod Shuffle Clone
-========================================
->> Hold BUTTON 2 (Next) now to reset WiFi settings... <<
-No reset requested. Continuing boot...
-
-========================================
-       ESP32 iPod Shuffle Clone
-========================================
->> Booting into SD CARD MODE <<
-Connecting to WiFi to sync time...
-*wm:AutoConnect 
-*wm:No wifi saved, skipping 
-*wm:AutoConnect: FAILED for  94 ms
-*wm:StartAP with SSID:  ESP32-Radio-Setup
-*wm:AP IP address: 192.168.4.1
-Entered config mode
-192.168.4.1
-ESP32-Radio-Setup
-*wm:Starting Web Portal 
-*wm:5 networks found
-*wm:Connecting to NEW AP: SpectrumSetup-D8
-*wm:connectTimeout not set, ESP waitForConnectResult... 
-*wm:Connect to new AP [SUCCESS] 
-*wm:Got IP Address: 
-*wm:192.168.1.227 
-Should save config
-*wm:config portal exiting 
-Settings saved. Restarting to free up memory...
-ets Jun  8 2016 00:22:57
-
-rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
-configsip: 0, SPIWP:0xee
-clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
-mode:DIO, clock div:2
-load:0x3fff0030,len:1184
-load:0x40078000,len:13232
-load:0x40080400,len:3028
-entry 0x400805e4
-
-
-========================================
-       ESP32 iPod Shuffle Clone
-========================================
->> Hold BUTTON 2 (Next) now to reset WiFi settings... <<
-No reset requested. Continuing boot...
-
-========================================
-       ESP32 iPod Shuffle Clone
-========================================
->> Booting into SD CARD MODE <<
-Connecting to WiFi to sync time...
-*wm:AutoConnect 
-*wm:Connecting to SAVED AP: SpectrumSetup-D8
-*wm:connectTimeout not set, ESP waitForConnectResult... 
-*wm:AutoConnect: SUCCESS 
-*wm:STA IP Address: 192.168.1.227
-
-WiFi connected.
-Fetching NTP time...
-Time synced successfully!
-Current time: Tuesday, December 30 2025 11:06:21
-WiFi disconnected.
-SD Card mounted.
-SD Card Type: 3
-SD Card Size: 29820 MB
-Loading playlist from cache...
-Found 752 songs in cache.
-Total Songs: 752
-Playing [32/752]: /Bill Haley  His Comets - Thirteen Women (And Only One Man In Town) - Single Version.mp3
-info: PSRAM not found, inputBufferSize: 17951 bytes
-info: buffers freed, free Heap: 93168 bytes
-info: Reading file: "/Bill Haley  His Comets - Thirteen Women (And Only One Man In Town) - Single Version.mp3"
-info: MP3Decoder has been initialized, free Heap: 65372 bytes , free stack 5108 DWORDs
-Volume: 5
-[SHUF] [11:06AM] 32/752 | 00:00/00:00 | Vol: 5 | Heap: 65484/36852   
-info: Content-Length: 2757906
-info: file has no mp3 tag, skip metadata
-info: Audio-Length: 2757906
-WARNING: Loop took 23 ms
-info: stream ready
-info: syncword found at pos 658
-info: syncword found at pos 0
-info: Channels: 2
-info: SampleRate: 48000
-info: BitsPerSample: 16
-info: BitRate: 128000
-[SHUF] [11:06AM] 32/752 | 00:00/02:50 | Vol: 5 | Heap: 65484/36852   [SHUF] [11:06AM] 32/752 | 00:01/02:51 | Vol: 5 | Heap: 65484/36852   [SHUF] [11:06AM] 32/752 | 00:02/02:52 | Vol: 5 | Heap: 65484/36852   [SHUF] [11:06AM] 32/752 | 00:03/02:52 | Vol: 5 | Heap: 65484/36852   [SHUF] [11:06AM] 32/752 | 00:04/02:52 | Vol: 5 | Heap: 65484/36852   [SHUF] [11:06AM] 32/752 | 00:05/02:52 | Vol: 5 | Heap: 65484/36852   
-Shuffle: OFF
-[SEQ] [11:06AM] 32/752 | 00:06/02:52 | Vol: 5 | Heap: 65484/36852   
-Shuffle: ON
-[SHUF] [11:06AM] 32/752 | 00:08/02:52 | Vol: 5 | Heap: 65484/36852   [SHUF] [11:06AM] 32/752 | 00:09/02:52 | Vol: 5 | Heap: 65484/36852   Button 3: Switching Mode...
-Switching to BLUETOOTH Mode
-ets Jun  8 2016 00:22:57
-
-rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
-configsip: 0, SPIWP:0xee
-clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
-mode:DIO, clock div:2
-load:0x3fff0030,len:1184
-load:0x40078000,len:13232
-load:0x40080400,len:3028
-entry 0x400805e4
-
-
-========================================
-       ESP32 iPod Shuffle Clone
-========================================
->> Hold BUTTON 2 (Next) now to reset WiFi settings... <<
-No reset requested. Continuing boot...
-
-========================================
-       ESP32 iPod Shuffle Clone
-========================================
->> Booting into BLUETOOTH MODE <<
-Starting Bluetooth Sink: ESP32-iPod
-[BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   ets Jun  8 2016 00:22:57
-
-rst:0x1 (POWERON_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
-configsip: 0, SPIWP:0xee
-clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
-mode:DIO, clock div:2
-load:0x3fff0030,len:1184
-load:0x40078000,len:13232
-load:0x40080400,len:3028
-entry 0x400805e4
-
-
-========================================
-       ESP32 iPod Shuffle Clone
-========================================
->> Hold BUTTON 2 (Next) now to reset WiFi settings... <<
-No reset requested. Continuing boot...
-
-========================================
-       ESP32 iPod Shuffle Clone
-========================================
->> Booting into BLUETOOTH MODE <<
-Starting Bluetooth Sink: ESP32-iPod
-[BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   Exiting Bluetooth Mode (Rebooting)...
-ets Jun  8 2016 00:22:57
-
-rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
-configsip: 0, SPIWP:0xee
-clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
-mode:DIO, clock div:2
-load:0x3fff0030,len:1184
-load:0x40078000,len:13232
-load:0x40080400,len:3028
-entry 0x400805e4
-
-
-========================================
-       ESP32 iPod Shuffle Clone
-========================================
->> Hold BUTTON 2 (Next) now to reset WiFi settings... <<
-No reset requested. Continuing boot...
-
-========================================
-       ESP32 iPod Shuffle Clone
-========================================
->> Booting into SD CARD MODE <<
-Connecting to WiFi to sync time...
-*wm:AutoConnect 
-*wm:Connecting to SAVED AP: SpectrumSetup-D8
-*wm:connectTimeout not set, ESP waitForConnectResult... 
-*wm:AutoConnect: SUCCESS 
-*wm:STA IP Address: 192.168.1.227
-
-WiFi connected.
-Fetching NTP time...
-Time synced successfully!
-Current time: Tuesday, December 30 2025 11:08:32
-WiFi disconnected.
-SD Card mounted.
-SD Card Type: 3
-SD Card Size: 29820 MB
-Loading playlist from cache...
-Found 752 songs in cache.
-Total Songs: 752
-Playing [528/752]: /Patti Page - Cross Over The Bridge.mp3
-info: PSRAM not found, inputBufferSize: 17951 bytes
-info: buffers freed, free Heap: 93272 bytes
-info: Reading file: "/Patti Page - Cross Over The Bridge.mp3"
-info: MP3Decoder has been initialized, free Heap: 65528 bytes , free stack 5060 DWORDs
-Volume: 5
-[SHUF] [11:08AM] 528/752 | 00:00/00:00 | Vol: 5 | Heap: 65592/38900   
-info: Content-Length: 2470734
-info: file has no mp3 tag, skip metadata
-info: Audio-Length: 2470734
-WARNING: Loop took 24 ms
-info: stream ready
-info: syncword found at pos 334
-info: syncword found at pos 0
-info: Channels: 2
-info: SampleRate: 48000
-info: BitsPerSample: 16
-info: BitRate: 128000
-[SHUF] [11:08AM] 528/752 | 00:00/02:32 | Vol: 5 | Heap: 65592/38900   Button 3: Switching Mode...
-Switching to BLUETOOTH Mode
-ets Jun  8 2016 00:22:57
-
-rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
-configsip: 0, SPIWP:0xee
-clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
-mode:DIO, clock div:2
-load:0x3fff0030,len:1184
-load:0x40078000,len:13232
-load:0x40080400,len:3028
-entry 0x400805e4
-
-
-========================================
-       ESP32 iPod Shuffle Clone
-========================================
->> Hold BUTTON 2 (Next) now to reset WiFi settings... <<
-No reset requested. Continuing boot...
-
-========================================
-       ESP32 iPod Shuffle Clone
-========================================
->> Booting into BLUETOOTH MODE <<
-Starting Bluetooth Sink: ESP32-iPod
-[BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   Exiting Bluetooth Mode (Rebooting)...
-ets Jun  8 2016 00:22:57
-
-rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
-configsip: 0, SPIWP:0xee
-clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
-mode:DIO, clock div:2
-load:0x3fff0030,len:1184
-load:0x40078000,len:13232
-load:0x40080400,len:3028
-entry 0x400805e4
-
-
-========================================
-       ESP32 iPod Shuffle Clone
-========================================
->> Hold BUTTON 2 (Next) now to reset WiFi settings... <<
-No reset requested. Continuing boot...
-
-========================================
-       ESP32 iPod Shuffle Clone
-========================================
->> Booting into SD CARD MODE <<
-Connecting to WiFi to sync time...
-*wm:AutoConnect 
-*wm:Connecting to SAVED AP: SpectrumSetup-D8
-*wm:connectTimeout not set, ESP waitForConnectResult... 
-*wm:AutoConnect: SUCCESS 
-*wm:STA IP Address: 192.168.1.227
-
-WiFi connected.
-Fetching NTP time...
-Time synced successfully!
-Current time: Tuesday, December 30 2025 11:09:03
-WiFi disconnected.
-SD Card mounted.
-SD Card Type: 3
-SD Card Size: 29820 MB
-Loading playlist from cache...
-Found 752 songs in cache.
-Total Songs: 752
-Playing [150/752]: /Count Basie - Harvard Blues.mp3
-info: PSRAM not found, inputBufferSize: 17951 bytes
-info: buffers freed, free Heap: 93300 bytes
-info: Reading file: "/Count Basie - Harvard Blues.mp3"
-info: MP3Decoder has been initialized, free Heap: 65456 bytes , free stack 5076 DWORDs
-Volume: 5
-[SHUF] [11:09AM] 150/752 | 00:00/00:00 | Vol: 5 | Heap: 65520/38900   
-info: Content-Length: 3219121
-info: file has no mp3 tag, skip metadata
-info: Audio-Length: 3219121
-WARNING: Loop took 24 ms
-info: stream ready
-info: syncword found at pos 1073
-info: syncword found at pos 0
-info: Channels: 2
-info: SampleRate: 48000
-info: BitsPerSample: 16
-info: BitRate: 128000
-[SHUF] [11:09AM] 150/752 | 00:00/03:19 | Vol: 5 | Heap: 65528/38900   
-Shuffle: OFF
-Shuffle: ON
-[SHUF] [11:09AM] 150/752 | 00:02/03:20 | Vol: 5 | Heap: 65528/38900   [SHUF] [11:09AM] 150/752 | 00:03/03:21 | Vol: 5 | Heap: 65528/38900   [SHUF] [11:09AM] 150/752 | 00:04/03:20 | Vol: 5 | Heap: 65528/38900   [SHUF] [11:09AM] 150/752 | 00:05/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:09AM] 150/752 | 00:06/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:09AM] 150/752 | 00:07/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:09AM] 150/752 | 00:08/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:09AM] 150/752 | 00:09/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:09AM] 150/752 | 00:10/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:09AM] 150/752 | 00:11/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:09AM] 150/752 | 00:12/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:09AM] 150/752 | 00:13/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:09AM] 150/752 | 00:14/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:09AM] 150/752 | 00:15/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:09AM] 150/752 | 00:16/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:09AM] 150/752 | 00:17/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:09AM] 150/752 | 00:18/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:09AM] 150/752 | 00:19/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:09AM] 150/752 | 00:20/03:21 | Vol: 5 | Heap: 65520/38900   Button 1: Long Press (Toggle Shuffle)
-
-Shuffle: OFF
-[SEQ] [11:09AM] 150/752 | 00:21/03:21 | Vol: 5 | Heap: 65520/38900   [SEQ] [11:09AM] 150/752 | 00:22/03:21 | Vol: 5 | Heap: 65520/38900   Button 1: Long Press (Toggle Shuffle)
-
-Shuffle: ON
-[SHUF] [11:09AM] 150/752 | 00:23/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:09AM] 150/752 | 00:24/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:09AM] 150/752 | 00:25/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:09AM] 150/752 | 00:26/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:09AM] 150/752 | 00:27/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:09AM] 150/752 | 00:28/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:09AM] 150/752 | 00:29/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:09AM] 150/752 | 00:30/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:09AM] 150/752 | 00:31/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:09AM] 150/752 | 00:32/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:09AM] 150/752 | 00:33/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:09AM] 150/752 | 00:34/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:09AM] 150/752 | 00:34/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:09AM] 150/752 | 00:35/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:09AM] 150/752 | 00:36/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:09AM] 150/752 | 00:37/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:09AM] 150/752 | 00:38/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:09AM] 150/752 | 00:39/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:09AM] 150/752 | 00:40/03:21 | Vol: 5 | Heap: 65520/38900   
-Volume: 4
-Volume: 5
-[SHUF] [11:09AM] 150/752 | 00:41/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:09AM] 150/752 | 00:42/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:09AM] 150/752 | 00:43/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:09AM] 150/752 | 00:44/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:09AM] 150/752 | 00:45/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:09AM] 150/752 | 00:46/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:09AM] 150/752 | 00:47/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:09AM] 150/752 | 00:48/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:09AM] 150/752 | 00:49/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:09AM] 150/752 | 00:50/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:09AM] 150/752 | 00:51/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 00:52/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 00:53/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 00:54/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 00:55/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 00:56/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 00:57/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 00:58/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 00:59/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:00/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:01/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:03/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:04/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:05/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:06/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:07/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:08/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:09/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:10/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:11/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:12/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:13/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:14/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:15/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:16/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:17/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:18/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:19/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:20/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:21/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:22/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:23/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:24/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:25/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:26/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:27/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:28/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:29/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:30/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:31/03:21 | Vol: 5 | Heap: 65520/38900   
-Volume: 4
-Volume: 5
-[SHUF] [11:10AM] 150/752 | 01:32/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:33/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:34/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:35/03:21 | Vol: 5 | Heap: 65520/38900   
-Volume: 4
-Volume: 5
-[SHUF] [11:10AM] 150/752 | 01:36/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:37/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:38/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:39/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:40/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:41/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:42/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:43/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:44/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:45/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:46/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:46/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:47/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:48/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:49/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:50/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:10AM] 150/752 | 01:51/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:11AM] 150/752 | 01:52/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:11AM] 150/752 | 01:53/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:11AM] 150/752 | 01:54/03:21 | Vol: 5 | Heap: 65520/38900   [SHUF] [11:11AM] 150/752 | 01:55/03:21 | Vol: 5 | Heap: 65552/38900   [SHUF] [11:11AM] 150/752 | 01:56/03:21 | Vol: 5 | Heap: 65552/38900   [SHUF] [11:11AM] 150/752 | 01:57/03:21 | Vol: 5 | Heap: 65552/38900   [SHUF] [11:11AM] 150/752 | 01:58/03:21 | Vol: 5 | Heap: 65552/38900   [SHUF] [11:11AM] 150/752 | 01:59/03:21 | Vol: 5 | Heap: 65552/38900   [SHUF] [11:11AM] 150/752 | 02:00/03:21 | Vol: 5 | Heap: 65552/38900   [SHUF] [11:11AM] 150/752 | 02:01/03:21 | Vol: 5 | Heap: 65552/38900   [SHUF] [11:11AM] 150/752 | 02:02/03:21 | Vol: 5 | Heap: 65552/38900   [SHUF] [11:11AM] 150/752 | 02:03/03:21 | Vol: 5 | Heap: 65552/38900   [SHUF] [11:11AM] 150/752 | 02:04/03:21 | Vol: 5 | Heap: 65552/38900   [SHUF] [11:11AM] 150/752 | 02:06/03:21 | Vol: 5 | Heap: 65552/38900   [SHUF] [11:11AM] 150/752 | 02:07/03:21 | Vol: 5 | Heap: 65552/38900   [SHUF] [11:11AM] 150/752 | 02:08/03:21 | Vol: 5 | Heap: 65552/38900   [SHUF] [11:11AM] 150/752 | 02:09/03:21 | Vol: 5 | Heap: 65552/38900   [SHUF] [11:11AM] 150/752 | 02:10/03:21 | Vol: 5 | Heap: 65552/38900   
-Volume: 4
-Volume: 5
-[SHUF] [11:11AM] 150/752 | 02:11/03:21 | Vol: 5 | Heap: 65552/38900   [SHUF] [11:11AM] 150/752 | 02:12/03:21 | Vol: 5 | Heap: 65552/38900   [SHUF] [11:11AM] 150/752 | 02:13/03:21 | Vol: 5 | Heap: 65552/38900   [SHUF] [11:11AM] 150/752 | 02:14/03:21 | Vol: 5 | Heap: 65552/38900   [SHUF] [11:11AM] 150/752 | 02:15/03:21 | Vol: 5 | Heap: 65552/38900   
-Volume: 4
-Volume: 5
-[SHUF] [11:11AM] 150/752 | 02:16/03:21 | Vol: 5 | Heap: 65552/38900   [SHUF] [11:11AM] 150/752 | 02:17/03:21 | Vol: 5 | Heap: 65552/38900   [SHUF] [11:11AM] 150/752 | 02:18/03:21 | Vol: 5 | Heap: 65552/38900   [SHUF] [11:11AM] 150/752 | 02:19/03:21 | Vol: 5 | Heap: 65552/38900   [SHUF] [11:11AM] 150/752 | 02:20/03:21 | Vol: 5 | Heap: 65552/38900   [SHUF] [11:11AM] 150/752 | 02:21/03:21 | Vol: 5 | Heap: 65552/38900   [SHUF] [11:11AM] 150/752 | 02:22/03:21 | Vol: 5 | Heap: 65552/38900   [SHUF] [11:11AM] 150/752 | 02:23/03:21 | Vol: 5 | Heap: 65552/38900   [SHUF] [11:11AM] 150/752 | 02:24/03:21 | Vol: 5 | Heap: 65552/38900   [SHUF] [11:11AM] 150/752 | 02:25/03:21 | Vol: 5 | Heap: 65552/38900   [SHUF] [11:11AM] 150/752 | 02:26/03:21 | Vol: 5 | Heap: 65552/38900   [SHUF] [11:11AM] 150/752 | 02:27/03:21 | Vol: 5 | Heap: 65552/38900   [SHUF] [11:11AM] 150/752 | 02:28/03:21 | Vol: 5 | Heap: 65552/38900   
-Shuffle: OFF
-[SEQ] [11:11AM] 150/752 | 02:29/03:21 | Vol: 5 | Heap: 65552/38900   
-Shuffle: ON
-[SHUF] [11:11AM] 150/752 | 02:30/03:21 | Vol: 5 | Heap: 65552/38900   [SHUF] [11:11AM] 150/752 | 02:31/03:21 | Vol: 5 | Heap: 65552/38900   [SHUF] [11:11AM] 150/752 | 02:32/03:21 | Vol: 5 | Heap: 65552/38900   
-Switching to Bluetooth Mode (Rebooting)...
-ets Jun  8 2016 00:22:57
-
-rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
-configsip: 0, SPIWP:0xee
-clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
-mode:DIO, clock div:2
-load:0x3fff0030,len:1184
-load:0x40078000,len:13232
-load:0x40080400,len:3028
-entry 0x400805e4
-
-
-========================================
-       ESP32 iPod Shuffle Clone
-========================================
->> Hold BUTTON 2 (Next) now to reset WiFi settings... <<
-No reset requested. Continuing boot...
-
-========================================
-       ESP32 iPod Shuffle Clone
-========================================
->> Booting into BLUETOOTH MODE <<
-Starting Bluetooth Sink: ESP32-iPod
-[BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   Exiting Bluetooth Mode (Rebooting)...
-ets Jun  8 2016 00:22:57
-
-rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
-configsip: 0, SPIWP:0xee
-clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
-mode:DIO, clock div:2
-load:0x3fff0030,len:1184
-load:0x40078000,len:13232
-load:0x40080400,len:3028
-entry 0x400805e4
-
-
-========================================
-       ESP32 iPod Shuffle Clone
-========================================
->> Hold BUTTON 2 (Next) now to reset WiFi settings... <<
-No reset requested. Continuing boot...
-
-========================================
-       ESP32 iPod Shuffle Clone
-========================================
->> Booting into SD CARD MODE <<
-Connecting to WiFi to sync time...
-*wm:AutoConnect 
-*wm:Connecting to SAVED AP: SpectrumSetup-D8
-*wm:connectTimeout not set, ESP waitForConnectResult... 
-*wm:AutoConnect: SUCCESS 
-*wm:STA IP Address: 192.168.1.227
-
-WiFi connected.
-Fetching NTP time...
-Time synced successfully!
-Current time: Tuesday, December 30 2025 11:11:59
-WiFi disconnected.
-SD Card mounted.
-SD Card Type: 3
-SD Card Size: 29820 MB
-Loading playlist from cache...
-Found 752 songs in cache.
-Total Songs: 752
-Playing [603/752]: /Sonny Boy Williamson II - Eyesight To The Blind.mp3
-info: PSRAM not found, inputBufferSize: 17951 bytes
-info: buffers freed, free Heap: 93192 bytes
-info: Reading file: "/Sonny Boy Williamson II - Eyesight To The Blind.mp3"
-info: MP3Decoder has been initialized, free Heap: 65412 bytes , free stack 5060 DWORDs
-Volume: 5
-[SHUF] [11:12AM] 603/752 | 00:00/00:00 | Vol: 5 | Heap: 65492/36852   
-info: Content-Length: 2949676
-info: file has no mp3 tag, skip metadata
-info: Audio-Length: 2949676
-WARNING: Loop took 23 ms
-info: stream ready
-info: syncword found at pos 812
-info: syncword found at pos 0
-info: Channels: 2
-info: SampleRate: 48000
-info: BitsPerSample: 16
-info: BitRate: 128000
-[SHUF] [11:12AM] 603/752 | 00:00/03:01 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:01/03:03 | Vol: 5 | Heap: 65492/36852   
-Shuffle: OFF
-[SEQ] [11:12AM] 603/752 | 00:02/03:04 | Vol: 5 | Heap: 65492/36852   
-Shuffle: ON
-[SHUF] [11:12AM] 603/752 | 00:03/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:04/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:05/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:06/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:07/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:08/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:09/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:10/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:11/03:04 | Vol: 5 | Heap: 65492/36852   
-Volume: 4
-Volume: 5
-[SHUF] [11:12AM] 603/752 | 00:12/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:13/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:14/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:15/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:16/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:17/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:18/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:19/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:20/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:21/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:22/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:23/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:24/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:25/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:26/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:27/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:28/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:29/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:30/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:31/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:32/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:33/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:34/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:35/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:36/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:37/03:04 | Vol: 5 | Heap: 65492/36852   
-Volume: 4
-[SHUF] [11:12AM] 603/752 | 00:38/03:04 | Vol: 4 | Heap: 65492/36852   
-Volume: 5
-[SHUF] [11:12AM] 603/752 | 00:39/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:40/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:41/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:42/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:43/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:44/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:45/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:46/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:47/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:48/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:49/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:50/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:51/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:52/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:53/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:12AM] 603/752 | 00:54/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:13AM] 603/752 | 00:55/03:04 | Vol: 5 | Heap: 65492/36852   
-Volume: 4
-[SHUF] [11:13AM] 603/752 | 00:56/03:04 | Vol: 4 | Heap: 65492/36852   
-Volume: 5
-[SHUF] [11:13AM] 603/752 | 00:57/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:13AM] 603/752 | 00:58/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:13AM] 603/752 | 00:59/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:13AM] 603/752 | 01:00/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:13AM] 603/752 | 01:01/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:13AM] 603/752 | 01:02/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:13AM] 603/752 | 01:03/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:13AM] 603/752 | 01:04/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:13AM] 603/752 | 01:05/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:13AM] 603/752 | 01:06/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:13AM] 603/752 | 01:07/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:13AM] 603/752 | 01:08/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:13AM] 603/752 | 01:09/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:13AM] 603/752 | 01:10/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:13AM] 603/752 | 01:11/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:13AM] 603/752 | 01:12/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:13AM] 603/752 | 01:13/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:13AM] 603/752 | 01:14/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:13AM] 603/752 | 01:15/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:13AM] 603/752 | 01:16/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:13AM] 603/752 | 01:17/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:13AM] 603/752 | 01:18/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:13AM] 603/752 | 01:19/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:13AM] 603/752 | 01:20/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:13AM] 603/752 | 01:21/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:13AM] 603/752 | 01:22/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:13AM] 603/752 | 01:23/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:13AM] 603/752 | 01:24/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:13AM] 603/752 | 01:25/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:13AM] 603/752 | 01:26/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:13AM] 603/752 | 01:27/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:13AM] 603/752 | 01:28/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:13AM] 603/752 | 01:29/03:04 | Vol: 5 | Heap: 65492/36852   [SHUF] [11:13AM] 603/752 | 01:30/03:04 | Vol: 5 | Heap: 65492/36852   

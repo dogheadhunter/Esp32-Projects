@@ -6,6 +6,11 @@
 #include "AudioGeneratorMP3.h"
 #include "AudioOutputI2S.h"
 #include <vector>
+#include "tests/test_runner.h"
+
+// --- CONFIGURATION ---
+// Uncomment the line below to run diagnostics instead of the normal player
+// #define TEST_MODE 
 
 // SD Card Pins (Standard VSPI)
 #define SD_CS          5
@@ -31,11 +36,20 @@ AudioOutputI2S *out;
 // Playlist
 int totalSongs = 0;
 int currentSongIndex = -1;
-bool shuffleMode = false; 
+bool shuffleMode = true; // Default to Shuffle
+std::vector<int> shuffleOrder; // Stores the shuffled indices
+int shufflePosition = 0; // Where we are in the shuffle list
 
 // Volume
-int lastVolume = -1;
+int targetVolume = -1; // The volume the user WANTS (from pot)
+float currentOutputGain = 0.0; // The actual volume we are outputting
 unsigned long lastVolCheck = 0;
+
+// Watchdog
+unsigned long lastAudioLoop = 0;
+
+// SD Check
+unsigned long lastSDCheck = 0;
 
 // Logging
 bool lastPrintWasStatus = false;
@@ -74,6 +88,25 @@ void scanDirectory() {
     playlistFile.close();
     Serial.println();
     Serial.printf("Found %d songs.\n", totalSongs);
+}
+
+// Fisher-Yates Shuffle Generator
+void generateShuffleOrder() {
+    Serial.println("Generating new shuffle order...");
+    shuffleOrder.clear();
+    for (int i = 0; i < totalSongs; i++) {
+        shuffleOrder.push_back(i);
+    }
+    
+    // Fisher-Yates Algorithm
+    for (int i = totalSongs - 1; i > 0; i--) {
+        int j = random(0, i + 1);
+        int temp = shuffleOrder[i];
+        shuffleOrder[i] = shuffleOrder[j];
+        shuffleOrder[j] = temp;
+    }
+    shufflePosition = 0;
+    Serial.println("Shuffle complete.");
 }
 
 // Verify playlist integrity using Reservoir Sampling
@@ -155,14 +188,52 @@ void playSongAtIndex(int index) {
 void playNextSong() {
     if (totalSongs == 0) return;
     int nextIndex;
+    
     if (shuffleMode) {
-        nextIndex = random(0, totalSongs);
-        if (totalSongs > 1 && nextIndex == currentSongIndex) nextIndex = (nextIndex + 1) % totalSongs;
+        // If we haven't generated a shuffle list yet, or we finished it
+        if (shuffleOrder.empty() || shufflePosition >= totalSongs) {
+            generateShuffleOrder();
+        }
+        nextIndex = shuffleOrder[shufflePosition];
+        shufflePosition++;
     } else {
         nextIndex = (currentSongIndex + 1) % totalSongs;
     }
+    
     playSongAtIndex(nextIndex);
 }
+
+// --- TEST SUITE IMPLEMENTATION ---
+#ifdef TEST_MODE
+
+void setup() {
+    Serial.begin(115200);
+    delay(2000);
+    Serial.println("=== DIAGNOSTIC MODE (ROUND 3) ===");
+    
+    // Init Hardware
+    pinMode(I2S_BCLK, OUTPUT); digitalWrite(I2S_BCLK, LOW);
+    pinMode(I2S_LRC, OUTPUT); digitalWrite(I2S_LRC, LOW);
+    pinMode(I2S_DOUT, OUTPUT); digitalWrite(I2S_DOUT, LOW);
+    
+    if (!SD.begin(SD_CS, SPI, 20000000)) {
+        Serial.println("SD Fail - Cannot run tests"); return;
+    }
+
+    // Init Audio Objects for Testing
+    out = new AudioOutputI2S();
+    out->SetPinout(I2S_BCLK, I2S_LRC, I2S_DOUT);
+    mp3 = new AudioGeneratorMP3();
+    
+    // Run All Tests from Suite
+    runAllTests();
+}
+
+void loop() {
+    // Do nothing in test mode
+}
+
+#else 
 
 void setup() {
     Serial.begin(115200);
@@ -202,9 +273,13 @@ void setup() {
         long sum = 0;
         for (int i = 0; i < 10; i++) { sum += analogRead(POT_PIN); delay(2); }
         float startGain = map(sum / 10, 0, 4095, 0, 100) / 100.0;
-        out->SetGain(startGain);
-        lastVolume = startGain * 100;
-        Serial.printf("Initial Volume: %d%%\n", lastVolume);
+        
+        // Soft Start: Set target, but keep actual gain at 0.0 initially
+        targetVolume = startGain * 100;
+        out->SetGain(0.0); 
+        currentOutputGain = 0.0;
+        
+        Serial.printf("Initial Target Volume: %d%%\n", targetVolume);
         
         randomSeed(analogRead(POT_PIN) + millis());
         playNextSong();
@@ -214,33 +289,85 @@ void setup() {
 }
 
 void loop() {
+    // 1. Watchdog & Audio Loop
     if (mp3->isRunning()) {
         if (!mp3->loop()) {
             mp3->stop();
             cleanSerialLine();
             Serial.println("Song finished.");
             playNextSong();
+        } else {
+            lastAudioLoop = millis(); // Update timestamp on success
+        }
+    } else {
+        lastAudioLoop = millis(); // Reset watchdog when not running
+    }
+
+    // Watchdog Check (2 seconds timeout)
+    if (mp3->isRunning() && (millis() - lastAudioLoop > 2000)) {
+        cleanSerialLine();
+        Serial.println("Error: Decoder stuck! Skipping song...");
+        mp3->stop();
+        playNextSong();
+        lastAudioLoop = millis();
+    }
+
+    // 2. SD Card Removal Check (Every 1s)
+    if (millis() - lastSDCheck > 1000) {
+        lastSDCheck = millis();
+        if (!SD.exists("/playlist.m3u")) {
+            if (mp3->isRunning()) {
+                cleanSerialLine();
+                Serial.println("SD Card Removed! Stopping playback...");
+                mp3->stop();
+                out->SetGain(0);
+                currentOutputGain = 0.0;
+            }
         }
     }
 
-    // Volume Control
-    if (millis() - lastVolCheck > 50) { // Check more often (50ms) but filter heavily
+    // 3. Volume Control (Input Smoothing)
+    if (millis() - lastVolCheck > 50) { 
         lastVolCheck = millis();
         
         long sum = 0;
         for (int i = 0; i < 16; i++) sum += analogRead(POT_PIN);
         int avgRaw = sum / 16;
-        
-        // Map to 0-100
         int newVol = map(avgRaw, 0, 4095, 0, 100);
         
-        // Hysteresis: Only update if change is > 1% (prevents 50 <-> 51 flickering)
-        // This effectively reduces resolution to 2% steps, which is stable.
-        if (abs(newVol - lastVolume) > 1) {
-            lastVolume = newVol;
-            out->SetGain(lastVolume / 100.0);
+        // Spike Protection: Limit sudden jumps > 10%
+        if (targetVolume != -1) { // If initialized
+            int diff = newVol - targetVolume;
+            if (abs(diff) > 10) {
+                // Clamp change to 2 steps
+                newVol = targetVolume + (diff > 0 ? 2 : -2);
+            }
+        }
+
+        // Hysteresis: Only update target if change is > 1%
+        if (abs(newVol - targetVolume) > 1) {
+            targetVolume = newVol;
+            // We do NOT set out->SetGain here anymore. 
+            // We let the Soft Start logic handle the actual change.
+        }
+    }
+
+    // 4. Soft Start / Volume Ramping (Output Smoothing)
+    // Smoothly move currentOutputGain towards targetVolume
+    float targetGain = targetVolume / 100.0;
+    if (abs(currentOutputGain - targetGain) > 0.005) {
+        if (currentOutputGain < targetGain) currentOutputGain += 0.005;
+        else currentOutputGain -= 0.005;
+        
+        out->SetGain(currentOutputGain);
+        
+        // Only print if significant change to avoid spam
+        static int lastPrintedVol = -1;
+        int currentVolInt = currentOutputGain * 100;
+        if (abs(currentVolInt - lastPrintedVol) > 2) {
             cleanSerialLine();
-            Serial.printf("Volume Changed: %d%%\n", lastVolume);
+            // Serial.printf("Volume: %d%%\n", currentVolInt); // Optional debug
+            lastPrintedVol = currentVolInt;
         }
     }
 
@@ -251,9 +378,11 @@ void loop() {
         Serial.printf("\r[PLAYING] %d/%d | Vol: %d%% | Heap: %d | Up: %lu s   ",
             currentSongIndex + 1,
             totalSongs,
-            lastVolume,
+            (int)(currentOutputGain * 100), // Show actual output volume
             ESP.getFreeHeap(), 
             millis() / 1000);
         lastPrintWasStatus = true;
     }
 }
+
+#endif
