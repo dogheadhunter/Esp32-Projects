@@ -1,0 +1,195 @@
+
+
+========================================
+       ESP32 iPod Shuffle Clone
+========================================
+
+========================================
+       ESP32 iPod Shuffle Clone
+========================================
+Chip Model: ESP32-D0WDQ6
+Chip Revision: 1
+CPU Freq: 240 MHz
+Flash Size: 4 MB
+Free Heap: 213084 bytes
+SDK Version: v4.4.7-dirty
+========================================
+
+>> Booting into SD CARD MODE <<
+Connecting to WiFi to sync time...
+*wm:AutoConnect 
+*wm:No wifi saved, skipping 
+*wm:AutoConnect: FAILED for  1 ms
+*wm:StartAP with SSID:  ESP32-Radio-Setup
+*wm:AP IP address: 192.168.4.1
+Entered config mode
+192.168.4.1
+ESP32-Radio-Setup
+*wm:Starting Web Portal 
+
+Starting Config Portal: ESP32-Radio-Setup
+Waiting for connection (20s timeout if idle)...
+*wm:4 networks found
+*wm:Connecting to NEW AP: SpectrumSetup-D8
+*wm:Connect to new AP [SUCCESS] 
+*wm:Got IP Address: 
+*wm:192.168.1.227 
+Should save config
+Settings saved. Restarting to free up memory...
+ets Jun  8 2016 00:22:57
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1184
+load:0x40078000,len:13232
+load:0x40080400,len:3028
+entry 0x400805e4
+
+
+========================================
+       ESP32 iPod Shuffle Clone
+========================================
+
+========================================
+       ESP32 iPod Shuffle Clone
+========================================
+Chip Model: ESP32-D0WDQ6
+Chip Revision: 1
+CPU Freq: 240 MHz
+Flash Size: 4 MB
+Free Heap: 213084 bytes
+SDK Version: v4.4.7-dirty
+========================================
+
+>> Booting into SD CARD MODE <<
+Connecting to WiFi to sync time...
+*wm:AutoConnect 
+*wm:Connecting to SAVED AP: SpectrumSetup-D8
+*wm:AutoConnect: SUCCESS 
+*wm:STA IP Address: 192.168.1.227
+
+WiFi connected (Saved credentials).
+
+WiFi connected.
+IP Address: 192.168.1.227
+Subnet Mask: 255.255.255.0
+Gateway IP: 192.168.1.1
+DNS Server: 192.168.1.1
+BSSID: E4:C0:E2:5D:50:DE
+RSSI (Signal Strength): -40 dBm
+Fetching NTP time...
+Time synced successfully!
+Current time: Tuesday, December 30 2025 13:35:14
+WiFi disconnected.
+Initial Volume: 0.14
+SD Card mounted.
+SD Card Type: 3
+SD Card Size: 29820 MB
+Loading playlist from cache...
+Found 752 songs in cache.
+Total Songs: 752
+Playing [383/752]: /Johnny Bond - Headin' Down The Wrong Highway.mp3
+[SHUF] [01:35PM] 383/752 | Vol: 14% | Heap: 129080 (Min: 128980) | Up: 12 s   [SHUF] [01:35PM] 383/752 | Vol: 14% | Heap: 129080 (Min: 128964) | Up: 13 s   [SHUF] [01:35PM] 383/752 | Vol: 14% | Heap: 129080 (Min: 128964) | Up: 14 s   [SHUF] [01:35PM] 383/752 | Vol: 14% | Heap: 129080 (Min: 128964) | Up: 15 s   [SHUF] [01:35PM] 383/752 | Vol: 14% | Heap: 129080 (Min: 128964) | Up: 16 s   [SHUF] [01:35PM] 383/752 | Vol: 14% | Heap: 129080 (Min: 128964) | Up: 17 s   [SHUF] [01:35PM] 383/752 | Vol: 14% | Heap: 129080 (Min: 128964) | Up: 18 s   [SHUF] [01:35PM] 383/752 | Vol: 14% | Heap: 129080 (Min: 128964) | Up: 19 s   [SHUF] [01:35PM] 383/752 | Vol: 14% | Heap: 129080 (Min: 128964) | Up: 20 s   [SHUF] [01:35PM] 383/752 | Vol: 14% | Heap: 129080 (Min: 128964) | Up: 21 s   [SHUF] [01:35PM] 383/752 | Vol: 14% | Heap: 129080 (Min: 128964) | Up: 22 s   Button 2: Resetting WiFi Settings...
+*wm:resetSettings 
+*wm:SETTINGS ERASED 
+WiFi settings erased. Rebooting to Setup Mode...
+ets Jun  8 2016 00:22:57
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1184
+load:0x40078000,len:13232
+load:0x40080400,len:3028
+entry 0x400805e4
+
+
+========================================
+       ESP32 iPod Shuffle Clone
+========================================
+
+========================================
+       ESP32 iPod Shuffle Clone
+========================================
+Chip Model: ESP32-D0WDQ6
+Chip Revision: 1
+CPU Freq: 240 MHz
+Flash Size: 4 MB
+Free Heap: 213084 bytes
+SDK Version: v4.4.7-dirty
+========================================
+
+>> Booting into SD CARD MODE <<
+Connecting to WiFi to sync time...
+*wm:AutoConnect 
+*wm:No wifi saved, skipping 
+*wm:AutoConnect: FAILED for  2 ms
+*wm:StartAP with SSID:  ESP32-Radio-Setup
+*wm:AP IP address: 192.168.4.1
+Entered config mode
+192.168.4.1
+ESP32-Radio-Setup
+*wm:Starting Web Portal 
+
+Starting Config Portal: ESP32-Radio-Setup
+Waiting for connection (20s timeout if idle)...
+ets Jun  8 2016 00:22:57
+
+rst:0x1 (POWERON_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1184
+load:0x40078000,len:13232
+load:0x40080400,len:3028
+entry 0x400805e4
+
+
+========================================
+       ESP32 iPod Shuffle Clone
+========================================
+
+========================================
+       ESP32 iPod Shuffle Clone
+========================================
+Chip Model: ESP32-D0WDQ6
+Chip Revision: 1
+CPU Freq: 240 MHz
+Flash Size: 4 MB
+Free Heap: 213084 bytes
+SDK Version: v4.4.7-dirty
+========================================
+
+>> Booting into SD CARD MODE <<
+Connecting to WiFi to sync time...
+*wm:AutoConnect 
+*wm:No wifi saved, skipping 
+*wm:AutoConnect: FAILED for  2 ms
+*wm:StartAP with SSID:  ESP32-Radio-Setup
+*wm:AP IP address: 192.168.4.1
+Entered config mode
+192.168.4.1
+ESP32-Radio-Setup
+*wm:Starting Web Portal 
+
+Starting Config Portal: ESP32-Radio-Setup
+Waiting for connection (20s timeout if idle)...
+Timeout: No client connected. Stopping Config Portal.
+
+Failed to connect or hit timeout. Skipping time sync.
+Initial Volume: 0.14
+SD Card mounted.
+SD Card Type: 3
+SD Card Size: 29820 MB
+Loading playlist from cache...
+Found 752 songs in cache.
+Total Songs: 752
+Playing [730/752]: /The Teen Queens - Eddie My Love.mp3
+[SHUF] [--:--] 730/752 | Vol: 14% | Heap: 94144 (Min: 93444) | Up: 32 s   [SHUF] [--:--] 730/752 | Vol: 14% | Heap: 94144 (Min: 93444) | Up: 38 s   [SHUF] [--:--] 730/752 | Vol: 14% | Heap: 94144 (Min: 93444) | Up: 43 s   [SHUF] [--:--] 730/752 | Vol: 14% | Heap: 94144 (Min: 93444) | Up: 48 s   [SHUF] [--:--] 730/752 | Vol: 14% | Heap: 94144 (Min: 93444) | Up: 53 s   [SHUF] [--:--] 730/752 | Vol: 14% | Heap: 94144 (Min: 93444) | Up: 58 s   [SHUF] [--:--] 730/752 | Vol: 14% | Heap: 94144 (Min: 93444) | Up: 63 s   [SHUF] [--:--] 730/752 | Vol: 14% | Heap: 94144 (Min: 93444) | Up: 68 s   [SHUF] [--:--] 730/752 | Vol: 14% | Heap: 94144 (Min: 93444) | Up: 73 s   
+Volume: 0.12
+[SHUF] [--:--] 730/752 | Vol: 12% | Heap: 94144 (Min: 93444) | Up: 78 s   
+Volume: 0.16
+[SHUF] [--:--] 730/752 | Vol: 16% | Heap: 94144 (Min: 93420) | Up: 83 s   [SHUF] [--:--] 730/752 | Vol: 16% | Heap: 94144 (Min: 93420) | Up: 88 s   [SHUF] [--:--] 730/752 | Vol: 16% | Heap: 94144 (Min: 93420) | Up: 93 s   [SHUF] [--:--] 730/752 | Vol: 16% | Heap: 94144 (Min: 93420) | Up: 98 s   [SHUF] [--:--] 730/752 | Vol: 16% | Heap: 94144 (Min: 93420) | Up: 103 s   [SHUF] [--:--] 730/752 | Vol: 16% | Heap: 94144 (Min: 93420) | Up: 108 s   [SHUF] [--:--] 730/752 | Vol: 16% | Heap: 94144 (Min: 93420) | Up: 113 s   [SHUF] [--:--] 730/752 | Vol: 16% | Heap: 94144 (Min: 93420) | Up: 118 s   [SHUF] [--:--] 730/752 | Vol: 16% | Heap: 94144 (Min: 93420) | Up: 123 s   [SHUF] [--:--] 730/752 | Vol: 16% | Heap: 94144 (Min: 93420) | Up: 128 s   [SHUF] [--:--] 730/752 | Vol: 16% | Heap: 94144 (Min: 93420) | Up: 134 s   [SHUF] [--:--] 730/752 | Vol: 16% | Heap: 94144 (Min: 93420) | Up: 139 s   [SHUF] [--:--] 730/752 | Vol: 16% | Heap: 94144 (Min: 93420) | Up: 144 s   [SHUF] [--:--] 730/752 | Vol: 16% | Heap: 94144 (Min: 93420) | Up: 149 s   [SHUF] [--:--] 730/752 | Vol: 16% | Heap: 94144 (Min: 93420) | Up: 154 s   [SHUF] [--:--] 730/752 | Vol: 16% | Heap: 94144 (Min: 93420) | Up: 159 s   [SHUF] [--:--] 730/752 | Vol: 16% | Heap: 94144 (Min: 93420) | Up: 164 s   [SHUF] [--:--] 730/752 | Vol: 16% | Heap: 94144 (Min: 93420) | Up: 169 s   [SHUF] [--:--] 730/752 | Vol: 16% | Heap: 94144 (Min: 93420) | Up: 174 s   

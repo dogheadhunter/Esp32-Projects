@@ -1,0 +1,88 @@
+
+
+========================================
+       ESP32 iPod Shuffle Clone
+========================================
+
+========================================
+       ESP32 iPod Shuffle Clone
+========================================
+Chip Model: ESP32-D0WDQ6
+Chip Revision: 1
+CPU Freq: 240 MHz
+Flash Size: 4 MB
+Free Heap: 213084 bytes
+SDK Version: v4.4.7-dirty
+========================================
+
+>> Booting into SD CARD MODE <<
+Connecting to WiFi to sync time...
+*wm:AutoConnect 
+*wm:No wifi saved, skipping 
+*wm:AutoConnect: FAILED for  2 ms
+*wm:StartAP with SSID:  ESP32-Radio-Setup
+*wm:AP IP address: 192.168.4.1
+Entered config mode
+192.168.4.1
+ESP32-Radio-Setup
+*wm:Starting Web Portal 
+
+Starting Config Portal: ESP32-Radio-Setup
+Waiting for connection (20s timeout if idle)...
+Timeout: No client connected. Stopping Config Portal.
+
+Failed to connect or hit timeout. Skipping time sync.
+WiFi disconnected (Radio OFF).
+WiFi Timeout! Rebooting to skip WiFi check...
+ets Jun  8 2016 00:22:57
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1184
+load:0x40078000,len:13232
+load:0x40080400,len:3028
+entry 0x400805e4
+
+
+========================================
+       ESP32 iPod Shuffle Clone
+========================================
+
+========================================
+       ESP32 iPod Shuffle Clone
+========================================
+Chip Model: ESP32-D0WDQ6
+Chip Revision: 1
+CPU Freq: 240 MHz
+Flash Size: 4 MB
+Free Heap: 213084 bytes
+SDK Version: v4.4.7-dirty
+========================================
+
+>> Booting into SD CARD MODE <<
+>> Skipping WiFi Check (Previous Timeout) <<
+>> Hold BUTTON 2 (Next) on boot to retry WiFi <<
+E (3563) I2S: i2s_driver_uninstall(2048): I2S port 0 has not installed
+Initial Volume: 0.41
+SD Card mounted.
+SD Card Type: 3
+SD Card Size: 29820 MB
+Loading playlist from cache...
+Found 752 songs in cache.
+Total Songs: 752
+Playing [605/752]: /Skeeter Davis - The End of the World.mp3
+[SHUF] [--:--] 605/752 | Vol: 41% | Heap: 145656 (Min: 145544) | Up: 12 s   [SHUF] [--:--] 605/752 | Vol: 41% | Heap: 145656 (Min: 145448) | Up: 17 s   [SHUF] [--:--] 605/752 | Vol: 41% | Heap: 145656 (Min: 145448) | Up: 22 s   
+Volume: 0.39
+[SHUF] [--:--] 605/752 | Vol: 39% | Heap: 145656 (Min: 145448) | Up: 27 s   
+Shuffle: OFF
+[SEQ] [--:--] 605/752 | Vol: 39% | Heap: 145656 (Min: 145448) | Up: 33 s   
+Volume: 0.62
+[SEQ] [--:--] 605/752 | Vol: 62% | Heap: 145656 (Min: 145448) | Up: 38 s   
+Volume: 0.74
+[SEQ] [--:--] 605/752 | Vol: 74% | Heap: 145656 (Min: 145448) | Up: 43 s   
+Volume: 0.28
+[SEQ] [--:--] 605/752 | Vol: 28% | Heap: 145656 (Min: 145448) | Up: 48 s   
+Volume: 0.14
+[SEQ] [--:--] 605/752 | Vol: 14% | Heap: 145656 (Min: 145448) | Up: 53 s   [SEQ] [--:--] 605/752 | Vol: 14% | Heap: 145656 (Min: 145448) | Up: 58 s   [SEQ] [--:--] 605/752 | Vol: 14% | Heap: 145656 (Min: 145448) | Up: 63 s   [SEQ] [--:--] 605/752 | Vol: 14% | Heap: 145656 (Min: 145448) | Up: 68 s   [SEQ] [--:--] 605/752 | Vol: 14% | Heap: 145656 (Min: 145448) | Up: 73 s   [SEQ] [--:--] 605/752 | Vol: 14% | Heap: 145656 (Min: 145448) | Up: 78 s   [SEQ] [--:--] 605/752 | Vol: 14% | Heap: 145656 (Min: 145448) | Up: 83 s   [SEQ] [--:--] 605/752 | Vol: 14% | Heap: 145656 (Min: 145448) | Up: 88 s   [SEQ] [--:--] 605/752 | Vol: 14% | Heap: 145656 (Min: 145448) | Up: 93 s   [SEQ] [--:--] 605/752 | Vol: 14% | Heap: 145656 (Min: 145448) | Up: 98 s   [SEQ] [--:--] 605/752 | Vol: 14% | Heap: 145656 (Min: 145448) | Up: 103 s   [SEQ] [--:--] 605/752 | Vol: 14% | Heap: 145656 (Min: 145448) | Up: 108 s   [SEQ] [--:--] 605/752 | Vol: 14% | Heap: 145656 (Min: 145448) | Up: 113 s   [SEQ] [--:--] 605/752 | Vol: 14% | Heap: 145656 (Min: 145448) | Up: 118 s   [SEQ] [--:--] 605/752 | Vol: 14% | Heap: 145656 (Min: 145448) | Up: 123 s   [SEQ] [--:--] 605/752 | Vol: 14% | Heap: 145656 (Min: 145448) | Up: 128 s   [SEQ] [--:--] 605/752 | Vol: 14% | Heap: 145656 (Min: 145448) | Up: 133 s   [SEQ] [--:--] 605/752 | Vol: 14% | Heap: 145656 (Min: 145448) | Up: 138 s   [SEQ] [--:--] 605/752 | Vol: 14% | Heap: 145656 (Min: 145448) | Up: 144 s   

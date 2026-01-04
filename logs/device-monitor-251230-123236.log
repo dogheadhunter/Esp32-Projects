@@ -1,0 +1,280 @@
+
+
+========================================
+       ESP32 iPod Shuffle Clone
+========================================
+>> Hold BUTTON 2 (Next) now to reset WiFi settings... <<
+No reset requested. Continuing boot...
+
+========================================
+       ESP32 iPod Shuffle Clone
+========================================
+>> Booting into SD CARD MODE <<
+Connecting to WiFi to sync time...
+*wm:AutoConnect 
+*wm:Connecting to SAVED AP: SpectrumSetup-D8
+*wm:connectTimeout not set, ESP waitForConnectResult... 
+*wm:AutoConnect: SUCCESS 
+*wm:STA IP Address: 192.168.1.227
+
+WiFi connected.
+Fetching NTP time...
+Time synced successfully!
+Current time: Tuesday, December 30 2025 12:32:39
+WiFi disconnected.
+SD Card mounted.
+SD Card Type: 3
+SD Card Size: 29820 MB
+Loading playlist from cache...
+Found 752 songs in cache.
+Total Songs: 752
+Playing [259/752]: /Fats Domino - The Fat Man.mp3
+Volume: 0.44
+[SHUF] [12:32PM] 259/752 | Vol: 44% | Heap: 129072/86004   
+[SHUF] [12:32PM] 259/752 | Vol: 44% | Heap: 129096/86004   [SHUF] [12:32PM] 259/752 | Vol: 44% | Heap: 129096/86004   [SHUF] [12:32PM] 259/752 | Vol: 44% | Heap: 129096/86004   [SHUF] [12:32PM] 259/752 | Vol: 44% | Heap: 129096/86004   [SHUF] [12:32PM] 259/752 | Vol: 44% | Heap: 129096/86004   [SHUF] [12:32PM] 259/752 | Vol: 44% | Heap: 129096/86004   
+Volume: 0.42
+Volume: 0.39
+Volume: 0.36
+[SHUF] [12:32PM] 259/752 | Vol: 36% | Heap: 129096/86004   
+Volume: 0.33
+Volume: 0.30
+[SHUF] [12:32PM] 259/752 | Vol: 30% | Heap: 129096/86004   
+Volume: 0.27
+[SHUF] [12:32PM] 259/752 | Vol: 27% | Heap: 129096/86004   
+Volume: 0.25
+Volume: 0.22
+[SHUF] [12:32PM] 259/752 | Vol: 22% | Heap: 129096/86004   [SHUF] [12:32PM] 259/752 | Vol: 22% | Heap: 129096/86004   [SHUF] [12:32PM] 259/752 | Vol: 22% | Heap: 129096/86004   [SHUF] [12:32PM] 259/752 | Vol: 22% | Heap: 129096/86004   [SHUF] [12:32PM] 259/752 | Vol: 22% | Heap: 129096/86004   [SHUF] [12:33PM] 259/752 | Vol: 22% | Heap: 129096/86004   [SHUF] [12:33PM] 259/752 | Vol: 22% | Heap: 129096/86004   [SHUF] [12:33PM] 259/752 | Vol: 22% | Heap: 129096/86004   [SHUF] [12:33PM] 259/752 | Vol: 22% | Heap: 129096/86004   [SHUF] [12:33PM] 259/752 | Vol: 22% | Heap: 129096/86004   [SHUF] [12:33PM] 259/752 | Vol: 22% | Heap: 129096/86004   [SHUF] [12:33PM] 259/752 | Vol: 22% | Heap: 129096/86004   [SHUF] [12:33PM] 259/752 | Vol: 22% | Heap: 129096/86004   
+Volume: 0.19
+[SHUF] [12:33PM] 259/752 | Vol: 19% | Heap: 129096/86004   [SHUF] [12:33PM] 259/752 | Vol: 19% | Heap: 129096/86004   [SHUF] [12:33PM] 259/752 | Vol: 19% | Heap: 129096/86004   [SHUF] [12:33PM] 259/752 | Vol: 19% | Heap: 129096/86004   [SHUF] [12:33PM] 259/752 | Vol: 19% | Heap: 129096/86004   [SHUF] [12:33PM] 259/752 | Vol: 19% | Heap: 129096/86004   [SHUF] [12:33PM] 259/752 | Vol: 19% | Heap: 129096/86004   [SHUF] [12:33PM] 259/752 | Vol: 19% | Heap: 129096/86004   [SHUF] [12:33PM] 259/752 | Vol: 19% | Heap: 129096/86004   [SHUF] [12:33PM] 259/752 | Vol: 19% | Heap: 129096/86004   [SHUF] [12:33PM] 259/752 | Vol: 19% | Heap: 129096/86004   [SHUF] [12:33PM] 259/752 | Vol: 19% | Heap: 129096/86004   [SHUF] [12:33PM] 259/752 | Vol: 19% | Heap: 129096/86004   Button 1: Single Click (Play/Pause)
+
+Paused
+Button 1: Single Click (Play/Pause)
+Resumed
+[SHUF] [12:33PM] 259/752 | Vol: 19% | Heap: 129096/86004   [SHUF] [12:33PM] 259/752 | Vol: 19% | Heap: 129096/86004   Button 1: Single Click (Play/Pause)
+
+Paused
+Button 1: Double Click (Next)
+Next track...
+Playing [463/752]: /Louis Armstrong - Body and Soul.mp3
+[SHUF] [12:33PM] 463/752 | Vol: 19% | Heap: 129080/86004   [SHUF] [12:33PM] 463/752 | Vol: 19% | Heap: 129080/86004   [SHUF] [12:33PM] 463/752 | Vol: 19% | Heap: 129080/86004   [SHUF] [12:33PM] 463/752 | Vol: 19% | Heap: 129080/86004   [SHUF] [12:33PM] 463/752 | Vol: 19% | Heap: 129080/86004   [SHUF] [12:33PM] 463/752 | Vol: 19% | Heap: 129080/86004   [SHUF] [12:33PM] 463/752 | Vol: 19% | Heap: 129080/86004   [SHUF] [12:33PM] 463/752 | Vol: 19% | Heap: 129080/86004   [SHUF] [12:33PM] 463/752 | Vol: 19% | Heap: 129080/86004   [SHUF] [12:33PM] 463/752 | Vol: 19% | Heap: 129080/86004   [SHUF] [12:33PM] 463/752 | Vol: 19% | Heap: 129080/86004   [SHUF] [12:33PM] 463/752 | Vol: 19% | Heap: 129080/86004   [SHUF] [12:33PM] 463/752 | Vol: 19% | Heap: 129080/86004   [SHUF] [12:33PM] 463/752 | Vol: 19% | Heap: 129080/86004   [SHUF] [12:33PM] 463/752 | Vol: 19% | Heap: 129080/86004   
+Volume: 0.23
+Volume: 0.26
+[SHUF] [12:33PM] 463/752 | Vol: 26% | Heap: 129080/86004   [SHUF] [12:33PM] 463/752 | Vol: 26% | Heap: 129080/86004   [SHUF] [12:33PM] 463/752 | Vol: 26% | Heap: 129080/86004   
+Volume: 0.24
+Volume: 0.22
+[SHUF] [12:33PM] 463/752 | Vol: 22% | Heap: 129080/86004   
+Volume: 0.19
+[SHUF] [12:33PM] 463/752 | Vol: 19% | Heap: 129080/86004   [SHUF] [12:33PM] 463/752 | Vol: 19% | Heap: 129080/86004   [SHUF] [12:33PM] 463/752 | Vol: 19% | Heap: 129080/86004   Button 1: Single Click (Play/Pause)
+
+Paused
+Button 1: Single Click (Play/Pause)
+Resumed
+[SHUF] [12:33PM] 463/752 | Vol: 19% | Heap: 129080/86004   [SHUF] [12:33PM] 463/752 | Vol: 19% | Heap: 129080/86004   [SHUF] [12:33PM] 463/752 | Vol: 19% | Heap: 129080/86004   [SHUF] [12:33PM] 463/752 | Vol: 19% | Heap: 129080/86004   [SHUF] [12:33PM] 463/752 | Vol: 19% | Heap: 129080/86004   [SHUF] [12:33PM] 463/752 | Vol: 19% | Heap: 129080/86004   Button 1: Double Click (Next)
+
+Next track...
+Playing [225/752]: /Ella Fitzgerald, Louis Armstrong - Let's Call The Whole Thing Off.mp3
+[SHUF] [12:33PM] 225/752 | Vol: 19% | Heap: 129056/86004   [SHUF] [12:34PM] 225/752 | Vol: 19% | Heap: 129056/86004   [SHUF] [12:34PM] 225/752 | Vol: 19% | Heap: 129056/86004   [SHUF] [12:34PM] 225/752 | Vol: 19% | Heap: 129056/86004   [SHUF] [12:34PM] 225/752 | Vol: 19% | Heap: 129056/86004   [SHUF] [12:34PM] 225/752 | Vol: 19% | Heap: 129056/86004   [SHUF] [12:34PM] 225/752 | Vol: 19% | Heap: 129056/86004   Button 1: Single Click (Play/Pause)
+
+Paused
+Button 1: Single Click (Play/Pause)
+Resumed
+[SHUF] [12:34PM] 225/752 | Vol: 19% | Heap: 129056/86004   [SHUF] [12:34PM] 225/752 | Vol: 19% | Heap: 129056/86004   [SHUF] [12:34PM] 225/752 | Vol: 19% | Heap: 129056/86004   [SHUF] [12:34PM] 225/752 | Vol: 19% | Heap: 129056/86004   
+Volume: 0.22
+[SHUF] [12:34PM] 225/752 | Vol: 22% | Heap: 129056/86004   [SHUF] [12:34PM] 225/752 | Vol: 22% | Heap: 129056/86004   [SHUF] [12:34PM] 225/752 | Vol: 22% | Heap: 129056/86004   [SHUF] [12:34PM] 225/752 | Vol: 22% | Heap: 129056/86004   [SHUF] [12:34PM] 225/752 | Vol: 22% | Heap: 129056/86004   [SHUF] [12:34PM] 225/752 | Vol: 22% | Heap: 129056/86004   [SHUF] [12:34PM] 225/752 | Vol: 22% | Heap: 129056/86004   Button 1: Multi Click (3)
+Action: Prev Song
+
+Playing [224/752]: /Ella Fitzgerald, Louis Armstrong - Dream A Little Dream Of Me - Single Version.mp3
+[SHUF] [12:34PM] 224/752 | Vol: 22% | Heap: 128584/86004   [SHUF] [12:34PM] 224/752 | Vol: 22% | Heap: 128584/86004   [SHUF] [12:34PM] 224/752 | Vol: 22% | Heap: 128584/86004   [SHUF] [12:34PM] 224/752 | Vol: 22% | Heap: 128584/86004   Button 1: Multi Click (3)
+Action: Prev Song
+
+Playing [223/752]: /Ella Fitzgerald, Chick Webb - When I Get Low I Get High.mp3
+[SHUF] [12:34PM] 223/752 | Vol: 22% | Heap: 128612/86004   [SHUF] [12:34PM] 223/752 | Vol: 22% | Heap: 128612/86004   [SHUF] [12:34PM] 223/752 | Vol: 22% | Heap: 128612/86004   [SHUF] [12:34PM] 223/752 | Vol: 22% | Heap: 128612/86004   [SHUF] [12:34PM] 223/752 | Vol: 22% | Heap: 128612/86004   [SHUF] [12:34PM] 223/752 | Vol: 22% | Heap: 128612/86004   [SHUF] [12:34PM] 223/752 | Vol: 22% | Heap: 128612/86004   [SHUF] [12:34PM] 223/752 | Vol: 22% | Heap: 128612/86004   Button 1: Double Click (Next)
+
+Next track...
+Playing [365/752]: /Jerry Lee Lewis - Lewis Boogie.mp3
+[SHUF] [12:34PM] 365/752 | Vol: 22% | Heap: 128620/86004   [SHUF] [12:34PM] 365/752 | Vol: 22% | Heap: 128620/86004   [SHUF] [12:34PM] 365/752 | Vol: 22% | Heap: 128620/86004   [SHUF] [12:34PM] 365/752 | Vol: 22% | Heap: 128620/86004   [SHUF] [12:34PM] 365/752 | Vol: 22% | Heap: 128620/86004   [SHUF] [12:34PM] 365/752 | Vol: 22% | Heap: 128620/86004   [SHUF] [12:34PM] 365/752 | Vol: 22% | Heap: 128620/86004   Button 1: Single Click (Play/Pause)
+
+Paused
+Button 1: Single Click (Play/Pause)
+Resumed
+[SHUF] [12:34PM] 365/752 | Vol: 22% | Heap: 128644/86004   [SHUF] [12:34PM] 365/752 | Vol: 22% | Heap: 128644/86004   Button 1: Double Click (Next)
+
+Next track...
+Playing [667/752]: /The Earls, Larry Chance - Eyes.mp3
+[SHUF] [12:34PM] 667/752 | Vol: 22% | Heap: 128648/86004   [SHUF] [12:34PM] 667/752 | Vol: 22% | Heap: 128648/86004   Button 1: Single Click (Play/Pause)
+
+Paused
+Button 1: Multi Click (3)
+Action: Prev Song
+Playing [666/752]: /The Drifters - Ruby Baby.mp3
+[SHUF] [12:34PM] 666/752 | Vol: 22% | Heap: 128680/86004   [SHUF] [12:34PM] 666/752 | Vol: 22% | Heap: 128680/86004   [SHUF] [12:34PM] 666/752 | Vol: 22% | Heap: 128680/86004   [SHUF] [12:34PM] 666/752 | Vol: 22% | Heap: 128680/86004   [SHUF] [12:34PM] 666/752 | Vol: 22% | Heap: 128680/86004   [SHUF] [12:34PM] 666/752 | Vol: 22% | Heap: 128680/86004   
+Shuffle: OFF
+[SEQ] [12:34PM] 666/752 | Vol: 22% | Heap: 128680/86004   [SEQ] [12:34PM] 666/752 | Vol: 22% | Heap: 128680/86004   [SEQ] [12:34PM] 666/752 | Vol: 22% | Heap: 128680/86004   
+Shuffle: ON
+[SHUF] [12:34PM] 666/752 | Vol: 22% | Heap: 128680/86004   [SHUF] [12:35PM] 666/752 | Vol: 22% | Heap: 128680/86004   [SHUF] [12:35PM] 666/752 | Vol: 22% | Heap: 128680/86004   [SHUF] [12:35PM] 666/752 | Vol: 22% | Heap: 128680/86004   [SHUF] [12:35PM] 666/752 | Vol: 22% | Heap: 128680/86004   [SHUF] [12:35PM] 666/752 | Vol: 22% | Heap: 128680/86004   
+Switching to Bluetooth Mode (Rebooting)...
+ets Jun  8 2016 00:22:57
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1184
+load:0x40078000,len:13232
+load:0x40080400,len:3028
+entry 0x400805e4
+
+
+========================================
+       ESP32 iPod Shuffle Clone
+========================================
+>> Hold BUTTON 2 (Next) now to reset WiFi settings... <<
+No reset requested. Continuing boot...
+
+========================================
+       ESP32 iPod Shuffle Clone
+========================================
+>> Booting into BLUETOOTH MODE <<
+E (3553) I2S: i2s_driver_uninstall(2048): I2S port 0 has not installed
+Starting Bluetooth Sink: ESP32-iPod
+[BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Waiting...   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   [BLUETOOTH] Connected   Exiting Bluetooth Mode (Rebooting)...
+ets Jun  8 2016 00:22:57
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1184
+load:0x40078000,len:13232
+load:0x40080400,len:3028
+entry 0x400805e4
+
+
+========================================
+       ESP32 iPod Shuffle Clone
+========================================
+>> Hold BUTTON 2 (Next) now to reset WiFi settings... <<
+No reset requested. Continuing boot...
+
+========================================
+       ESP32 iPod Shuffle Clone
+========================================
+>> Booting into SD CARD MODE <<
+Connecting to WiFi to sync time...
+*wm:AutoConnect 
+*wm:Connecting to SAVED AP: SpectrumSetup-D8
+*wm:connectTimeout not set, ESP waitForConnectResult... 
+*wm:AutoConnect: SUCCESS 
+*wm:STA IP Address: 192.168.1.227
+
+WiFi connected.
+Fetching NTP time...
+Time synced successfully!
+Current time: Tuesday, December 30 2025 12:36:06
+WiFi disconnected.
+SD Card mounted.
+SD Card Type: 3
+SD Card Size: 29820 MB
+Loading playlist from cache...
+Found 752 songs in cache.
+Total Songs: 752
+Playing [629/752]: /Teresa Brewer - Music! Music! Music!.mp3
+Volume: 0.23
+[SHUF] [12:36PM] 629/752 | Vol: 23% | Heap: 129020/86004   [SHUF] [12:36PM] 629/752 | Vol: 23% | Heap: 129020/86004   [SHUF] [12:36PM] 629/752 | Vol: 23% | Heap: 129012/86004   [SHUF] [12:36PM] 629/752 | Vol: 23% | Heap: 129020/86004   [SHUF] [12:36PM] 629/752 | Vol: 23% | Heap: 129020/86004   [SHUF] [12:36PM] 629/752 | Vol: 23% | Heap: 129020/86004   [SHUF] [12:36PM] 629/752 | Vol: 23% | Heap: 129020/86004   [SHUF] [12:36PM] 629/752 | Vol: 23% | Heap: 129020/86004   [SHUF] [12:36PM] 629/752 | Vol: 23% | Heap: 129020/86004   [SHUF] [12:36PM] 629/752 | Vol: 23% | Heap: 129020/86004   [SHUF] [12:36PM] 629/752 | Vol: 23% | Heap: 129020/86004   [SHUF] [12:36PM] 629/752 | Vol: 23% | Heap: 129020/86004   [SHUF] [12:36PM] 629/752 | Vol: 23% | Heap: 129020/86004   [SHUF] [12:36PM] 629/752 | Vol: 23% | Heap: 129020/86004   [SHUF] [12:36PM] 629/752 | Vol: 23% | Heap: 129020/86004   [SHUF] [12:36PM] 629/752 | Vol: 23% | Heap: 129020/86004   [SHUF] [12:36PM] 629/752 | Vol: 23% | Heap: 129020/86004   [SHUF] [12:36PM] 629/752 | Vol: 23% | Heap: 129020/86004   [SHUF] [12:36PM] 629/752 | Vol: 23% | Heap: 129020/86004   [SHUF] [12:36PM] 629/752 | Vol: 23% | Heap: 129020/86004   [SHUF] [12:36PM] 629/752 | Vol: 23% | Heap: 129020/86004   [SHUF] [12:36PM] 629/752 | Vol: 23% | Heap: 129020/86004   [SHUF] [12:36PM] 629/752 | Vol: 23% | Heap: 129020/86004   [SHUF] [12:36PM] 629/752 | Vol: 23% | Heap: 129020/86004   [SHUF] [12:36PM] 629/752 | Vol: 23% | Heap: 129020/86004   [SHUF] [12:36PM] 629/752 | Vol: 23% | Heap: 129020/86004   Button 2: Resetting WiFi Settings...
+*wm:resetSettings 
+*wm:SETTINGS ERASED 
+WiFi settings erased. Rebooting to Setup Mode...
+ets Jun  8 2016 00:22:57
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1184
+load:0x40078000,len:13232
+load:0x40080400,len:3028
+entry 0x400805e4
+
+
+========================================
+       ESP32 iPod Shuffle Clone
+========================================
+>> Hold BUTTON 2 (Next) now to reset WiFi settings... <<
+No reset requested. Continuing boot...
+
+========================================
+       ESP32 iPod Shuffle Clone
+========================================
+>> Booting into SD CARD MODE <<
+Connecting to WiFi to sync time...
+*wm:AutoConnect 
+*wm:No wifi saved, skipping 
+*wm:AutoConnect: FAILED for  94 ms
+*wm:StartAP with SSID:  ESP32-Radio-Setup
+*wm:AP IP address: 192.168.4.1
+Entered config mode
+192.168.4.1
+ESP32-Radio-Setup
+*wm:Starting Web Portal 
+[ 22192][E][WebServer.cpp:638] _handleRequest(): request handler not found
+*wm:4 networks found
+*wm:Connecting to NEW AP: SpectrumSetup-D8
+*wm:connectTimeout not set, ESP waitForConnectResult... 
+*wm:Connect to new AP [SUCCESS] 
+*wm:Got IP Address: 
+*wm:192.168.1.227 
+Should save config
+*wm:config portal exiting 
+Settings saved. Restarting to free up memory...
+ets Jun  8 2016 00:22:57
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1184
+load:0x40078000,len:13232
+load:0x40080400,len:3028
+entry 0x400805e4
+
+
+========================================
+       ESP32 iPod Shuffle Clone
+========================================
+>> Hold BUTTON 2 (Next) now to reset WiFi settings... <<
+No reset requested. Continuing boot...
+
+========================================
+       ESP32 iPod Shuffle Clone
+========================================
+>> Booting into SD CARD MODE <<
+Connecting to WiFi to sync time...
+*wm:AutoConnect 
+*wm:Connecting to SAVED AP: SpectrumSetup-D8
+*wm:connectTimeout not set, ESP waitForConnectResult... 
+*wm:AutoConnect: SUCCESS 
+*wm:STA IP Address: 192.168.1.227
+
+WiFi connected.
+Fetching NTP time...
+Time synced successfully!
+Current time: Tuesday, December 30 2025 12:37:35
+WiFi disconnected.
+SD Card mounted.
+SD Card Type: 3
+SD Card Size: 29820 MB
+Loading playlist from cache...
+Found 752 songs in cache.
+Total Songs: 752
+Playing [653/752]: /The Chordettes - Mr. Sandman - 1954 #1 Billboard chart hit.mp3
+Volume: 0.23
+[SHUF] [12:37PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:37PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:37PM] 653/752 | Vol: 23% | Heap: 128848/86004   [SHUF] [12:37PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:37PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:37PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:37PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:37PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:37PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:37PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:37PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:37PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:37PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:37PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:37PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:37PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:37PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:37PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:38PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128868/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128900/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128900/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128900/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128900/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128900/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128900/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128900/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128900/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128900/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128900/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128900/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128900/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128900/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128900/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128900/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128900/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128900/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128900/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128900/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128900/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128900/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128900/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128900/86004   [SHUF] [12:39PM] 653/752 | Vol: 23% | Heap: 128900/86004   [SHUF] [12:40PM] 653/752 | Vol: 23% | Heap: 128900/86004   [SHUF] [12:40PM] 653/752 | Vol: 23% | Heap: 128900/86004   [SHUF] [12:40PM] 653/752 | Vol: 23% | Heap: 128900/86004   [SHUF] [12:40PM] 653/752 | Vol: 23% | Heap: 128900/86004   [SHUF] [12:40PM] 653/752 | Vol: 23% | Heap: 128900/86004   [SHUF] [12:40PM] 653/752 | Vol: 23% | Heap: 128900/86004   Song finished.
+
+Playing [663/752]: /The Diamonds - Zip Zip.mp3
+[SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:40PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:41PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:42PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:42PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:42PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:42PM] 663/752 | Vol: 23% | Heap: 128920/86004   
+Volume: 0.21
+Volume: 0.23
+[SHUF] [12:42PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:42PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:42PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:42PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:42PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:42PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:42PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:42PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:42PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:42PM] 663/752 | Vol: 23% | Heap: 128920/86004   [SHUF] [12:42PM] 663/752 | Vol: 23% | Heap: 128920/86004   Song finished.
+
+Playing [228/752]: /Ella Fitzgerald, The Ink Spots - I Still Feel The Same About You.mp3
+[SHUF] [12:42PM] 228/752 | Vol: 23% | Heap: 128884/86004   [SHUF] [12:42PM] 228/752 | Vol: 23% | Heap: 128884/86004   [SHUF] [12:42PM] 228/752 | Vol: 23% | Heap: 128884/86004   [SHUF] [12:42PM] 228/752 | Vol: 23% | Heap: 128884/86004   [SHUF] [12:42PM] 228/752 | Vol: 23% | Heap: 128884/86004   [SHUF] [12:42PM] 228/752 | Vol: 23% | Heap: 128884/86004   [SHUF] [12:42PM] 228/752 | Vol: 23% | Heap: 128884/86004   [SHUF] [12:42PM] 228/752 | Vol: 23% | Heap: 128884/86004   [SHUF] [12:42PM] 228/752 | Vol: 23% | Heap: 128884/86004   [SHUF] [12:42PM] 228/752 | Vol: 23% | Heap: 128884/86004   [SHUF] [12:42PM] 228/752 | Vol: 23% | Heap: 128884/86004   [SHUF] [12:42PM] 228/752 | Vol: 23% | Heap: 128884/86004   [SHUF] [12:42PM] 228/752 | Vol: 23% | Heap: 128884/86004   [SHUF] [12:42PM] 228/752 | Vol: 23% | Heap: 128884/86004   [SHUF] [12:42PM] 228/752 | Vol: 23% | Heap: 128884/86004   [SHUF] [12:42PM] 228/752 | Vol: 23% | Heap: 128884/86004   [SHUF] [12:42PM] 228/752 | Vol: 23% | Heap: 128884/86004   

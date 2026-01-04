@@ -1,0 +1,35 @@
+
+
+========================================
+       ESP32 iPod Shuffle Clone
+========================================
+
+========================================
+       ESP32 iPod Shuffle Clone
+========================================
+Chip Model: ESP32-D0WDQ6
+Chip Revision: 1
+CPU Freq: 240 MHz
+Flash Size: 4 MB
+Free Heap: 213084 bytes
+SDK Version: v4.4.7-dirty
+========================================
+
+>> Booting into SD CARD MODE <<
+>> Skipping WiFi Check (Previous Timeout) <<
+>> Hold BUTTON 2 (Next) on boot to retry WiFi <<
+E (3563) I2S: i2s_driver_uninstall(2048): I2S port 0 has not installed
+Initial Volume: 0.13
+SD Card mounted.
+SD Card Type: 3
+SD Card Size: 29820 MB
+Loading playlist from cache...
+Found 752 songs in cache.
+Total Songs: 752
+Playing [225/752]: /Ella Fitzgerald, Louis Armstrong - Let's Call The Whole Thing Off.mp3
+[SHUF] [--:--] 225/752 | Vol: 13% | Heap: 145612 (Min: 145544) | Up: 11 s   
+[SHUF] [--:--] 225/752 | Vol: 13% | Heap: 145612 (Min: 145432) | Up: 17 s   [SHUF] [--:--] 225/752 | Vol: 13% | Heap: 145612 (Min: 145432) | Up: 22 s   
+Volume: 0.19
+[SHUF] [--:--] 225/752 | Vol: 19% | Heap: 145612 (Min: 145432) | Up: 27 s   
+Volume: 0.45
+[SHUF] [--:--] 225/752 | Vol: 45% | Heap: 145612 (Min: 145432) | Up: 32 s   [SHUF] [--:--] 225/752 | Vol: 45% | Heap: 145612 (Min: 145432) | Up: 37 s   [SHUF] [--:--] 225/752 | Vol: 45% | Heap: 145612 (Min: 145432) | Up: 42 s   [SHUF] [--:--] 225/752 | Vol: 45% | Heap: 145612 (Min: 145432) | Up: 47 s   [SHUF] [--:--] 225/752 | Vol: 45% | Heap: 145612 (Min: 145432) | Up: 52 s   [SHUF] [--:--] 225/752 | Vol: 45% | Heap: 145612 (Min: 145432) | Up: 57 s   [SHUF] [--:--] 225/752 | Vol: 45% | Heap: 145612 (Min: 145432) | Up: 62 s   [SHUF] [--:--] 225/752 | Vol: 45% | Heap: 145612 (Min: 145432) | Up: 67 s   [SHUF] [--:--] 225/752 | Vol: 45% | Heap: 145612 (Min: 145432) | Up: 72 s   [SHUF] [--:--] 225/752 | Vol: 45% | Heap: 145612 (Min: 145432) | Up: 77 s   [SHUF] [--:--] 225/752 | Vol: 45% | Heap: 145612 (Min: 145432) | Up: 82 s   [SHUF] [--:--] 225/752 | Vol: 45% | Heap: 145612 (Min: 145432) | Up: 87 s   [SHUF] [--:--] 225/752 | Vol: 45% | Heap: 145612 (Min: 145432) | Up: 92 s   [SHUF] [--:--] 225/752 | Vol: 45% | Heap: 145612 (Min: 145432) | Up: 97 s   [SHUF] [--:--] 225/752 | Vol: 45% | Heap: 145612 (Min: 145432) | Up: 102 s   [SHUF] [--:--] 225/752 | Vol: 45% | Heap: 145612 (Min: 145432) | Up: 107 s   [SHUF] [--:--] 225/752 | Vol: 45% | Heap: 145612 (Min: 145432) | Up: 112 s   [SHUF] [--:--] 225/752 | Vol: 45% | Heap: 145612 (Min: 145432) | Up: 117 s   [SHUF] [--:--] 225/752 | Vol: 45% | Heap: 145612 (Min: 145432) | Up: 123 s   [SHUF] [--:--] 225/752 | Vol: 45% | Heap: 145612 (Min: 145432) | Up: 128 s   [SHUF] [--:--] 225/752 | Vol: 45% | Heap: 145612 (Min: 145432) | Up: 133 s   [SHUF] [--:--] 225/752 | Vol: 45% | Heap: 145612 (Min: 145432) | Up: 138 s   [SHUF] [--:--] 225/752 | Vol: 45% | Heap: 145612 (Min: 145432) | Up: 143 s   [SHUF] [--:--] 225/752 | Vol: 45% | Heap: 145612 (Min: 145432) | Up: 148 s   
