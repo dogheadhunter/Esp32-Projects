@@ -49,6 +49,12 @@ The firmware includes a built-in test suite located in `src/tests/`. To enable i
 - **[TEST 6] Long Filename Handling:** Attempts to open a file with a ~100 char filename.
     - *Pass Criteria:* File opens or fails gracefully without buffer overflow crash.
 
+### Round 3: Performance & Latency
+- **[TEST 7] System Latency Check:** Measures execution time of critical functions.
+    - *Pass Criteria:* `SD.exists()` < 10ms.
+    - *Finding:* `SD.exists()` took ~275ms, causing audio stutter.
+    - *Fix:* Removed periodic SD check from main loop.
+
 ## How to Run Tests
 1. Open `src/main.cpp`.
 2. Uncomment `#define TEST_MODE`.

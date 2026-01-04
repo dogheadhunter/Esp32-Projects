@@ -1,6 +1,21 @@
 .pio
 .vscode
-include/secrets.h
-
 .venv
-build.log
+__pycache__
+*.pyc
+*.log
+
+# User Data
+*.csv
+*.mp3
+*.wav
+*.m3u
+
+# Generated Folders
+sd_card_staging/
+logs/
+my_voice_assets/
+station_assets/
+
+# Secrets
+include/secrets.h

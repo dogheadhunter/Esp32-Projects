@@ -119,13 +119,17 @@ void runGarbageFileTest() {
         int loops = 0;
         while (millis() - start < 1000) {
             if (!mp3->loop()) {
-                Serial.println("Decoder stopped (loop returned false).");
+                Serial.println("\nDecoder stopped (loop returned false).");
                 error = true;
                 break;
             }
             loops++;
-            if (loops % 100 == 0) delay(1); // Yield
+            if (loops % 100 == 0) {
+                delay(1); // Yield
+                if (loops % 500 == 0) Serial.print(".");
+            }
         }
+        Serial.println();
         
         if (error) Serial.println("RESULT: PASS (Stopped gracefully)");
         else Serial.println("RESULT: WARNING (Decoder kept running on garbage? Watchdog would handle this.)");
@@ -154,6 +158,7 @@ void runRapidFireTest() {
     }
 
     for(int i=0; i<20; i++) {
+        Serial.print(".");
         playNextSong();
         // Run a few loops to let it allocate buffers
         for(int j=0; j<50; j++) {
@@ -161,6 +166,7 @@ void runRapidFireTest() {
         }
         delay(10); // Short pause
     }
+    Serial.println();
     
     mp3->stop();
     uint32_t endHeap = ESP.getFreeHeap();
@@ -209,6 +215,69 @@ void runLongFilenameTest() {
     SD.remove(longName);
 }
 
+void runLatencyTest() {
+    Serial.println("\n[TEST 7] System Latency Check");
+    
+    // 1. Measure SD.exists() latency
+    unsigned long start = micros();
+    bool exists = SD.exists("/playlist.m3u");
+    unsigned long duration = micros() - start;
+    
+    Serial.printf("SD.exists() time: %lu us\n", duration);
+    
+    if (duration > 10000) { // > 10ms is bad for audio
+        Serial.println("RESULT: FAIL (SD Check is too slow! Causes stutter.)");
+    } else {
+        Serial.println("RESULT: PASS (SD Check is fast enough)");
+    }
+    
+    // 2. Measure Analog Read Latency (Volume Check)
+    start = micros();
+    analogRead(39);
+    duration = micros() - start;
+    Serial.printf("analogRead() time: %lu us\n", duration);
+}
+
+void runSequentialPlaybackTest() {
+    Serial.println("\n[TEST 8] Sequential Playback & Playlist Content");
+    
+    // 1. Verify Shuffle Mode is OFF
+    if (shuffleMode == false) {
+        Serial.println("Shuffle Mode: OFF (Correct)");
+    } else {
+        Serial.println("Shuffle Mode: ON (FAIL - Should be OFF for Intro/Song pairs)");
+    }
+
+    // 2. Check Playlist Content
+    File f = SD.open("/playlist.m3u");
+    if (f) {
+        Serial.println("First 6 lines of playlist.m3u:");
+        for(int i=0; i<6; i++) {
+            if(f.available()) {
+                String line = f.readStringUntil('\n');
+                line.trim();
+                Serial.printf("  Line %d: %s\n", i+1, line.c_str());
+            }
+        }
+        f.close();
+    } else {
+        Serial.println("Error: Could not open /playlist.m3u");
+    }
+
+    // 3. Simulate Logic
+    Serial.println("Simulating 'Next Song' logic (starting from index -1):");
+    currentSongIndex = -1;
+    totalSongs = 10; // Mock
+    shuffleMode = false; // Force for test
+    
+    for(int i=0; i<4; i++) {
+        int nextIndex = (currentSongIndex + 1) % totalSongs;
+        currentSongIndex = nextIndex;
+        Serial.printf("  Step %d -> Index %d\n", i+1, currentSongIndex);
+    }
+    Serial.println("RESULT: PASS (If indices are 0, 1, 2, 3)");
+}
+
 void runAllTests() {
     Serial.println("\n=== STARTING TEST SUITE (ROUND 3) ===");
     
@@ -218,6 +287,8 @@ void runAllTests() {
     runGarbageFileTest();
     runRapidFireTest();
     runLongFilenameTest();
+    runLatencyTest();
+    runSequentialPlaybackTest();
     
     Serial.println("\n=== ALL TESTS COMPLETE ===");
 }

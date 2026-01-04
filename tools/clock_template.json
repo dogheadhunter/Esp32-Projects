@@ -1,0 +1,10 @@
+[
+    { "type": "fixed", "path": "/ids/legal_id.mp3", "note": "Top of the Hour" },
+    { "type": "music", "genre": "rock", "min_year": 1970, "max_year": 1989, "count": 1 },
+    { "type": "jingle", "folder": "/jingles", "count": 1 },
+    { "type": "music", "genre": "pop", "count": 2 },
+    { "type": "ad", "folder": "/ads", "count": 1 },
+    { "type": "fixed", "path": "/ids/sweeper.mp3" },
+    { "type": "music", "genre": "soul", "count": 1 },
+    { "type": "music", "any": true, "count": 1 }
+]

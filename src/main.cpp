@@ -36,7 +36,7 @@ AudioOutputI2S *out;
 // Playlist
 int totalSongs = 0;
 int currentSongIndex = -1;
-bool shuffleMode = true; // Default to Shuffle
+bool shuffleMode = false; // Default to Sequential (PC handles shuffle)
 std::vector<int> shuffleOrder; // Stores the shuffled indices
 int shufflePosition = 0; // Where we are in the shuffle list
 
@@ -61,33 +61,58 @@ void cleanSerialLine() {
     }
 }
 
-// Helper to list files
+// Helper to list files with Buffered Writing for Speed
 void scanDirectory() {
     cleanSerialLine();
-    Serial.println("Scanning SD card for MP3 files...");
+    Serial.println("Scanning SD card (Optimized)...");
     SD.remove("/playlist.m3u");
     File playlistFile = SD.open("/playlist.m3u", FILE_WRITE);
     if (!playlistFile) return;
 
-    File root = SD.open("/");
-    if (!root) { playlistFile.close(); return; }
+    // Directories to scan
+    const char* dirs[] = { "/", "/music" };
     
     totalSongs = 0;
-    File entry;
-    while (entry = root.openNextFile()) {
-        String name = String(entry.name());
-        if (!name.startsWith(".") && !entry.isDirectory() && name.endsWith(".mp3")) {
-            if (!name.startsWith("/")) name = "/" + name;
-            playlistFile.println(name);
-            totalSongs++;
-            if (totalSongs % 10 == 0) Serial.print(".");
+    String writeBuffer = "";
+    writeBuffer.reserve(512); // Pre-allocate memory
+
+    for (int i = 0; i < 2; i++) {
+        File root = SD.open(dirs[i]);
+        if (!root) continue;
+
+        File entry;
+        while (entry = root.openNextFile()) {
+            String name = String(entry.name());
+            if (!name.startsWith(".") && !entry.isDirectory() && name.endsWith(".mp3")) {
+                // Construct full path
+                String fullPath = String(dirs[i]);
+                if (fullPath == "/") fullPath = ""; // Avoid double slash
+                fullPath += "/" + name;
+
+                // Add to buffer
+                writeBuffer += fullPath + "\n";
+                totalSongs++;
+
+                if (totalSongs % 10 == 0) Serial.print(".");
+
+                // Flush buffer if it gets large
+                if (writeBuffer.length() > 500) {
+                    playlistFile.print(writeBuffer);
+                    writeBuffer = "";
+                }
+            }
+            entry.close();
         }
-        entry.close();
+        root.close();
     }
-    root.close();
+    
+    // Flush remaining buffer
+    if (writeBuffer.length() > 0) {
+        playlistFile.print(writeBuffer);
+    }
+
     playlistFile.close();
-    Serial.println();
-    Serial.printf("Found %d songs.\n", totalSongs);
+    Serial.printf("Done. Found %d songs.\n", totalSongs);
 }
 
 // Fisher-Yates Shuffle Generator
@@ -312,27 +337,25 @@ void loop() {
         lastAudioLoop = millis();
     }
 
-    // 2. SD Card Removal Check (Every 1s)
+    // 2. SD Card Removal Check - REMOVED (Too slow, causes audio stutter)
+    // The decoder will naturally fail if the card is removed.
+    /* 
     if (millis() - lastSDCheck > 1000) {
         lastSDCheck = millis();
         if (!SD.exists("/playlist.m3u")) {
-            if (mp3->isRunning()) {
-                cleanSerialLine();
-                Serial.println("SD Card Removed! Stopping playback...");
-                mp3->stop();
-                out->SetGain(0);
-                currentOutputGain = 0.0;
-            }
+             // ...
         }
     }
+    */
 
     // 3. Volume Control (Input Smoothing)
     if (millis() - lastVolCheck > 50) { 
         lastVolCheck = millis();
         
         long sum = 0;
-        for (int i = 0; i < 16; i++) sum += analogRead(POT_PIN);
-        int avgRaw = sum / 16;
+        // Reduced oversampling from 16 to 4 to prevent blocking (4 * ~1ms = 4ms)
+        for (int i = 0; i < 4; i++) sum += analogRead(POT_PIN);
+        int avgRaw = sum / 4;
         int newVol = map(avgRaw, 0, 4095, 0, 100);
         
         // Spike Protection: Limit sudden jumps > 10%

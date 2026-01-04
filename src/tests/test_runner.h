@@ -31,6 +31,7 @@ void runSequentialWrapTest();
 void runGarbageFileTest();
 void runRapidFireTest();
 void runLongFilenameTest();
+void runLatencyTest();
 
 // Master Runner
 void runAllTests();
