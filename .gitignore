@@ -19,3 +19,5 @@ station_assets/
 
 # Secrets
 include/secrets.h
+
+.gradio/
