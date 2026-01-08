@@ -4,7 +4,7 @@ description: A deep-dive research specialist for finding accurate technical info
 argument-hint: Ask a complex technical question or request a topic deep-dive.
 model: Raptor mini (Preview) (copilot)
 tools:
-  ['read', 'search', 'web', 'brave-search/*', 'com.stackoverflow.mcp/mcp/*', 'github/*', 'sequential-thinking/*']
+  ['read', 'search', 'web', 'brave-search/*', 'com.stackoverflow.mcp/mcp/*', 'huggingface/hf-mcp-server/*', 'github/*', 'sequential-thinking/*']
 handoffs:
   - label: Plan Implementation
     agent: Planner
