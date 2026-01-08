@@ -1,153 +1,0 @@
-
-
-========================================
-       ESP32 iPod Shuffle Clone
-========================================
-
-========================================
-       ESP32 iPod Shuffle Clone
-========================================
-Chip Model: ESP32-D0WDQ6
-Chip Revision: 1
-CPU Freq: 240 MHz
-Flash Size: 4 MB
-Free Heap: 213084 bytes
-SDK Version: v4.4.7-dirty
-========================================
-
->> Booting into SD CARD MODE <<
-RTC time invalid (Cold Boot).
-Connecting to WiFi to sync time...
-Config Portal Timeout: 60 seconds
-*wm:AutoConnect 
-*wm:No wifi saved, skipping 
-*wm:AutoConnect: FAILED for  93 ms
-*wm:StartAP with SSID:  ESP32-Radio-Setup
-*wm:AP IP address: 192.168.4.1
-Entered config mode
-192.168.4.1
-ESP32-Radio-Setup
-*wm:Starting Web Portal 
-*wm:4 networks found
-*wm:Connecting to NEW AP: SpectrumSetup-D8
-*wm:connectTimeout not set, ESP waitForConnectResult... 
-*wm:Connect to new AP [SUCCESS] 
-*wm:Got IP Address: 
-*wm:192.168.1.227 
-Should save config
-*wm:config portal exiting 
-Settings saved. Restarting to free up memory...
-ets Jun  8 2016 00:22:57
-
-rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
-configsip: 0, SPIWP:0xee
-clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
-mode:DIO, clock div:2
-load:0x3fff0030,len:1184
-load:0x40078000,len:13232
-load:0x40080400,len:3028
-entry 0x400805e4
-
-
-========================================
-       ESP32 iPod Shuffle Clone
-========================================
-
-========================================
-       ESP32 iPod Shuffle Clone
-========================================
-Chip Model: ESP32-D0WDQ6
-Chip Revision: 1
-CPU Freq: 240 MHz
-Flash Size: 4 MB
-Free Heap: 213084 bytes
-SDK Version: v4.4.7-dirty
-========================================
-
->> Booting into SD CARD MODE <<
-RTC time invalid (Cold Boot).
-Connecting to WiFi to sync time...
-Config Portal Timeout: 60 seconds
-*wm:AutoConnect 
-*wm:Connecting to SAVED AP: SpectrumSetup-D8
-*wm:connectTimeout not set, ESP waitForConnectResult... 
-*wm:AutoConnect: SUCCESS 
-*wm:STA IP Address: 192.168.1.227
-
-WiFi connected.
-IP Address: 192.168.1.227
-Subnet Mask: 255.255.255.0
-Gateway IP: 192.168.1.1
-DNS Server: 192.168.1.1
-BSSID: E4:C0:E2:5D:50:DE
-RSSI (Signal Strength): -42 dBm
-Fetching NTP time...
-Time synced successfully!
-Current time: Tuesday, December 30 2025 15:26:25
-WiFi disconnected (Radio OFF).
-Initial Volume: 0.13
-SD Card mounted.
-SD Card Type: 3
-SD Card Size: 29820 MB
-Loading playlist from cache...
-Found 752 songs in cache.
-Total Songs: 752
-Playing [554/752]: /Roger Miller - King Of The Road.mp3
-[SHUF] [03:26PM] 554/752 | Vol: 13% | Heap: 129088 (Min: 129004) | Up: 8 s   [SHUF] [03:26PM] 554/752 | Vol: 13% | Heap: 129088 (Min: 128972) | Up: 9 s   [SHUF] [03:26PM] 554/752 | Vol: 13% | Heap: 129080 (Min: 128844) | Up: 10 s   [SHUF] [03:26PM] 554/752 | Vol: 13% | Heap: 129088 (Min: 128844) | Up: 11 s   [SHUF] [03:26PM] 554/752 | Vol: 13% | Heap: 129088 (Min: 128844) | Up: 12 s   [SHUF] [03:26PM] 554/752 | Vol: 13% | Heap: 129088 (Min: 128844) | Up: 13 s   [SHUF] [03:26PM] 554/752 | Vol: 13% | Heap: 129088 (Min: 128844) | Up: 14 s   [SHUF] [03:26PM] 554/752 | Vol: 13% | Heap: 129088 (Min: 128844) | Up: 15 s   [SHUF] [03:26PM] 554/752 | Vol: 13% | Heap: 129088 (Min: 128844) | Up: 16 s   [SHUF] [03:26PM] 554/752 | Vol: 13% | Heap: 129088 (Min: 128844) | Up: 17 s   [SHUF] [03:26PM] 554/752 | Vol: 13% | Heap: 129088 (Min: 128844) | Up: 18 s   [SHUF] [03:26PM] 554/752 | Vol: 13% | Heap: 129088 (Min: 128844) | Up: 19 s   [SHUF] [03:26PM] 554/752 | Vol: 13% | Heap: 129088 (Min: 128844) | Up: 20 s   Button 2: Resetting WiFi Settings...
-*wm:resetSettings 
-*wm:SETTINGS ERASED 
-WiFi settings erased. Rebooting to Setup Mode...
-ets Jun  8 2016 00:22:57
-
-rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
-configsip: 0, SPIWP:0xee
-clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
-mode:DIO, clock div:2
-load:0x3fff0030,len:1184
-load:0x40078000,len:13232
-load:0x40080400,len:3028
-entry 0x400805e4
-
-
-========================================
-       ESP32 iPod Shuffle Clone
-========================================
-
-========================================
-       ESP32 iPod Shuffle Clone
-========================================
-Chip Model: ESP32-D0WDQ6
-Chip Revision: 1
-CPU Freq: 240 MHz
-Flash Size: 4 MB
-Free Heap: 213084 bytes
-SDK Version: v4.4.7-dirty
-========================================
-
->> Booting into SD CARD MODE <<
-RTC has valid time (Persisted).
-Connecting to WiFi to sync time...
-Config Portal Timeout: 60 seconds
-*wm:AutoConnect 
-*wm:No wifi saved, skipping 
-*wm:AutoConnect: FAILED for  92 ms
-*wm:StartAP with SSID:  ESP32-Radio-Setup
-*wm:AP IP address: 192.168.4.1
-Entered config mode
-192.168.4.1
-ESP32-Radio-Setup
-*wm:Starting Web Portal 
-*wm:config portal has timed out 
-*wm:config portal exiting 
-
-Failed to connect or hit timeout. Skipping time sync.
-WiFi disconnected (Radio OFF).
-Initial Volume: 0.13
-SD Card mounted.
-SD Card Type: 3
-SD Card Size: 29820 MB
-Loading playlist from cache...
-Found 752 songs in cache.
-Total Songs: 752
-Playing [671/752]: /The Five Stars - Atom Bomb Baby.mp3
-[SHUF] [09:27PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 68 s   [SHUF] [09:27PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 69 s   [SHUF] [09:27PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 70 s   [SHUF] [09:27PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 71 s   [SHUF] [09:27PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 72 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 73 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 74 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 75 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 76 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 77 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 78 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 79 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 80 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 81 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 82 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 83 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 84 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 85 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 86 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 87 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 88 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 89 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 90 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 91 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 92 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 93 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 94 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 95 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 96 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 97 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 98 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 99 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 100 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 101 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 102 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 103 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 104 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 105 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 106 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 107 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 108 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 109 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 110 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 111 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 112 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 113 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 114 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 115 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 116 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 117 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 118 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 119 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 120 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 121 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 122 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 123 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 124 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 125 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 126 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 127 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 128 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 129 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 130 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 131 s   [SHUF] [09:28PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 132 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 133 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 134 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 135 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 136 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 137 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 138 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 139 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 140 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 141 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 142 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 143 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 144 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 145 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 146 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 147 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 148 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 149 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 150 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 151 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 152 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 153 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 154 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 155 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 156 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 157 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 158 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 159 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 160 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 161 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 162 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 163 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 164 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 165 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 166 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 167 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 168 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 169 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 170 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 171 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 172 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 173 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 174 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 175 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 176 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 177 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 178 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 179 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 180 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 181 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 182 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 183 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 184 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 185 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 186 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 187 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 188 s   [SHUF] [09:29PM] 671/752 | Vol: 13% | Heap: 128952 (Min: 126920) | Up: 189 s   
