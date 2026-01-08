@@ -11,3 +11,8 @@ logs/
 !README.md
 !INLAND_ESP32_SPECS.md
 !TESTING.md
+
+# Audio Files
+*.mp3
+*.wav
+*.m4a
