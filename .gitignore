@@ -16,3 +16,15 @@ logs/
 *.mp3
 *.wav
 *.m4a
+
+# AI Models & Training
+*.safetensors
+*.pt
+*.bin
+*.pth
+dataset_julie/
+outputs/
+audio generation/vibevoice_setup/VibeVoice_Community/outputs/
+
+# Exceptions (Allow these text files)
+!audio generation/test_input.txt

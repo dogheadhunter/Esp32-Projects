@@ -1,0 +1,13 @@
+# pack-refs with: peeled fully-peeled sorted 
+07108d90e29d2c970788f96d797ecd04df79db5f refs/remotes/origin/finetuning
+b181343ffb2129a0474919eae3d848e888a52c58 refs/remotes/origin/fix-speaker-lines
+5541ebc7e15d76cca6ed8d171d75eb4278027fad refs/remotes/origin/ft-improve-docs
+85cdf6d427e9c041399d26a18349b2a80b5c8ef0 refs/remotes/origin/inference-lora-v2
+5c733dfbe8f467e5aa8fef993519b601b1aa1938 refs/remotes/origin/lora-inference
+b9d561240ada3ee5d8fb5812bebb32f7ecfd97ae refs/remotes/origin/main
+014d7f3acec94182d78038a0e6929181d8bb5f47 refs/remotes/origin/multigpu
+39ce1463d97aa0c2d7745d59aef730204f52591f refs/remotes/origin/multiline
+9280bc62a54997ff3246edce2756823f4a968939 refs/remotes/origin/new-diffusion-loss-fn
+4bf1bbdfbf8c92713afbc95ff22861f53c46184b refs/remotes/origin/resume-from-ckpt
+4954a3f2d66372e3efd2a1726f9b420dc5c183c2 refs/remotes/origin/training
+3ea89be6ed5ddf218f926266e6203e51263d497a refs/remotes/origin/unsloth-finetuning
