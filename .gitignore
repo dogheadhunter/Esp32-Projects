@@ -4,3 +4,10 @@ include/secrets.h
 
 .venv
 build.log
+logs/
+*.log
+*.txt
+*.csv
+!README.md
+!INLAND_ESP32_SPECS.md
+!TESTING.md
