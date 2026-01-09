@@ -2,18 +2,15 @@
 
 A sophisticated, AI-driven radio station project running on ESP32 hardware. This system generates dynamic content (News, Weather, Gossip) presented by distinct "DJ Personalities" (like Mr. New Vegas or Julie), mixed with a curated music library.
 
-## 📌 State of the Repository (January 2026)
+## 📌 State of the Repository (January 2026 - clean slate)
 
-This project has recently undergone significant restructuring to focus on high-fidelity DJ persona generation.
+This repository has been reset to a "Clean Slate" state (Commit `1346717`). It focuses on a robust, working ESP32 MP3 player foundation with the essential directory structure for AI-driven content generation, but without heavy experimental dependencies (complex agents, VibeVoice training data, etc.).
 
-### Recent Updates
-*   **DJ Personalities**: 
-    *   **Three Dog** has been archived/removed.
-    *   **Travis Miles** has been split into two distinct modes: **Nervous** (Pre-Quest) and **Confident** (Post-Quest).
-    *   **Julie** (Fallout 76) has been added with a full personality profile.
-    *   **Mr. New Vegas** has received a "deep dive" update for canonical accuracy.
-*   **Audio Management**: Voice source files (MP3s) are now stored locally in personality folders but strictly ignored by Git to keep the repo lightweight.
-*   **Tools**: Integration with local LLMs (Ollama) is configured in `tools/ollama_setup/`.
+### Current Capabilities
+*   **Core Firmware**: Stable ESP32 MP3 player code in `src/`.
+*   **Infrastructure**: Folders established for the AI Content Pipeline (`script generation`, `audio generation`).
+*   **Personalities**: Definitions and prompts preserved for **Julie**, **Mr. New Vegas**, **Mr. Med City**, and **Travis Miles** (Nervous/Confident).
+*   **Tools**: Basic operational tools and configuration preserved in `tools/`.
 
 ---
 
