@@ -57,5 +57,23 @@ This is a hybrid hardware/software project:
 *   **Audio Output:** `AudioOutputI2S` configured for external DAC (MAX98357A etc), not internal DAC.
 
 ## 🧠 Remember
-*   <!-- Add persistent notes, sticky context, or architectural decisions here for the agent to remember across sessions -->
+
+### TTS & Voice Cloning (2026-01-09)
+- Research revealed Coqui XTTS v2 is optimal for voice cloning on RTX 3060 (6GB VRAM), achieving 90-95% voice similarity with 30min source audio and fine-tuning (~40 min training).
+- No pre-trained Fallout voice models exist on Hugging Face or CivitAI; all DJ voices must be cloned from source audio files.
+- XTTS v2 requires 22050 Hz mono WAV input, outputs 24kHz audio that must be converted to 44.1kHz MP3 for ESP32, with ID3 tags stripped for compatibility.
+- Fine-tuning parameters for 6GB VRAM: batch_size=2, 15 epochs, ~2-3 seconds inference time per segment with DeepSpeed acceleration.
+
+### ESP32 RTC & WiFi Integration (2026-01-09)
+- ESP32 built-in RTC drifts ~30-60 seconds over 6 hours (acceptable for ±2 minute scheduled content tolerance).
+- WiFi MUST be fully disconnected (`WiFi.disconnect(true); WiFi.mode(WIFI_OFF);`) after NTP sync to prevent I2S audio interference and glitches.
+- Dual-core architecture required: WiFi NTP sync on Core 0 (FreeRTOS task, priority 19-20), audio playback on Core 1 to ensure buffer never starves.
+- ESP8266Audio library requires continuous `loop()` calls; any blocking WiFi operation causes buffer underruns and audio artifacts.
+
+### Filename-Based Scheduling System (2026-01-09)
+- Adopted filename convention `HHMM-type-dj-id-variant.mp3` for scheduled content (e.g., `0800-weather-julie-sunny.mp3`).
+- Parsing strategy: use `sscanf()` with static char buffers (~50 μs per file), avoid Arduino String class to prevent heap fragmentation during 24/7 operation.
+- Schedule algorithm: pre-scan SD at boot, build sorted array (200 max segments = 8KB RAM), use binary search for "next segment" lookup, fill gaps with music.
+- Time matching uses ±2 minute window to handle RTC drift between NTP syncs; `played_today` flags reset at midnight to prevent duplicate playback.
+
 

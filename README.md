@@ -50,6 +50,7 @@ This architecture separates the *creation* of content (scripts) from the *produc
     *   *Subfolders*:
         *   `main tools/`: Stable scripts for content generation and SD card sync.
         *   `ollama_setup/`: Scripts and configs for local LLM inference (e.g., `test_connection.py`).
+        *   `wiki_to_chromadb/`: **NEW** - Complete pipeline for processing Fallout Wiki into ChromaDB embeddings with DJ-specific knowledge filtering.
         *   `temp tools/`: Experimental scripts or one-off fixes.
 
 *   **`Debug Logs/`**

@@ -12,7 +12,27 @@ logs/
 !INLAND_ESP32_SPECS.md
 !TESTING.md
 
+# Archive directory (deprecated code and large files)
+archive/
+
 # Audio Files
 *.mp3
 *.wav
 *.m4a
+
+# Python Virtual Environments
+chatterbox_env/
+__pycache__/
+*.pyc
+
+# Large AI Models
+models/
+*.safetensors
+*.pt
+*.bin
+
+# Large Data Files
+Save_Do_Not_Touch/
+fallout_wiki_complete.xml
+*.xml
+
