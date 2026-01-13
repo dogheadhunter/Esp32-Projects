@@ -6,8 +6,8 @@ Streams MediaWiki XML exports and converts wikitext to plain text with metadata 
 
 import re
 import unicodedata
+import xml.etree.ElementTree as ET
 from typing import Dict, Generator, Optional, Tuple
-import mwxml
 import mwparserfromhell
 
 
@@ -144,25 +144,52 @@ def extract_pages(xml_path: str, namespace: int = 0) -> Generator[Dict, None, No
         Dict with keys: title, namespace, timestamp, wikitext, raw_metadata
     """
     try:
-        dump = mwxml.Dump.from_file(
-            open(xml_path, encoding='utf-8', errors='replace')
-        )
+        context = ET.iterparse(open(xml_path, encoding='utf-8', errors='replace'), events=('end',))
         
-        for page in dump:
-            # Filter by namespace (0 = main articles)
-            if page.namespace != namespace:
-                continue
-            
-            # Get latest revision
-            for revision in page:
-                yield {
-                    'title': page.title,
-                    'namespace': page.namespace,
-                    'timestamp': revision.timestamp,
-                    'wikitext': revision.text or "",
-                }
-                break  # Only process latest revision
-                
+        for event, elem in context:
+            # Check if tag ends with 'page' to handle namespaces 
+            # (e.g., {http://www.mediawiki.org/xml/export-0.10/}page)
+            if elem.tag.endswith('page'):
+                try:
+                    # Find namespace element - handle namespaces in find
+                    # Using local-name() approach in xpath is not supported in standard ET 1.2
+                    # So we iterate children or use namespaced find if we know the NS
+                    
+                    # Heuristic: Match tag localname by stripping namespace
+                    def find_child(parent, localname):
+                        for child in parent:
+                            if child.tag.endswith(localname):
+                                return child
+                        return None
+
+                    ns_elem = find_child(elem, 'ns')
+                    page_ns = int(ns_elem.text) if ns_elem is not None and ns_elem.text else 0
+                    
+                    if page_ns == namespace:
+                        title_elem = find_child(elem, 'title')
+                        title = title_elem.text if title_elem is not None else "Unknown"
+                        
+                        # Get revision
+                        revision = find_child(elem, 'revision')
+                        if revision is not None:
+                            timestamp_elem = find_child(revision, 'timestamp')
+                            timestamp = timestamp_elem.text if timestamp_elem is not None else ""
+                            
+                            text_elem = find_child(revision, 'text')
+                            wikitext = text_elem.text if text_elem is not None else ""
+                            
+                            yield {
+                                'title': title,
+                                'namespace': page_ns,
+                                'timestamp': timestamp,
+                                'wikitext': wikitext or "",
+                            }
+                except Exception as inner_e:
+                    print(f"Warning: Error parsing page element: {inner_e}")
+                finally:
+                    # Optimize memory: clear the element
+                    elem.clear()
+                    
     except Exception as e:
         raise RuntimeError(f"Failed to parse XML file {xml_path}: {e}")
 

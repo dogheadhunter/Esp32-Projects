@@ -13,7 +13,7 @@ Successfully implemented a complete 5-phase processing pipeline that converts th
 ### Core Pipeline Components
 
 1. **wiki_parser.py** - Phase 1 & 2: XML Parsing and Wikitext Cleaning
-   - Streaming XML parser using `mwxml` (memory-efficient)
+   - Streaming XML parser using `xml.etree.ElementTree` (memory-efficient) to robustly handle missing siteinfo
    - Wikitext-to-plaintext conversion using `mwparserfromhell`
    - Template extraction for metadata
    - Unicode normalization
@@ -36,7 +36,7 @@ Successfully implemented a complete 5-phase processing pipeline that converts th
    - Single collection with rich metadata (not multiple collections)
    - Batch ingestion with progress tracking (default 500 chunks/batch)
    - Pre-configured DJ query filters for 4 personalities
-   - DuckDB+Parquet backend for efficient storage
+   - Persistent storage backend (sqlite3/format specific to version)
    - Cosine similarity for semantic search
 
 5. **process_wiki.py** - Main Pipeline Orchestrator
