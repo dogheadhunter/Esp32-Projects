@@ -4,9 +4,9 @@ Phase 5: ChromaDB Ingestion
 Batch ingestion of chunks into ChromaDB with metadata filtering support.
 """
 
-from typing import List, Dict, Optional
+from typing import List, Dict, Optional, Any, cast
 import chromadb
-from chromadb.config import Settings
+from chromadb.utils import embedding_functions
 from tqdm import tqdm
 
 
@@ -25,23 +25,27 @@ class ChromaDBIngestor:
         self.persist_directory = persist_directory
         self.collection_name = collection_name
         
-        # Initialize client with efficient storage backend
-        self.client = chromadb.Client(Settings(
-            chroma_db_impl="duckdb+parquet",
-            persist_directory=persist_directory,
-            anonymized_telemetry=False
-        ))
+        # Initialize client with persistent backend
+        self.client = chromadb.PersistentClient(path=persist_directory)
+        
+        # Setup CUDA-enabled embedding function
+        # Forces use of sentence-transformers with GPU acceleration
+        ef = embedding_functions.SentenceTransformerEmbeddingFunction(
+            model_name="all-MiniLM-L6-v2",
+            device="cuda"
+        )
         
         # Create or get collection
         self.collection = self.client.get_or_create_collection(
             name=collection_name,
+            embedding_function=ef,  # type: ignore[arg-type]
             metadata={
                 "description": "Fallout Wiki knowledge base with temporal/spatial filtering",
                 "hnsw:space": "cosine"  # Use cosine similarity for embeddings
             }
         )
     
-    def ingest_chunks(self, chunks: List[Dict], batch_size: int = 500,
+    def ingest_chunks(self, chunks: List[Dict[str, Any]], batch_size: int = 500,
                      show_progress: bool = True) -> int:
         """
         Ingest chunks into ChromaDB in batches.
@@ -113,7 +117,7 @@ class ChromaDBIngestor:
         return total_ingested
     
     def query(self, query_text: str, n_results: int = 10,
-             where: Optional[Dict] = None) -> Dict:
+             where: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """
         Query the collection.
         
@@ -125,13 +129,14 @@ class ChromaDBIngestor:
         Returns:
             Query results dict
         """
-        return self.collection.query(
+        result = self.collection.query(
             query_texts=[query_text],
             n_results=n_results,
             where=where
         )
+        return cast(Dict[str, Any], result)
     
-    def get_collection_stats(self) -> Dict:
+    def get_collection_stats(self) -> Dict[str, Any]:
         """Get statistics about the collection"""
         count = self.collection.count()
         
@@ -200,7 +205,7 @@ DJ_QUERY_FILTERS = {
 
 
 def query_for_dj(ingestor: ChromaDBIngestor, dj_name: str,
-                query_text: str, n_results: int = 10) -> Dict:
+                query_text: str, n_results: int = 10) -> Dict[str, Any]:
     """
     Query ChromaDB with DJ-specific filtering.
     

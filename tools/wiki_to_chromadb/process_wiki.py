@@ -217,15 +217,15 @@ def main():
     parser.add_argument(
         '--max-tokens',
         type=int,
-        default=800,
-        help='Maximum tokens per chunk (default: 800)'
+        default=500,
+        help='Maximum tokens per chunk (default: 500)'
     )
     
     parser.add_argument(
         '--overlap-tokens',
         type=int,
-        default=100,
-        help='Overlap tokens between chunks (default: 100)'
+        default=50,
+        help='Overlap tokens between chunks (default: 50)'
     )
     
     parser.add_argument(

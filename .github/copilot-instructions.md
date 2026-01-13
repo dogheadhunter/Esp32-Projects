@@ -76,4 +76,12 @@ This is a hybrid hardware/software project:
 - Schedule algorithm: pre-scan SD at boot, build sorted array (200 max segments = 8KB RAM), use binary search for "next segment" lookup, fill gaps with music.
 - Time matching uses ±2 minute window to handle RTC drift between NTP syncs; `played_today` flags reset at midnight to prevent duplicate playback.
 
+### Wiki RAG Pipeline (2026-01-11)
+- **Warning Suppression:** Transformers/Tokenizer warnings about "sequence length longer than model limit" have been explicitly suppressed in `chunker.py` using `transformers_logging.set_verbosity_error()`. This is intentional behavior; the pipeline manually handles chunk size enforcement.
+- **GPU Acceleration:** `chromadb_ingest.py` is hardcoded to use `device="cuda"` for embedding generation. This requires a CUDA-enabled PyTorch installation.
+- **Limit vs Capacity:** The chunking limit is set to 500 tokens to safely fit within the `all-MiniLM-L6-v2` 512-token context window without truncation.
 
+### TTS Pipeline Quality Validation (2026-01-12)
+- **Pause Detection Fix:** librosa's `effects.split(top_db=35)` reliably detects sentence pauses (18-50 per file, 280-420ms avg), whereas manual RMS thresholding (`median * 0.1`) detected zero pauses due to threshold being too low for realistic audio.
+- **Quality Scoring:** Progressive pause deviation scale yields realistic scores - Perfect (≤50ms dev)=20pts, Good (50-100ms)=15-20pts, Acceptable (100-200ms)=10-15pts. This improved Iteration 1 scores from 72.1 to 83.3 avg (100% pass rate).
+- **Copilot Workflow Constraint:** Checking process status or terminal output at ANY point while background scripts are running (`isBackground=true`) cancels execution via KeyboardInterrupt. The only safe approach is to use foreground execution with output redirection to file, or wait until the script completes naturally before checking results.

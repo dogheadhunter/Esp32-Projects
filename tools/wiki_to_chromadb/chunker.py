@@ -5,9 +5,12 @@ Splits articles into semantic chunks based on sections with overlap for context 
 """
 
 import re
+import logging
 from typing import List, Dict, Optional
-from transformers import AutoTokenizer
+from transformers import AutoTokenizer, logging as transformers_logging
 
+# Suppress tokenizer warnings about sequence length
+transformers_logging.set_verbosity_error()
 
 class SemanticChunker:
     """Chunks text by sections with token-based size limits and overlap"""
