@@ -36,3 +36,6 @@ Save_Do_Not_Touch/
 fallout_wiki_complete.xml
 *.xml
 
+
+# Database Backups
+tools/wiki_to_chromadb/chroma_db_backup_*/
