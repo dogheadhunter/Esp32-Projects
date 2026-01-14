@@ -26,7 +26,8 @@ class WikiProcessor:
     
     def __init__(self, xml_path: str, output_dir: str = "./chroma_db",
                  collection_name: str = "fallout_wiki",
-                 max_tokens: int = 800, overlap_tokens: int = 100):
+                 max_tokens: int = 800, overlap_tokens: int = 100,
+                 embedding_batch_size: int = 128):
         """
         Initialize wiki processor.
         
@@ -36,16 +37,18 @@ class WikiProcessor:
             collection_name: ChromaDB collection name
             max_tokens: Max tokens per chunk
             overlap_tokens: Overlap between chunks
+            embedding_batch_size: Batch size for GPU embedding generation (default: 128)
         """
         self.xml_path = xml_path
         self.output_dir = output_dir
         self.max_tokens = max_tokens
         self.overlap_tokens = overlap_tokens
         
-        # Initialize ChromaDB ingestor
+        # Initialize ChromaDB ingestor with optimized batch size
         self.ingestor = ChromaDBIngestor(
             persist_directory=output_dir,
-            collection_name=collection_name
+            collection_name=collection_name,
+            embedding_batch_size=embedding_batch_size
         )
         
         # Statistics
@@ -242,6 +245,13 @@ def main():
         help='Batch size for ChromaDB ingestion (default: 500)'
     )
     
+    parser.add_argument(
+        '--embedding-batch-size',
+        type=int,
+        default=128,
+        help='Batch size for GPU embedding generation (default: 128, higher=faster)'
+    )
+    
     args = parser.parse_args()
     
     # Validate XML file exists
@@ -255,7 +265,8 @@ def main():
         output_dir=args.output_dir,
         collection_name=args.collection,
         max_tokens=args.max_tokens,
-        overlap_tokens=args.overlap_tokens
+        overlap_tokens=args.overlap_tokens,
+        embedding_batch_size=args.embedding_batch_size
     )
     
     try:

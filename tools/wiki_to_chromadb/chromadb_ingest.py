@@ -7,43 +7,94 @@ Batch ingestion of chunks into ChromaDB with metadata filtering support.
 from typing import List, Dict, Optional, Any, cast
 import chromadb
 from chromadb.utils import embedding_functions
+from chromadb.api.types import Documents, EmbeddingFunction, Embeddings
+from sentence_transformers import SentenceTransformer
 from tqdm import tqdm
+
+
+class OptimizedSentenceTransformerEF(EmbeddingFunction[Documents]):
+    """
+    Optimized Sentence Transformer Embedding Function with configurable batch size.
+    
+    This fixes the 17-hour processing issue by using large batch sizes for GPU acceleration.
+    """
+    
+    def __init__(self, model_name: str = "all-MiniLM-L6-v2", 
+                 device: str = "cuda",
+                 batch_size: int = 128):
+        """
+        Initialize with optimized batch size for GPU processing.
+        
+        Args:
+            model_name: Sentence transformer model name
+            device: Device to use (cuda/cpu)
+            batch_size: Batch size for encoding (higher = faster on GPU)
+        """
+        self.model = SentenceTransformer(model_name, device=device)
+        self.batch_size = batch_size
+    
+    def __call__(self, input: Documents) -> Embeddings:
+        """
+        Encode documents with optimized batch size.
+        
+        Args:
+            input: List of text documents
+            
+        Returns:
+            List of embedding vectors
+        """
+        embeddings = self.model.encode(
+            input, 
+            batch_size=self.batch_size,
+            show_progress_bar=False,
+            convert_to_numpy=True
+        )
+        return embeddings.tolist()
 
 
 class ChromaDBIngestor:
     """Manages ChromaDB collection and batch ingestion"""
     
     def __init__(self, persist_directory: str = "./chroma_db",
-                 collection_name: str = "fallout_wiki"):
+                 collection_name: str = "fallout_wiki",
+                 embedding_batch_size: int = 128):
         """
         Initialize ChromaDB client and collection.
         
         Args:
             persist_directory: Path to persist ChromaDB data
             collection_name: Name of the collection
+            embedding_batch_size: Batch size for embedding generation (default: 128)
         """
         self.persist_directory = persist_directory
         self.collection_name = collection_name
+        self.embedding_batch_size = embedding_batch_size
         
         # Initialize client with persistent backend
         self.client = chromadb.PersistentClient(path=persist_directory)
         
-        # Setup CUDA-enabled embedding function
-        # Forces use of sentence-transformers with GPU acceleration
-        ef = embedding_functions.SentenceTransformerEmbeddingFunction(
-            model_name="all-MiniLM-L6-v2",
-            device="cuda"
-        )
-        
-        # Create or get collection
-        self.collection = self.client.get_or_create_collection(
-            name=collection_name,
-            embedding_function=ef,  # type: ignore[arg-type]
-            metadata={
-                "description": "Fallout Wiki knowledge base with temporal/spatial filtering",
-                "hnsw:space": "cosine"  # Use cosine similarity for embeddings
-            }
-        )
+        # Try to get existing collection first (for reading existing databases)
+        try:
+            self.collection = self.client.get_collection(name=collection_name)
+            print(f"Loaded existing collection '{collection_name}'")
+        except:
+            # Collection doesn't exist, create with optimized embedding function
+            # Uses custom class with configurable batch_size to fix 17-hour processing issue
+            ef = OptimizedSentenceTransformerEF(
+                model_name="all-MiniLM-L6-v2",
+                device="cuda",
+                batch_size=embedding_batch_size
+            )
+            
+            self.collection = self.client.create_collection(
+                name=collection_name,
+                embedding_function=ef,  # type: ignore[arg-type]
+                metadata={
+                    "description": "Fallout Wiki knowledge base with temporal/spatial filtering",
+                    "hnsw:space": "cosine"  # Use cosine similarity for embeddings
+                }
+            )
+            print(f"Created new collection '{collection_name}' with optimized embeddings")
     
     def ingest_chunks(self, chunks: List[Dict[str, Any]], batch_size: int = 500,
                      show_progress: bool = True) -> int:
