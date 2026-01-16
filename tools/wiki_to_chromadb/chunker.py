@@ -2,15 +2,192 @@
 Phase 3: Semantic Chunking
 
 Splits articles into semantic chunks based on sections with overlap for context preservation.
+Extracts and preserves native MediaWiki structure (categories, sections, wikilinks).
+
+.. deprecated:: 2026-01-14
+   This module is deprecated and will be removed in version 3.0.0 (March 2026).
+   Use :mod:`chunker_v2` instead, which provides:
+   - Type-safe Pydantic models
+   - Configurable parameters via PipelineConfig
+   - Better metadata preservation
+   - Improved error handling
+   
+   Migration: Replace `from chunker import SemanticChunker` with
+   `from chunker_v2 import create_chunks` and pass WikiPage objects.
 """
 
 import re
 import logging
-from typing import List, Dict, Optional
+import warnings
+from typing import List, Dict, Optional, Tuple
 from transformers import AutoTokenizer, logging as transformers_logging
+
+# Issue deprecation warning when module is imported
+warnings.warn(
+    "chunker.py is deprecated and will be removed in version 3.0.0 (March 2026). "
+    "Use chunker_v2.py instead for type-safe chunking with Pydantic models.",
+    DeprecationWarning,
+    stacklevel=2
+)
 
 # Suppress tokenizer warnings about sequence length
 transformers_logging.set_verbosity_error()
+
+
+def extract_categories(wikitext: str) -> List[str]:
+    """
+    Extract all [[Category:...]] tags from raw wikitext.
+    
+    MUST be called BEFORE strip_code() to preserve original categories.
+    
+    Args:
+        wikitext: Raw MediaWiki markup
+    
+    Returns:
+        List of category names as they appear in wiki
+        Example: ["Fallout 3 characters", "Vaults", "Commonwealth locations"]
+    """
+    category_pattern = r'\[\[Category:([^\]]+)\]\]'
+    categories = re.findall(category_pattern, wikitext, re.IGNORECASE)
+    
+    # Clean whitespace, preserve original capitalization
+    return [cat.strip() for cat in categories]
+
+
+def extract_wikilinks(wikitext: str) -> List[Dict]:
+    """
+    Extract [[Link|Display Text]] markup from raw wikitext.
+    
+    MUST be called BEFORE strip_code() to preserve links.
+    
+    Args:
+        wikitext: Raw MediaWiki markup
+    
+    Returns:
+        List of link dicts with keys: target, display, type
+    """
+    # [[Page Name|Display Text]]
+    piped_link = r'\[\[([^\]|]+)\|([^\]]+)\]\]'
+    # [[Page Name]]
+    simple_link = r'\[\[([^\]|]+)\]\]'
+    
+    links = []
+    
+    # Find piped links first
+    for match in re.finditer(piped_link, wikitext):
+        target = match.group(1).strip()
+        display = match.group(2).strip()
+        
+        links.append({
+            'target': target,
+            'display': display,
+            'type': _classify_link_type(target)
+        })
+    
+    # Find simple links
+    for match in re.finditer(simple_link, wikitext):
+        target = match.group(1).strip()
+        
+        # Skip if already captured as piped link
+        if not any(link['target'] == target for link in links):
+            links.append({
+                'target': target,
+                'display': target,
+                'type': _classify_link_type(target)
+            })
+    
+    return links
+
+
+def _classify_link_type(target: str) -> str:
+    """Classify wiki link types"""
+    if target.startswith('Category:'):
+        return 'category'
+    elif target.startswith('File:') or target.startswith('Image:'):
+        return 'media'
+    else:
+        return 'internal'
+
+
+def extract_section_tree(wikitext: str) -> List[Dict]:
+    """
+    Parse MediaWiki section headers into hierarchical structure.
+    
+    MUST be called BEFORE strip_code() to preserve section markup.
+    
+    MediaWiki syntax:
+    = Level 1 =
+    == Level 2 ==
+    === Level 3 ===
+    
+    Args:
+        wikitext: Raw MediaWiki markup
+    
+    Returns:
+        List of {level: int, title: str, line_number: int}
+    """
+    section_pattern = r'^(={1,6})\s*(.+?)\s*\1\s*$'
+    sections = []
+    
+    for line_num, line in enumerate(wikitext.split('\n'), 1):
+        match = re.match(section_pattern, line.strip())
+        if match:
+            level = len(match.group(1))
+            title = match.group(2).strip()
+            sections.append({
+                'level': level,
+                'title': title,
+                'line_number': line_num
+            })
+    
+    return sections
+
+
+def build_section_path(sections: List[Dict], current_index: int) -> str:
+    """
+    Build breadcrumb path for current section.
+    
+    Args:
+        sections: List of section dicts from extract_section_tree()
+        current_index: Index of current section
+    
+    Returns:
+        Breadcrumb path like "Background > Pre-War Era > Vault Construction"
+    """
+    if not sections or current_index >= len(sections):
+        return ""
+    
+    current_level = sections[current_index]['level']
+    path_parts = [sections[current_index]['title']]
+    
+    # Walk backwards to find parent sections
+    for i in range(current_index - 1, -1, -1):
+        if sections[i]['level'] < current_level:
+            path_parts.insert(0, sections[i]['title'])
+            current_level = sections[i]['level']
+    
+    return ' > '.join(path_parts)
+
+
+def extract_metadata_before_cleaning(wikitext: str) -> Dict:
+    """
+    Extract all structural metadata BEFORE stripping wikitext.
+    
+    This must be called with raw wikitext before any processing.
+    Extracts: categories, wikilinks, section structure.
+    
+    Args:
+        wikitext: Raw MediaWiki markup
+    
+    Returns:
+        Dict with keys: raw_categories, wikilinks, sections
+    """
+    return {
+        'raw_categories': extract_categories(wikitext),
+        'wikilinks': extract_wikilinks(wikitext),
+        'sections': extract_section_tree(wikitext)
+    }
+
 
 class SemanticChunker:
     """Chunks text by sections with token-based size limits and overlap"""
@@ -150,40 +327,74 @@ class SemanticChunker:
         """
         Chunk article by sections, splitting large sections with overlap.
         
+        Adds section_hierarchy metadata if 'sections' exists in base_metadata.
+        
         Args:
             plain_text: Cleaned article text
             base_metadata: Metadata dict to include in all chunks
         
         Returns:
-            List of chunk dicts with keys: text, section, section_level, chunk_index, **metadata
+            List of chunk dicts with keys: text, section, section_level, 
+                                          section_hierarchy (if available), 
+                                          chunk_index, **metadata
         """
         sections = self.parse_sections(plain_text)
         chunks = []
         
-        for section in sections:
+        # Get original section tree from metadata if available
+        original_sections = base_metadata.get('sections', [])
+        
+        for idx, section in enumerate(sections):
             token_count = self.estimate_tokens(section['content'])
+            
+            # Build section hierarchy metadata if we have original sections
+            section_hierarchy = None
+            if original_sections:
+                # Match current section to original by title
+                for orig_idx, orig_section in enumerate(original_sections):
+                    if orig_section['title'] == section['title']:
+                        section_hierarchy = {
+                            'level': orig_section['level'],
+                            'title': orig_section['title'],
+                            'path': build_section_path(original_sections, orig_idx)
+                        }
+                        break
+            
+            # Fallback: use parsed section data
+            if not section_hierarchy:
+                section_hierarchy = {
+                    'level': section['level'],
+                    'title': section['title'],
+                    'path': section['title']
+                }
             
             if token_count <= self.max_tokens:
                 # Section fits in one chunk
-                chunks.append({
+                chunk_data = {
                     'text': section['content'],
                     'section': section['title'],
                     'section_level': section['level'],
+                    'section_hierarchy': section_hierarchy,
                     'chunk_index': 0,
                     **base_metadata
-                })
+                }
+                chunks.append(chunk_data)
             else:
                 # Split section into multiple chunks with overlap
                 sub_chunks = self.split_with_overlap(section['content'])
                 
-                for idx, chunk_text in enumerate(sub_chunks):
-                    chunks.append({
+                for sub_idx, chunk_text in enumerate(sub_chunks):
+                    chunk_data = {
                         'text': chunk_text,
                         'section': section['title'],
                         'section_level': section['level'],
-                        'chunk_index': idx,
+                        'section_hierarchy': section_hierarchy,
+                        'chunk_index': sub_idx,
                         **base_metadata
-                    })
+                    }
+                    chunks.append(chunk_data)
+        
+        return chunks
         
         return chunks
 

@@ -2,6 +2,7 @@
 Phase 1 & 2: XML Parsing and Wikitext Cleaning
 
 Streams MediaWiki XML exports and converts wikitext to plain text with metadata extraction.
+Preserves native MediaWiki structure (categories, templates, infoboxes, wikilinks, sections).
 """
 
 import re
@@ -10,88 +11,26 @@ import xml.etree.ElementTree as ET
 from typing import Dict, Generator, Optional, Tuple
 import mwparserfromhell
 
+# Import structural metadata extractors
+from template_parser import extract_all_template_metadata
+from chunker import extract_metadata_before_cleaning
+
 
 def normalize_unicode(text: str) -> str:
     """Normalize unicode to consistent form (NFKC)"""
     return unicodedata.normalize('NFKC', text)
 
 
-def extract_template_safely(template) -> Tuple[str, Dict]:
-    """Safely extract template data with fallback for complex nested templates"""
-    try:
-        name = template.name.strip_code().strip()
-        params = {}
-        for p in template.params:
-            try:
-                param_name = p.name.strip_code().strip()
-                param_value = p.value.strip_code().strip()
-                params[param_name] = param_value
-            except:
-                continue
-        return name, params
-    except Exception:
-        # Fallback: just get template name
-        return str(template.name).strip(), {}
-
-
-def extract_game_references(wikitext_parsed) -> list:
-    """Extract game references from templates like {{Game|FO3|FO4}}"""
-    games = []
-    game_abbrev_map = {
-        'FO1': 'Fallout',
-        'FO2': 'Fallout 2',
-        'FO3': 'Fallout 3',
-        'FNV': 'Fallout: New Vegas',
-        'FONV': 'Fallout: New Vegas',
-        'FO4': 'Fallout 4',
-        'FO76': 'Fallout 76',
-        'FOT': 'Fallout Tactics',
-        'FOBOS': 'Fallout: Brotherhood of Steel',
-    }
-    
-    for template in wikitext_parsed.filter_templates():
-        name, params = extract_template_safely(template)
-        
-        # Check if it's a Game template
-        if name.lower() in ['game', 'games']:
-            # Extract all parameters (game abbreviations)
-            for key, value in params.items():
-                # Parameters might be numbered (1, 2, 3...) or named
-                game_code = value.strip().upper()
-                if game_code in game_abbrev_map:
-                    games.append(game_abbrev_map[game_code])
-    
-    return list(set(games))  # Remove duplicates
-
-
-def extract_infobox_data(template) -> Dict:
-    """Extract structured data from Infobox templates"""
-    name, params = extract_template_safely(template)
-    
-    if not name.lower().startswith('infobox'):
-        return {}
-    
-    metadata = {}
-    
-    # Extract common infobox fields
-    field_mappings = {
-        'location': 'location',
-        'game': 'game_source',
-        'type': 'content_type',
-        'year': 'year',
-        'founded': 'year_founded',
-    }
-    
-    for param_key, meta_key in field_mappings.items():
-        if param_key in params:
-            metadata[meta_key] = params[param_key]
-    
-    return metadata
-
-
 def clean_wikitext(wikitext: str) -> Tuple[str, Dict]:
     """
     Convert wikitext to plain text and extract metadata from templates.
+    
+    IMPORTANT: Extracts structural metadata BEFORE stripping markup to preserve:
+    - Raw categories [[Category:...]]
+    - Infoboxes as JSON
+    - All templates
+    - Wikilinks with targets
+    - Section hierarchy
     
     Returns:
         (plain_text, metadata_dict)
@@ -99,19 +38,20 @@ def clean_wikitext(wikitext: str) -> Tuple[str, Dict]:
     if not wikitext:
         return "", {}
     
+    # ===== PHASE 1: Extract structural metadata from RAW wikitext =====
+    # Must happen BEFORE strip_code() destroys the markup
+    structural_metadata = extract_metadata_before_cleaning(wikitext)
+    template_metadata = extract_all_template_metadata(wikitext)
+    
+    # Merge metadata
+    metadata = {
+        **structural_metadata,  # raw_categories, wikilinks, sections
+        **template_metadata,    # infoboxes, templates, game_source
+    }
+    
+    # ===== PHASE 2: Convert to plain text =====
     # Parse wikitext
     parsed = mwparserfromhell.parse(wikitext)
-    
-    # Extract metadata from templates
-    metadata = {}
-    game_refs = extract_game_references(parsed)
-    if game_refs:
-        metadata['game_source'] = game_refs
-    
-    # Extract infobox data
-    for template in parsed.filter_templates():
-        infobox_data = extract_infobox_data(template)
-        metadata.update(infobox_data)
     
     # Strip all wikitext markup to get plain text
     plain_text = parsed.strip_code()
@@ -202,7 +142,7 @@ def process_page(page_data: Dict) -> Optional[Dict]:
         page_data: Dict from extract_pages()
     
     Returns:
-        Dict with keys: title, plain_text, metadata
+        Dict with keys: title, plain_text, raw_wikitext, metadata
         None if processing failed
     """
     try:
@@ -215,6 +155,7 @@ def process_page(page_data: Dict) -> Optional[Dict]:
         return {
             'title': page_data['title'],
             'plain_text': plain_text,
+            'raw_wikitext': page_data['wikitext'],  # Preserve for section mapping
             'metadata': metadata,
         }
     except Exception as e:

@@ -1,6 +1,52 @@
 # Fallout Wiki → ChromaDB Processing Pipeline
 
-Complete implementation of the research plan for converting the Fallout Wiki MediaWiki XML export into ChromaDB embeddings with DJ-specific knowledge partitioning.
+Complete implementation for converting Fallout Wiki MediaWiki XML into ChromaDB embeddings with **native structure preservation** and DJ-specific knowledge partitioning.
+
+## 🆕 NEW: Structural Metadata Preservation (Jan 2026)
+
+The pipeline now preserves ALL native MediaWiki structure:
+- ✅ Raw categories `[[Category:...]]` (no inference)
+- ✅ Infoboxes as structured JSON  
+- ✅ All templates ({{Game}}, {{Quote}}, etc.)
+- ✅ Wikilinks `[[Link|Display]]` with targets
+- ✅ Section hierarchy with breadcrumb paths
+
+**Quick Start**: [QUICKSTART_STRUCTURAL_METADATA.md](docs/implementation/QUICKSTART_STRUCTURAL_METADATA.md)  
+**Full Details**: [IMPLEMENTATION_SUMMARY.md](docs/implementation/IMPLEMENTATION_SUMMARY.md)
+
+---
+
+## ⚠️ Deprecation Notice (January 2026)
+
+**Migration Required by March 2026**
+
+The pipeline has been refactored to use type-safe Pydantic models and centralized configuration. The following modules are **deprecated** and will be removed in version 3.0.0:
+
+| Deprecated Module | Replacement | Status |
+|-------------------|-------------|--------|
+| `chunker.py` | `chunker_v2.py` | ⚠️ Shows warning on import |
+| ~~`metadata_enrichment_old.py`~~ | `metadata_enrichment.py` | ✅ Deleted Jan 14, 2026 |
+| ~~`process_wiki_old.py`~~ | `process_wiki.py` | ✅ Deleted Jan 14, 2026 |
+
+**Action Required**:
+1. Review [MIGRATION_GUIDE.md](docs/migration/MIGRATION_GUIDE.md) for migration steps
+2. Update imports to use new modules (see guide for before/after examples)
+3. Test with new pipeline: `python -m pytest tests/`
+4. Complete migration before **March 2026** to avoid breaking changes
+
+**Why Migrate?**
+- ✅ Type safety with Pydantic validation
+- ✅ Centralized configuration via environment variables
+- ✅ Structured logging for better observability
+- ✅ 62/66 tests passing (94% coverage)
+- ✅ Better error messages and debugging
+
+**Migration Timeline**:
+- **January 2026**: Deprecation warnings added ← *We are here*
+- **February 2026**: Testing and migration period
+- **March 2026**: Version 3.0.0 removes deprecated modules
+
+---
 
 ## Overview
 
