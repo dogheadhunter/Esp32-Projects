@@ -21,7 +21,8 @@ import os
 sys.path.insert(0, str(Path(__file__).parent))
 
 from process_wiki import WikiProcessor
-from chromadb_ingest import ChromaDBIngestor, query_for_dj
+from chromadb_ingest import ChromaDBIngestor, DJ_QUERY_FILTERS
+from config import PipelineConfig
 
 
 class PerformanceBenchmark:
@@ -64,13 +65,16 @@ class PerformanceBenchmark:
             # Measure baseline memory
             baseline_memory = self.get_memory_usage()
             
+            # Configure processor
+            config = PipelineConfig()
+            config.chromadb.persist_directory = self.test_db_dir
+            config.chromadb.collection_name = collection_name
+            # Explicitly set chunker config if needed, though defaults are usually fine
+            
             # Create processor
             processor = WikiProcessor(
                 xml_path=self.xml_path,
-                output_dir=self.test_db_dir,
-                collection_name=collection_name,
-                max_tokens=800,
-                overlap_tokens=100
+                config=config
             )
             
             # Measure processing time
@@ -125,11 +129,12 @@ class PerformanceBenchmark:
         largest_sample_key = f"{max(sample_counts)}_articles"
         largest_sample = sample_results[largest_sample_key]
         
-        # Extrapolate to 40K
-        scale_factor = 40000 / largest_sample['articles_processed']
+        # Extrapolate to 118K (user reported count)
+        total_articles = 118000
+        scale_factor = total_articles / largest_sample['articles_processed']
         
         extrapolated = {
-            'total_articles': 40000,
+            'total_articles': total_articles,
             'estimated_time_minutes': round(largest_sample['elapsed_time_minutes'] * scale_factor, 1),
             'estimated_memory_mb': round(largest_sample['memory_used_mb'], 1),  # Memory shouldn't scale linearly
             'estimated_storage_mb': round(largest_sample['storage_size_mb'] * scale_factor, 1),
@@ -137,7 +142,7 @@ class PerformanceBenchmark:
             'based_on_sample': largest_sample['articles_processed'],
         }
         
-        print(f"\nExtrapolating from {extrapolated['based_on_sample']} articles to 40,000:")
+        print(f"\nExtrapolating from {extrapolated['based_on_sample']} articles to {total_articles:,}:")
         print(f"  Estimated Time: {extrapolated['estimated_time_minutes']:.1f} minutes ({extrapolated['estimated_time_minutes']/60:.1f} hours)")
         print(f"  Estimated Memory: {extrapolated['estimated_memory_mb']:.1f} MB")
         print(f"  Estimated Storage: {extrapolated['estimated_storage_mb']:.1f} MB ({extrapolated['estimated_storage_mb']/1024:.1f} GB)")
@@ -195,13 +200,13 @@ class PerformanceBenchmark:
                 print(f"\n{query_name}: '{query_text}'")
                 
                 # Warm-up query
-                ingestor.query_knowledge(query_text, n_results=5)
+                ingestor.query(query_text, n_results=5)
                 
                 # Benchmark queries
                 times = []
                 for i in range(5):
                     start = time.time()
-                    results_data = ingestor.query_knowledge(query_text, n_results=10)
+                    results_data = ingestor.query(query_text, n_results=10)
                     elapsed = time.time() - start
                     times.append(elapsed)
                 
@@ -213,7 +218,7 @@ class PerformanceBenchmark:
                     'avg_time_ms': round(avg_time * 1000, 2),
                     'min_time_ms': round(min_time * 1000, 2),
                     'max_time_ms': round(max_time * 1000, 2),
-                    'results_returned': len(results_data['ids'][0]) if results_data['ids'] else 0
+                    'results_returned': len(results_data['ids'][0]) if results_data.get('ids') else 0
                 }
                 
                 results[query_name] = result
@@ -231,18 +236,23 @@ class PerformanceBenchmark:
             print("\nDJ-Filtered Queries:")
             
             dj_queries = [
-                ("Julie", "Vault 76 Reclamation Day"),
-                ("Mr. New Vegas", "Hoover Dam NCR Legion"),
-                ("Travis Miles Nervous", "Diamond City Commonwealth"),
+                ("Julie (2102, Appalachia)", "Vault 76 Reclamation Day"),
+                ("Mr. New Vegas (2281, Mojave)", "Hoover Dam NCR Legion"),
+                # Travis Miles not in constants.py filters yet, skipping to avoid lookup error
             ]
             
             for dj_name, query_text in dj_queries:
                 print(f"\n{dj_name}: '{query_text}'")
                 
+                filter_criteria = DJ_QUERY_FILTERS.get(dj_name)
+                if not filter_criteria:
+                    print(f"  ⚠ Skipping {dj_name}: No filter definition found")
+                    continue
+                
                 times = []
                 for i in range(5):
                     start = time.time()
-                    results_data = query_for_dj(ingestor, dj_name, query_text, n_results=10)
+                    results_data = ingestor.query(query_text, n_results=10, where=filter_criteria)
                     elapsed = time.time() - start
                     times.append(elapsed)
                 
@@ -250,7 +260,7 @@ class PerformanceBenchmark:
                 
                 result = {
                     'avg_time_ms': round(avg_time * 1000, 2),
-                    'results_returned': len(results_data['ids'][0]) if results_data['ids'] else 0
+                    'results_returned': len(results_data['ids'][0]) if results_data.get('ids') else 0
                 }
                 
                 results[f'DJ_{dj_name}'] = result

@@ -2,14 +2,24 @@
 Phase 5: ChromaDB Ingestion
 
 Batch ingestion of chunks into ChromaDB with metadata filtering support.
+Supports both dict-based chunks (legacy) and Pydantic Chunk models (new).
 """
 
-from typing import List, Dict, Optional, Any, cast
+from typing import List, Dict, Optional, Any, Union, cast
 import chromadb
 from chromadb.utils import embedding_functions
 from chromadb.api.types import Documents, EmbeddingFunction, Embeddings
 from sentence_transformers import SentenceTransformer
 from tqdm import tqdm
+
+# Try importing new models (optional for backward compatibility)
+try:
+    from models import Chunk, ChunkMetadata
+    MODELS_AVAILABLE = True
+except ImportError:
+    MODELS_AVAILABLE = False
+    Chunk = None  # type: ignore
+    ChunkMetadata = None  # type: ignore
 
 
 class OptimizedSentenceTransformerEF(EmbeddingFunction[Documents]):
@@ -57,7 +67,8 @@ class ChromaDBIngestor:
     
     def __init__(self, persist_directory: str = "./chroma_db",
                  collection_name: str = "fallout_wiki",
-                 embedding_batch_size: int = 128):
+                 embedding_batch_size: int = 128,
+                 clear_on_init: bool = False):
         """
         Initialize ChromaDB client and collection.
         
@@ -65,6 +76,7 @@ class ChromaDBIngestor:
             persist_directory: Path to persist ChromaDB data
             collection_name: Name of the collection
             embedding_batch_size: Batch size for embedding generation (default: 128)
+            clear_on_init: Delete existing collection before initialization (fresh start)
         """
         self.persist_directory = persist_directory
         self.collection_name = collection_name
@@ -72,6 +84,14 @@ class ChromaDBIngestor:
         
         # Initialize client with persistent backend
         self.client = chromadb.PersistentClient(path=persist_directory)
+        
+        # Clear existing collection if requested
+        if clear_on_init:
+            try:
+                self.client.delete_collection(name=collection_name)
+                print(f"[CLEAR] Deleted existing collection '{collection_name}' for fresh start")
+            except:
+                pass  # Collection didn't exist, that's fine
         
         # Try to get existing collection first (for reading existing databases)
         try:
@@ -96,13 +116,15 @@ class ChromaDBIngestor:
             )
             print(f"Created new collection '{collection_name}' with optimized embeddings")
     
-    def ingest_chunks(self, chunks: List[Dict[str, Any]], batch_size: int = 500,
+    def ingest_chunks(self, chunks: Union[List[Dict[str, Any]], List['Chunk']], batch_size: int = 500,
                      show_progress: bool = True) -> int:
         """
         Ingest chunks into ChromaDB in batches.
         
+        Supports both dict-based chunks (legacy) and Pydantic Chunk models (new).
+        
         Args:
-            chunks: List of chunk dicts with 'text' and metadata
+            chunks: List of chunk dicts OR Pydantic Chunk objects
             batch_size: Number of chunks per batch (default 500)
             show_progress: Show progress bar
         
@@ -110,6 +132,18 @@ class ChromaDBIngestor:
             Number of chunks successfully ingested
         """
         total_ingested = 0
+        
+        # Convert Pydantic Chunks to dicts if needed
+        if chunks and MODELS_AVAILABLE and isinstance(chunks[0], Chunk):
+            # New Pydantic model path - use to_flat_dict()
+            dict_chunks = []
+            for chunk in chunks:
+                flat_metadata = chunk.metadata.to_flat_dict()
+                dict_chunks.append({
+                    'text': chunk.text,
+                    **flat_metadata
+                })
+            chunks = dict_chunks
         
         # Filter out chunks without text
         valid_chunks = [c for c in chunks if c.get('text', '').strip()]
@@ -134,15 +168,28 @@ class ChromaDBIngestor:
                     metadata = {k: v for k, v in chunk.items() if k != 'text'}
                     
                     # ChromaDB requires metadata values to be str, int, float, or bool
-                    # Convert lists to comma-separated strings
+                    # Flatten any remaining complex structures
                     clean_metadata = {}
                     for k, v in metadata.items():
-                        if isinstance(v, list):
+                        if isinstance(v, dict):
+                            # Flatten nested dicts (e.g., from old code that didn't use to_flat_dict)
+                            for nested_k, nested_v in v.items():
+                                flat_key = f"{k}_{nested_k}"
+                                if isinstance(nested_v, (str, int, float, bool)):
+                                    clean_metadata[flat_key] = nested_v
+                                elif isinstance(nested_v, list):
+                                    clean_metadata[flat_key] = ', '.join(str(x) for x in nested_v)
+                                elif nested_v is not None:
+                                    clean_metadata[flat_key] = str(nested_v)
+                        elif isinstance(v, list):
                             clean_metadata[k] = ', '.join(str(x) for x in v)
                         elif v is None:
                             continue  # Skip None values
-                        else:
+                        elif isinstance(v, (str, int, float, bool)):
                             clean_metadata[k] = v
+                        else:
+                            # Convert other types to string
+                            clean_metadata[k] = str(v)
                     
                     metadatas.append(clean_metadata)
                 
@@ -186,6 +233,31 @@ class ChromaDBIngestor:
             where=where
         )
         return cast(Dict[str, Any], result)
+    
+    def query_chunks(self, query_text: str, n_results: int = 10,
+                    where: Optional[Dict[str, Any]] = None) -> List[Dict[str, Any]]:
+        """
+        Query chunks and return as list of dicts.
+        Alias for query() with simplified return format.
+        
+        Args:
+            query_text: Query string
+            n_results: Number of results to return
+            where: Metadata filter
+        
+        Returns:
+            List of result dicts with 'text' and 'metadata' keys
+        """
+        result = self.query(query_text, n_results, where)
+        
+        # Convert ChromaDB result format to list of dicts
+        documents = result.get('documents', [[]])[0]
+        metadatas = result.get('metadatas', [[]])[0]
+        
+        return [
+            {'text': doc, 'metadata': meta}
+            for doc, meta in zip(documents, metadatas)
+        ]
     
     def get_collection_stats(self) -> Dict[str, Any]:
         """Get statistics about the collection"""

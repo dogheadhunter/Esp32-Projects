@@ -1,0 +1,76 @@
+{
+  "processing": {
+    "100_articles": {
+      "articles_processed": 46,
+      "chunks_created": 159,
+      "chunks_ingested": 159,
+      "elapsed_time_seconds": 27.84,
+      "elapsed_time_minutes": 0.46,
+      "memory_used_mb": 329.39,
+      "storage_size_mb": 1.5,
+      "articles_per_second": 1.65,
+      "chunks_per_second": 5.71,
+      "success_rate": 0.46
+    },
+    "500_articles": {
+      "articles_processed": 217,
+      "chunks_created": 971,
+      "chunks_ingested": 971,
+      "elapsed_time_seconds": 139.03,
+      "elapsed_time_minutes": 2.32,
+      "memory_used_mb": 44.26,
+      "storage_size_mb": 9.55,
+      "articles_per_second": 1.56,
+      "chunks_per_second": 6.98,
+      "success_rate": 0.434
+    }
+  },
+  "extrapolation": {
+    "total_articles": 118000,
+    "estimated_time_minutes": 1261.6,
+    "estimated_memory_mb": 44.3,
+    "estimated_storage_mb": 5193.1,
+    "estimated_chunks": 528009.0,
+    "based_on_sample": 217
+  },
+  "query_performance": {
+    "Simple query": {
+      "avg_time_ms": 167.59,
+      "min_time_ms": 155.06,
+      "max_time_ms": 180.34,
+      "results_returned": 10
+    },
+    "Complex query": {
+      "avg_time_ms": 166.24,
+      "min_time_ms": 155.48,
+      "max_time_ms": 179.89,
+      "results_returned": 10
+    },
+    "Specific entity": {
+      "avg_time_ms": 167.0,
+      "min_time_ms": 164.52,
+      "max_time_ms": 170.68,
+      "results_returned": 10
+    },
+    "Temporal query": {
+      "avg_time_ms": 166.61,
+      "min_time_ms": 159.9,
+      "max_time_ms": 180.31,
+      "results_returned": 10
+    },
+    "Location query": {
+      "avg_time_ms": 164.52,
+      "min_time_ms": 157.86,
+      "max_time_ms": 175.65,
+      "results_returned": 10
+    },
+    "DJ_Julie (2102, Appalachia)": {
+      "avg_time_ms": 169.03,
+      "results_returned": 8
+    },
+    "DJ_Mr. New Vegas (2281, Mojave)": {
+      "avg_time_ms": 169.89,
+      "results_returned": 10
+    }
+  }
+}
