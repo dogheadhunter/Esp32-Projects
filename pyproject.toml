@@ -59,6 +59,11 @@ python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
 addopts = "-v --cov=tools --cov-report=term-missing"
+markers = [
+    "mock: tests using mock clients",
+    "integration: tests requiring real dependencies (Ollama/ChromaDB)",
+    "slow: slow running tests",
+]
 
 [tool.black]
 line-length = 100

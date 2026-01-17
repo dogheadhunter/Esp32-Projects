@@ -1,0 +1,200 @@
+{
+  "golden_scripts": {
+    "julie_weather_sunny": {
+      "character": "Julie",
+      "content_type": "weather",
+      "weather_type": "sunny",
+      "expected_contains": [
+        "sun",
+        "shines",
+        "scavenging",
+        "safe"
+      ],
+      "min_words": 30,
+      "max_words": 150,
+      "tone": "upbeat"
+    },
+    "julie_weather_rainy": {
+      "character": "Julie",
+      "content_type": "weather",
+      "weather_type": "rainy",
+      "expected_contains": [
+        "rain",
+        "shelter",
+        "careful"
+      ],
+      "min_words": 30,
+      "max_words": 150,
+      "tone": "cautious"
+    },
+    "julie_weather_rad_storm": {
+      "character": "Julie",
+      "content_type": "weather",
+      "weather_type": "rad_storm",
+      "expected_contains": [
+        "danger",
+        "radiation",
+        "shelter",
+        "critical"
+      ],
+      "min_words": 40,
+      "max_words": 150,
+      "tone": "urgent"
+    },
+    "mr_new_vegas_news_faction": {
+      "character": "Mr. New Vegas",
+      "content_type": "news",
+      "news_category": "faction",
+      "expected_contains": [
+        "faction",
+        "brotherhood",
+        "settlers"
+      ],
+      "min_words": 30,
+      "max_words": 150,
+      "tone": "professional"
+    },
+    "travis_nervous_gossip": {
+      "character": "Travis Miles (Nervous)",
+      "content_type": "gossip",
+      "expected_contains": [
+        "well",
+        "uh",
+        "heard"
+      ],
+      "min_words": 30,
+      "max_words": 150,
+      "tone": "nervous",
+      "contains_stutter": true
+    },
+    "travis_confident_gossip": {
+      "character": "Travis Miles (Confident)",
+      "content_type": "gossip",
+      "expected_contains": [
+        "confirmed",
+        "big news",
+        "important"
+      ],
+      "min_words": 30,
+      "max_words": 150,
+      "tone": "confident"
+    },
+    "mr_med_city_time_morning": {
+      "character": "Mr. Med City",
+      "content_type": "time",
+      "time_period": "morning",
+      "expected_contains": [
+        "morning",
+        "8",
+        "safe",
+        "day"
+      ],
+      "min_words": 20,
+      "max_words": 80,
+      "tone": "friendly"
+    },
+    "mr_new_vegas_time_evening": {
+      "character": "Mr. New Vegas",
+      "content_type": "time",
+      "time_period": "evening",
+      "expected_contains": [
+        "evening",
+        "6",
+        "sunset",
+        "dark"
+      ],
+      "min_words": 20,
+      "max_words": 80,
+      "tone": "professional"
+    }
+  },
+  "fallout_world_facts": {
+    "known_dates": {
+      "2077": "The Great War",
+      "2102": "Vault 76 opening",
+      "2150": "Mid-timeline Appalachia",
+      "2287": "Fallout 4 era"
+    },
+    "known_locations": [
+      "Appalachia",
+      "the Wasteland",
+      "Vault",
+      "Vault 76",
+      "Charleston",
+      "Harpers Ferry",
+      "Watoga"
+    ],
+    "known_factions": [
+      "Brotherhood of Steel",
+      "Enclave",
+      "Settlers",
+      "Responders",
+      "Raiders",
+      "Super Mutants",
+      "Scorched"
+    ],
+    "forbidden_topics": [
+      "real world politics",
+      "current events",
+      "modern technology",
+      "internet"
+    ],
+    "weather_types": [
+      "sunny",
+      "cloudy",
+      "rainy",
+      "rad_storm",
+      "foggy",
+      "snow"
+    ]
+  },
+  "character_voice_samples": {
+    "Julie": {
+      "greeting": "Hey everyone, this is Julie",
+      "sign_off": "Stay safe out there",
+      "characteristic_phrases": [
+        "folks",
+        "safe",
+        "caring"
+      ]
+    },
+    "Mr. New Vegas": {
+      "greeting": "Hello, New Vegas",
+      "sign_off": "Until next time",
+      "characteristic_phrases": [
+        "smooth",
+        "professional",
+        "suave"
+      ]
+    },
+    "Travis Miles (Confident)": {
+      "greeting": "This is Travis Miles",
+      "sign_off": "Stay informed",
+      "characteristic_phrases": [
+        "confident",
+        "important",
+        "big news"
+      ]
+    },
+    "Travis Miles (Nervous)": {
+      "greeting": "Uh, hey, this is Travis",
+      "sign_off": "Please stay safe",
+      "characteristic_phrases": [
+        "uh",
+        "well",
+        "um"
+      ]
+    }
+  },
+  "test_validation_rules": {
+    "word_count_tolerance": 0.2,
+    "required_tone_indicators": {
+      "upbeat": ["great", "wonderful", "excellent", "good"],
+      "urgent": ["danger", "critical", "immediately", "alert"],
+      "nervous": ["uh", "well", "um", "worried"],
+      "confident": ["confirmed", "certain", "definitely", "important"],
+      "professional": ["report", "update", "official", "news"],
+      "cautious": ["careful", "watch", "alert", "safety"]
+    }
+  }
+}

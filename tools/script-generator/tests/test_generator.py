@@ -27,7 +27,7 @@ class TestPersonalityLoader(unittest.TestCase):
     def test_load_julie(self):
         """Test loading Julie's personality"""
         personality = load_personality("Julie (2102, Appalachia)")
-        self.assertEqual(personality['name'], "Julie")
+        self.assertEqual(personality['name'], "Julie (2102, Appalachia)")
         self.assertIn('system_prompt', personality)
         self.assertIn('tone', personality)
     

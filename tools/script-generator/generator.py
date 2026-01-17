@@ -31,6 +31,10 @@ from tools.shared import project_config
 sys.path.insert(0, str(Path(__file__).parent))
 from ollama_client import OllamaClient
 from personality_loader import load_personality, get_available_djs
+from session_memory import SessionMemory
+from world_state import WorldState
+from broadcast_scheduler import BroadcastScheduler
+from consistency_validator import ConsistencyValidator
 
 
 class ScriptGenerator:
@@ -86,9 +90,17 @@ class ScriptGenerator:
         print(f"[OK] Connected to Ollama")
         print(f"[OK] ChromaDB loaded ({self.rag.get_collection_stats()['total_chunks']:,} chunks)")
         
+        # PHASE 1: Session state management
+        self.session_memory: Optional[SessionMemory] = None
+        self.world_state: Optional[WorldState] = None
+        self.broadcast_scheduler: Optional[BroadcastScheduler] = None
+        
         # PHASE 2.6: Catchphrase rotation tracking
         self.catchphrase_history = {}  # {dj_name: [recent_catchphrases]}
         self.max_history = 5  # Remember last 5 catchphrases per DJ
+        
+        # PHASE 2: Consistency validation
+        self.consistency_validators: Dict[str, ConsistencyValidator] = {}  # {dj_name: validator}
     
     def select_catchphrases(self,
                            personality: Dict,
@@ -343,15 +355,17 @@ class ScriptGenerator:
                        enable_catchphrase_rotation: bool = True,
                        enable_natural_voice: bool = True,
                        enable_validation_retry: bool = True,
+                       enable_consistency_validation: bool = True,
                        max_retries: int = 2,
                        **template_vars) -> Dict[str, Any]:
         """
         Generate a script using RAG → Template → Ollama pipeline.
         
-        PHASE 2.6 ENHANCEMENTS:
+        PHASE 2 ENHANCEMENTS:
         - Catchphrase rotation and contextual selection
         - Natural voice element injection
         - Post-generation validation with retry
+        - Consistency validation (temporal knowledge, forbidden topics, tone)
         
         Args:
             script_type: Template name (weather, news, time, gossip, music_intro)
@@ -365,6 +379,7 @@ class ScriptGenerator:
             enable_catchphrase_rotation: Use catchphrase system (Phase 2.6)
             enable_natural_voice: Use natural voice enhancements (Phase 2.6)
             enable_validation_retry: Retry if catchphrase missing (Phase 2.6)
+            enable_consistency_validation: Validate against character constraints (Phase 2)
             max_retries: Maximum retry attempts
             **template_vars: Additional template variables
         
@@ -525,6 +540,31 @@ class ScriptGenerator:
                         last_error = "Missing catchphrase"
                         continue  # Retry
                 
+                # PHASE 2: Consistency validation (temporal knowledge, forbidden topics, tone)
+                if enable_consistency_validation:
+                    if dj_name not in self.consistency_validators:
+                        self.consistency_validators[dj_name] = ConsistencyValidator(personality)
+                    
+                    validator = self.consistency_validators[dj_name]
+                    is_valid = validator.validate(script)
+                    
+                    if is_valid:
+                        print(f"[OK] Consistency validation passed")
+                    else:
+                        violations = validator.get_violations()
+                        if retry_count < max_retries:
+                            print(f"[WARN] Consistency violations detected ({len(violations)}), retrying...")
+                            print(f"  Violations: {violations[0] if violations else 'Unknown'}")
+                            retry_count += 1
+                            last_error = f"Consistency violation: {violations[0] if violations else 'Unknown'}"
+                            continue  # Retry
+                        else:
+                            print(f"[WARN] Consistency violations after {max_retries} retries:")
+                            for v in violations[:3]:
+                                print(f"  - {v}")
+                            # Log but don't fail - log violations for review
+                            print(f"  (Proceeding anyway; violations logged)")
+                
                 # Step 5: Package result (success!)
                 print(f"\n[5/5] Packaging result...")
                 
@@ -542,8 +582,10 @@ class ScriptGenerator:
                         'top_p': top_p,
                         'template_vars': template_vars,
                         'word_count': len(script.split()),
-                        'retry_count': retry_count,  # NEW
-                        'catchphrase_used': catchphrase_selection.get('opening') if catchphrase_found else None  # NEW
+                        'retry_count': retry_count,
+                        'catchphrase_used': catchphrase_selection.get('opening') if catchphrase_found else None,
+                        'consistency_validated': enable_consistency_validation and validator.validate(script),
+                        'consistency_violations': validator.get_violations() if enable_consistency_validation else []
                     }
                 }
                 
@@ -620,6 +662,128 @@ class ScriptGenerator:
             print(f"[OK] Model unloaded")
         else:
             print(f"[WARN] Model unload may have failed")
+    
+    # ========== PHASE 1: Session State Methods ==========
+    
+    def init_session(self, 
+                    dj_name: str,
+                    max_memory_size: int = 10,
+                    world_state_path: Optional[str] = None,
+                    scheduler: Optional[BroadcastScheduler] = None) -> None:
+        """
+        Initialize session memory for a broadcast.
+        
+        Args:
+            dj_name: DJ name for this session
+            max_memory_size: Maximum recent scripts to remember
+            world_state_path: Path to persistent world state JSON
+            scheduler: BroadcastScheduler instance (creates new if None)
+        """
+        self.session_memory = SessionMemory(
+            max_history=max_memory_size,
+            dj_name=dj_name
+        )
+        
+        self.world_state = WorldState(
+            persistence_path=world_state_path or "./broadcast_state.json"
+        )
+        
+        self.broadcast_scheduler = scheduler or BroadcastScheduler()
+        
+        print(f"\n[PHASE 1] Session initialized for {dj_name}")
+        print(f"  Memory size: {max_memory_size} scripts")
+        print(f"  World state: {self.world_state.persistence_path}")
+    
+    def add_to_session(self,
+                      script_type: str,
+                      content: str,
+                      metadata: Optional[Dict[str, Any]] = None,
+                      catchphrases_used: Optional[List[str]] = None) -> None:
+        """
+        Add generated script to session memory.
+        
+        Args:
+            script_type: Type of script generated
+            content: Script content
+            metadata: Generation metadata
+            catchphrases_used: Catchphrases used in script
+        """
+        if not self.session_memory:
+            raise RuntimeError("Session not initialized. Call init_session() first.")
+        
+        self.session_memory.add_script(
+            script_type=script_type,
+            content=content,
+            metadata=metadata,
+            catchphrases_used=catchphrases_used
+        )
+        
+        # Record broadcast timing
+        if self.world_state:
+            self.world_state.update_broadcast_stats(runtime_hours=0.1)  # ~6 minute segment
+        
+        # Record in scheduler
+        if self.broadcast_scheduler:
+            self.broadcast_scheduler.record_segment_generated(script_type)
+    
+    def get_session_context(self) -> str:
+        """
+        Get session context for prompt injection.
+        
+        Returns:
+            Formatted context string or empty string if no session
+        """
+        if not self.session_memory:
+            return ""
+        
+        return self.session_memory.get_context_for_prompt()
+    
+    def get_next_segment_type(self) -> Optional[str]:
+        """
+        Get recommended next segment type based on schedule.
+        
+        Returns:
+            Segment type (weather, news, gossip, etc.) or None
+        """
+        if not self.broadcast_scheduler:
+            return None
+        
+        return self.broadcast_scheduler.get_next_priority_segment()
+    
+    def end_session(self, save_world_state: bool = True) -> Dict[str, Any]:
+        """
+        End current session and return statistics.
+        
+        Args:
+            save_world_state: Whether to save world state before ending
+        
+        Returns:
+            Dictionary with session statistics
+        """
+        if not self.session_memory:
+            return {}
+        
+        stats = {
+            "segments_generated": self.session_memory.segment_count,
+            "duration": self.session_memory._get_session_duration(),
+            "topics_discussed": self.session_memory.get_mentioned_topics(),
+            "catchphrases_used": self.session_memory.catchphrase_history,
+        }
+        
+        if self.world_state and save_world_state:
+            self.world_state.save()
+            stats["world_state_saved"] = str(self.world_state.persistence_path)
+        
+        print(f"\n[PHASE 1] Session ended")
+        print(f"  Segments: {stats['segments_generated']}")
+        print(f"  Duration: {stats['duration']}")
+        print(f"  Topics: {', '.join(stats['topics_discussed']) if stats['topics_discussed'] else 'none'}")
+        
+        # Clear session
+        self.session_memory = None
+        self.broadcast_scheduler.reset() if self.broadcast_scheduler else None
+        
+        return stats
 
 
 if __name__ == "__main__":
