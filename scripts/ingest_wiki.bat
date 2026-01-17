@@ -1,4 +1,7 @@
 @echo off
+REM Navigate to project root
+cd /d "%~dp0.."
+
 echo ================================================================================
 echo Starting Wiki Ingestion (Update Mode - Preserves Existing Data)
 echo ================================================================================

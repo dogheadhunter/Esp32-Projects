@@ -17,16 +17,20 @@ import json
 import random
 import re
 
-# Add project paths
+# Add project root to path
 project_root = Path(__file__).resolve().parent.parent.parent
-sys.path.insert(0, str(project_root / "tools" / "wiki_to_chromadb"))
-sys.path.insert(0, str(project_root / "tools" / "main tools"))
+sys.path.insert(0, str(project_root))
 
 from jinja2 import Environment, FileSystemLoader, TemplateNotFound
-from chromadb_ingest import ChromaDBIngestor, query_for_dj
+
+# Cross-package imports
+from tools.wiki_to_chromadb.chromadb_ingest import ChromaDBIngestor, query_for_dj
+from tools.shared import project_config
+
+# Local imports (within script-generator)
+sys.path.insert(0, str(Path(__file__).parent))
 from ollama_client import OllamaClient
 from personality_loader import load_personality, get_available_djs
-import config
 
 
 class ScriptGenerator:
@@ -52,10 +56,10 @@ class ScriptGenerator:
             templates_dir = str(self.script_dir / "templates")
         
         if chroma_db_dir is None:
-            chroma_db_dir = str(self.project_root / "tools" / "wiki_to_chromadb" / "chroma_db")
+            chroma_db_dir = str(project_config.CHROMA_DB_PATH)
         
         if ollama_url is None:
-            ollama_url = config.OLLAMA_URL.replace("/api/generate", "")
+            ollama_url = project_config.OLLAMA_URL.replace("/api/generate", "")
         
         # Initialize components
         print(f"Initializing Script Generator...")

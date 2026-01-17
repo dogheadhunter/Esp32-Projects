@@ -8,10 +8,10 @@ import unittest
 import sys
 from pathlib import Path
 
-# Add paths
+# Add project root and script-generator to path
 project_root = Path(__file__).resolve().parent.parent.parent.parent
+sys.path.insert(0, str(project_root))
 sys.path.insert(0, str(project_root / "tools" / "script-generator"))
-sys.path.insert(0, str(project_root / "tools" / "wiki_to_chromadb"))
 
 from generator import ScriptGenerator
 from personality_loader import load_personality, get_available_djs, clear_cache
