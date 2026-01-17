@@ -3,8 +3,8 @@ Tests for Phase 6 Task 6: Enhanced Query Filters & Integration
 """
 
 import pytest
-from tools.script-generator.dj_knowledge_profiles import DJKnowledgeProfile, JulieProfile
-from tools.script-generator.query_helpers import (
+from dj_knowledge_profiles import DJKnowledgeProfile, JulieProfile
+from query_helpers import (
     ComplexitySequencer, SubjectTracker,
     get_tones_for_weather, get_tones_for_time, get_tones_for_context,
     get_complexity_sequence_pattern

@@ -1,23 +1,23 @@
 {
-  "timestamp": "2026-01-17T15:40:34.569092",
+  "timestamp": "2026-01-17T16:03:53.956995",
   "database_path": "chroma_db",
   "collection_name": "fallout_wiki",
   "statistics": {
     "total_chunks": 291343,
-    "processed": 1000,
-    "updated": 1000,
+    "processed": 290343,
+    "updated": 290343,
     "errors": 0,
     "skipped": 0,
-    "start_time": 1768686031.476699,
-    "end_time": 1768686034.5688999,
+    "start_time": 1768686424.027787,
+    "end_time": 1768687433.956899,
     "error_details": [],
-    "elapsed_seconds": 3.092200756072998
+    "elapsed_seconds": 1009.92911195755
   },
   "validation": {
     "sample_size": 100,
     "fields_populated": {},
     "year_fixes": {
-      "valid": 1,
+      "valid": 2,
       "invalid": 0
     },
     "location_fixes": {
@@ -25,14 +25,14 @@
       "valid": 100
     },
     "new_fields_populated": {
-      "emotional_tone": 0,
-      "complexity_tier": 0,
-      "primary_subjects": 0,
-      "themes": 0,
-      "emotional_tone_pct": 0.0,
-      "complexity_tier_pct": 0.0,
-      "primary_subjects_pct": 0.0,
-      "themes_pct": 0.0
+      "emotional_tone": 100,
+      "complexity_tier": 100,
+      "primary_subjects": 55,
+      "themes": 41,
+      "emotional_tone_pct": 100.0,
+      "complexity_tier_pct": 100.0,
+      "primary_subjects_pct": 55.00000000000001,
+      "themes_pct": 41.0
     },
     "year_fix_rate": 100.0,
     "location_fix_rate": 100.0

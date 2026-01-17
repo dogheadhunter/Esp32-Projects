@@ -4,7 +4,7 @@ Tests for Phase 6 Task 4: Broadcast Freshness Tracking System
 
 import pytest
 import time
-from tools.script-generator.broadcast_freshness import BroadcastFreshnessTracker
+from broadcast_freshness import BroadcastFreshnessTracker
 
 
 class TestFreshnessCalculation:
