@@ -66,6 +66,123 @@ class DJKnowledgeProfile:
                                 confidence: float) -> str:
         """Apply character-specific narrative framing to query results"""
         raise NotImplementedError
+    
+    # ========================================================================
+    # Phase 6: Enhanced Query Filters
+    # ========================================================================
+    
+    def get_freshness_filter(self, min_freshness: float = 0.3) -> Dict[str, Any]:
+        """
+        Get freshness filter to avoid recently used content.
+        
+        Phase 6 Task 6: Freshness filtering to prevent repetition.
+        
+        Args:
+            min_freshness: Minimum freshness score (0.0-1.0)
+                         0.3 = ~2+ days since last use
+                         0.5 = ~3.5+ days since last use
+                         0.7 = ~5+ days since last use
+        
+        Returns:
+            ChromaDB filter for freshness_score >= min_freshness
+        """
+        return {"freshness_score": {"$gte": min_freshness}}
+    
+    def get_tone_filter(self, desired_tones: List[str]) -> Dict[str, Any]:
+        """
+        Get emotional tone filter for mood-based content selection.
+        
+        Phase 6 Task 6: Tone filtering for contextual content.
+        
+        Args:
+            desired_tones: List of acceptable emotional tones
+                          (hopeful, tragic, mysterious, comedic, tense, neutral)
+        
+        Returns:
+            ChromaDB filter for emotional_tone in desired_tones
+        """
+        return {"emotional_tone": {"$in": desired_tones}}
+    
+    def get_subject_exclusion_filter(self, exclude_subjects: List[str]) -> Dict[str, Any]:
+        """
+        Get subject diversity filter to avoid repetitive topics.
+        
+        Phase 6 Task 6: Subject diversity for varied content.
+        
+        Args:
+            exclude_subjects: List of subjects to avoid
+                            (water, radiation, weapons, factions, etc.)
+        
+        Returns:
+            ChromaDB filter excluding chunks with these primary subjects
+        """
+        return {"primary_subject_0": {"$nin": exclude_subjects}}
+    
+    def get_complexity_filter(self, tier: str) -> Dict[str, Any]:
+        """
+        Get complexity tier filter for sequencing.
+        
+        Phase 6 Task 6: Complexity sequencing for pacing.
+        
+        Args:
+            tier: Complexity level (simple, moderate, complex)
+        
+        Returns:
+            ChromaDB filter for complexity_tier == tier
+        """
+        return {"complexity_tier": tier}
+    
+    def get_enhanced_filter(self, 
+                           min_freshness: Optional[float] = None,
+                           desired_tones: Optional[List[str]] = None,
+                           exclude_subjects: Optional[List[str]] = None,
+                           complexity_tier: Optional[str] = None,
+                           confidence_tier: str = "medium") -> Dict[str, Any]:
+        """
+        Get combined filter with all Phase 6 enhancements.
+        
+        Combines base confidence filters with optional Phase 6 filters:
+        - Freshness (prevent repetition)
+        - Emotional tone (mood-based selection)
+        - Subject diversity (avoid topic repetition)
+        - Complexity (pacing control)
+        
+        Args:
+            min_freshness: Minimum freshness score (None = no filter)
+            desired_tones: List of acceptable tones (None = no filter)
+            exclude_subjects: List of subjects to exclude (None = no filter)
+            complexity_tier: Complexity level (None = no filter)
+            confidence_tier: Base confidence level (high, medium, low)
+        
+        Returns:
+            Combined ChromaDB filter with $and operator
+        """
+        # Start with base confidence filter
+        if confidence_tier == "high":
+            filters = [self.get_high_confidence_filter()]
+        elif confidence_tier == "medium":
+            filters = [self.get_medium_confidence_filter()]
+        else:
+            filters = [self.get_low_confidence_filter()]
+        
+        # Add Phase 6 filters if specified
+        if min_freshness is not None:
+            filters.append(self.get_freshness_filter(min_freshness))
+        
+        if desired_tones:
+            filters.append(self.get_tone_filter(desired_tones))
+        
+        if exclude_subjects:
+            filters.append(self.get_subject_exclusion_filter(exclude_subjects))
+        
+        if complexity_tier:
+            filters.append(self.get_complexity_filter(complexity_tier))
+        
+        # Combine all filters with AND
+        if len(filters) == 1:
+            return filters[0]
+        else:
+            return {"$and": filters}
 
 
 class JulieProfile(DJKnowledgeProfile):

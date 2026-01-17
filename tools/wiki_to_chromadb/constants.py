@@ -315,3 +315,186 @@ DJ_QUERY_FILTERS: Dict[str, Dict[str, any]] = {
         "game_source": ["Fallout 4"]
     }
 }
+
+
+# ============================================================================
+# PHASE 6: BROADCAST METADATA KEYWORDS
+# ============================================================================
+
+EMOTIONAL_TONE_KEYWORDS: Dict[str, List[str]] = {
+    "hopeful": [
+        "hope", "hopeful", "rebuild", "rebuilding", "community", "future",
+        "recovery", "restore", "triumph", "victory", "succeed", "success",
+        "revival", "renewal", "optimism", "progress", "improvement",
+        "salvation", "redemption", "harmony", "peace", "unity"
+    ],
+    "tragic": [
+        "loss", "death", "destroy", "destruction", "despair", "grief",
+        "tragedy", "tragic", "suffering", "pain", "sorrow", "mourning",
+        "devastation", "ruin", "catastrophe", "disaster", "doom",
+        "fallen", "sacrifice", "perish", "extinction", "annihilation"
+    ],
+    "mysterious": [
+        "unknown", "strange", "mystery", "mysterious", "enigma", "secret",
+        "hidden", "cryptic", "unexplained", "bizarre", "peculiar", "odd",
+        "anomaly", "riddle", "puzzle", "arcane", "obscure", "shadowy",
+        "conspiracy", "forbidden", "classified", "undiscovered"
+    ],
+    "comedic": [
+        "humor", "humorous", "joke", "funny", "silly", "amusing",
+        "comical", "absurd", "ridiculous", "laughable", "ironic",
+        "satirical", "whimsical", "bizarre"
+    ],
+    "tense": [
+        "danger", "dangerous", "threat", "threatening", "combat", "battle",
+        "attack", "attacking", "raid", "ambush", "hostile", "violent",
+        "radiation storm", "deadly", "lethal", "peril", "hazard",
+        "emergency", "crisis", "urgent", "critical", "intense"
+    ],
+    "neutral": []  # default when no strong emotional markers
+}
+
+SUBJECT_KEYWORDS: Dict[str, List[str]] = {
+    "water": [
+        "water", "purifier", "purification", "aqua pura", "drought",
+        "reservoir", "dam", "river", "lake", "hydration", "clean water",
+        "contaminated water", "irradiated water"
+    ],
+    "radiation": [
+        "rad", "rads", "radiation", "radioactive", "geiger", "contamination",
+        "contaminated", "fallout", "nuclear", "isotope", "cesium", "strontium",
+        "rad-x", "radaway", "geiger counter", "radiation storm"
+    ],
+    "weapons": [
+        "weapon", "gun", "rifle", "pistol", "laser", "plasma", "missile",
+        "explosive", "grenade", "mine", "minigun", "shotgun", "sniper",
+        "gauss", "fatman", "nuke", "launcher"
+    ],
+    "armor": [
+        "armor", "armour", "power armor", "vault suit", "helmet", "combat armor",
+        "leather armor", "metal armor", "raider armor", "t-45", "t-51", "t-60",
+        "x-01", "protection", "defense"
+    ],
+    "factions": [
+        "faction", "brotherhood", "enclave", "ncr", "legion", "institute",
+        "minutemen", "railroad", "responders", "free states", "raiders",
+        "super mutants", "ghouls", "organization", "army"
+    ],
+    "creatures": [
+        "creature", "monster", "mutant", "deathclaw", "radroach", "bloatfly",
+        "mirelurk", "scorchbeast", "yao guai", "radscorpion", "cazador",
+        "nightstalker", "brahmin", "molerat", "centaur", "floater"
+    ],
+    "survival": [
+        "survival", "scavenge", "scavenging", "food", "hunger", "thirst",
+        "shelter", "camp", "settlement", "resource", "supply", "stockpile",
+        "starvation", "medicine", "healing", "rest"
+    ],
+    "technology": [
+        "technology", "tech", "science", "computer", "robot", "ai",
+        "artificial intelligence", "synth", "android", "terminal", "hack",
+        "circuit", "power", "energy", "fusion", "reactor"
+    ],
+    "commerce": [
+        "trade", "trading", "merchant", "caps", "currency", "buy", "sell",
+        "barter", "caravan", "shop", "store", "vendor", "market",
+        "economy", "price", "valuable"
+    ],
+    "vaults": [
+        "vault", "vault-tec", "overseer", "vault dweller", "experiment",
+        "shelter", "underground", "sealed", "isolation", "control vault"
+    ],
+    "military": [
+        "military", "army", "soldier", "combat", "war", "battle", "campaign",
+        "operation", "deployment", "patrol", "defense", "offense", "strategy",
+        "tactics", "fortification", "base", "outpost"
+    ],
+    "exploration": [
+        "explore", "exploration", "discover", "discovery", "expedition",
+        "journey", "travel", "map", "location", "uncharted", "wasteland",
+        "ruins", "dungeon", "vault", "hidden"
+    ],
+    "politics": [
+        "politics", "political", "government", "leader", "election", "vote",
+        "democracy", "republic", "council", "senate", "law", "legislation",
+        "treaty", "alliance", "diplomatic", "negotiation"
+    ],
+    "science": [
+        "science", "scientific", "research", "experiment", "laboratory",
+        "study", "analyze", "data", "sample", "specimen", "hypothesis",
+        "theory", "biology", "chemistry", "physics"
+    ],
+    "history": [
+        "history", "historical", "past", "ancient", "pre-war", "old world",
+        "artifact", "relic", "archive", "record", "document", "memory",
+        "legacy", "heritage"
+    ]
+}
+
+THEME_KEYWORDS: Dict[str, List[str]] = {
+    "humanity": [
+        "human", "humanity", "mankind", "civilization", "society", "culture",
+        "people", "community", "family", "friendship", "relationship",
+        "compassion", "empathy", "kindness", "cruelty", "morality", "ethics"
+    ],
+    "technology": [
+        "technology", "tech", "science", "innovation", "invention", "machine",
+        "robot", "ai", "computer", "advancement", "progress", "automation",
+        "synthetic", "artificial"
+    ],
+    "war": [
+        "war", "warfare", "conflict", "battle", "combat", "violence",
+        "aggression", "conquest", "invasion", "military", "soldier",
+        "casualties", "destruction", "annihilation"
+    ],
+    "survival": [
+        "survival", "survive", "endure", "adapt", "persevere", "struggle",
+        "hardship", "scarcity", "resource", "necessity", "instinct",
+        "self-preservation", "resilience"
+    ],
+    "corruption": [
+        "corruption", "corrupt", "decay", "degeneration", "greed", "power",
+        "abuse", "exploitation", "oppression", "tyranny", "manipulation",
+        "betrayal", "conspiracy", "evil"
+    ],
+    "hope": [
+        "hope", "hopeful", "dream", "aspiration", "belief", "faith",
+        "optimism", "future", "promise", "possibility", "potential",
+        "inspiration", "courage", "determination"
+    ],
+    "loss": [
+        "loss", "lost", "grief", "mourning", "regret", "nostalgia",
+        "memory", "remember", "forget", "absence", "void", "emptiness",
+        "loneliness", "abandonment"
+    ],
+    "redemption": [
+        "redemption", "redeem", "atone", "atonement", "forgiveness",
+        "second chance", "reform", "change", "transformation", "salvation",
+        "repentance", "amends"
+    ],
+    "freedom": [
+        "freedom", "free", "liberty", "independence", "autonomy", "choice",
+        "will", "self-determination", "emancipation", "liberation",
+        "escape", "rebellion", "revolution"
+    ],
+    "power": [
+        "power", "powerful", "control", "dominance", "authority", "influence",
+        "strength", "force", "might", "supremacy", "mastery", "rule",
+        "command", "domination"
+    ]
+}
+
+CONTROVERSY_KEYWORDS: Dict[str, List[str]] = {
+    "controversial": [
+        "slavery", "slave", "enslaved", "torture", "tortured", "execution",
+        "executed", "genocide", "massacre", "atrocity", "war crime",
+        "experimentation on humans", "forced labor", "trafficking"
+    ],
+    "sensitive": [
+        "death", "died", "killed", "murder", "suicide", "trauma",
+        "traumatic", "abuse", "abused", "victim", "suffering", "pain",
+        "loss of life", "casualties", "casualties of war", "child",
+        "children", "infant"
+    ],
+    "neutral": []  # default
+}
