@@ -19,7 +19,11 @@ from tools.wiki_to_chromadb.constants import (
     TIME_PERIOD_KEYWORDS,
     LOCATION_KEYWORDS,
     LOCATION_TO_REGION,
-    CONTENT_TYPE_KEYWORDS
+    CONTENT_TYPE_KEYWORDS,
+    EMOTIONAL_TONE_KEYWORDS,
+    SUBJECT_KEYWORDS,
+    THEME_KEYWORDS,
+    CONTROVERSY_KEYWORDS
 )
 from tools.wiki_to_chromadb.logging_config import get_logger
 
@@ -421,5 +425,180 @@ class EnhancedMetadataEnricher:
             location_confidence=location_confidence,
             content_type=content_type,
             content_type_confidence=type_confidence,
-            knowledge_tier=knowledge_tier
+            knowledge_tier=knowledge_tier,
+            # Phase 6 Task 3: Broadcast metadata
+            emotional_tone=self._determine_emotional_tone(chunk.text),
+            complexity_tier=self._determine_complexity_tier(chunk.text, chunk.metadata),
+            primary_subjects=self._extract_primary_subjects(chunk.text),
+            themes=self._extract_themes(chunk.text, content_type),
+            controversy_level=self._determine_controversy_level(chunk.text),
+            # Freshness tracking (initialized to fresh)
+            last_broadcast_time=None,
+            broadcast_count=0,
+            freshness_score=1.0
         )
+    
+    def _determine_emotional_tone(self, text: str) -> str:
+        """
+        Determine the emotional tone of the text.
+        
+        Phase 6 Task 3: Emotional tone classification
+        
+        Args:
+            text: Text content to analyze
+            
+        Returns:
+            Emotional tone: hopeful, tragic, mysterious, comedic, tense, or neutral
+        """
+        text_lower = text.lower()
+        tone_scores = {}
+        
+        for tone, keywords in EMOTIONAL_TONE_KEYWORDS.items():
+            if tone == "neutral":
+                continue
+            score = sum(1 for kw in keywords if kw in text_lower)
+            tone_scores[tone] = score
+        
+        if not tone_scores or max(tone_scores.values()) == 0:
+            return "neutral"
+        
+        # Return tone with highest score
+        best_tone = max(tone_scores, key=lambda k: tone_scores[k])
+        
+        # Require at least 2 keyword matches for non-neutral tone
+        if tone_scores[best_tone] >= 2:
+            return best_tone
+        
+        return "neutral"
+    
+    def _determine_complexity_tier(self, text: str, metadata: ChunkMetadata) -> str:
+        """
+        Determine the complexity tier of the content.
+        
+        Phase 6 Task 3: Complexity classification
+        
+        Criteria:
+        - Simple: <200 words, few wikilinks
+        - Complex: >800 words, many wikilinks  
+        - Moderate: everything else
+        
+        Args:
+            text: Text content
+            metadata: Chunk metadata with structural info
+            
+        Returns:
+            Complexity tier: simple, moderate, or complex
+        """
+        word_count = len(text.split())
+        wikilink_count = metadata.structural.wikilink_count if hasattr(metadata.structural, 'wikilink_count') else len(metadata.structural.wikilinks)
+        
+        # Simple: short text with few links
+        if word_count < 200 or (word_count < 400 and wikilink_count < 3):
+            return "simple"
+        
+        # Complex: long text with many links
+        if word_count > 800 or (word_count > 500 and wikilink_count > 10):
+            return "complex"
+        
+        # Moderate: everything else
+        return "moderate"
+    
+    def _extract_primary_subjects(self, text: str) -> List[str]:
+        """
+        Extract primary subjects from text.
+        
+        Phase 6 Task 3: Subject extraction
+        
+        Returns top 3-5 most relevant subjects based on keyword frequency.
+        
+        Args:
+            text: Text content to analyze
+            
+        Returns:
+            List of primary subjects (max 5)
+        """
+        text_lower = text.lower()
+        subject_scores = {}
+        
+        for subject, keywords in SUBJECT_KEYWORDS.items():
+            score = sum(1 for kw in keywords if kw in text_lower)
+            if score > 0:
+                subject_scores[subject] = score
+        
+        # Sort by score and return top 5
+        sorted_subjects = sorted(subject_scores.items(), key=lambda x: x[1], reverse=True)
+        return [subject for subject, score in sorted_subjects[:5]]
+    
+    def _extract_themes(self, text: str, content_type: str) -> List[str]:
+        """
+        Extract abstract themes from text.
+        
+        Phase 6 Task 3: Theme extraction
+        
+        Returns 2-3 most relevant themes based on content type and keywords.
+        
+        Args:
+            text: Text content to analyze
+            content_type: Content type classification
+            
+        Returns:
+            List of themes (max 3)
+        """
+        text_lower = text.lower()
+        theme_scores = {}
+        
+        for theme, keywords in THEME_KEYWORDS.items():
+            score = sum(1 for kw in keywords if kw in text_lower)
+            if score > 0:
+                theme_scores[theme] = score
+        
+        # Boost certain themes based on content type
+        if content_type == "event":
+            theme_scores["war"] = theme_scores.get("war", 0) + 1
+        elif content_type == "faction":
+            theme_scores["power"] = theme_scores.get("power", 0) + 1
+        elif content_type == "character":
+            theme_scores["humanity"] = theme_scores.get("humanity", 0) + 1
+        
+        # Sort by score and return top 3
+        sorted_themes = sorted(theme_scores.items(), key=lambda x: x[1], reverse=True)
+        return [theme for theme, score in sorted_themes[:3]]
+    
+    def _determine_controversy_level(self, text: str) -> str:
+        """
+        Determine controversy level of content.
+        
+        Phase 6 Task 3: Controversy classification
+        
+        Levels:
+        - controversial: slavery, torture, extreme violence
+        - sensitive: death, trauma, loss
+        - neutral: default
+        
+        Args:
+            text: Text content to analyze
+            
+        Returns:
+            Controversy level: neutral, sensitive, or controversial
+        """
+        text_lower = text.lower()
+        
+        # Check for controversial keywords
+        controversial_count = sum(
+            1 for kw in CONTROVERSY_KEYWORDS["controversial"] 
+            if kw in text_lower
+        )
+        
+        if controversial_count >= 2:
+            return "controversial"
+        
+        # Check for sensitive keywords
+        sensitive_count = sum(
+            1 for kw in CONTROVERSY_KEYWORDS["sensitive"]
+            if kw in text_lower
+        )
+        
+        if sensitive_count >= 3:
+            return "sensitive"
+        
+        return "neutral"

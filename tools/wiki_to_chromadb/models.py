@@ -83,6 +83,16 @@ class EnrichedMetadata(BaseModel):
     
     # Quality metadata
     chunk_quality: Optional[str] = None  # stub, reference, content, rich
+    
+    # Phase 6: Broadcast-specific metadata
+    emotional_tone: Optional[str] = None  # hopeful, tragic, mysterious, comedic, tense, neutral
+    complexity_tier: Optional[str] = None  # simple, moderate, complex
+    primary_subjects: List[str] = Field(default_factory=list)  # water, radiation, factions, etc.
+    themes: List[str] = Field(default_factory=list)  # humanity, war, survival, etc.
+    controversy_level: Optional[str] = None  # neutral, sensitive, controversial
+    last_broadcast_time: Optional[float] = None  # Unix timestamp or None
+    broadcast_count: int = 0  # Number of times used in broadcasts
+    freshness_score: float = Field(1.0, ge=0.0, le=1.0)  # 1.0 = fresh, 0.0 = stale
 
 
 class ChunkMetadata(BaseModel):
@@ -170,6 +180,34 @@ class ChunkMetadata(BaseModel):
         # Add pre/post war flags
         flat['is_pre_war'] = self.enriched.is_pre_war
         flat['is_post_war'] = self.enriched.is_post_war
+        
+        # Phase 6: Add broadcast metadata
+        if self.enriched.emotional_tone:
+            flat['emotional_tone'] = self.enriched.emotional_tone
+        
+        if self.enriched.complexity_tier:
+            flat['complexity_tier'] = self.enriched.complexity_tier
+        
+        if self.enriched.controversy_level:
+            flat['controversy_level'] = self.enriched.controversy_level
+        
+        # Flatten list fields for ChromaDB compatibility
+        if self.enriched.primary_subjects:
+            for i, subject in enumerate(self.enriched.primary_subjects[:5]):  # Limit to 5
+                flat[f'primary_subject_{i}'] = subject
+            flat['primary_subjects_count'] = len(self.enriched.primary_subjects)
+        
+        if self.enriched.themes:
+            for i, theme in enumerate(self.enriched.themes[:3]):  # Limit to 3
+                flat[f'theme_{i}'] = theme
+            flat['themes_count'] = len(self.enriched.themes)
+        
+        # Broadcast tracking fields
+        if self.enriched.last_broadcast_time is not None:
+            flat['last_broadcast_time'] = self.enriched.last_broadcast_time
+        
+        flat['broadcast_count'] = self.enriched.broadcast_count
+        flat['freshness_score'] = self.enriched.freshness_score
         
         return flat
 
