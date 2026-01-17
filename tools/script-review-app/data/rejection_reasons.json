@@ -1,0 +1,49 @@
+{
+  "reasons": [
+    {
+      "id": "tone_mismatch",
+      "label": "Tone doesn't match DJ personality",
+      "category": "personality"
+    },
+    {
+      "id": "factual_error",
+      "label": "Contains factual errors",
+      "category": "accuracy"
+    },
+    {
+      "id": "temporal_violation",
+      "label": "References wrong time period",
+      "category": "lore"
+    },
+    {
+      "id": "too_generic",
+      "label": "Too generic/boring",
+      "category": "quality"
+    },
+    {
+      "id": "inappropriate",
+      "label": "Inappropriate content",
+      "category": "content"
+    },
+    {
+      "id": "grammar_issues",
+      "label": "Grammar or spelling issues",
+      "category": "quality"
+    },
+    {
+      "id": "too_long",
+      "label": "Script too long",
+      "category": "length"
+    },
+    {
+      "id": "too_short",
+      "label": "Script too short",
+      "category": "length"
+    },
+    {
+      "id": "other",
+      "label": "Other (please specify)",
+      "category": "other"
+    }
+  ]
+}

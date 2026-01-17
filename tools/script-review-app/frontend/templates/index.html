@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Review AI-generated DJ scripts with a swipe interface">
+    <meta name="theme-color" content="#1a1a1a">
+    <title>DJ Script Review</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom styles -->
+    <style>
+        body {
+            overflow-x: hidden;
+            touch-action: pan-y;
+        }
+        
+        .card-container {
+            perspective: 1000px;
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            height: 600px;
+            margin: 0 auto;
+        }
+        
+        .review-card {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            cursor: grab;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: none;
+        }
+        
+        .review-card:active {
+            cursor: grabbing;
+        }
+        
+        .review-card.swiping {
+            transition: none;
+        }
+        
+        .review-card.approved {
+            animation: swipeRight 0.3s ease-out forwards;
+        }
+        
+        .review-card.rejected {
+            animation: swipeLeft 0.3s ease-out forwards;
+        }
+        
+        @keyframes swipeRight {
+            to {
+                transform: translateX(150%) rotate(20deg);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes swipeLeft {
+            to {
+                transform: translateX(-150%) rotate(-20deg);
+                opacity: 0;
+            }
+        }
+        
+        .approve-indicator, .reject-indicator {
+            position: absolute;
+            top: 50px;
+            font-size: 4rem;
+            opacity: 0;
+            transition: opacity 0.2s;
+            pointer-events: none;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .approve-indicator {
+            right: 50px;
+        }
+        
+        .reject-indicator {
+            left: 50px;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 2000;
+        }
+        
+        .toast.show {
+            opacity: 1;
+        }
+    </style>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/static/manifest.json">
+    
+    <!-- App Icons -->
+    <link rel="icon" type="image/png" sizes="192x192" href="/static/icons/icon-192.png">
+    <link rel="apple-touch-icon" href="/static/icons/icon-192.png">
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
+    
+    <!-- Header -->
+    <header class="bg-gray-800 shadow-lg">
+        <div class="container mx-auto px-4 py-4">
+            <h1 class="text-2xl font-bold text-center">🎙️ DJ Script Review</h1>
+            <div id="stats" class="text-center text-sm text-gray-400 mt-2">
+                Loading...
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        
+        <!-- Filters -->
+        <div class="mb-6 flex justify-center gap-4">
+            <select id="djFilter" class="bg-gray-800 text-white px-4 py-2 rounded-lg border border-gray-700 focus:outline-none focus:border-blue-500">
+                <option value="">All DJs</option>
+            </select>
+            <button id="refreshBtn" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition">
+                🔄 Refresh
+            </button>
+        </div>
+        
+        <!-- Card Container -->
+        <div id="cardContainer" class="card-container">
+            <div id="noScripts" class="text-center text-gray-400 hidden">
+                <div class="text-6xl mb-4">✅</div>
+                <p class="text-xl">All scripts reviewed!</p>
+                <p class="mt-2">Great job! Click refresh to check for new scripts.</p>
+            </div>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="flex justify-center gap-8 mt-8">
+            <button id="rejectBtn" class="bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-full text-lg font-bold shadow-lg transition transform hover:scale-105 active:scale-95">
+                ✗ Reject
+            </button>
+            <button id="approveBtn" class="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-full text-lg font-bold shadow-lg transition transform hover:scale-105 active:scale-95">
+                ✓ Approve
+            </button>
+        </div>
+        
+        <!-- Keyboard Hints -->
+        <div class="text-center mt-6 text-sm text-gray-500">
+            <p>Swipe or use keyboard: ← Reject | → Approve</p>
+        </div>
+        
+    </main>
+    
+    <!-- Rejection Modal -->
+    <div id="rejectionModal" class="modal">
+        <div class="bg-gray-800 rounded-lg p-6 max-w-md w-full mx-4 shadow-2xl">
+            <h2 class="text-xl font-bold mb-4">Why reject this script?</h2>
+            
+            <select id="rejectionReason" class="w-full bg-gray-700 text-white px-4 py-2 rounded-lg mb-4 border border-gray-600 focus:outline-none focus:border-blue-500">
+                <option value="">Select a reason...</option>
+            </select>
+            
+            <textarea id="customComment" 
+                      class="w-full bg-gray-700 text-white px-4 py-2 rounded-lg mb-4 border border-gray-600 focus:outline-none focus:border-blue-500 hidden" 
+                      rows="3" 
+                      placeholder="Please specify..."></textarea>
+            
+            <div class="flex gap-4">
+                <button id="cancelReject" class="flex-1 bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded-lg transition">
+                    Cancel
+                </button>
+                <button id="confirmReject" class="flex-1 bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg transition">
+                    Confirm Reject
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Auth Modal -->
+    <div id="authModal" class="modal active">
+        <div class="bg-gray-800 rounded-lg p-6 max-w-md w-full mx-4 shadow-2xl">
+            <h2 class="text-xl font-bold mb-4">Enter API Token</h2>
+            <p class="text-gray-400 mb-4">Please enter your API token to access the script review app.</p>
+            
+            <input type="password" 
+                   id="apiToken" 
+                   class="w-full bg-gray-700 text-white px-4 py-2 rounded-lg mb-4 border border-gray-600 focus:outline-none focus:border-blue-500" 
+                   placeholder="API Token">
+            
+            <button id="loginBtn" class="w-full bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition">
+                Login
+            </button>
+            
+            <p class="text-xs text-gray-500 mt-4">
+                Set SCRIPT_REVIEW_TOKEN in your environment to configure the token.
+            </p>
+        </div>
+    </div>
+    
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+    
+    <!-- Scripts -->
+    <script src="/static/api.js"></script>
+    <script src="/static/swipe.js"></script>
+    <script src="/static/app.js"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/static/service-worker.js')
+                    .then(reg => console.log('Service Worker registered:', reg))
+                    .catch(err => console.log('Service Worker registration failed:', err));
+            });
+        }
+    </script>
+</body>
+</html>

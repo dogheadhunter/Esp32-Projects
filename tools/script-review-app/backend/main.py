@@ -1,0 +1,176 @@
+"""FastAPI application for Script Review."""
+
+import logging
+from fastapi import FastAPI, Depends, HTTPException, Query
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+from pathlib import Path
+
+from backend.auth import verify_token
+from backend.config import settings
+from backend.models import (
+    Script, 
+    ReviewRequest, 
+    ReviewResponse,
+    RejectionReason,
+    StatsResponse
+)
+from backend.storage import storage
+
+# Configure logging
+logging.basicConfig(
+    level=settings.log_level,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
+
+# Create FastAPI app
+app = FastAPI(
+    title="Script Review API",
+    description="API for reviewing AI-generated DJ scripts",
+    version="1.0.0"
+)
+
+# Configure CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=settings.allowed_origins,
+    allow_credentials=True,
+    allow_methods=["GET", "POST"],
+    allow_headers=["Content-Type", "Authorization"],
+)
+
+# Mount static files
+frontend_path = Path(__file__).parent.parent / "frontend"
+app.mount("/static", StaticFiles(directory=str(frontend_path / "static")), name="static")
+
+
+@app.get("/")
+async def root():
+    """Serve the main application page."""
+    index_path = frontend_path / "templates" / "index.html"
+    if index_path.exists():
+        return FileResponse(str(index_path))
+    return {"message": "Script Review API", "docs": "/docs"}
+
+
+@app.get("/health")
+async def health_check():
+    """Health check endpoint."""
+    return {"status": "healthy", "version": "1.0.0"}
+
+
+@app.get("/api/scripts", response_model=list[Script])
+async def get_scripts(
+    dj: str | None = Query(None, description="Filter by DJ name"),
+    _: None = Depends(verify_token)
+):
+    """
+    Get list of pending scripts to review.
+    
+    Args:
+        dj: Optional DJ name filter
+        
+    Returns:
+        List of pending scripts
+    """
+    try:
+        scripts = storage.list_pending_scripts(dj_filter=dj)
+        logger.info(f"Retrieved {len(scripts)} pending scripts (DJ filter: {dj})")
+        return scripts
+    except Exception as e:
+        logger.error(f"Error retrieving scripts: {e}")
+        raise HTTPException(status_code=500, detail=f"Error retrieving scripts: {str(e)}")
+
+
+@app.post("/api/review", response_model=ReviewResponse)
+async def review_script(
+    review: ReviewRequest,
+    _: None = Depends(verify_token)
+):
+    """
+    Submit a review for a script (approve or reject).
+    
+    Args:
+        review: Review request with decision
+        
+    Returns:
+        ReviewResponse with status
+    """
+    try:
+        if review.status == "approved":
+            success = storage.approve_script(review.script_id)
+        else:
+            success = storage.reject_script(
+                review.script_id,
+                review.reason_id,
+                review.custom_comment
+            )
+        
+        if not success:
+            raise HTTPException(
+                status_code=404,
+                detail=f"Script not found or could not be processed: {review.script_id}"
+            )
+        
+        logger.info(f"Script {review.script_id} {review.status}")
+        
+        return ReviewResponse(
+            success=True,
+            message=f"Script {review.status} successfully",
+            script_id=review.script_id,
+            status=review.status
+        )
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error reviewing script: {e}")
+        raise HTTPException(status_code=500, detail=f"Error processing review: {str(e)}")
+
+
+@app.get("/api/reasons", response_model=list[RejectionReason])
+async def get_rejection_reasons(_: None = Depends(verify_token)):
+    """
+    Get list of pre-defined rejection reasons.
+    
+    Returns:
+        List of rejection reasons
+    """
+    try:
+        reasons = storage.get_rejection_reasons()
+        logger.info(f"Retrieved {len(reasons)} rejection reasons")
+        return reasons
+    except Exception as e:
+        logger.error(f"Error retrieving rejection reasons: {e}")
+        raise HTTPException(status_code=500, detail=f"Error retrieving reasons: {str(e)}")
+
+
+@app.get("/api/stats", response_model=StatsResponse)
+async def get_stats(_: None = Depends(verify_token)):
+    """
+    Get review statistics.
+    
+    Returns:
+        Statistics about approved, rejected, and pending scripts
+    """
+    try:
+        stats = storage.get_stats()
+        logger.info(f"Retrieved stats: {stats.total_pending} pending, "
+                   f"{stats.total_approved} approved, {stats.total_rejected} rejected")
+        return stats
+    except Exception as e:
+        logger.error(f"Error retrieving stats: {e}")
+        raise HTTPException(status_code=500, detail=f"Error retrieving stats: {str(e)}")
+
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(
+        "backend.main:app",
+        host=settings.host,
+        port=settings.port,
+        reload=True,
+        log_level=settings.log_level.lower()
+    )
