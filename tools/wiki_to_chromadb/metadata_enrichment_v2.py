@@ -404,8 +404,13 @@ class EnhancedMetadataEnricher:
             chunk.text, chunk.metadata.wiki_title
         )
         
+        # Extract infobox type from structural metadata if available
+        infobox_type = None
+        if chunk.metadata.structural and chunk.metadata.structural.infoboxes:
+            infobox_type = chunk.metadata.structural.infoboxes[0].type
+        
         content_type, type_confidence = self.classify_content_type(
-            chunk.text, chunk.metadata.wiki_title, chunk.metadata.infobox_type
+            chunk.text, chunk.metadata.wiki_title, infobox_type
         )
         
         # Determine knowledge tier (unchanged from original)

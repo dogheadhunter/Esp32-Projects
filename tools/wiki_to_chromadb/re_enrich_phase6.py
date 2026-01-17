@@ -160,7 +160,6 @@ class Phase6DatabaseReEnricher:
                             section_level=metadata.get('section_level', 1),
                             chunk_index=metadata.get('chunk_index', 0),
                             total_chunks=metadata.get('total_chunks', 1),
-                            infobox_type=metadata.get('infobox_type', None),
                             structural=StructuralMetadata(
                                 wikilinks=[]  # We don't have access to this from metadata
                             )
