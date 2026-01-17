@@ -2,13 +2,14 @@
 
 from pathlib import Path
 from pydantic_settings import BaseSettings
+from pydantic import Field
 
 
 class Settings(BaseSettings):
     """Application settings loaded from environment variables."""
 
     # API Settings
-    api_token: str = "change-me-in-production"
+    api_token: str = Field(default="change-me-in-production", validation_alias="SCRIPT_REVIEW_TOKEN")
     allowed_origins: list[str] = ["http://localhost:8000", "http://127.0.0.1:8000"]
     
     # Paths

@@ -10,6 +10,12 @@ class ScriptReviewApp {
         this.swipeHandler = null;
         this.pendingRejectScript = null;
         
+        // Set up auth event listeners first (always needed)
+        document.getElementById('loginBtn').addEventListener('click', () => this.handleLogin());
+        document.getElementById('apiToken').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') this.handleLogin();
+        });
+        
         this.init();
     }
     
@@ -33,12 +39,6 @@ class ScriptReviewApp {
     }
     
     setupEventListeners() {
-        // Login button
-        document.getElementById('loginBtn').addEventListener('click', () => this.handleLogin());
-        document.getElementById('apiToken').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') this.handleLogin();
-        });
-        
         // Action buttons
         document.getElementById('approveBtn').addEventListener('click', () => this.approveCurrentScript());
         document.getElementById('rejectBtn').addEventListener('click', () => this.rejectCurrentScript());
@@ -86,7 +86,11 @@ class ScriptReviewApp {
             // Test token by fetching stats
             await api.getStats();
             document.getElementById('authModal').classList.remove('active');
-            this.init();
+            
+            // Load data
+            await this.loadReasons();
+            await this.loadScripts();
+            await this.updateStats();
         } catch (error) {
             this.showToast('Invalid API token', 'error');
             api.setToken('');
