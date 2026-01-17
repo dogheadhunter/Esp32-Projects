@@ -42,7 +42,7 @@ from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 
-# Add parent directory to path for imports
+# Add script-generator to path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from personality_loader import load_personality, get_available_djs
