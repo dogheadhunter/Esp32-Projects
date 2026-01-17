@@ -7,10 +7,11 @@ A sophisticated, AI-driven radio station project running on ESP32 hardware. This
 This repository has been reset to a "Clean Slate" state (Commit `1346717`). It focuses on a robust, working ESP32 MP3 player foundation with the essential directory structure for AI-driven content generation, but without heavy experimental dependencies (complex agents, VibeVoice training data, etc.).
 
 ### Current Capabilities
-*   **Core Firmware**: Stable ESP32 MP3 player code in `src/`.
+*   **Core Firmware**: Stable ESP32 MP3 player code in `firmware/`.
 *   **Infrastructure**: Folders established for the AI Content Pipeline (`script generation`, `audio generation`).
 *   **Personalities**: Definitions and prompts preserved for **Julie**, **Mr. New Vegas**, **Mr. Med City**, and **Travis Miles** (Nervous/Confident).
 *   **Tools**: Basic operational tools and configuration preserved in `tools/`.
+*   **Wiki Pipeline**: Complete ChromaDB ingestion system for Fallout Wiki knowledge base.
 
 ---
 
@@ -57,7 +58,9 @@ This architecture separates the *creation* of content (scripts) from the *produc
     *   Centralized logging repository used to troubleshooting the multi-stage pipeline.
 
 ### 3. **Firmware (PlatformIO)**
-*   **`src/`**: Contains the C++ firmware code (`main.cpp`) for the ESP32.
+*   **`firmware/`**: Contains the C++ firmware code (`main.cpp`) for the ESP32.
+    *   Built using PlatformIO with ESP32 platform and Arduino framework.
+    *   Audio playback via ESP8266Audio library.
 *   **`lib/`**: Shared C++ libraries.
 *   **`platformio.ini`**: Build configuration and dependencies.
 
