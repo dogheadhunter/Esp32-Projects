@@ -393,19 +393,19 @@ class EnhancedMetadataEnricher:
         """
         # Extract metadata with Phase 6 enhancements
         time_period, time_confidence = self.classify_time_period(
-            chunk.text, chunk.metadata.title
+            chunk.text, chunk.metadata.wiki_title
         )
         
         year_min, year_max = self.extract_year_range(
-            chunk.text, chunk.metadata.title
+            chunk.text, chunk.metadata.wiki_title
         )
         
         location, location_confidence = self.classify_location(
-            chunk.text, chunk.metadata.title
+            chunk.text, chunk.metadata.wiki_title
         )
         
         content_type, type_confidence = self.classify_content_type(
-            chunk.text, chunk.metadata.title, chunk.metadata.infobox_type
+            chunk.text, chunk.metadata.wiki_title, chunk.metadata.infobox_type
         )
         
         # Determine knowledge tier (unchanged from original)

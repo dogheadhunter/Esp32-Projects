@@ -366,8 +366,11 @@ class Phase6DatabaseReEnricher:
             validation['location_fix_rate'] = (validation['location_fixes']['valid'] / 
                                               max(1, sum(validation['location_fixes'].values()))) * 100
             
+            # Create percentage entries separately to avoid dictionary size changes during iteration
+            fields_pct = {}
             for field, count in validation['new_fields_populated'].items():
-                validation['new_fields_populated'][f'{field}_pct'] = (count / len(sample_indices)) * 100
+                fields_pct[f'{field}_pct'] = (count / len(sample_indices)) * 100
+            validation['new_fields_populated'].update(fields_pct)
             
             logger.info("Validation complete:")
             logger.info(f"  Year fix rate: {validation['year_fix_rate']:.1f}%")
