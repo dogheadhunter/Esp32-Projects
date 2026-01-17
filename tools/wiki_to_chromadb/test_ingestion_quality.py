@@ -5,6 +5,25 @@ import chromadb
 from chromadb.config import Settings
 import json
 from typing import List, Dict, Any
+import pytest
+from pathlib import Path
+
+
+@pytest.fixture(scope="module")
+def collection():
+    """
+    Pytest fixture to provide access to the ChromaDB collection.
+    Uses the production database at the project root which has the most complete data.
+    """
+    # Get the project root - this file is at tools/wiki_to_chromadb/test_ingestion_quality.py
+    project_root = Path(__file__).resolve().parent.parent.parent
+    db_path = project_root / "chroma_db"
+    
+    # Connect to the ChromaDB
+    client = chromadb.PersistentClient(path=str(db_path))
+    collection = client.get_collection(name="fallout_wiki")
+    
+    return collection
 
 
 def print_section(title: str):
