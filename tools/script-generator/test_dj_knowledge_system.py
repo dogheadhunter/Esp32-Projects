@@ -10,7 +10,7 @@ Saves detailed results for analysis.
 
 import sys
 from pathlib import Path
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 import json
 from datetime import datetime
 
@@ -127,7 +127,7 @@ TEST_QUERIES = {
 class DJKnowledgeTester:
     """Test DJ knowledge system against ChromaDB"""
     
-    def __init__(self, chroma_db_dir: str = None):
+    def __init__(self, chroma_db_dir: Optional[str] = None):
         """Initialize tester with ChromaDB connection"""
         if chroma_db_dir is None:
             chroma_db_dir = str(project_config.CHROMA_DB_PATH)
@@ -263,7 +263,7 @@ class DJKnowledgeTester:
         self.results = all_results
         return all_results
     
-    def save_results(self, output_dir: str = None):
+    def save_results(self, output_dir: Optional[str] = None):
         """
         Save test results to JSON files
         
