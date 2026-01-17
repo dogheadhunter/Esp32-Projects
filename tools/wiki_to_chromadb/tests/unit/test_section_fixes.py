@@ -6,13 +6,9 @@ Tests the fixes for:
 2. Stripping markup from section titles before matching
 """
 
-import sys
-from pathlib import Path
-sys.path.insert(0, str(Path(__file__).parent.parent.parent))
-
 import pytest
-from extractors import StructuralExtractor
-from chunker_v2 import strip_section_title_markup
+from tools.wiki_to_chromadb.extractors import StructuralExtractor
+from tools.wiki_to_chromadb.chunker_v2 import strip_section_title_markup
 
 
 class TestDecorativeSeparatorFiltering:
@@ -113,7 +109,7 @@ class TestEmptySectionHandling:
         assert sections[0].title == "See Also"
         
         # But when cleaned, the content disappears
-        from wiki_parser_v2 import clean_wikitext
+        from tools.wiki_to_chromadb.wiki_parser_v2 import clean_wikitext
         plain_text, _ = clean_wikitext(wikitext)
         
         # Section title should be in plain text

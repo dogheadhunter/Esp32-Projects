@@ -4,11 +4,11 @@ Unit tests for chunker_v2.py
 
 import pytest
 import mwparserfromhell
-from chunker_v2 import create_chunks, strip_markup, split_by_tokens
-from wiki_parser_v2 import process_page
-from extractors import StructuralExtractor
-from models import WikiPage, StructuralMetadata, Chunk
-from config import ChunkerConfig
+from tools.wiki_to_chromadb.chunker_v2 import create_chunks, strip_markup, split_by_tokens
+from tools.wiki_to_chromadb.wiki_parser_v2 import process_page
+from tools.wiki_to_chromadb.extractors import StructuralExtractor
+from tools.wiki_to_chromadb.models import WikiPage, StructuralMetadata, Chunk
+from tools.wiki_to_chromadb.config import ChunkerConfig
 from transformers import AutoTokenizer
 
 

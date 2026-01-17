@@ -24,13 +24,13 @@ from typing import Optional, Dict, List
 from tqdm import tqdm
 
 # New infrastructure imports
-from config import PipelineConfig
-from logging_config import get_logger, PipelineLogger
-from models import WikiPage, Chunk
-from wiki_parser_v2 import extract_pages, process_page
-from chunker_v2 import create_chunks
-from metadata_enrichment import enrich_chunks
-from chromadb_ingest import ChromaDBIngestor
+from tools.wiki_to_chromadb.config import PipelineConfig
+from tools.wiki_to_chromadb.logging_config import get_logger, PipelineLogger
+from tools.wiki_to_chromadb.models import WikiPage, Chunk
+from tools.wiki_to_chromadb.wiki_parser_v2 import extract_pages, process_page
+from tools.wiki_to_chromadb.chunker_v2 import create_chunks
+from tools.wiki_to_chromadb.metadata_enrichment import enrich_chunks
+from tools.wiki_to_chromadb.chromadb_ingest import ChromaDBIngestor
 
 # Logger will be initialized after log file setup
 logger = None

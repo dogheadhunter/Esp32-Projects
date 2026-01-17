@@ -7,15 +7,15 @@ Adds temporal, spatial, and content-type metadata to chunks for DJ-specific filt
 import re
 from typing import Dict, Tuple, List, Optional, Union
 
-from models import Chunk, EnrichedMetadata, ChunkMetadata
-from constants import (
+from tools.wiki_to_chromadb.models import Chunk, EnrichedMetadata, ChunkMetadata
+from tools.wiki_to_chromadb.constants import (
     CONTENT_TYPE_NORMALIZATION,
     TIME_PERIOD_KEYWORDS,
     LOCATION_KEYWORDS,
     LOCATION_TO_REGION,
     CONTENT_TYPE_KEYWORDS
 )
-from logging_config import get_logger
+from tools.wiki_to_chromadb.logging_config import get_logger
 
 logger = get_logger(__name__)
 

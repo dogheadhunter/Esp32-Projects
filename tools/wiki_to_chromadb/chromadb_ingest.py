@@ -14,7 +14,7 @@ from tqdm import tqdm
 
 # Try importing new models (optional for backward compatibility)
 try:
-    from models import Chunk, ChunkMetadata
+    from tools.wiki_to_chromadb.models import Chunk, ChunkMetadata
     MODELS_AVAILABLE = True
 except ImportError:
     MODELS_AVAILABLE = False

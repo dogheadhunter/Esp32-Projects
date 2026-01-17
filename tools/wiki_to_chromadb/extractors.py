@@ -9,11 +9,11 @@ import re
 from typing import List, Tuple, Dict
 import mwparserfromhell
 
-from models import (
+from tools.wiki_to_chromadb.models import (
     WikiLink, SectionInfo, Template, Infobox, StructuralMetadata
 )
-from constants import GAME_ABBREVIATIONS
-from logging_config import get_logger
+from tools.wiki_to_chromadb.constants import GAME_ABBREVIATIONS
+from tools.wiki_to_chromadb.logging_config import get_logger
 
 logger = get_logger(__name__)
 

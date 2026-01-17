@@ -12,10 +12,10 @@ from typing import List
 from transformers import AutoTokenizer, logging as transformers_logging
 
 # Import new models and extractors
-from models import Chunk, ChunkMetadata, StructuralMetadata, WikiPage, SectionInfo, EnrichedMetadata
-from extractors import StructuralExtractor
-from config import ChunkerConfig
-from logging_config import get_logger
+from tools.wiki_to_chromadb.models import Chunk, ChunkMetadata, StructuralMetadata, WikiPage, SectionInfo, EnrichedMetadata
+from tools.wiki_to_chromadb.extractors import StructuralExtractor
+from tools.wiki_to_chromadb.config import ChunkerConfig
+from tools.wiki_to_chromadb.logging_config import get_logger
 
 # Suppress tokenizer warnings
 transformers_logging.set_verbosity_error()

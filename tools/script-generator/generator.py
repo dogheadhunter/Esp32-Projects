@@ -486,7 +486,7 @@ class ScriptGenerator:
                 print(f"\n[4/5] Generating with Ollama...")
                 
                 if model is None:
-                    model = config.LLM_MODEL
+                    model = "fluffy/l3-8b-stheno-v3.2"
                 
                 print(f"  Model: {model}")
                 print(f"  Temperature: {temperature}, Top-P: {top_p}")
@@ -613,7 +613,7 @@ class ScriptGenerator:
             model: Model to unload (default: from config)
         """
         if model is None:
-            model = config.LLM_MODEL
+            model = "fluffy/l3-8b-stheno-v3.2"
         
         print(f"\nUnloading model {model} from VRAM...")
         if self.ollama.unload_model(model):

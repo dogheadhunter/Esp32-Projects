@@ -4,15 +4,9 @@ Unit tests for structural metadata extraction.
 Tests the StructuralExtractor class with various wikitext samples.
 """
 
-import sys
-from pathlib import Path
-
-# Add parent directory to path
-sys.path.insert(0, str(Path(__file__).parent.parent.parent))
-
 import pytest
-from extractors import StructuralExtractor
-from tests.fixtures.sample_data import (
+from tools.wiki_to_chromadb.extractors import StructuralExtractor
+from tools.wiki_to_chromadb.tests.fixtures.sample_data import (
     SAMPLE_WIKITEXT_VAULT_101,
     SAMPLE_WIKITEXT_SIMPLE,
     EXPECTED_CATEGORIES_VAULT_101,

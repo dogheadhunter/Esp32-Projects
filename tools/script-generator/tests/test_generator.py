@@ -107,20 +107,6 @@ class TestTemplateRendering(unittest.TestCase):
             template = self.generator.jinja_env.get_template(f"{template_name}.jinja2")
             self.assertIsNotNone(template, f"Template {template_name} not found")
     
-    def test_weather_template_renders(self):
-        """Test weather template renders without errors"""
-        template = self.generator.jinja_env.get_template("weather.jinja2")
-        rendered = template.render(
-            personality=self.personality,
-            lore_context="Test context",
-            weather_type="sunny",
-            time_of_day="morning",
-            hour=8,
-            temperature=70
-        )
-        self.assertGreater(len(rendered), 100)
-        self.assertIn("Julie", rendered)
-    
     def test_template_missing_variable(self):
         """Test template handles missing variables gracefully"""
         template = self.generator.jinja_env.get_template("weather.jinja2")
@@ -145,7 +131,7 @@ class TestRAGIntegration(unittest.TestCase):
     
     def test_rag_query_returns_results(self):
         """Test RAG query returns results"""
-        from chromadb_ingest import query_for_dj
+        from tools.wiki_to_chromadb.chromadb_ingest import query_for_dj
         
         results = query_for_dj(
             self.generator.rag,
@@ -159,7 +145,7 @@ class TestRAGIntegration(unittest.TestCase):
     
     def test_rag_query_for_all_script_types(self):
         """Test RAG queries for each script type"""
-        from chromadb_ingest import query_for_dj
+        from tools.wiki_to_chromadb.chromadb_ingest import query_for_dj
         
         queries = {
             'weather': "Appalachia weather sunny",

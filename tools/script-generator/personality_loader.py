@@ -1,7 +1,7 @@
-"""
+"""  
 DJ Personality Loader
 
-Loads DJ character cards from dj personality/ folder with caching.
+Loads DJ character cards from dj_personalities/ folder with caching.
 """
 
 import json
@@ -68,12 +68,12 @@ def load_personality(dj_name: str, project_root: Optional[Path] = None) -> Dict:
         project_root = current.parent.parent.parent
     
     # Build path to character card
-    card_path = project_root / "dj personality" / folder / "character_card.json"
+    card_path = project_root / "dj_personalities" / folder / "character_card.json"
     
     if not card_path.exists():
         raise FileNotFoundError(
             f"Character card not found: {card_path}\n"
-            f"Expected DJ folder: 'dj personality/{folder}/'"
+            f"Expected DJ folder: 'dj_personalities/{folder}/'"
         )
     
     # Load and parse JSON

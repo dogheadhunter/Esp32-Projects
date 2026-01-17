@@ -11,9 +11,9 @@ import xml.etree.ElementTree as ET
 from typing import Generator, Optional
 import mwparserfromhell
 
-from models import WikiPage, StructuralMetadata
-from extractors import StructuralExtractor
-from logging_config import get_logger
+from tools.wiki_to_chromadb.models import WikiPage, StructuralMetadata
+from tools.wiki_to_chromadb.extractors import StructuralExtractor
+from tools.wiki_to_chromadb.logging_config import get_logger
 
 logger = get_logger(__name__)
 

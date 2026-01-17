@@ -3,8 +3,8 @@ Unit tests for metadata enrichment module.
 """
 
 import pytest
-from metadata_enrichment import MetadataEnricher, enrich_chunks
-from models import Chunk, ChunkMetadata, StructuralMetadata
+from tools.wiki_to_chromadb.metadata_enrichment import MetadataEnricher, enrich_chunks
+from tools.wiki_to_chromadb.models import Chunk, ChunkMetadata, StructuralMetadata
 
 
 class TestTimeClassification:
