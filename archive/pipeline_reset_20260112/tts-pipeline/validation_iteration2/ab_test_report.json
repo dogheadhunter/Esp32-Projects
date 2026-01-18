@@ -1,0 +1,65 @@
+{
+  "timestamp": "2026-01-12T23:34:14.391911",
+  "baseline": {
+    "summary": {
+      "average_score": 83.64866769825863,
+      "avg_chunk_seams": 11.708571338588346,
+      "total_files": 5
+    },
+    "files": {
+      "0000-gossip-julie-16743708-default.mp3": {
+        "score": 84.88922256461076,
+        "chunk_seams": 12.386763038548754
+      },
+      "0000-music_intro-julie-41643478-default.mp3": {
+        "score": 83.64403559731403,
+        "chunk_seams": 12.144152899254939
+      },
+      "0000-news-julie-49477631-default.mp3": {
+        "score": 83.47591154977732,
+        "chunk_seams": 11.18383543893748
+      },
+      "0020-time-julie-31206696-default.mp3": {
+        "score": 82.86214896581606,
+        "chunk_seams": 11.595804988662131
+      },
+      "0008-weather-julie-06925391-default.mp3": {
+        "score": 83.372019813775,
+        "chunk_seams": 11.232300327538422
+      }
+    }
+  },
+  "improved": {
+    "summary": {
+      "average_score": 83.48385790516977,
+      "avg_chunk_seams": 11.644667520901887,
+      "total_files": 5
+    },
+    "files": {
+      "0000-gossip-julie-16743708-default.mp3": {
+        "score": 84.53767003076996,
+        "chunk_seams": 12.875607385811467
+      },
+      "0000-music_intro-julie-41643478-default.mp3": {
+        "score": 82.6733638420112,
+        "chunk_seams": 11.237911380768523
+      },
+      "0000-news-julie-49477631-default.mp3": {
+        "score": 82.85239054036903,
+        "chunk_seams": 11.433326018579475
+      },
+      "0020-time-julie-31206696-default.mp3": {
+        "score": 83.67154272776853,
+        "chunk_seams": 11.54421768707483
+      },
+      "0008-weather-julie-06925391-default.mp3": {
+        "score": 83.68432238493017,
+        "chunk_seams": 11.132275132275133
+      }
+    }
+  },
+  "deltas": {
+    "total_score": -0.1648097930888639,
+    "chunk_seams": -0.06390381768645881
+  }
+}

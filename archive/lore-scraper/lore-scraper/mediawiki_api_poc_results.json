@@ -1,0 +1,267 @@
+{
+  "summary": {
+    "total": 10,
+    "correct": 7,
+    "accuracy": 70.0,
+    "elapsed_seconds": 23.72616696357727
+  },
+  "results": [
+    {
+      "page_title": "Buttercup",
+      "expected": "character",
+      "is_correct": true,
+      "title": "Buttercup",
+      "pageid": 685035,
+      "success": true,
+      "classified_type": "character",
+      "categories": [
+        "Atlantic City Boardwalk Paradise Characters",
+        "Fallout 76 characters",
+        "Infobox incomplete (Fallout 76)",
+        "Section needed",
+        "Section needed (Fallout 76)"
+      ],
+      "infobox_type": "incomplete",
+      "infobox_fields": [],
+      "description": "",
+      "description_length": 0,
+      "category_count": 5
+    },
+    {
+      "page_title": "Rose_(Fallout_76)",
+      "expected": "character",
+      "is_correct": true,
+      "title": "Rose (Fallout 76)",
+      "pageid": 587199,
+      "success": true,
+      "classified_type": "character",
+      "categories": [
+        "Cutthroats",
+        "Fallout 76 Miss Nanny Characters",
+        "Fallout 76 raiders",
+        "Fallout 76 robot characters",
+        "Miss Nanny characters",
+        "Wastelanders raiders"
+      ],
+      "infobox_type": "character",
+      "infobox_fields": [
+        "games",
+        "image",
+        "race",
+        "affiliation",
+        "role",
+        "location",
+        "quests"
+      ],
+      "description": "",
+      "description_length": 0,
+      "category_count": 6
+    },
+    {
+      "page_title": "The_Rose_Room",
+      "expected": "location",
+      "is_correct": true,
+      "title": "The Rose Room",
+      "pageid": 685534,
+      "success": true,
+      "classified_type": "location",
+      "categories": [
+        "Atlantic City America's Playground Locations",
+        "Fallout 76 dungeons",
+        "Fallout 76 locations",
+        "Fallout 76 locations with brewing stations",
+        "Fallout 76 wealthy theme locations",
+        "Savage Divide locations",
+        "Section needed",
+        "Section needed (Fallout 76)"
+      ],
+      "infobox_type": "location",
+      "infobox_fields": [
+        "games",
+        "image",
+        "creatures",
+        "terminal",
+        "formid"
+      ],
+      "description": "",
+      "description_length": 0,
+      "category_count": 8
+    },
+    {
+      "page_title": "Rose_(Gone_Fission)",
+      "expected": "character",
+      "is_correct": false,
+      "title": "Rose_(Gone_Fission)",
+      "success": false,
+      "error": "Page not found"
+    },
+    {
+      "page_title": "Vault_76",
+      "expected": "location",
+      "is_correct": true,
+      "title": "Vault 76",
+      "pageid": 25747,
+      "success": true,
+      "classified_type": "location",
+      "categories": [
+        "Fallout 76 Vault-Tec theme locations",
+        "Fallout 76 locations",
+        "Mothership Zeta mentioned-only locations",
+        "Vault 76",
+        "Vault 76 and Flatwoods Primary Locations",
+        "Vault locations"
+      ],
+      "infobox_type": "location",
+      "infobox_fields": [
+        "games",
+        "type",
+        "image",
+        "leaders",
+        "owners",
+        "robots",
+        "quests",
+        "terminal",
+        "abstract",
+        "refid"
+      ],
+      "description": "",
+      "description_length": 0,
+      "category_count": 6
+    },
+    {
+      "page_title": "The_Crater",
+      "expected": "location",
+      "is_correct": true,
+      "title": "The Crater",
+      "pageid": 517639,
+      "success": true,
+      "classified_type": "location",
+      "categories": [
+        "Crater Raiders locations",
+        "Craters",
+        "Donation Box Locations",
+        "Fallout 76 dungeons",
+        "Fallout 76 locations",
+        "Fallout 76 outdoors theme locations",
+        "Toxic Valley locations"
+      ],
+      "infobox_type": "location",
+      "infobox_fields": [
+        "games",
+        "subtitle",
+        "type",
+        "image",
+        "buildings",
+        "leaders",
+        "merchants",
+        "factions",
+        "creatures",
+        "quests",
+        "terminal",
+        "refid"
+      ],
+      "description": "",
+      "description_length": 0,
+      "category_count": 7
+    },
+    {
+      "page_title": "Top_of_the_World",
+      "expected": "location",
+      "is_correct": true,
+      "title": "Top of the World",
+      "pageid": 520738,
+      "success": true,
+      "classified_type": "location",
+      "categories": [
+        "Cutthroats",
+        "Fallout 76 dungeons",
+        "Fallout 76 locations",
+        "Fallout 76 locations with Tinker's Workbenches",
+        "Fallout 76 locations with armor workbenches",
+        "Fallout 76 locations with brewing stations",
+        "Fallout 76 locations with chemistry workstations",
+        "Fallout 76 locations with weapons workbenches",
+        "Fallout 76 raider theme locations",
+        "Pre-War recreation",
+        "Savage Divide locations"
+      ],
+      "infobox_type": "location",
+      "infobox_fields": [
+        "games",
+        "type",
+        "image",
+        "leaders"
+      ],
+      "description": "",
+      "description_length": 0,
+      "category_count": 11
+    },
+    {
+      "page_title": "Scorched_plague",
+      "expected": "disease",
+      "is_correct": false,
+      "title": "Scorched plague",
+      "pageid": 609881,
+      "success": true,
+      "classified_type": "unknown",
+      "categories": [],
+      "infobox_type": null,
+      "infobox_fields": [],
+      "description": "",
+      "description_length": 0,
+      "category_count": 0
+    },
+    {
+      "page_title": "Reclamation_Day",
+      "expected": "event",
+      "is_correct": false,
+      "title": "Reclamation Day",
+      "pageid": 872488,
+      "success": true,
+      "classified_type": "unknown",
+      "categories": [],
+      "infobox_type": null,
+      "infobox_fields": [],
+      "description": "",
+      "description_length": 0,
+      "category_count": 0
+    },
+    {
+      "page_title": "Responders",
+      "expected": "faction",
+      "is_correct": true,
+      "title": "Responders",
+      "pageid": 557351,
+      "success": true,
+      "classified_type": "faction",
+      "categories": [
+        "Expeditions: The Pitt factions",
+        "Faction Overviews",
+        "Factions",
+        "Fallout 76 factions",
+        "Responders",
+        "Slogan",
+        "Template Fixes (Faction)/type"
+      ],
+      "infobox_type": "faction",
+      "infobox_fields": [
+        "type",
+        "games",
+        "name",
+        "image",
+        "status",
+        "leader",
+        "members",
+        "headquarters",
+        "locations",
+        "parent",
+        "divisions",
+        "related",
+        "formid"
+      ],
+      "description": "",
+      "description_length": 0,
+      "category_count": 7
+    }
+  ]
+}

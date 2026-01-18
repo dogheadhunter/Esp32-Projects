@@ -1,0 +1,18 @@
+{
+  "conversion_stats": {
+    "total_scripts": 10,
+    "completed": 10,
+    "failed": 0,
+    "success_rate": 100.0,
+    "elapsed_time": 569.2833807468414,
+    "avg_time_per_script": 56.92833807468414
+  },
+  "quality_results": [
+    {
+      "audio_path": "validation_iteration1\\Gossip\\0000-gossip-julie-16743708-default.mp3",
+      "tier1_technical": {
+        "format_compliance": 20,
+        "chunk_seams": 0,
+        "voice_continuity": 25,
+        "speech_density": 20,
+        "prosody_consistency": 

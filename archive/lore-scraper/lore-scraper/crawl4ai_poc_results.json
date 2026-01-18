@@ -1,0 +1,220 @@
+{
+  "summary": {
+    "total": 10,
+    "correct": 0,
+    "accuracy": 0.0,
+    "elapsed_seconds": 52.98474955558777
+  },
+  "results": [
+    {
+      "url": "https://fallout.fandom.com/wiki/Buttercup_(character)",
+      "expected_type": "character",
+      "expected_name": "Buttercup",
+      "success": true,
+      "classified_type": "unknown",
+      "page_title": "Buttercup (character)",
+      "categories": [],
+      "infobox_type": null,
+      "infobox_data": {},
+      "has_infobox": false,
+      "extraction_signals": {
+        "infobox_type": null,
+        "infobox_fields": [],
+        "category_count": 0,
+        "categories_sample": []
+      },
+      "markdown_length": 43026,
+      "fit_markdown_length": 0,
+      "is_correct": false
+    },
+    {
+      "url": "https://fallout.fandom.com/wiki/Rose_(Fallout_76)",
+      "expected_type": "character",
+      "expected_name": "Rose",
+      "success": true,
+      "classified_type": "unknown",
+      "page_title": "Rose (Fallout 76)",
+      "categories": [],
+      "infobox_type": null,
+      "infobox_data": {},
+      "has_infobox": false,
+      "extraction_signals": {
+        "infobox_type": null,
+        "infobox_fields": [],
+        "category_count": 0,
+        "categories_sample": []
+      },
+      "markdown_length": 89441,
+      "fit_markdown_length": 0,
+      "is_correct": false
+    },
+    {
+      "url": "https://fallout.fandom.com/wiki/The_Rose_Room",
+      "expected_type": "location",
+      "expected_name": "The Rose Room",
+      "success": true,
+      "classified_type": "unknown",
+      "page_title": "The Rose Room",
+      "categories": [],
+      "infobox_type": null,
+      "infobox_data": {},
+      "has_infobox": false,
+      "extraction_signals": {
+        "infobox_type": null,
+        "infobox_fields": [],
+        "category_count": 0,
+        "categories_sample": []
+      },
+      "markdown_length": 111869,
+      "fit_markdown_length": 0,
+      "is_correct": false
+    },
+    {
+      "url": "https://fallout.fandom.com/wiki/Rose_(Gone_Fission)",
+      "expected_type": "character",
+      "expected_name": "Rose (Gone Fission)",
+      "success": true,
+      "classified_type": "unknown",
+      "page_title": "Rose (Gone Fission)",
+      "categories": [],
+      "infobox_type": null,
+      "infobox_data": {},
+      "has_infobox": false,
+      "extraction_signals": {
+        "infobox_type": null,
+        "infobox_fields": [],
+        "category_count": 0,
+        "categories_sample": []
+      },
+      "markdown_length": 50260,
+      "fit_markdown_length": 0,
+      "is_correct": false
+    },
+    {
+      "url": "https://fallout.fandom.com/wiki/Vault_76",
+      "expected_type": "location",
+      "expected_name": "Vault 76",
+      "success": true,
+      "classified_type": "unknown",
+      "page_title": "Vault 76",
+      "categories": [],
+      "infobox_type": null,
+      "infobox_data": {},
+      "has_infobox": false,
+      "extraction_signals": {
+        "infobox_type": null,
+        "infobox_fields": [],
+        "category_count": 0,
+        "categories_sample": []
+      },
+      "markdown_length": 191800,
+      "fit_markdown_length": 0,
+      "is_correct": false
+    },
+    {
+      "url": "https://fallout.fandom.com/wiki/The_Crater",
+      "expected_type": "location",
+      "expected_name": "The Crater",
+      "success": true,
+      "classified_type": "unknown",
+      "page_title": "The Crater",
+      "categories": [],
+      "infobox_type": null,
+      "infobox_data": {},
+      "has_infobox": false,
+      "extraction_signals": {
+        "infobox_type": null,
+        "infobox_fields": [],
+        "category_count": 0,
+        "categories_sample": []
+      },
+      "markdown_length": 163173,
+      "fit_markdown_length": 0,
+      "is_correct": false
+    },
+    {
+      "url": "https://fallout.fandom.com/wiki/Top_of_the_World_(location)",
+      "expected_type": "location",
+      "expected_name": "Top of the World",
+      "success": true,
+      "classified_type": "unknown",
+      "page_title": "Top of the World (location)",
+      "categories": [],
+      "infobox_type": null,
+      "infobox_data": {},
+      "has_infobox": false,
+      "extraction_signals": {
+        "infobox_type": null,
+        "infobox_fields": [],
+        "category_count": 0,
+        "categories_sample": []
+      },
+      "markdown_length": 43098,
+      "fit_markdown_length": 0,
+      "is_correct": false
+    },
+    {
+      "url": "https://fallout.fandom.com/wiki/Scorched_plague",
+      "expected_type": "disease",
+      "expected_name": "Scorched plague",
+      "success": true,
+      "classified_type": "unknown",
+      "page_title": "Scorched Plague",
+      "categories": [],
+      "infobox_type": null,
+      "infobox_data": {},
+      "has_infobox": false,
+      "extraction_signals": {
+        "infobox_type": null,
+        "infobox_fields": [],
+        "category_count": 0,
+        "categories_sample": []
+      },
+      "markdown_length": 93067,
+      "fit_markdown_length": 0,
+      "is_correct": false
+    },
+    {
+      "url": "https://fallout.fandom.com/wiki/Reclamation_Day",
+      "expected_type": "event",
+      "expected_name": "Reclamation Day",
+      "success": true,
+      "classified_type": "unknown",
+      "page_title": "Reclamation Day",
+      "categories": [],
+      "infobox_type": null,
+      "infobox_data": {},
+      "has_infobox": false,
+      "extraction_signals": {
+        "infobox_type": null,
+        "infobox_fields": [],
+        "category_count": 0,
+        "categories_sample": []
+      },
+      "markdown_length": 73885,
+      "fit_markdown_length": 0,
+      "is_correct": false
+    },
+    {
+      "url": "https://fallout.fandom.com/wiki/Responders",
+      "expected_type": "faction",
+      "expected_name": "Responders",
+      "success": true,
+      "classified_type": "unknown",
+      "page_title": "Responders",
+      "categories": [],
+      "infobox_type": null,
+      "infobox_data": {},
+      "has_infobox": false,
+      "extraction_signals": {
+        "infobox_type": null,
+        "infobox_fields": [],
+        "category_count": 0,
+        "categories_sample": []
+      },
+      "markdown_length": 190814,
+      "fit_markdown_length": 0,
+      "is_correct": false
+    }
+  ]
+}

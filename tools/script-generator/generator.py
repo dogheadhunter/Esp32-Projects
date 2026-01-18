@@ -356,7 +356,7 @@ class ScriptGenerator:
                        enable_natural_voice: bool = True,
                        enable_validation_retry: bool = True,
                        enable_consistency_validation: bool = True,
-                       max_retries: int = 2,
+                       max_retries: int = 5,
                        **template_vars) -> Dict[str, Any]:
         """
         Generate a script using RAG → Template → Ollama pipeline.

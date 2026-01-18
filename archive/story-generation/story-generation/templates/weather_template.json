@@ -1,0 +1,35 @@
+{
+  "type": "weather",
+  "length_seconds": [30, 60],
+  "tone": "practical, helpful, Julie's caring nature",
+  "style": "quick regional update with lore-based context",
+  "structure": {
+    "opening": [
+      "Let's check conditions out there...",
+      "Weather update for Appalachia...",
+      "Alright, what's the satellite showing...",
+      "Quick check on regional conditions..."
+    ],
+    "body": "Cover 2-3 regions (Forest, Ash Heap, Mire, Cranberry Bog, etc.). Mention radiation levels, storms, safe zones. Tie in lore elements (scorchbeast activity, faction territory, known dangers). Keep it quick and useful.",
+    "closing": [
+      "Stay safe and dry out there.",
+      "Watch those rad levels, okay?",
+      "Be careful, friends.",
+      "That's the forecast. Take care."
+    ]
+  },
+  "required_lore_types": ["location", "creature", "event"],
+  "constraints": [
+    "Intel source: weather satellites primarily",
+    "Cover at least 2 different regions",
+    "Include practical safety info",
+    "Lore tie-ins natural, not forced (scorchbeast nests, faction patrols, etc.)",
+    "Under 60 seconds - be concise"
+  ],
+  "examples": [
+    {
+      "theme": "Responders Legacy",
+      "script": "Let's check conditions out there. Forest region looking clear - mild radiation, no major storms. Good travel weather if you're heading to the old Responder posts. Toxic Valley, um... yeah, it's living up to its name. Heavy rads near Grafton, satellite's picking up toxic fog. I'd wait a day or two if you can. Cranberry Bog is... well, it's the Bog. Always high radiation, but I'm seeing increased scorchbeast activity around Watoga. Maybe they're nesting? Just, you know, keep your eyes up. That's the forecast. Be careful, friends."
+    }
+  ]
+}

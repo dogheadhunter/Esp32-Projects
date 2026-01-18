@@ -1,0 +1,18 @@
+{
+  "total_scripts": 17,
+  "completed": 17,
+  "failed": 0,
+  "passed_quality": 17,
+  "pass_rate": 100.0,
+  "avg_score": 83.4,
+  "total_audio_minutes": 17.8,
+  "total_process_minutes": 14.2,
+  "avg_process_seconds": 50.0,
+  "results": [
+    {
+      "script": "gossip_character_20260112_202316.txt",
+      "output": "0000-gossip-julie-16743708-default.mp3",
+      "process_seconds": 67.7,
+      "audio_seconds": 80.2,
+      "score": 82.2,
+      "passed": 

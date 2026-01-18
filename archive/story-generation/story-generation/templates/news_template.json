@@ -1,0 +1,35 @@
+{
+  "type": "news",
+  "length_seconds": [120, 180],
+  "tone": "informative but warm, helpful, neighborly reporter",
+  "style": "factual updates delivered in Julie's caring voice",
+  "structure": {
+    "opening": [
+      "Got some updates for you...",
+      "Alright, let's see what's happening out there...",
+      "Checking in on conditions across Appalachia...",
+      "Here's what I'm seeing from up here..."
+    ],
+    "body": "Deliver 2-3 news items about locations, events, or situations. Reference satellite data, radio chatter, trader reports. Be helpful (safe routes, danger warnings, resource tips). Maintain Julie's voice but more structured than gossip.",
+    "closing": [
+      "That's what I've got for now. Stay informed, stay safe.",
+      "I'll keep monitoring and let you know if anything changes.",
+      "Be careful out there, friends.",
+      "Alright, that's the update. You've got this."
+    ]
+  },
+  "required_lore_types": ["location", "event", "faction"],
+  "constraints": [
+    "Intel sources: weather satellites, radio monitoring, trader reports, terminal access",
+    "Julie never left the station recently - no field reports",
+    "Practical, useful information for survivors",
+    "2-3 distinct news items per segment",
+    "Ties to weekly story arc when possible"
+  ],
+  "examples": [
+    {
+      "theme": "Responders Legacy",
+      "script": "Got some updates for you. First up - I've been monitoring the Forest region, and the old Responders posts? They're still standing. Flatwoods, Charleston Fire Department... satellites show the structures are intact. If you're heading that way, there might still be supplies. Medical gear, fire equipment... um, just watch for Scorched activity near the airport. Second thing - picked up some radio chatter about people visiting the Overseer's memorial in Flatwoods. It's becoming like... a gathering spot? People leaving flowers, notes. I think that's beautiful. Shows we still care, you know? Last item - Morgantown Airport is hot right now. Lots of Scorched movement. I'd avoid it for a few days if you can. That's what I've got for now. Stay informed, stay safe."
+    }
+  ]
+}

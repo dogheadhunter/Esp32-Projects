@@ -1,0 +1,36 @@
+{
+  "type": "fireside",
+  "length_seconds": [300, 600],
+  "tone": "thoughtful, philosophical, earnest, vulnerable",
+  "style": "deep-dive storytelling with Julie's authentic, caring voice",
+  "structure": {
+    "opening": [
+      "Let's talk about...",
+      "I've been thinking a lot about...",
+      "You know, I wanted to share something with you...",
+      "I want to tell you a story..."
+    ],
+    "body": "Extended exploration of a faction history, character arc, or philosophical theme. Use Julie's research (holotapes, terminals, trader stories). Be personal - share how it affects her. Show vulnerability. Build narrative arc. Use pauses, filler words, emotional beats. This is Julie at her most authentic.",
+    "closing": [
+      "Anyway, I just... I wanted to share that with you. Thanks for listening.",
+      "I don't know, maybe that's just me. But I thought you'd appreciate the story.",
+      "Makes you think about what we're building here, doesn't it? Thank you for being here.",
+      "That's my fireside chat for tonight. Stay safe, stay hopeful, friends."
+    ]
+  },
+  "required_lore_types": ["faction", "character", "quest", "holotape"],
+  "constraints": [
+    "5-10 minutes - allow for deep exploration",
+    "Julie's research-based: she read terminals, listened to holotapes, talked to traders",
+    "Personal reflection - how does this story affect Julie?",
+    "Thematic depth - not just facts, but meaning",
+    "Vulnerability and authenticity - Julie's signature",
+    "Must advance the monthly story arc theme"
+  ],
+  "examples": [
+    {
+      "theme": "Responders Legacy - Origins of Volunteerism",
+      "script": "Let's talk about... why people helped. You know? Like, after the bombs fell, everything was chaos. Everyone was scared, hungry, hurt. And the Responders... they didn't have to do anything. They were survivors too. They had their own problems. But they chose to help anyway. I've been listening to this holotape - it's from the early days, maybe 2078? And there's this woman, I think she was a nurse before the war, and she's just... she's exhausted. You can hear it in her voice. But she's talking about staying up all night treating radiation burns, and she says this thing that like... it stuck with me. She says 'I help because I remember what it felt like when someone helped me.' And I just... *pause* I think about that a lot. You know? Because we're all struggling. We're all scared. But maybe that's exactly when we need to help each other most. When it's hard. The Responders understood that. They built something beautiful out of ashes. And yeah, they're gone now. The Scorched... they took so much from us. But their idea? That we take care of each other? That's still here. That's what you're doing when you share supplies with a stranger. When you warn someone about danger. When you just... listen to this radio show. *laughs softly* We're all Responders now, in a way. We just have to choose it. Anyway, I just... I wanted to share that with you. Thanks for listening."
+    }
+  ]
+}

@@ -1,0 +1,1174 @@
+{
+  "started_at": "20260110_121825",
+  "finished_at": "2026-01-10T12:19:25.890466",
+  "api_base": "https://fallout.fandom.com/api.php",
+  "settings": {
+    "output": "C:\\esp32-project\\tools\\lore-scraper",
+    "max_depth": 1,
+    "max_pages": 1000,
+    "batch": 200,
+    "delay": 1.0,
+    "timeout": 60.0,
+    "maxlag": 5,
+    "user_agent": "ESP32-AI-Radio-FO76-Catalogue/1.0 (Windows; python; contact: local)"
+  },
+  "seeds": {
+    "input": [
+      "Fallout 76 quests",
+      "Fallout 76 locations",
+      "Fallout 76 characters",
+      "Fallout 76 factions",
+      "Fallout 76 creatures",
+      "Fallout 76 events",
+      "Fallout 76 holotapes",
+      "Fallout 76 notes"
+    ],
+    "resolved": [
+      "Category:Fallout 76 quests",
+      "Category:Fallout 76 locations",
+      "Category:Fallout 76 characters",
+      "Category:Fallout 76 factions",
+      "Category:Fallout 76 creatures",
+      "Category:Fallout 76 events",
+      "Category:Fallout 76 holotapes",
+      "Category:Fallout 76 notes"
+    ],
+    "missing": []
+  },
+  "stats": {
+    "seeds_total": 8,
+    "seeds_resolved": 8,
+    "seeds_missing": 0,
+    "categories_visited": 8,
+    "pages_seen": 1001,
+    "pages_written": 1000,
+    "requests": 52,
+    "retries": 0,
+    "throttles_429": 0,
+    "maxlag_hits": 0
+  },
+  "resume_state": {
+    "visited_categories": [
+      "Category:Fallout 76 characters",
+      "Category:Fallout 76 creatures",
+      "Category:Fallout 76 events",
+      "Category:Fallout 76 factions",
+      "Category:Fallout 76 holotapes",
+      "Category:Fallout 76 locations",
+      "Category:Fallout 76 notes",
+      "Category:Fallout 76 quests"
+    ],
+    "queue": [
+      [
+        "Category:America's Playground quests",
+        1,
+        "Category:Fallout 76 quests"
+      ],
+      [
+        "Category:Boardwalk Paradise quests",
+        1,
+        "Category:Fallout 76 quests"
+      ],
+      [
+        "Category:Burning Springs quests",
+        1,
+        "Category:Fallout 76 quests"
+      ],
+      [
+        "Category:C.A.M.P. Revamp quests",
+        1,
+        "Category:Fallout 76 quests"
+      ],
+      [
+        "Category:Expeditions: The Pitt quests",
+        1,
+        "Category:Fallout 76 quests"
+      ],
+      [
+        "Category:Ghoul Within quests",
+        1,
+        "Category:Fallout 76 quests"
+      ],
+      [
+        "Category:Gleaming Depths quests",
+        1,
+        "Category:Fallout 76 quests"
+      ],
+      [
+        "Category:Gone Fission quests",
+        1,
+        "Category:Fallout 76 quests"
+      ],
+      [
+        "Category:Locked & Loaded quests",
+        1,
+        "Category:Fallout 76 quests"
+      ],
+      [
+        "Category:Milepost Zero quests",
+        1,
+        "Category:Fallout 76 quests"
+      ],
+      [
+        "Category:Night of the Moth quests",
+        1,
+        "Category:Fallout 76 quests"
+      ],
+      [
+        "Category:Nuclear Winter quests",
+        1,
+        "Category:Fallout 76 quests"
+      ],
+      [
+        "Category:Nuka-World on Tour quests",
+        1,
+        "Category:Fallout 76 quests"
+      ],
+      [
+        "Category:Once in a Blue Moon quests",
+        1,
+        "Category:Fallout 76 quests"
+      ],
+      [
+        "Category:One Wasteland For All quests",
+        1,
+        "Category:Fallout 76 quests"
+      ],
+      [
+        "Category:Skyline Valley quests",
+        1,
+        "Category:Fallout 76 quests"
+      ],
+      [
+        "Category:Steel Dawn quests",
+        1,
+        "Category:Fallout 76 quests"
+      ],
+      [
+        "Category:Steel Reign quests",
+        1,
+        "Category:Fallout 76 quests"
+      ],
+      [
+        "Category:Test Your Metal quests",
+        1,
+        "Category:Fallout 76 quests"
+      ],
+      [
+        "Category:The Legendary Run quests",
+        1,
+        "Category:Fallout 76 quests"
+      ],
+      [
+        "Category:Wastelanders quests",
+        1,
+        "Category:Fallout 76 quests"
+      ],
+      [
+        "Category:Wild Appalachia quests",
+        1,
+        "Category:Fallout 76 quests"
+      ],
+      [
+        "Category:Fallout 76 cut quests",
+        1,
+        "Category:Fallout 76 quests"
+      ],
+      [
+        "Category:Fallout 76 daily quests",
+        1,
+        "Category:Fallout 76 quests"
+      ],
+      [
+        "Category:Fallout 76 event quests",
+        1,
+        "Category:Fallout 76 quests"
+      ],
+      [
+        "Category:Fallout 76 quest images",
+        1,
+        "Category:Fallout 76 quests"
+      ],
+      [
+        "Category:Fallout 76 quest items",
+        1,
+        "Category:Fallout 76 quests"
+      ],
+      [
+        "Category:Fallout 76 miscellaneous quests",
+        1,
+        "Category:Fallout 76 quests"
+      ],
+      [
+        "Category:Fallout 76 PVP quests",
+        1,
+        "Category:Fallout 76 quests"
+      ],
+      [
+        "Category:Fallout 76 removed quests",
+        1,
+        "Category:Fallout 76 quests"
+      ],
+      [
+        "Category:Fallout 76 side quests",
+        1,
+        "Category:Fallout 76 quests"
+      ],
+      [
+        "Category:Fallout 76 unused quests",
+        1,
+        "Category:Fallout 76 quests"
+      ],
+      [
+        "Category:Ash Heap locations",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Cranberry Bog locations",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Savage Divide locations",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:The Forest locations",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:The Mire locations",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Toxic Valley locations",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:America's Playground locations",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Boardwalk Paradise locations",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Burning Springs locations",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:C.A.M.P. Revamp locations",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Expeditions: The Pitt locations",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Ghoul Within locations",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Gleaming Depths locations",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Gone Fission locations",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Locked & Loaded locations",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Milepost Zero locations",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Night of the Moth locations",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Nuclear Winter locations",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Nuka-World on Tour locations",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Once in a Blue Moon locations",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:One Wasteland For All locations",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Skyline Valley locations",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Steel Dawn locations",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Steel Reign locations",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Test Your Metal locations",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Wastelanders locations",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Wild Appalachia locations",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Abandoned mines",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Arktos Pharma",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Athens",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Beckley",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Berkeley Springs",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Blue Ridge Caravan Company locations",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Charleston",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Fallout 76 cut locations",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Fallout 76 dungeons",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Flatwoods",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Fort Atlas",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Grafton",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Helvetia",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Hornwright Industrial",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Fallout 76 location images",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Instanced locations",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Fallout 76 mentioned-only locations",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Fallout 76 military and research facilities",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Monongah",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Morgantown",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Fallout 76 nuke targets",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Fallout 76 railways",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Fallout 76 relay stations",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Fallout 76 removed locations",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Fallout 76 roadways",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Fallout 76 survey towers",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Sutton",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Fallout 76 locations by theme",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Fallout 76 towns",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Fallout 76 unmarked locations",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Vault 51",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Vault 76",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Vault 96",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Vault 63",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Watoga",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:The Whitespring",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Fallout 76 locations with workbenches",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Fallout 76 workshops",
+        1,
+        "Category:Fallout 76 locations"
+      ],
+      [
+        "Category:Fallout 76 characters by faction",
+        1,
+        "Category:Fallout 76 characters"
+      ],
+      [
+        "Category:Fallout 76 characters by location",
+        1,
+        "Category:Fallout 76 characters"
+      ],
+      [
+        "Category:Fallout 76 characters by occupation",
+        1,
+        "Category:Fallout 76 characters"
+      ],
+      [
+        "Category:America's Playground characters",
+        1,
+        "Category:Fallout 76 characters"
+      ],
+      [
+        "Category:Boardwalk Paradise characters",
+        1,
+        "Category:Fallout 76 characters"
+      ],
+      [
+        "Category:Burning Springs characters",
+        1,
+        "Category:Fallout 76 characters"
+      ],
+      [
+        "Category:Fallout 76 cut characters",
+        1,
+        "Category:Fallout 76 characters"
+      ],
+      [
+        "Category:Fallout 76 deceased characters",
+        1,
+        "Category:Fallout 76 characters"
+      ],
+      [
+        "Category:Expeditions: The Pitt characters",
+        1,
+        "Category:Fallout 76 characters"
+      ],
+      [
+        "Category:Fallout Worlds characters",
+        1,
+        "Category:Fallout 76 characters"
+      ],
+      [
+        "Category:Fallout 76 ghoul characters",
+        1,
+        "Category:Fallout 76 characters"
+      ],
+      [
+        "Category:Ghoul Within characters",
+        1,
+        "Category:Fallout 76 characters"
+      ],
+      [
+        "Category:Gleaming Depths characters",
+        1,
+        "Category:Fallout 76 characters"
+      ],
+      [
+        "Category:Gone Fission characters",
+        1,
+        "Category:Fallout 76 characters"
+      ],
+      [
+        "Category:Fallout 76 human characters",
+        1,
+        "Category:Fallout 76 characters"
+      ],
+      [
+        "Category:Fallout 76 character images",
+        1,
+        "Category:Fallout 76 characters"
+      ],
+      [
+        "Category:Invaders from Beyond characters",
+        1,
+        "Category:Fallout 76 characters"
+      ],
+      [
+        "Category:Locked & Loaded characters",
+        1,
+        "Category:Fallout 76 characters"
+      ],
+      [
+        "Category:Fallout 76 mentioned-only characters",
+        1,
+        "Category:Fallout 76 characters"
+      ],
+      [
+        "Category:Milepost Zero characters",
+        1,
+        "Category:Fallout 76 characters"
+      ],
+      [
+        "Category:Mutation Invasion characters",
+        1,
+        "Category:Fallout 76 characters"
+      ],
+      [
+        "Category:Night of the Moth characters",
+        1,
+        "Category:Fallout 76 characters"
+      ],
+      [
+        "Category:Nuclear Winter characters",
+        1,
+        "Category:Fallout 76 characters"
+      ],
+      [
+        "Category:Nuka-World on Tour characters",
+        1,
+        "Category:Fallout 76 characters"
+      ],
+      [
+        "Category:Once in a Blue Moon characters",
+        1,
+        "Category:Fallout 76 characters"
+      ],
+      [
+        "Category:One Wasteland For All characters",
+        1,
+        "Category:Fallout 76 characters"
+      ],
+      [
+        "Category:Fallout 76 player characters",
+        1,
+        "Category:Fallout 76 characters"
+      ],
+      [
+        "Category:Fallout 76 random encounter characters",
+        1,
+        "Category:Fallout 76 characters"
+      ],
+      [
+        "Category:Fallout 76 removed characters",
+        1,
+        "Category:Fallout 76 characters"
+      ],
+      [
+        "Category:Scorched characters",
+        1,
+        "Category:Fallout 76 characters"
+      ],
+      [
+        "Category:Skyline Valley characters",
+        1,
+        "Category:Fallout 76 characters"
+      ],
+      [
+        "Category:Fallout 76 slave characters",
+        1,
+        "Category:Fallout 76 characters"
+      ],
+      [
+        "Category:Steel Dawn characters",
+        1,
+        "Category:Fallout 76 characters"
+      ],
+      [
+        "Category:Steel Reign characters",
+        1,
+        "Category:Fallout 76 characters"
+      ],
+      [
+        "Category:Fallout 76 super mutant characters",
+        1,
+        "Category:Fallout 76 characters"
+      ],
+      [
+        "Category:Test Your Metal characters",
+        1,
+        "Category:Fallout 76 characters"
+      ],
+      [
+        "Category:The Legendary Run characters",
+        1,
+        "Category:Fallout 76 characters"
+      ],
+      [
+        "Category:Wastelanders characters",
+        1,
+        "Category:Fallout 76 characters"
+      ],
+      [
+        "Category:Wild Appalachia characters",
+        1,
+        "Category:Fallout 76 characters"
+      ],
+      [
+        "Category:Boardwalk Paradise factions",
+        1,
+        "Category:Fallout 76 factions"
+      ],
+      [
+        "Category:Brotherhood of Steel (Appalachia)",
+        1,
+        "Category:Fallout 76 factions"
+      ],
+      [
+        "Category:Fallout 76 cut factions",
+        1,
+        "Category:Fallout 76 factions"
+      ],
+      [
+        "Category:Expeditions: The Pitt factions",
+        1,
+        "Category:Fallout 76 factions"
+      ],
+      [
+        "Category:Fire Breathers",
+        1,
+        "Category:Fallout 76 factions"
+      ],
+      [
+        "Category:First Expeditionary Force",
+        1,
+        "Category:Fallout 76 factions"
+      ],
+      [
+        "Category:Hellcat Company",
+        1,
+        "Category:Fallout 76 factions"
+      ],
+      [
+        "Category:Fallout 76 faction images",
+        1,
+        "Category:Fallout 76 factions"
+      ],
+      [
+        "Category:Fallout 76 organizations",
+        1,
+        "Category:Fallout 76 factions"
+      ],
+      [
+        "Category:Pioneer Scouts",
+        1,
+        "Category:Fallout 76 factions"
+      ],
+      [
+        "Category:Fallout 76 raiders",
+        1,
+        "Category:Fallout 76 factions"
+      ],
+      [
+        "Category:Responders",
+        1,
+        "Category:Fallout 76 factions"
+      ],
+      [
+        "Category:Revenants",
+        1,
+        "Category:Fallout 76 factions"
+      ],
+      [
+        "Category:Rust King's Army",
+        1,
+        "Category:Fallout 76 factions"
+      ],
+      [
+        "Category:Sons of Dane",
+        1,
+        "Category:Fallout 76 factions"
+      ],
+      [
+        "Category:Steel Dawn factions",
+        1,
+        "Category:Fallout 76 factions"
+      ],
+      [
+        "Category:Wastelanders factions",
+        1,
+        "Category:Fallout 76 factions"
+      ],
+      [
+        "Category:America's Playground creatures",
+        1,
+        "Category:Fallout 76 creatures"
+      ],
+      [
+        "Category:Boardwalk Paradise creatures",
+        1,
+        "Category:Fallout 76 creatures"
+      ],
+      [
+        "Category:Burning Springs creatures",
+        1,
+        "Category:Fallout 76 creatures"
+      ],
+      [
+        "Category:Expeditions: The Pitt creatures",
+        1,
+        "Category:Fallout 76 creatures"
+      ],
+      [
+        "Category:Fallout Worlds creatures",
+        1,
+        "Category:Fallout 76 creatures"
+      ],
+      [
+        "Category:Gone Fission creatures",
+        1,
+        "Category:Fallout 76 creatures"
+      ],
+      [
+        "Category:Mutation Invasion creatures",
+        1,
+        "Category:Fallout 76 creatures"
+      ],
+      [
+        "Category:Nuclear Winter creatures",
+        1,
+        "Category:Fallout 76 creatures"
+      ],
+      [
+        "Category:Once in a Blue Moon creatures",
+        1,
+        "Category:Fallout 76 creatures"
+      ],
+      [
+        "Category:Steel Dawn creatures",
+        1,
+        "Category:Fallout 76 creatures"
+      ],
+      [
+        "Category:Steel Reign creatures",
+        1,
+        "Category:Fallout 76 creatures"
+      ],
+      [
+        "Category:Wastelanders creatures",
+        1,
+        "Category:Fallout 76 creatures"
+      ],
+      [
+        "Category:Wild Appalachia creatures",
+        1,
+        "Category:Fallout 76 creatures"
+      ],
+      [
+        "Category:Fallout 76 creature images",
+        1,
+        "Category:Fallout 76 creatures"
+      ],
+      [
+        "Category:Fallout 76 mentioned-only creatures",
+        1,
+        "Category:Fallout 76 creatures"
+      ],
+      [
+        "Category:Skyline Valley creatures",
+        1,
+        "Category:Fallout 76 creatures"
+      ],
+      [
+        "Category:Fallout 76 creature sounds",
+        1,
+        "Category:Fallout 76 creatures"
+      ],
+      [
+        "Category:Fallout 76 unique creatures",
+        1,
+        "Category:Fallout 76 creatures"
+      ],
+      [
+        "Category:Fallout 76 cut events",
+        1,
+        "Category:Fallout 76 events"
+      ],
+      [
+        "Category:Mutated public events",
+        1,
+        "Category:Fallout 76 events"
+      ],
+      [
+        "Category:Fallout 76 event quests",
+        1,
+        "Category:Fallout 76 events"
+      ],
+      [
+        "Category:America's Playground holotapes",
+        1,
+        "Category:Fallout 76 holotapes"
+      ],
+      [
+        "Category:Burning Springs holotapes",
+        1,
+        "Category:Fallout 76 holotapes"
+      ],
+      [
+        "Category:Expeditions: The Pitt holotapes",
+        1,
+        "Category:Fallout 76 holotapes"
+      ],
+      [
+        "Category:Ghoul Within holotapes",
+        1,
+        "Category:Fallout 76 holotapes"
+      ],
+      [
+        "Category:Gleaming Depths holotapes",
+        1,
+        "Category:Fallout 76 holotapes"
+      ],
+      [
+        "Category:Gone Fission holotapes",
+        1,
+        "Category:Fallout 76 holotapes"
+      ],
+      [
+        "Category:Milepost Zero holotapes",
+        1,
+        "Category:Fallout 76 holotapes"
+      ],
+      [
+        "Category:Nuclear Winter holotapes",
+        1,
+        "Category:Fallout 76 holotapes"
+      ],
+      [
+        "Category:Nuka-World on Tour holotapes",
+        1,
+        "Category:Fallout 76 holotapes"
+      ],
+      [
+        "Category:Once in a Blue Moon holotapes",
+        1,
+        "Category:Fallout 76 holotapes"
+      ],
+      [
+        "Category:Skyline Valley holotapes",
+        1,
+        "Category:Fallout 76 holotapes"
+      ],
+      [
+        "Category:Steel Dawn holotapes",
+        1,
+        "Category:Fallout 76 holotapes"
+      ],
+      [
+        "Category:Steel Reign holotapes",
+        1,
+        "Category:Fallout 76 holotapes"
+      ],
+      [
+        "Category:The Legendary Run holotapes",
+        1,
+        "Category:Fallout 76 holotapes"
+      ],
+      [
+        "Category:Wastelanders holotapes",
+        1,
+        "Category:Fallout 76 holotapes"
+      ],
+      [
+        "Category:Wild Appalachia holotapes",
+        1,
+        "Category:Fallout 76 holotapes"
+      ],
+      [
+        "Category:Fallout 76 audio holotapes",
+        1,
+        "Category:Fallout 76 holotapes"
+      ],
+      [
+        "Category:Fallout 76 cut holotapes",
+        1,
+        "Category:Fallout 76 holotapes"
+      ],
+      [
+        "Category:Fallout 76 holotape images",
+        1,
+        "Category:Fallout 76 holotapes"
+      ],
+      [
+        "Category:America's Playground notes",
+        1,
+        "Category:Fallout 76 notes"
+      ],
+      [
+        "Category:Boardwalk Paradise notes",
+        1,
+        "Category:Fallout 76 notes"
+      ],
+      [
+        "Category:Burning Springs notes",
+        1,
+        "Category:Fallout 76 notes"
+      ],
+      [
+        "Category:C.A.M.P. Revamp notes",
+        1,
+        "Category:Fallout 76 notes"
+      ],
+      [
+        "Category:Expeditions: The Pitt notes",
+        1,
+        "Category:Fallout 76 notes"
+      ],
+      [
+        "Category:Ghoul Within notes",
+        1,
+        "Category:Fallout 76 notes"
+      ],
+      [
+        "Category:Gleaming Depths notes",
+        1,
+        "Category:Fallout 76 notes"
+      ],
+      [
+        "Category:Gone Fission notes",
+        1,
+        "Category:Fallout 76 notes"
+      ],
+      [
+        "Category:Invaders from Beyond notes",
+        1,
+        "Category:Fallout 76 notes"
+      ],
+      [
+        "Category:Milepost Zero notes",
+        1,
+        "Category:Fallout 76 notes"
+      ],
+      [
+        "Category:Night of the Moth notes",
+        1,
+        "Category:Fallout 76 notes"
+      ],
+      [
+        "Category:Nuclear Winter notes",
+        1,
+        "Category:Fallout 76 notes"
+      ],
+      [
+        "Category:Nuka-World on Tour notes",
+        1,
+        "Category:Fallout 76 notes"
+      ],
+      [
+        "Category:Once in a Blue Moon notes",
+        1,
+        "Category:Fallout 76 notes"
+      ],
+      [
+        "Category:One Wasteland For All notes",
+        1,
+        "Category:Fallout 76 notes"
+      ],
+      [
+        "Category:Skyline Valley notes",
+        1,
+        "Category:Fallout 76 notes"
+      ],
+      [
+        "Category:Steel Dawn notes",
+        1,
+        "Category:Fallout 76 notes"
+      ],
+      [
+        "Category:Steel Reign notes",
+        1,
+        "Category:Fallout 76 notes"
+      ],
+      [
+        "Category:Test Your Metal notes",
+        1,
+        "Category:Fallout 76 notes"
+      ],
+      [
+        "Category:The Legendary Run notes",
+        1,
+        "Category:Fallout 76 notes"
+      ],
+      [
+        "Category:Wastelanders notes",
+        1,
+        "Category:Fallout 76 notes"
+      ],
+      [
+        "Category:Wild Appalachia notes",
+        1,
+        "Category:Fallout 76 notes"
+      ],
+      [
+        "Category:Fallout 76 cut notes",
+        1,
+        "Category:Fallout 76 notes"
+      ],
+      [
+        "Category:Fallout 76 note images",
+        1,
+        "Category:Fallout 76 notes"
+      ],
+      [
+        "Category:Fallout 76 plans",
+        1,
+        "Category:Fallout 76 notes"
+      ],
+      [
+        "Category:Fallout 76 recipes",
+        1,
+        "Category:Fallout 76 notes"
+      ],
+      [
+        "Category:Fallout 76 removed notes",
+        1,
+        "Category:Fallout 76 notes"
+      ],
+      [
+        "Category:Fallout 76 unused notes",
+        1,
+        "Category:Fallout 76 notes"
+      ]
+    ],
+    "seen_pages_count": 1000
+  },
+  "outputs": {
+    "catalogue": "C:\\esp32-project\\tools\\lore-scraper\\metadata\\wiki_catalogue_20260110_121825.jsonl",
+    "log": "C:\\esp32-project\\tools\\lore-scraper\\metadata\\catalogue.log"
+  }
+}

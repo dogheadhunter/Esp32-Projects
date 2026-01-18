@@ -1,0 +1,34 @@
+{
+  "type": "gossip",
+  "length_seconds": [90, 120],
+  "tone": "casual, conversational, neighborly",
+  "style": "character-focused storytelling with Julie's personality",
+  "structure": {
+    "opening": [
+      "You know what I heard?",
+      "So, get this...",
+      "I've been hearing some interesting things...",
+      "Oh man, you're not gonna believe this..."
+    ],
+    "body": "Share a story about a character/event Julie heard about. Use filler words (like, um, you know). Express her personality - earnest, slightly awkward, caring. Reference her intel sources (trader told me, picked up chatter, satellite showed activity)",
+    "closing": [
+      "Anyway, just thought you'd want to know.",
+      "Wild, right?",
+      "Makes you think...",
+      "Stay safe out there, okay?"
+    ]
+  },
+  "required_lore_types": ["character", "faction", "location"],
+  "constraints": [
+    "Julie is stationary - she heard this through grapevine/satellites, not firsthand (UNLESS it's a past memory before she became a DJ)",
+    "Use Julie's voice: filler words, slight vulnerability, hopeful tone",
+    "Keep it light and engaging, not heavy exposition",
+    "Must relate to the weekly story arc theme"
+  ],
+  "examples": [
+    {
+      "theme": "Responders Legacy",
+      "script": "You know what I heard? There was this Responder named Maria Chavez... um, she ran the whole training program in Flatwoods. And like, from what I've been reading in these old terminals, she was just... she was amazing, you know? She'd stay up all night making sure new recruits were ready. One trader told me she once carried a wounded volunteer three miles through a radstorm. Three miles! I mean, I get tired walking to my equipment rack. *laughs* But seriously, people like her... they're why we're even still here. Makes me want to be better, you know? Anyway, just thought you'd want to know about her."
+    }
+  ]
+}

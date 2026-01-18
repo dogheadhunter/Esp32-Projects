@@ -1,0 +1,274 @@
+{
+  "completed": [
+    {
+      "success": true,
+      "output_path": "validation_iteration1\\Gossip\\0000-gossip-julie-16743708-default.mp3",
+      "attempts": 1,
+      "metadata": {
+        "script_type": "gossip",
+        "dj_name": "Julie (2102, Appalachia)",
+        "model": "fluffy/l3-8b-stheno-v3.2",
+        "timestamp": "2026-01-12T20:23:16.743708",
+        "rag_query": "Appalachia characters personalities stories",
+        "rag_results": 5,
+        "context_chunks_used": 3,
+        "temperature": 0.8,
+        "top_p": 0.9,
+        "template_vars": {
+          "character": "unknown wanderer",
+          "rumor_type": "mysterious background"
+        },
+        "word_count": 172,
+        "retry_count": 2,
+        "catchphrase_used": null,
+        "mood": "mysterious"
+      },
+      "filename": "0000-gossip-julie-16743708-default.mp3",
+      "script_path": "c:\\esp32-project\\script generation\\enhanced_scripts\\gossip_character_20260112_202316.txt"
+    },
+    {
+      "success": true,
+      "output_path": "validation_iteration1\\Music Intro\\0000-music_intro-julie-08245744-default.mp3",
+      "attempts": 1,
+      "metadata": {
+        "script_type": "music_intro",
+        "dj_name": "Julie (2102, Appalachia)",
+        "model": "fluffy/l3-8b-stheno-v3.2",
+        "timestamp": "2026-01-12T20:25:08.245744",
+        "rag_query": "pre-war music rock roll energetic",
+        "rag_results": 5,
+        "context_chunks_used": 3,
+        "temperature": 0.8,
+        "top_p": 0.9,
+        "template_vars": {
+          "song_title": "Butcher Pete",
+          "artist": "Roy Brown",
+          "era": "1950s",
+          "mood": "energetic"
+        },
+        "word_count": 111,
+        "retry_count": 0,
+        "catchphrase_used": null,
+        "mood": "upbeat"
+      },
+      "filename": "0000-music_intro-julie-08245744-default.mp3",
+      "script_path": "c:\\esp32-project\\script generation\\enhanced_scripts\\music_intro_butcher_pete_20260112_202508.txt"
+    },
+    {
+      "success": true,
+      "output_path": "validation_iteration1\\News\\0000-news-julie-41078852-default.mp3",
+      "attempts": 1,
+      "metadata": {
+        "script_type": "news",
+        "dj_name": "Julie (2102, Appalachia)",
+        "model": "fluffy/l3-8b-stheno-v3.2",
+        "timestamp": "2026-01-12T20:22:41.078852",
+        "rag_query": "Appalachia reclamation day celebration",
+        "rag_results": 5,
+        "context_chunks_used": 3,
+        "temperature": 0.8,
+        "top_p": 0.9,
+        "template_vars": {
+          "news_topic": "Reclamation Day celebration",
+          "location": "Foundation"
+        },
+        "word_count": 154,
+        "retry_count": 0,
+        "catchphrase_used": "Welcome home, Appalachia.",
+        "mood": "upbeat"
+      },
+      "filename": "0000-news-julie-41078852-default.mp3",
+      "script_path": "c:\\esp32-project\\script generation\\enhanced_scripts\\news_celebration_20260112_202241.txt"
+    },
+    {
+      "success": true,
+      "output_path": "validation_iteration1\\Time\\0008-time-julie-17597301-default.mp3",
+      "attempts": 1,
+      "metadata": {
+        "script_type": "time",
+        "dj_name": "Julie (2102, Appalachia)",
+        "model": "fluffy/l3-8b-stheno-v3.2",
+        "timestamp": "2026-01-12T20:24:17.597301",
+        "rag_query": "Appalachia morning daily life",
+        "rag_results": 5,
+        "context_chunks_used": 3,
+        "temperature": 0.8,
+        "top_p": 0.9,
+        "template_vars": {
+          "hour": 8,
+          "time_of_day": "morning",
+          "special_event": "Reclamation Day"
+        },
+        "word_count": 60,
+        "retry_count": 2,
+        "catchphrase_used": null,
+        "mood": "warm"
+      },
+      "filename": "0008-time-julie-17597301-default.mp3",
+      "script_path": "c:\\esp32-project\\script generation\\enhanced_scripts\\time_0800_20260112_202417.txt"
+    },
+    {
+      "success": true,
+      "output_path": "validation_iteration1\\Weather\\0020-weather-julie-38365875-default.mp3",
+      "attempts": 1,
+      "metadata": {
+        "script_type": "weather",
+        "dj_name": "Julie (2102, Appalachia)",
+        "model": "fluffy/l3-8b-stheno-v3.2",
+        "timestamp": "2026-01-12T20:21:38.365875",
+        "rag_query": "Appalachia weather cloudy evening conditions wasteland",
+        "rag_results": 5,
+        "context_chunks_used": 3,
+        "temperature": 58,
+        "top_p": 0.9,
+        "template_vars": {
+          "weather_type": "cloudy",
+          "time_of_day": "evening",
+          "hour": 20
+        },
+        "word_count": 164,
+        "retry_count": 0,
+        "catchphrase_used": "Welcome home, Appalachia.",
+        "mood": "baseline"
+      },
+      "filename": "0020-weather-julie-38365875-default.mp3",
+      "script_path": "c:\\esp32-project\\script generation\\enhanced_scripts\\weather_cloudy_evening_20260112_202138.txt"
+    },
+    {
+      "success": true,
+      "output_path": "validation_iteration1\\Gossip\\0000-gossip-julie-30823004-default.mp3",
+      "attempts": 1,
+      "metadata": {
+        "script_type": "gossip",
+        "dj_name": "Julie (2102, Appalachia)",
+        "model": "fluffy/l3-8b-stheno-v3.2",
+        "timestamp": "2026-01-12T20:23:30.823004",
+        "rag_query": "Appalachia factions Brotherhood Enclave",
+        "rag_results": 5,
+        "context_chunks_used": 3,
+        "temperature": 0.8,
+        "top_p": 0.9,
+        "template_vars": {
+          "character": "faction members",
+          "rumor_type": "political intrigue"
+        },
+        "word_count": 194,
+        "retry_count": 0,
+        "catchphrase_used": "If you're out there, and you're listening... you are not alone.",
+        "mood": "mysterious"
+      },
+      "filename": "0000-gossip-julie-30823004-default.mp3",
+      "script_path": "c:\\esp32-project\\script generation\\enhanced_scripts\\gossip_faction_20260112_202330.txt"
+    },
+    {
+      "success": true,
+      "output_path": "validation_iteration1\\Music Intro\\0000-music_intro-julie-41643478-default.mp3",
+      "attempts": 1,
+      "metadata": {
+        "script_type": "music_intro",
+        "dj_name": "Julie (2102, Appalachia)",
+        "model": "fluffy/l3-8b-stheno-v3.2",
+        "timestamp": "2026-01-12T20:24:41.643478",
+        "rag_query": "pre-war music 1940s melancholy love",
+        "rag_results": 5,
+        "context_chunks_used": 3,
+        "temperature": 0.8,
+        "top_p": 0.9,
+        "template_vars": {
+          "song_title": "I Don't Want to Set the World on Fire",
+          "artist": "The Ink Spots",
+          "era": "1940s",
+          "mood": "melancholy"
+        },
+        "word_count": 124,
+        "retry_count": 0,
+        "catchphrase_used": null,
+        "mood": "upbeat"
+      },
+      "filename": "0000-music_intro-julie-41643478-default.mp3",
+      "script_path": "c:\\esp32-project\\script generation\\enhanced_scripts\\music_intro_ink_spots_20260112_202441.txt"
+    },
+    {
+      "success": true,
+      "output_path": "validation_iteration1\\News\\0000-news-julie-02582752-default.mp3",
+      "attempts": 1,
+      "metadata": {
+        "script_type": "news",
+        "dj_name": "Julie (2102, Appalachia)",
+        "model": "fluffy/l3-8b-stheno-v3.2",
+        "timestamp": "2026-01-12T20:22:02.582752",
+        "rag_query": "Appalachia raiders conflict defense",
+        "rag_results": 5,
+        "context_chunks_used": 3,
+        "temperature": 0.8,
+        "top_p": 0.9,
+        "template_vars": {
+          "news_topic": "raider threat",
+          "location": "Charleston"
+        },
+        "word_count": 169,
+        "retry_count": 0,
+        "catchphrase_used": null,
+        "mood": "somber"
+      },
+      "filename": "0000-news-julie-02582752-default.mp3",
+      "script_path": "c:\\esp32-project\\script generation\\enhanced_scripts\\news_conflict_20260112_202202.txt"
+    },
+    {
+      "success": true,
+      "output_path": "validation_iteration1\\Time\\0014-time-julie-24952745-default.mp3",
+      "attempts": 1,
+      "metadata": {
+        "script_type": "time",
+        "dj_name": "Julie (2102, Appalachia)",
+        "model": "fluffy/l3-8b-stheno-v3.2",
+        "timestamp": "2026-01-12T20:24:24.952745",
+        "rag_query": "Appalachia afternoon daily life",
+        "rag_results": 5,
+        "context_chunks_used": 3,
+        "temperature": 0.8,
+        "top_p": 0.9,
+        "template_vars": {
+          "hour": 14,
+          "time_of_day": "afternoon",
+          "special_event": null
+        },
+        "word_count": 70,
+        "retry_count": 0,
+        "catchphrase_used": "Welcome home, Appalachia.",
+        "mood": "warm"
+      },
+      "filename": "0014-time-julie-24952745-default.mp3",
+      "script_path": "c:\\esp32-project\\script generation\\enhanced_scripts\\time_1400_20260112_202424.txt"
+    },
+    {
+      "success": true,
+      "output_path": "validation_iteration1\\Weather\\0014-weather-julie-25500391-default.mp3",
+      "attempts": 1,
+      "metadata": {
+        "script_type": "weather",
+        "dj_name": "Julie (2102, Appalachia)",
+        "model": "fluffy/l3-8b-stheno-v3.2",
+        "timestamp": "2026-01-12T20:21:25.500391",
+        "rag_query": "Appalachia weather rainy afternoon radiation storms",
+        "rag_results": 5,
+        "context_chunks_used": 3,
+        "temperature": 65,
+        "top_p": 0.9,
+        "template_vars": {
+          "weather_type": "rainy",
+          "time_of_day": "afternoon",
+          "hour": 14
+        },
+        "word_count": 77,
+        "retry_count": 0,
+        "catchphrase_used": "I'm just happy to be here, playing music for you guys.",
+        "mood": "somber"
+      },
+      "filename": "0014-weather-julie-25500391-default.mp3",
+      "script_path": "c:\\esp32-project\\script generation\\enhanced_scripts\\weather_rainy_afternoon_20260112_202125.txt"
+    }
+  ],
+  "failed": [],
+  "last_index": 9
+}

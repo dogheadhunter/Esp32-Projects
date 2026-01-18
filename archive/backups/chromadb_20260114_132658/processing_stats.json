@@ -1,0 +1,15 @@
+{
+  "pages_processed": 118468,
+  "pages_failed": 0,
+  "chunks_created": 356601,
+  "chunks_ingested": 356601,
+  "start_time": 1768183684.8812394,
+  "end_time": 1768248273.0074358,
+  "elapsed_seconds": 64588.12619638443,
+  "elapsed_minutes": 1076.4687699397405,
+  "collection": {
+    "name": "fallout_wiki",
+    "total_chunks": 356601,
+    "persist_directory": "c:\\esp32-project\\tools\\wiki_to_chromadb\\chroma_db"
+  }
+}

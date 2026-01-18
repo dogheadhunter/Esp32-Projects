@@ -1,0 +1,727 @@
+"""
+Fallout 76 Lore Scraper
+Targeted scraper for canonical Fallout 76 wiki content
+"""
+
+import requests
+from bs4 import BeautifulSoup
+import json
+import time
+from pathlib import Path
+from typing import Dict, List, Optional
+from datetime import datetime
+import re
+import argparse
+import shutil
+import logging
+from urllib.parse import urlparse, unquote
+from concurrent.futures import ThreadPoolExecutor, as_completed
+import threading
+
+# Base URL for Fallout Wiki
+WIKI_BASE = "https://fallout.fandom.com/wiki/"
+API_BASE = "https://fallout.fandom.com/api.php"
+
+# Curated URLs for canonical Fallout 76 content
+SEED_URLS = {
+    # Timeline Foundation (5 pages)
+    "timeline": [
+        "Timeline#2102",
+        "Great_War",
+        "Reclamation_Day",
+        "Scorched_plague",
+        "Appalachia#History"
+    ],
+    
+    # Factions (8 pages)
+    "factions": [
+        "Responders",
+        "Free_States",
+        "Appalachian_Brotherhood_of_Steel",
+        "Enclave_(Fallout_76)",
+        "Settlers",
+        "Raiders_(Fallout_76)",
+        "Scorched",
+        "Cult_of_the_Mothman"
+    ],
+    
+    # Locations (12 pages)
+    "locations": [
+        "Appalachia",
+        "Vault_76",
+        "Flatwoods",
+        "Charleston",
+        "Watoga",
+        "Foundation",
+        "Crater",
+        "The_Forest",
+        "Toxic_Valley",
+        "Savage_Divide",
+        "The_Mire",
+        "Cranberry_Bog"
+    ],
+    
+    # Characters (5 pages)
+    "characters": [
+        "Rose_(robot)",
+        "Paige_(Fallout_76)",
+        "Meg_Groberg",
+        "MODUS",
+        "Duchess_(Fallout_76)"
+    ],
+    
+    # Technology (5 pages)
+    "technology": [
+        "Pip-Boy_2000_Mark_VI",
+        "Power_armor_(Fallout_76)",
+        "C.A.M.P.",
+        "Ultracite_power_armor",
+        "Scorchbeast_detector"
+    ],
+    
+    # Creatures (5 pages)
+    "creatures": [
+        "Scorched",
+        "Scorchbeast",
+        "Super_mutant_(Fallout_76)",
+        "Radstag",
+        "Deathclaw_(Fallout_76)"
+    ]
+}
+
+
+class FalloutWikiSession:
+    """Rate-limited session for Fallout Wiki requests"""
+    
+    def __init__(self, rate_limit_seconds: float = 2.0):
+        self.rate_limit = rate_limit_seconds
+        self.last_request_time = 0
+        self.session = requests.Session()
+        self.session.headers.update({
+            'User-Agent': 'ESP32-AI-Radio-Lore-Scraper/1.0 (Educational Project)'
+        })
+        self.lock = threading.Lock()  # Thread-safe rate limiting
+        
+    def get(self, url: str, retries: int = 3) -> Optional[requests.Response]:
+        """Get URL with rate limiting and retry logic (thread-safe)"""
+        # Enforce rate limit (thread-safe)
+        with self.lock:
+            time_since_last = time.time() - self.last_request_time
+            if time_since_last < self.rate_limit:
+                time.sleep(self.rate_limit - time_since_last)
+            self.last_request_time = time.time()
+        
+        for attempt in range(retries):
+            try:
+                response = self.session.get(url, timeout=10)
+                # 404 is not retryable
+                if response.status_code == 404:
+                    return response
+                response.raise_for_status()
+                return response
+            except requests.RequestException as e:
+                if attempt < retries - 1:
+                    time.sleep(2 ** attempt)  # Exponential backoff
+                else:
+                    logging.warning(f"Failed to fetch {url}: {e}")
+                    return None
+        return None
+
+
+def setup_logging(log_file: Path, level: str) -> None:
+    log_file.parent.mkdir(parents=True, exist_ok=True)
+    logging.basicConfig(
+        level=getattr(logging, level.upper(), logging.INFO),
+        format="%(asctime)s %(levelname)s %(message)s",
+        handlers=[
+            logging.FileHandler(log_file, encoding="utf-8"),
+            logging.StreamHandler(),
+        ],
+    )
+
+
+def resolve_title_via_api(session: requests.Session, title: str) -> Optional[str]:
+    """Resolve redirects and detect missing pages via MediaWiki API.
+
+    Returns canonical title (as used by /wiki/<title>) or None if missing.
+    """
+    try:
+        resp = session.get(
+            API_BASE,
+            params={
+                "action": "query",
+                "titles": title,
+                "redirects": 1,
+                "converttitles": 1,
+                "prop": "info",
+                "inprop": "url",
+                "format": "json",
+                "formatversion": 2,
+                "maxlag": 5,
+            },
+            timeout=30,
+        )
+        resp.raise_for_status()
+        pages = (resp.json().get("query") or {}).get("pages") or []
+        if not pages:
+            return None
+        page = pages[0]
+        if page.get("missing"):
+            return None
+        return page.get("title")
+    except Exception:
+        return None
+
+
+def parse_selection_file(path: Path) -> List[str]:
+    """Read selection file with one title or URL per line."""
+    titles: List[str] = []
+    for raw in path.read_text(encoding="utf-8").splitlines():
+        line = raw.strip()
+        if not line or line.startswith("#"):
+            continue
+
+        # Allow full URLs
+        if line.startswith("http://") or line.startswith("https://"):
+            parsed = urlparse(line)
+            if parsed.netloc.endswith("fallout.fandom.com") and parsed.path.startswith("/wiki/"):
+                title = unquote(parsed.path.split("/wiki/")[-1])
+                titles.append(title)
+                continue
+
+        titles.append(line)
+
+    # de-dup while preserving order
+    seen = set()
+    out: List[str] = []
+    for t in titles:
+        if t in seen:
+            continue
+        seen.add(t)
+        out.append(t)
+    return out
+
+
+class PageParser:
+    """Parse Fallout Wiki pages for structured data"""
+    
+    def __init__(self):
+        self.fo76_indicators = [
+            "Fallout 76",
+            "Appalachia",
+            "Reclamation Day",
+            "Vault 76",
+            "2102",
+            "2103"
+        ]
+        
+    def is_fallout76_content(self, soup: BeautifulSoup) -> bool:
+        """Check if page contains Fallout 76 content"""
+        text = soup.get_text()
+        return any(indicator in text for indicator in self.fo76_indicators)
+    
+    def extract_infobox(self, soup: BeautifulSoup) -> Dict:
+        """Extract infobox data"""
+        infobox = soup.find('aside', class_='portable-infobox')
+        if not infobox:
+            return {}
+        
+        data = {}
+        for section in infobox.find_all('section'):
+            for row in section.find_all(['div', 'h2']):
+                # Extract label-value pairs
+                label = row.find('h3')
+                value = row.find('div', class_='pi-data-value')
+                if label and value:
+                    key = label.get_text(strip=True).lower().replace(' ', '_')
+                    data[key] = value.get_text(strip=True)
+        
+        return data
+    
+    def extract_dates(self, text: str) -> List[str]:
+        """Extract year dates from text"""
+        # Match 4-digit years in a constrained Fallout-relevant range.
+        # This intentionally avoids false positives like "Pip-Boy 2000".
+        dates = re.findall(r'\b(20[5-9]\d|210[0-3])\b', text)
+        return sorted(set(dates))
+    
+    def extract_description(self, soup: BeautifulSoup) -> str:
+        """Extract main description/summary"""
+        # Find first paragraph after infobox
+        content = soup.find('div', class_='mw-parser-output')
+        if not content:
+            return ""
+        
+        # Get first few paragraphs
+        paragraphs = []
+        for p in content.find_all('p', limit=3):
+            text = p.get_text(strip=True)
+            if len(text) > 50:  # Skip very short paragraphs
+                paragraphs.append(text)
+        
+        return ' '.join(paragraphs)
+    
+    def extract_relationships(self, soup: BeautifulSoup) -> List[str]:
+        """Extract internal wiki links as relationships"""
+        content = soup.find('div', class_='mw-parser-output')
+        if not content:
+            return []
+        
+        links = []
+        for link in content.find_all('a', href=True, limit=50):
+            href = link['href']
+            if '/wiki/' in href and ':' not in href:  # Wiki article, not special page
+                page_name = href.split('/wiki/')[-1]
+                if page_name not in ['Fallout_76', 'Fallout']:
+                    links.append(page_name)
+        
+        return list(set(links))[:20]  # Limit to 20 most relevant
+
+
+class EntityFactory:
+    """Convert parsed data to entity JSON"""
+    
+    SOURCE_CONFIDENCE = {
+        'quest_dialogue': 0.95,
+        'holotape': 0.90,
+        'terminal': 0.85,
+        'environmental': 0.80,
+        'item_description': 0.75,
+        'wiki_interpretation': 0.60
+    }
+    
+    def __init__(self):
+        self.review_queue = []
+    
+    def create_entity(self, page_name: str, category: str, infobox: Dict, 
+                     description: str, dates: List[str], relationships: List[str]) -> Dict:
+        """Create standardized entity JSON"""
+        
+        # Determine entity type
+        entity_type = self._determine_type(category)
+        
+        # Generate ID
+        entity_id = self._generate_id(page_name, entity_type)
+        
+        # Extract temporal data
+        temporal = self._extract_temporal(infobox, dates)
+        
+        # Determine confidence (default to wiki_interpretation)
+        confidence = self.SOURCE_CONFIDENCE['wiki_interpretation']
+        needs_review = confidence < 0.70
+        
+        # Build entity
+        entity = {
+            "id": entity_id,
+            "name": page_name.replace('_', ' '),
+            "type": entity_type,
+            "canonical_source": ["wiki_interpretation"],
+            "verification": {
+                "confidence": confidence,
+                "last_verified": datetime.now().strftime("%Y-%m-%d"),
+                "needs_review": needs_review
+            },
+            "temporal": temporal,
+            "geography": {
+                "region": "Appalachia",
+                "specific_location": infobox.get('location', 'Unknown')
+            },
+            "description": description[:500],  # Limit length
+            "related_entities": [
+                {"id": self._normalize_id(rel), "relationship": "referenced_in"}
+                for rel in relationships[:10]
+            ],
+            "knowledge_accessibility": {
+                "julie_2102": self._determine_knowledge_level(temporal)
+            },
+            "tags": self._extract_tags(category, infobox),
+            "raw_data": {
+                "infobox": infobox,
+                "wiki_url": f"{WIKI_BASE}{page_name}"
+            }
+        }
+        
+        if needs_review:
+            self.review_queue.append(entity_id)
+        
+        return entity
+    
+    def _determine_type(self, category: str) -> str:
+        """Determine entity type from category"""
+        type_map = {
+            'timeline': 'event',
+            'factions': 'faction',
+            'locations': 'location',
+            'characters': 'character',
+            'technology': 'technology',
+            'creatures': 'creature'
+        }
+        return type_map.get(category, 'unknown')
+    
+    def _generate_id(self, page_name: str, entity_type: str) -> str:
+        """Generate entity ID"""
+        clean_name = re.sub(r'[^\w\s-]', '', page_name.lower())
+        clean_name = re.sub(r'[-\s]+', '_', clean_name)
+        return f"{entity_type}_{clean_name}"
+    
+    def _normalize_id(self, page_name: str) -> str:
+        """Normalize page name to ID format"""
+        clean_name = re.sub(r'[^\w\s-]', '', page_name.lower())
+        return re.sub(r'[-\s]+', '_', clean_name)
+    
+    def _extract_temporal(self, infobox: Dict, dates: List[str]) -> Dict:
+        """Extract temporal information"""
+        temporal = {
+            "active_during": dates if dates else ["2077-2103"]
+        }
+        
+        # Try to extract founded/defunct from infobox
+        if 'founded' in infobox:
+            temporal['founded'] = infobox['founded']
+        if 'defunct' in infobox:
+            temporal['defunct'] = infobox['defunct']
+        
+        return temporal
+    
+    def _determine_knowledge_level(self, temporal: Dict) -> str:
+        """Determine Julie's knowledge accessibility"""
+        # If active during 2102-2103, Julie can know firsthand
+        active = temporal.get('active_during', [])
+        if any('2102' in str(d) or '2103' in str(d) for d in active):
+            return 'firsthand'
+        
+        # If before 2102, historical knowledge
+        if temporal.get('defunct'):
+            try:
+                if int(temporal['defunct']) < 2102:
+                    return 'historical'
+            except (ValueError, TypeError):
+                pass
+        
+        return 'historical'
+    
+    def _extract_tags(self, category: str, infobox: Dict) -> List[str]:
+        """Extract relevant tags"""
+        tags = [category]
+        
+        # Add tags from infobox
+        if 'type' in infobox:
+            tags.append(infobox['type'].lower())
+        if 'affiliation' in infobox:
+            tags.append('affiliated')
+        
+        return tags
+
+
+class DatabaseWriter:
+    """Write entities to lore database structure"""
+    
+    def __init__(self, base_path: Path):
+        self.base_path = base_path
+        self.manifest = {
+            "scrape_date": datetime.now().isoformat(),
+            "total_pages": 0,
+            "successful": 0,
+            "failed": 0,
+            "entities_created": 0,
+            "skipped_existing": 0
+        }
+        self.lock = threading.Lock()  # Thread-safe writing
+    
+    def setup_directories(self):
+        """Create lore database directory structure"""
+        dirs = [
+            self.base_path / "entities" / "factions",
+            self.base_path / "entities" / "locations",
+            self.base_path / "entities" / "characters",
+            self.base_path / "entities" / "technology",
+            self.base_path / "entities" / "creatures",
+            self.base_path / "events",
+            self.base_path / "relationships",
+            self.base_path / "metadata",
+            self.base_path / "indices"
+        ]
+        
+        for directory in dirs:
+            directory.mkdir(parents=True, exist_ok=True)
+        
+        print(f"✓ Created database structure at {self.base_path}")
+    entity_exists(self, entity_type: str, entity_id: str) -> bool:
+        """Check if entity file already exists"""
+        type_to_dir = {
+            'faction': 'factions',
+            'location': 'locations',
+            'character': 'characters',
+            'technology': 'technology',
+            'creature': 'creatures'
+        }
+        
+        if entity_type in type_to_dir:
+            file_path = self.base_path / "entities" / type_to_dir[entity_type] / f"{entity_id}.json"
+        elif entity_type == 'event':
+            file_path = self.base_path / "events" / f"{entity_id}.json"
+        else:
+            file_path = self.base_path / "entities" / f"{entity_id}.json"
+        
+        return file_path.exists()
+    
+    def 
+    def write_entity(self, entity: Dict): (thread-safe)"""
+        entity_type = entity['type']
+        entity_id = entity['id']
+        
+        # Determine directory with proper pluralization
+        type_to_dir = {
+            'faction': 'factions',
+            'location': 'locations',
+            'character': 'characters',
+            'technology': 'technology',  # No plural for technology
+            'creature': 'creatures'
+        }
+        
+        if entity_type in type_to_dir:
+            file_path = self.base_path / "entities" / type_to_dir[entity_type] / f"{entity_id}.json"
+        elif entity_type == 'event':
+            file_path = self.base_path / "events" / f"{entity_id}.json"
+        else:
+            file_path = self.base_path / "entities" / f"{entity_id}.json"
+        
+        # Write JSON (thread-safe)
+        with self.lock:
+            with open(file_path, 'w', encoding='utf-8') as f:
+                json.dump(entity, f, indent=2, ensure_ascii=False)
+            
+        self.manifest['entities_created'] += 1
+    
+    def write_manifest(self, review_queue: List[str]):
+        """Write scrape manifest"""
+        manifest_path = self.base_path / "metadata" / "scrape_manifest.json"
+        self.manifest['review_queue'] = review_queue
+        self.manifest['review_queue_count'] = len(review_queue)
+        
+        with open(manifest_path, 'w', encoding='utf-8') as f:
+            json.dump(self.manifest, f, indent=2)
+        
+        print(f"\n✓ Manifest written: {self.manifest['entities_created']} entities created")
+        print(f"  {len(review_queue)} entities flagged for manual review")
+
+
+def main():
+    """Main scraper execution"""
+    argp = argparse.ArgumentParser(description="Targeted Fallout 76 lore scraper (no LLM validation)")
+    argp.add_argument(
+        "--output",
+        type=Path,
+        default=None,
+        help="Output directory (default: <repo>/lore/fallout76_canon)",
+    )
+    argp.add_argument(
+        "--reset",
+        action="store_true",
+        help="Delete the output directory before scraping (a zip backup is created unless --no-backup)",
+    )
+    argp.add_argument(
+        "--yes",
+        action="store_true",
+        help="Do not prompt for confirmation when using --reset",
+    )
+    argp.add_argument(
+        "--no-backup",
+        action="store_true",
+        help="When using --reset, skip creating a zip backup",
+    )
+    argp.add_argument(
+        "--rate-limit",
+        type=float,
+        default=2.0,
+        help="Seconds to wait between requests (default: 2.0, min 0.5 recommended)",
+    )
+    argp.add_argument(
+        "--workers",
+        type=int,
+        default=1,
+        help="Number of concurrent workers (default: 1, recommended 3-5 for speed)",
+    )
+    argp.add_argument(
+        "--no-fixups",
+        action="store_true",
+        help="Do not run deterministic canon fixups after scraping",
+    )
+    argp.add_argument(
+        "--selection",
+        type=Path,
+        default=None,
+        help="Optional selection file (titles or wiki URLs, one per line). When provided, overrides curated SEED_URLS.",
+    )
+    argp.add_argument(
+        "--log-level",
+        type=str,
+        default="INFO",
+        help="Log level (DEBUG, INFO, WARNING, ERROR)",
+    )
+    argp.add_argument(
+        "--skip-existing",
+        action="store_true",
+        help="Skip pages that already have entity files (useful for resuming interrupted scrapes)",
+    )
+    args = argp.parse_args()
+
+    print("=" * 60)
+    print("FALLOUT 76 LORE SCRAPER")
+    print("=" * 60)
+    
+    # Setup
+    project_root = Path(__file__).parent.parent.parent
+    lore_path = args.output if args.output is not None else (project_root / "lore" / "fallout76_canon")
+
+    if args.reset and lore_path.exists():
+        if not args.yes:
+            resp = input(f"Reset requested. This will delete '{lore_path}'. Continue? [y/N]: ").strip().lower()
+            if resp not in {"y", "yes"}:
+                print("Aborted.")
+                return
+
+        if not args.no_backup:
+            backup_root = (project_root / "lore" / "_backups")
+            backup_root.mkdir(parents=True, exist_ok=True)
+            stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            archive_base = backup_root / f"fallout76_canon_{stamp}"
+            print(f"Creating backup zip: {archive_base}.zip")
+            shutil.make_archive(str(archive_base), "zip", root_dir=str(lore_path))
+
+        print(f"Deleting output directory: {lore_path}")
+        shutil.rmtree(lore_path)
+
+    log_path = lore_path / "metadata" / "scrape.log"
+    setup_logging(log_path, args.log_level)
+    
+    session = FalloutWikiSession(rate_limit_seconds=float(args.rate_limit))
+    parser = PageParser()
+    factory = EntityFactory()
+    writer = DatabaseWriter(lore_path)
+    
+    writer.setup_directories()
+    
+    # Determine page list
+    if args.selection is not None:
+        selection_path = args.selection
+        if not selection_path.is_absolute():
+            seCheck if entity already exists (if skip-existing enabled)
+            if args.skip_existing:
+                # Generate entity ID to check existence
+                entity_id = factory.generate_entity_id(page_name, category)
+                entity_type = factory.categorize(page_name, category)
+                
+                if writer.entity_exists(entity_type, entity_id):
+                    writer.manifest['skipped_existing'] += 1
+                    print(f"  → {page_name}... ⏭ ALREADY EXISTS")
+                    logging.info("Skipped existing: %s", page_name)
+                    continue
+            
+            # lection_path = (project_root / selection_path).resolve()
+        page_list = parse_selection_file(selection_path)
+        categories_to_pages = {"selection": page_list}
+        logging.info("Using selection file: %s (%d titles)", selection_path, len(page_list))
+    else:
+    est_time_minutes = (total_pages * args.rate_limit) / (60 * args.workers)
+    print(f"\nScraping {total_pages} pages:")
+    print(f"  Rate limit: {args.rate_limit}s/request")
+    print(f"  Workers: {args.workers}")
+    print(f"  Skip existing: {args.skip_existing}")
+    print(f"  Estimated time: ~{est_time_minutes
+    # Count total pages
+    total_pages = sum(len(urls) for urls in categories_to_pages.values())
+    writer.manifest['total_pages'] = total_pages
+    
+    print(f"\nScraping {total_pages} pages with 2-second rate limiting...")
+    print(f"Estimated time: ~{total_pages * 2 / 60:.1f} minutes\n")
+    
+    # Scrape each category
+    for category, page_list in categories_to_pages.items():
+        print(f"\n[{category.upper()}]")
+        
+        for page_name in page_list:
+            # Resolve via API first to avoid 404s / redirects
+            resolved = resolve_title_via_api(session.session, page_name)
+            if not resolved:
+                logging.warning("Missing/unknown title (skipping): %s", page_name)
+                writer.manifest['failed'] += 1
+                print(f"  → {page_name}... ✗ MISSING")
+                continue
+
+            resolved_wiki_title = resolved.replace(' ', '_')
+            url = f"{WIKI_BASE}{resolved_wiki_title}"
+            print(f"  → {resolved_wiki_title}...", end=' ')
+            logging.info("Fetch: %s", url)
+            
+            # Fetch page
+            response = session.get(url)
+            if not response:
+                writer.manifest['failed'] += 1
+                print("✗ FAILED")
+                continue
+
+            if response.status_code == 404:
+                writer.manifest['failed'] += 1
+                logging.warning("404: %s", url)
+                print("✗ 404")
+                continue
+            
+            # Parse HTML
+            soup = BeautifulSoup(response.content, 'html.parser')
+            
+            # Verify FO76 content
+            if not parser.is_fallout76_content(soup):
+                print("⚠ Not FO76 content")
+                writer.manifest['failed'] += 1
+                logging.warning("Not FO76 content: %s", url)
+                continue
+            
+            # Extract data
+            infobox = parser.extract_infobox(soup)
+            description = parser.extract_description(soup)
+            dates = parser.extract_dates(soup.get_text())
+            relationships = parser.extract_relationships(soup)
+            
+            # Create entity
+            entity = factory.create_entity(
+            Skipped (already exist): {writer.manifest['skipped_existing']}/{total_pages}")
+    print(f"    page_name=page_name,
+                category=category,
+                infobox=infobox,
+                description=description,
+                dates=dates,
+                relationships=relationships
+            )
+            
+            # Write to database
+            writer.write_entity(entity)
+            writer.manifest['successful'] += 1
+            
+            print("✓")
+    
+    # Write manifest and review queue
+    writer.write_manifest(factory.review_queue)
+
+    if not args.no_fixups:
+        try:
+            from canon_fixups import main as fixups_main
+
+            print("\nApplying deterministic canon fixups (non-LLM)...")
+            fixups_main()
+        except Exception as e:
+            print(f"\n⚠ Fixups step failed (continuing): {e}")
+    
+    print("\n" + "=" * 60)
+    print("SCRAPE COMPLETE")
+    print("=" * 60)
+    print(f"Successful: {writer.manifest['successful']}/{total_pages}")
+    print(f"Failed: {writer.manifest['failed']}/{total_pages}")
+    print(f"Entities created: {writer.manifest['entities_created']}")
+    print(f"Manual review needed: {len(factory.review_queue)}")
+    print(f"\nDatabase location: {lore_path}")
+    print("=" * 60)
+
+
+if __name__ == "__main__":
+    main()
