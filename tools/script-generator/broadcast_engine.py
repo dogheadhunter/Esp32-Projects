@@ -35,6 +35,15 @@ try:
 except ImportError:
     WEATHER_SYSTEM_AVAILABLE = False
 
+# Story system (Phase 7 integration)
+try:
+    from story_system.story_scheduler import StoryScheduler
+    from story_system.story_weaver import StoryWeaver
+    from story_system.story_state import StoryState
+    STORY_SYSTEM_AVAILABLE = True
+except ImportError:
+    STORY_SYSTEM_AVAILABLE = False
+
 
 class BroadcastEngine:
     """
@@ -57,7 +66,8 @@ class BroadcastEngine:
                  chroma_db_dir: Optional[str] = None,
                  world_state_path: Optional[str] = None,
                  enable_validation: bool = True,
-                 max_session_memory: int = 10):
+                 max_session_memory: int = 10,
+                 enable_story_system: bool = True):
         """
         Initialize broadcast engine.
         
@@ -68,9 +78,11 @@ class BroadcastEngine:
             world_state_path: Path to persistent world state JSON
             enable_validation: Enable consistency validation
             max_session_memory: Maximum scripts to remember
+            enable_story_system: Enable multi-temporal story system (Phase 7)
         """
         self.dj_name = dj_name
         self.enable_validation = enable_validation
+        self.enable_story_system = enable_story_system
         
         # Initialize script generator
         self.generator = ScriptGenerator(
@@ -108,6 +120,16 @@ class BroadcastEngine:
             self.weather_simulator = WeatherSimulator()
             self._initialize_weather_calendar()
         
+        # Story system (Phase 7 integration)
+        self.story_scheduler: Optional[StoryScheduler] = None
+        self.story_weaver: Optional[StoryWeaver] = None
+        self.story_state: Optional[StoryState] = None
+        if STORY_SYSTEM_AVAILABLE and enable_story_system:
+            story_state_path = world_state_path.replace('.json', '_stories.json') if world_state_path else './broadcast_state_stories.json'
+            self.story_state = StoryState(persistence_path=story_state_path)
+            self.story_scheduler = StoryScheduler(story_state=self.story_state)
+            self.story_weaver = StoryWeaver(story_state=self.story_state)
+        
         # Broadcast metrics
         self.broadcast_start = datetime.now()
         self.segments_generated = 0
@@ -122,6 +144,10 @@ class BroadcastEngine:
             print(f"   Weather System: enabled ({self.region.value})")
         else:
             print(f"   Weather System: disabled (using random selection)")
+        if STORY_SYSTEM_AVAILABLE and enable_story_system:
+            print(f"   Story System: enabled")
+        else:
+            print(f"   Story System: disabled")
     
     def _initialize_weather_calendar(self) -> None:
         """
@@ -472,6 +498,16 @@ class BroadcastEngine:
                 print(f"⚠️  EMERGENCY WEATHER DETECTED: {emergency_weather.weather_type}")
                 return self.generate_emergency_weather_alert(current_hour, emergency_weather)
         
+        # Phase 7: Get story beats for this broadcast
+        story_beats = []
+        story_context = ""
+        if self.story_scheduler and self.story_weaver:
+            story_beats = self.story_scheduler.get_story_beats_for_broadcast()
+            if story_beats:
+                woven_result = self.story_weaver.weave_beats(story_beats)
+                story_context = woven_result.get('context_for_llm', '')
+                print(f"📖 Story beats: {self.story_weaver.get_story_summary(story_beats)}")
+        
         # Determine segment type
         if force_type:
             segment_type = force_type
@@ -516,6 +552,10 @@ class BroadcastEngine:
         session_context = self.session_memory.get_context_for_prompt()
         if session_context:
             template_vars['session_context'] = session_context
+        
+        # Add story context to template vars
+        if story_context:
+            template_vars['story_context'] = story_context
         
         # Generate script (avoid duplicate dj_name in template vars)
         safe_template_vars = {k: v for k, v in template_vars.items() if k != 'dj_name'}

@@ -53,6 +53,9 @@ class WorldState:
         self.calendar_metadata: Dict[str, Dict] = {}  # {region: {generated_date, seed, etc}}
         self.manual_overrides: Dict[str, Optional[Dict]] = {}  # {region: weather_dict or None}
         
+        # Story system state (Phase 7)
+        self.story_state_path: Optional[str] = None
+        
         # Session tracking
         self.last_broadcast = None
         self.creation_date = datetime.now().isoformat()

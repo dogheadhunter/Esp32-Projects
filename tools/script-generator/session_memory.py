@@ -44,6 +44,10 @@ class SessionMemory:
         self.mentioned_topics: Dict[str, int] = {}  # topic: count
         self.session_start = datetime.now()
         self.segment_count = 0
+        
+        # Phase 7: Story beat tracking (last 10-20 beats)
+        self.recent_story_beats: List[Dict[str, Any]] = []
+        self.max_story_beats = 15
     
     def add_script(self, 
                   script_type: str, 
@@ -323,11 +327,44 @@ class SessionMemory:
             "recent_scripts": [asdict(s) for s in self.recent_scripts],
             "catchphrase_history": self.catchphrase_history,
             "mentioned_topics": self.mentioned_topics,
+            "recent_story_beats": self.recent_story_beats,
         }
     
     def from_dict(self, data: Dict[str, Any]) -> None:
         """Deserialize session memory from dictionary."""
         self.session_start = datetime.fromisoformat(data["session_start"])
+        self.segment_count = data["segment_count"]
+        self.recent_scripts = [
+            ScriptEntry(**entry) for entry in data["recent_scripts"]
+        ]
+        self.catchphrase_history = data["catchphrase_history"]
+        self.mentioned_topics = data["mentioned_topics"]
+        self.recent_story_beats = data.get("recent_story_beats", [])
+    
+    def add_story_beat(self, beat_info: Dict[str, Any]) -> None:
+        """
+        Add story beat to recent history (Phase 7).
+        
+        Args:
+            beat_info: Dictionary with story beat information
+        """
+        self.recent_story_beats.append(beat_info)
+        
+        # Enforce max story beats
+        if len(self.recent_story_beats) > self.max_story_beats:
+            self.recent_story_beats.pop(0)
+    
+    def get_recent_story_beats(self, count: int = 5) -> List[Dict[str, Any]]:
+        """
+        Get recent story beats (Phase 7).
+        
+        Args:
+            count: Number of recent beats to return
+            
+        Returns:
+            List of recent story beat dictionaries
+        """
+        return self.recent_story_beats[-count:]
         self.segment_count = data["segment_count"]
         self.catchphrase_history = data["catchphrase_history"]
         self.mentioned_topics = data["mentioned_topics"]
