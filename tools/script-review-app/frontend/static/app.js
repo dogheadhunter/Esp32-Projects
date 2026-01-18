@@ -11,7 +11,7 @@ class ScriptReviewApp {
         this.pendingRejectScript = null;
         this.selectedDJ = '';
         this.selectedCategory = '';
-        this.selectedStatus = '';
+        this.selectedStatus = 'pending';
         this.selectedWeatherType = '';
         this.dateFrom = '';
         this.dateTo = '';
@@ -310,11 +310,33 @@ class ScriptReviewApp {
                         <p class="whitespace-pre-wrap leading-relaxed">${this.escapeHtml(script.content)}</p>
                     </div>
                 </div>
+                
+                <!-- Touch-friendly approve/reject buttons -->
+                <div class="flex gap-3 p-4 bg-gray-900 flex-shrink-0 border-t border-gray-700">
+                    <button id="rejectBtn" class="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-6 rounded-lg transition shadow-lg min-h-[56px]">
+                        ✗ Reject
+                    </button>
+                    <button id="approveBtn" class="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-6 rounded-lg transition shadow-lg min-h-[56px]">
+                        ✓ Approve
+                    </button>
+                </div>
             </div>
         `;
         
         container.innerHTML = '';
         container.appendChild(card);
+        
+        // Add button event listeners
+        const approveBtn = card.querySelector('#approveBtn');
+        const rejectBtn = card.querySelector('#rejectBtn');
+        
+        if (approveBtn) {
+            approveBtn.addEventListener('click', () => this.approveCurrentScript());
+        }
+        
+        if (rejectBtn) {
+            rejectBtn.addEventListener('click', () => this.rejectCurrentScript());
+        }
         
         // Initialize swipe handler
         if (this.swipeHandler) {

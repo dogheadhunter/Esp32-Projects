@@ -200,36 +200,36 @@
         <div class="mb-6 space-y-4">
             <!-- DJ Selector -->
             <div class="flex justify-center">
-                <select id="djFilter" class="bg-gray-800 text-white px-6 py-3 rounded-lg border border-gray-700 focus:outline-none focus:border-blue-500 text-center font-medium">
+                <select id="djFilter" class="bg-gray-800 text-white px-6 py-4 rounded-lg border border-gray-700 focus:outline-none focus:border-blue-500 text-center font-medium">
                     <option value="">All DJs</option>
                 </select>
             </div>
             
             <!-- Category Filter Pills -->
             <div class="flex justify-center gap-2 flex-wrap">
-                <button data-category="" class="category-pill active bg-blue-600 px-4 py-2 rounded-full text-sm font-medium transition hover:bg-blue-700">
+                <button data-category="" class="category-pill active bg-blue-600 px-4 py-3 rounded-full text-sm font-medium transition hover:bg-blue-700">
                     All
                 </button>
-                <button data-category="weather" class="category-pill bg-gray-700 px-4 py-2 rounded-full text-sm font-medium transition hover:bg-gray-600">
+                <button data-category="weather" class="category-pill bg-gray-700 px-4 py-3 rounded-full text-sm font-medium transition hover:bg-gray-600">
                     ⛈️ Weather
                 </button>
-                <button data-category="story" class="category-pill bg-gray-700 px-4 py-2 rounded-full text-sm font-medium transition hover:bg-gray-600">
+                <button data-category="story" class="category-pill bg-gray-700 px-4 py-3 rounded-full text-sm font-medium transition hover:bg-gray-600">
                     📖 Story
                 </button>
-                <button data-category="news" class="category-pill bg-gray-700 px-4 py-2 rounded-full text-sm font-medium transition hover:bg-gray-600">
+                <button data-category="news" class="category-pill bg-gray-700 px-4 py-3 rounded-full text-sm font-medium transition hover:bg-gray-600">
                     📰 News
                 </button>
-                <button data-category="gossip" class="category-pill bg-gray-700 px-4 py-2 rounded-full text-sm font-medium transition hover:bg-gray-600">
+                <button data-category="gossip" class="category-pill bg-gray-700 px-4 py-3 rounded-full text-sm font-medium transition hover:bg-gray-600">
                     💬 Gossip
                 </button>
-                <button data-category="music" class="category-pill bg-gray-700 px-4 py-2 rounded-full text-sm font-medium transition hover:bg-gray-600">
+                <button data-category="music" class="category-pill bg-gray-700 px-4 py-3 rounded-full text-sm font-medium transition hover:bg-gray-600">
                     🎵 Music
                 </button>
             </div>
             
             <!-- Advanced Filters Toggle -->
             <div class="flex justify-center">
-                <button id="advancedFiltersToggle" class="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg transition text-sm font-medium flex items-center gap-2">
+                <button id="advancedFiltersToggle" class="bg-gray-700 hover:bg-gray-600 px-4 py-3 rounded-lg transition text-sm font-medium flex items-center gap-2">
                     <span>⚙️ Advanced Filters</span>
                     <span id="advFilterIndicator" class="text-xs bg-blue-600 px-2 py-1 rounded-full hidden">Active</span>
                 </button>
@@ -288,13 +288,13 @@
             
             <!-- Action Buttons -->
             <div class="flex justify-center gap-3 flex-wrap">
-                <button id="refreshBtn" class="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition font-medium">
+                <button id="refreshBtn" class="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg transition font-medium">
                     🔄 Refresh
                 </button>
-                <button id="statsBtn" class="bg-green-600 hover:bg-green-700 px-6 py-2 rounded-lg transition font-medium">
+                <button id="statsBtn" class="bg-green-600 hover:bg-green-700 px-6 py-3 rounded-lg transition font-medium">
                     📊 Stats
                 </button>
-                <button id="timelineViewBtn" class="bg-purple-600 hover:bg-purple-700 px-6 py-2 rounded-lg transition font-medium hidden">
+                <button id="timelineViewBtn" class="bg-purple-600 hover:bg-purple-700 px-6 py-3 rounded-lg transition font-medium hidden">
                     📚 Story Timelines
                 </button>
             </div>
@@ -344,13 +344,15 @@
     
     <!-- Story Timeline View Modal -->
     <div id="timelineModal" class="modal">
-        <div class="bg-gray-800 rounded-lg p-6 max-w-4xl w-full mx-4 shadow-2xl max-h-[80vh] overflow-y-auto">
-            <div class="flex justify-between items-center mb-6">
+        <div class="bg-gray-800 rounded-lg max-w-4xl w-full mx-4 shadow-2xl flex flex-col" style="max-height: 80vh;">
+            <!-- Fixed Header -->
+            <div class="flex justify-between items-center p-6 pb-4 bg-gray-800 border-b border-gray-700 flex-shrink-0">
                 <h2 class="text-2xl font-bold">📚 Active Story Timelines</h2>
-                <button id="closeTimelineView" class="text-gray-400 hover:text-white text-3xl leading-none">×</button>
+                <button id="closeTimelineView" class="text-gray-400 hover:text-white text-3xl leading-none flex items-center justify-center flex-shrink-0" style="width: 48px; height: 48px;">×</button>
             </div>
             
-            <div id="timelineContent" class="space-y-6">
+            <!-- Scrollable Content -->
+            <div id="timelineContent" class="space-y-6 p-6 pt-4 overflow-y-auto flex-1">
                 <p class="text-gray-400 text-center py-8">Loading story timelines...</p>
             </div>
         </div>
@@ -358,13 +360,15 @@
     
     <!-- Stats Dashboard Modal -->
     <div id="statsModal" class="modal">
-        <div class="bg-gray-800 rounded-lg p-6 max-w-4xl w-full mx-4 shadow-2xl max-h-[80vh] overflow-y-auto">
-            <div class="flex justify-between items-center mb-6">
+        <div class="bg-gray-800 rounded-lg max-w-4xl w-full mx-4 shadow-2xl flex flex-col" style="max-height: 80vh;">
+            <!-- Sticky Header -->
+            <div class="flex justify-between items-center p-6 pb-4 bg-gray-800 border-b border-gray-700 flex-shrink-0">
                 <h2 class="text-2xl font-bold">📊 Review Statistics</h2>
-                <button id="closeStatsView" class="text-gray-400 hover:text-white text-3xl leading-none">×</button>
+                <button id="closeStatsView" class="text-gray-400 hover:text-white text-3xl leading-none flex items-center justify-center flex-shrink-0" style="width: 48px; height: 48px;">×</button>
             </div>
             
-            <div id="statsContent" class="space-y-6">
+            <!-- Scrollable Content -->
+            <div id="statsContent" class="space-y-6 p-6 pt-4 overflow-y-auto flex-1">
                 <p class="text-gray-400 text-center py-8">Loading statistics...</p>
             </div>
         </div>

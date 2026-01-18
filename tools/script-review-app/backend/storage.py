@@ -47,10 +47,14 @@ class ScriptStorage:
         else:
             return "general"
     
-    def _parse_filename(self, filename: str) -> dict[str, str]:
+    def _parse_filename(self, filename: str, dj_folder_name: str | None = None) -> dict[str, str]:
         """
         Parse script filename to extract metadata.
         Expected format: YYYY-MM-DD_HHMMSS_DJName_ContentType.txt
+        
+        Args:
+            filename: The script filename
+            dj_folder_name: The DJ folder name (helps identify DJ name correctly)
         """
         stem = Path(filename).stem
         parts = stem.split('_')
@@ -58,11 +62,26 @@ class ScriptStorage:
         if len(parts) >= 4:
             date_part = parts[0]
             time_part = parts[1]
-            dj = parts[2]
-            content_type = '_'.join(parts[3:])
+            
+            # If we know the DJ folder name, use it to find where the DJ name ends
+            if dj_folder_name:
+                # DJ name is the folder name
+                dj = dj_folder_name
+                # Find where DJ name appears in the filename to extract content type
+                # Format: YYYY-MM-DD_HHMMSS_DJName_ContentType.txt
+                after_time = stem[len(date_part) + 1 + len(time_part) + 1:]  # Skip date and time with underscores
+                if after_time.startswith(dj + '_'):
+                    content_type = after_time[len(dj) + 1:]
+                else:
+                    # Fallback: join remaining parts
+                    content_type = '_'.join(parts[2:])
+            else:
+                # Fallback: assume DJ is single token
+                dj = parts[2]
+                content_type = '_'.join(parts[3:])
         else:
             # Fallback for non-standard names
-            dj = "Unknown"
+            dj = dj_folder_name if dj_folder_name else "Unknown"
             content_type = "Unknown"
             date_part = datetime.now().strftime("%Y-%m-%d")
             time_part = datetime.now().strftime("%H%M%S")
@@ -110,7 +129,7 @@ class ScriptStorage:
                 continue
             
             for script_file in dj_dir.glob("*.txt"):
-                parsed = self._parse_filename(script_file.name)
+                parsed = self._parse_filename(script_file.name, dj_dir.name)
                 content = self._get_script_content(script_file)
                 
                 # Detect category
@@ -191,16 +210,23 @@ class ScriptStorage:
         Returns:
             True if successful, False otherwise
         """
+        logger.info(f"Attempting to move script: {script_id}")
+        
         # Find the script file in pending_review
         source_file = None
         for dj_dir in self.pending_path.iterdir():
             if not dj_dir.is_dir():
                 continue
             
+            logger.debug(f"Checking DJ directory: {dj_dir.name}")
+            
             for script_file in dj_dir.glob("*.txt"):
-                parsed = self._parse_filename(script_file.name)
+                parsed = self._parse_filename(script_file.name, dj_dir.name)
+                logger.debug(f"Comparing: {parsed['script_id']} vs {script_id}")
+                
                 if parsed["script_id"] == script_id:
                     source_file = script_file
+                    logger.info(f"Found matching script file: {script_file}")
                     break
             
             if source_file:
@@ -208,6 +234,15 @@ class ScriptStorage:
         
         if not source_file:
             logger.error(f"Script not found: {script_id}")
+            logger.error(f"Searched in: {self.pending_path}")
+            # List all available scripts for debugging
+            all_scripts = []
+            for dj_dir in self.pending_path.iterdir():
+                if dj_dir.is_dir():
+                    for script_file in dj_dir.glob("*.txt"):
+                        parsed = self._parse_filename(script_file.name, dj_dir.name)
+                        all_scripts.append(parsed["script_id"])
+            logger.error(f"Available scripts: {all_scripts[:10]}")  # Show first 10
             return False
         
         # Determine target path
@@ -422,7 +457,7 @@ class ScriptStorage:
                     continue
                 
                 for script_file in dj_dir.glob("*.txt"):
-                    parsed = self._parse_filename(script_file.name)
+                    parsed = self._parse_filename(script_file.name, dj_dir.name)
                     content = self._get_script_content(script_file)
                     
                     # Detect category
@@ -496,7 +531,7 @@ class ScriptStorage:
         for dj_dir in self.pending_path.iterdir():
             if dj_dir.is_dir():
                 for script_file in dj_dir.glob("*.txt"):
-                    parsed = self._parse_filename(script_file.name)
+                    parsed = self._parse_filename(script_file.name, dj_dir.name)
                     content = self._get_script_content(script_file)
                     category = self._detect_category(parsed["content_type"], content)
                     all_scripts.append({
@@ -511,7 +546,7 @@ class ScriptStorage:
         for dj_dir in self.approved_path.iterdir():
             if dj_dir.is_dir():
                 for script_file in dj_dir.glob("*.txt"):
-                    parsed = self._parse_filename(script_file.name)
+                    parsed = self._parse_filename(script_file.name, dj_dir.name)
                     content = self._get_script_content(script_file)
                     category = self._detect_category(parsed["content_type"], content)
                     all_scripts.append({
@@ -526,7 +561,7 @@ class ScriptStorage:
         for dj_dir in self.rejected_path.iterdir():
             if dj_dir.is_dir():
                 for script_file in dj_dir.glob("*.txt"):
-                    parsed = self._parse_filename(script_file.name)
+                    parsed = self._parse_filename(script_file.name, dj_dir.name)
                     content = self._get_script_content(script_file)
                     category = self._detect_category(parsed["content_type"], content)
                     all_scripts.append({

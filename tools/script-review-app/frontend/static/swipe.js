@@ -32,17 +32,10 @@ class SwipeHandler {
     }
     
     handleStart(e) {
-        // Check if touch started on scrollable content area
-        const target = e.target || e.touches?.[0]?.target;
-        const scrollableArea = target && (target.closest('.overflow-y-auto') || target.closest('.scrollable-content'));
-        
-        if (scrollableArea) {
-            // Don't interfere with scrolling
-            this.isScrolling = true;
-            this.isDragging = false;
-            this.intentDetermined = true;
-            return;
-        }
+        // Reset state
+        this.isDragging = false;
+        this.isScrolling = false;
+        this.intentDetermined = false;
         
         if (e.type === 'mousedown') {
             this.startX = e.clientX;
@@ -52,10 +45,8 @@ class SwipeHandler {
             this.startY = e.touches[0].clientY;
         }
         
-        // Don't set isDragging yet - wait for move to determine intent
-        this.isDragging = false;
-        this.isScrolling = false;
-        this.intentDetermined = false;
+        // Store the target to check if it's scrollable area
+        this.startTarget = e.target || e.touches?.[0]?.target;
     }
     
     handleMove(e) {
@@ -78,8 +69,11 @@ class SwipeHandler {
         if (!this.intentDetermined && (Math.abs(diffX) > this.scrollThreshold || Math.abs(diffY) > this.scrollThreshold)) {
             this.intentDetermined = true;
             
-            // If vertical movement is dominant, this is a scroll
-            if (Math.abs(diffY) > Math.abs(diffX)) {
+            // Check if target is in scrollable area
+            const scrollableArea = this.startTarget?.closest('.overflow-y-auto') || this.startTarget?.closest('.scrollable-content');
+            
+            // If vertical movement is dominant AND in scrollable area, this is a scroll
+            if (Math.abs(diffY) > Math.abs(diffX) && scrollableArea) {
                 this.isScrolling = true;
                 return;
             }
