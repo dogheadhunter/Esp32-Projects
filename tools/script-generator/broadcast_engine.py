@@ -232,6 +232,199 @@ class BroadcastEngine:
             weather_state.to_dict()
         )
     
+    # Phase 4: Emergency Weather System
+    
+    def check_for_emergency_weather(self, current_hour: int) -> Optional[Any]:
+        """
+        Check if current weather requires emergency alert.
+        
+        Args:
+            current_hour: Current hour to check
+        
+        Returns:
+            WeatherState object if emergency alert needed, None otherwise
+        """
+        if not self.weather_simulator or not self.region:
+            return None
+        
+        current_weather = self._get_current_weather_from_simulator(current_hour)
+        
+        if current_weather and current_weather.is_emergency:
+            # Check if we already alerted for this specific event
+            if not self._already_alerted_for_event(current_weather):
+                return current_weather
+        
+        return None
+    
+    def _already_alerted_for_event(self, weather_state: Any) -> bool:
+        """
+        Check if we've already broadcast an alert for this specific weather event.
+        
+        Args:
+            weather_state: WeatherState to check
+        
+        Returns:
+            True if already alerted, False otherwise
+        """
+        # Check recent session memory for emergency weather alerts
+        for entry in reversed(self.session_memory.recent_scripts):
+            if entry.script_type == 'emergency_weather':
+                # Check if it's the same event (within same hour and same type)
+                event_meta = entry.metadata
+                if (event_meta.get('weather_type') == weather_state.weather_type and
+                    event_meta.get('started_at') == weather_state.started_at.isoformat()):
+                    return True
+        
+        return False
+    
+    def _get_regional_shelter_instructions(self) -> str:
+        """
+        Get region-specific shelter instructions for emergencies.
+        
+        Returns:
+            Shelter instruction string
+        """
+        if not self.region:
+            return "Seek immediate shelter in the nearest secure structure."
+        
+        regional_instructions = {
+            "Appalachia": (
+                "Get underground immediately. Vaults, mine shafts, or reinforced basements. "
+                "Seal all openings. If caught outside, find a cave or rocky overhang. "
+                "Scorchbeast activity increases during rad storms - stay hidden."
+            ),
+            "Mojave": (
+                "Seek concrete structures or underground facilities. "
+                "The Strip casinos have reinforced levels. Lucky 38, Vault entrances, or "
+                "the sewers can provide protection. Avoid metal structures - radiation magnets."
+            ),
+            "Commonwealth": (
+                "Get to a Vault-Tec facility, subway station, or reinforced building. "
+                "Diamond City walls provide some protection. Avoid the Glowing Sea direction. "
+                "Institute-grade filtration helps but isn't foolproof."
+            )
+        }
+        
+        return regional_instructions.get(
+            self.region.value,
+            "Seek immediate shelter in the nearest secure structure."
+        )
+    
+    def generate_emergency_weather_alert(self, 
+                                        current_hour: int,
+                                        weather_state: Any) -> Dict[str, Any]:
+        """
+        Generate emergency weather alert segment.
+        
+        Args:
+            current_hour: Current hour
+            weather_state: Emergency WeatherState
+        
+        Returns:
+            Alert segment dict
+        """
+        from datetime import datetime
+        from broadcast_scheduler import TimeOfDay
+        
+        start_time = datetime.now()
+        time_of_day = self.scheduler._get_time_of_day(current_hour)
+        
+        # Build template variables
+        base_vars = {
+            'dj_name': self.dj_name,
+            'emergency_type': weather_state.weather_type,
+            'location': self.region.value if self.region else 'the area',
+            'severity': weather_state.intensity,
+            'duration_hours': weather_state.duration_hours,
+            'temperature': weather_state.temperature,
+            'shelter_instructions': self._get_regional_shelter_instructions(),
+            'year': 2102 if self.region and self.region.value == "Appalachia" else 2287,
+            'hour': current_hour,
+            'time_of_day': time_of_day.name.lower()
+        }
+        
+        # Get RAG context for emergency (shelter locations, safety protocols)
+        rag_context = self._get_emergency_rag_context(weather_state)
+        base_vars['rag_context'] = rag_context
+        
+        # Generate emergency alert
+        result = self.generator.generate(
+            template_name='emergency_weather',
+            template_vars=base_vars,
+            temperature=0.6,  # More focused for emergencies
+            max_words=75  # Keep it brief and urgent
+        )
+        
+        # Track in session memory
+        self.session_memory.add_script(
+            script_type='emergency_weather',
+            content=result.get('script', ''),
+            metadata={
+                'weather_type': weather_state.weather_type,
+                'severity': weather_state.intensity,
+                'started_at': weather_state.started_at.isoformat(),
+                'is_emergency': True
+            }
+        )
+        
+        # Log to history
+        self._log_weather_to_history(weather_state, current_hour)
+        
+        # Update metrics
+        generation_time = (datetime.now() - start_time).total_seconds()
+        self.total_generation_time += generation_time
+        self.segments_generated += 1
+        
+        return {
+            'segment_type': 'emergency_weather',
+            'script': result.get('script', ''),
+            'weather_type': weather_state.weather_type,
+            'severity': weather_state.intensity,
+            'is_emergency': True,
+            'generation_time': generation_time,
+            'metadata': result.get('metadata', {})
+        }
+    
+    def _get_emergency_rag_context(self, weather_state: Any) -> str:
+        """
+        Get RAG context for emergency weather alerts.
+        
+        Args:
+            weather_state: Emergency WeatherState
+        
+        Returns:
+            RAG context string with shelter locations and safety info
+        """
+        if not self.region:
+            return "Seek shelter immediately in any secure structure."
+        
+        # Regional emergency context
+        regional_context = {
+            "Appalachia": (
+                "Appalachian region emergency protocol active. "
+                "Known shelters: Vault 76 entrance caverns, Flatwoods bunker, "
+                "Charleston Fire Department basement, Morgantown Airport hangars. "
+                "Scorchbeasts drawn to radiation - expect increased hostile activity."
+            ),
+            "Mojave": (
+                "Mojave Wasteland emergency protocol active. "
+                "Known shelters: Vault 21 (if accessible), Lucky 38 basement levels, "
+                "Camp McCarran bunkers, Hoover Dam lower levels, NCR safehouses. "
+                "Dust walls can carry debris - structural collapse risk."
+            ),
+            "Commonwealth": (
+                "Commonwealth emergency protocol active. "
+                "Known shelters: Vault 111 entrance, Diamond City security bunker, "
+                "Railroad safehouses, abandoned subway stations, Prydwen (if Brotherhood ally). "
+                "Glowing Sea drift - avoid northeast exposure."
+            )
+        }
+        
+        return regional_context.get(
+            self.region.value,
+            "Seek shelter immediately in any secure structure."
+        )
+    
     def start_broadcast(self) -> Dict[str, Any]:
         """
         Start a new broadcast session.
@@ -271,6 +464,13 @@ class BroadcastEngine:
             Generated segment result with metadata
         """
         start_time = datetime.now()
+        
+        # Phase 4: Check for emergency weather first (highest priority)
+        if not force_type and self.weather_simulator and self.region:
+            emergency_weather = self.check_for_emergency_weather(current_hour)
+            if emergency_weather:
+                print(f"⚠️  EMERGENCY WEATHER DETECTED: {emergency_weather.weather_type}")
+                return self.generate_emergency_weather_alert(current_hour, emergency_weather)
         
         # Determine segment type
         if force_type:
