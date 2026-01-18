@@ -55,9 +55,14 @@ class API {
         }
     }
     
-    async getScripts(djFilter = null, page = 1, pageSize = 20) {
+    async getScripts(djFilter = null, categoryFilter = null, statusFilter = null, weatherTypeFilter = null, dateFrom = null, dateTo = null, page = 1, pageSize = 20) {
         const params = new URLSearchParams();
         if (djFilter) params.append('dj', djFilter);
+        if (categoryFilter) params.append('category', categoryFilter);
+        if (statusFilter) params.append('status', statusFilter);
+        if (weatherTypeFilter) params.append('weather_type', weatherTypeFilter);
+        if (dateFrom) params.append('date_from', dateFrom);
+        if (dateTo) params.append('date_to', dateTo);
         params.append('page', page);
         params.append('page_size', pageSize);
         
@@ -90,6 +95,14 @@ class API {
     
     async getStats() {
         return this.request('/api/stats');
+    }
+    
+    async getDetailedStats() {
+        return this.request('/api/stats/detailed');
+    }
+    
+    async getDJs() {
+        return this.request('/api/djs');
     }
 }
 

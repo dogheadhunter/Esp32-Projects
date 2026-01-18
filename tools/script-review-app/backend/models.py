@@ -15,6 +15,10 @@ class ScriptMetadata(BaseModel):
     timestamp: datetime = Field(default_factory=datetime.now, description="File creation timestamp")
     file_size: int = Field(default=0, description="File size in bytes")
     word_count: int = Field(default=0, description="Word count in script")
+    category: str = Field(default="unknown", description="Script category (weather, story, news, gossip, music)")
+    timeline: str | None = Field(default=None, description="Story timeline (daily, weekly, monthly, yearly)")
+    weather_state: dict | None = Field(default=None, description="Weather state info for weather scripts")
+    story_info: dict | None = Field(default=None, description="Story metadata for story scripts")
 
 
 class Script(BaseModel):

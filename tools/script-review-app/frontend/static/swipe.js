@@ -34,8 +34,13 @@ class SwipeHandler {
     handleStart(e) {
         // Check if touch started on scrollable content area
         const target = e.target || e.touches?.[0]?.target;
-        if (target && target.closest('.overflow-y-auto')) {
+        const scrollableArea = target && (target.closest('.overflow-y-auto') || target.closest('.scrollable-content'));
+        
+        if (scrollableArea) {
             // Don't interfere with scrolling
+            this.isScrolling = true;
+            this.isDragging = false;
+            this.intentDetermined = true;
             return;
         }
         

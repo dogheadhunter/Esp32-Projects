@@ -1,0 +1,58 @@
+{
+  "julie": {
+    "full_name": "Julie",
+    "radio_station": "Appalachia Radio",
+    "game": "Fallout 76",
+    "era": "fallout_76",
+    "region": "appalachia",
+    "year_range": [2102, 2105],
+    "personality_traits": ["earnest", "hopeful", "vulnerable", "authentic", "conversational"],
+    "speech_patterns": {
+      "pacing": "medium-fast",
+      "filler_words": ["um", "like", "you know", "I mean", "actually", "just"]
+    },
+    "greeting_patterns": ["Hey everyone, this is Julie.", "Welcome back to Appalachia Radio."],
+    "sign_off_patterns": ["Welcome home, Appalachia.", "You are not alone."],
+    "emotion_level": "warm_vulnerable",
+    "formality": "conversational"
+  },
+  "three_dog": {
+    "full_name": "Three Dog",
+    "radio_station": "Galaxy News Radio",
+    "game": "Fallout 3",
+    "era": "fallout_3",
+    "region": "capital_wasteland",
+    "year_range": [2277, 2278],
+    "personality_traits": ["energetic", "enthusiastic", "passionate"],
+    "greeting_patterns": ["People of the Capital Wasteland!", "Hey, it's me, Three Dog!"],
+    "sign_off_patterns": ["This is Three Dog, AWOOOO!", "Fight the good fight, children!"],
+    "emotion_level": "high",
+    "formality": "casual"
+  },
+  "mr_new_vegas": {
+    "full_name": "Mr. New Vegas",
+    "radio_station": "Radio New Vegas",
+    "game": "Fallout: New Vegas",
+    "era": "fallout_nv",
+    "region": "mojave_wasteland",
+    "year_range": [2281, 2282],
+    "personality_traits": ["smooth", "suave", "romantic", "professional"],
+    "greeting_patterns": ["Hello, New Vegas!", "This is Mr. New Vegas."],
+    "sign_off_patterns": ["This has been Mr. New Vegas.", "Stay safe out there, Mojave."],
+    "emotion_level": "smooth",
+    "formality": "professional"
+  },
+  "travis_miles_confident": {
+    "full_name": "Travis Miles",
+    "radio_station": "Diamond City Radio",
+    "game": "Fallout 4",
+    "era": "fallout_4",
+    "region": "commonwealth",
+    "year_range": [2287, 2288],
+    "personality_traits": ["self-assured", "genuine", "enthusiastic"],
+    "greeting_patterns": ["Hey, it's Travis coming at you.", "Diamond City Radio here."],
+    "sign_off_patterns": ["Back to the music.", "Stay safe out there."],
+    "emotion_level": "moderate",
+    "formality": "casual"
+  }
+}

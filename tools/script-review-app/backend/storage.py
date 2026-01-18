@@ -28,6 +28,25 @@ class ScriptStorage:
         for path in [self.pending_path, self.approved_path, self.rejected_path, self.metadata_path]:
             path.mkdir(parents=True, exist_ok=True)
     
+    def _detect_category(self, content_type: str, content: str) -> str:
+        """Detect script category from content type and content."""
+        content_type_lower = content_type.lower()
+        content_lower = content.lower()
+        
+        # Check content type first
+        if "weather" in content_type_lower or "rad storm" in content_lower or "temperature" in content_lower:
+            return "weather"
+        elif "story" in content_type_lower or "daily" in content_type_lower or "weekly" in content_type_lower or "monthly" in content_type_lower or "yearly" in content_type_lower:
+            return "story"
+        elif "news" in content_type_lower:
+            return "news"
+        elif "gossip" in content_type_lower or "rumor" in content_type_lower:
+            return "gossip"
+        elif "music" in content_type_lower or "song" in content_type_lower:
+            return "music"
+        else:
+            return "general"
+    
     def _parse_filename(self, filename: str) -> dict[str, str]:
         """
         Parse script filename to extract metadata.
@@ -66,12 +85,13 @@ class ScriptStorage:
             logger.error(f"Error reading file {filepath}: {e}")
             return ""
     
-    def list_pending_scripts(self, dj_filter: str | None = None, page: int = 1, page_size: int = 20) -> tuple[List[Script], int]:
+    def list_pending_scripts(self, dj_filter: str | None = None, category_filter: str | None = None, page: int = 1, page_size: int = 20) -> tuple[List[Script], int]:
         """
-        List pending scripts with pagination, optionally filtered by DJ.
+        List pending scripts with pagination, optionally filtered by DJ and category.
         
         Args:
             dj_filter: Optional DJ name to filter by
+            category_filter: Optional category to filter by
             page: Page number (1-indexed)
             page_size: Number of scripts per page
             
@@ -93,6 +113,13 @@ class ScriptStorage:
                 parsed = self._parse_filename(script_file.name)
                 content = self._get_script_content(script_file)
                 
+                # Detect category
+                category = self._detect_category(parsed["content_type"], content)
+                
+                # Skip if category filter doesn't match
+                if category_filter and category != category_filter:
+                    continue
+                
                 metadata = ScriptMetadata(
                     script_id=parsed["script_id"],
                     filename=script_file.name,
@@ -100,7 +127,8 @@ class ScriptStorage:
                     content_type=parsed["content_type"],
                     timestamp=datetime.fromtimestamp(script_file.stat().st_mtime),
                     file_size=script_file.stat().st_size,
-                    word_count=len(content.split())
+                    word_count=len(content.split()),
+                    category=category
                 )
                 
                 scripts.append(Script(metadata=metadata, content=content))
@@ -338,6 +366,207 @@ class ScriptStorage:
                 category="other"
             )
         ]
+    
+    def list_scripts_filtered(
+        self, 
+        dj_filter: str | None = None, 
+        category_filter: str | None = None,
+        status_filter: str | None = None,
+        weather_type_filter: str | None = None,
+        date_from: str | None = None,
+        date_to: str | None = None,
+        page: int = 1, 
+        page_size: int = 20
+    ) -> tuple[List[Script], int]:
+        """
+        List scripts with advanced filtering options.
+        
+        Args:
+            dj_filter: Optional DJ name to filter by
+            category_filter: Optional category to filter by
+            status_filter: Optional status filter (pending, approved, rejected)
+            weather_type_filter: Optional weather type filter
+            date_from: Optional start date (YYYY-MM-DD)
+            date_to: Optional end date (YYYY-MM-DD)
+            page: Page number (1-indexed)
+            page_size: Number of scripts per page
+            
+        Returns:
+            Tuple of (scripts list, total count)
+        """
+        scripts = []
+        
+        # Determine which directories to search
+        search_paths = []
+        if not status_filter or status_filter == "pending":
+            search_paths.append(("pending", self.pending_path))
+        if not status_filter or status_filter == "approved":
+            search_paths.append(("approved", self.approved_path))
+        if not status_filter or status_filter == "rejected":
+            search_paths.append(("rejected", self.rejected_path))
+        
+        # Parse date filters
+        from_date = datetime.fromisoformat(date_from) if date_from else None
+        to_date = datetime.fromisoformat(date_to) if date_to else None
+        if to_date:
+            # Include the entire day
+            to_date = to_date.replace(hour=23, minute=59, second=59)
+        
+        for status, base_path in search_paths:
+            for dj_dir in base_path.iterdir():
+                if not dj_dir.is_dir():
+                    continue
+                
+                # Skip if filtering by DJ and doesn't match
+                if dj_filter and dj_dir.name != dj_filter:
+                    continue
+                
+                for script_file in dj_dir.glob("*.txt"):
+                    parsed = self._parse_filename(script_file.name)
+                    content = self._get_script_content(script_file)
+                    
+                    # Detect category
+                    category = self._detect_category(parsed["content_type"], content)
+                    
+                    # Skip if category filter doesn't match
+                    if category_filter and category != category_filter:
+                        continue
+                    
+                    # Get file timestamp
+                    file_timestamp = datetime.fromtimestamp(script_file.stat().st_mtime)
+                    
+                    # Skip if date filters don't match
+                    if from_date and file_timestamp < from_date:
+                        continue
+                    if to_date and file_timestamp > to_date:
+                        continue
+                    
+                    # Check weather type filter (if applicable)
+                    if weather_type_filter and category == "weather":
+                        # Simple check in content - could be enhanced
+                        if weather_type_filter.lower() not in content.lower():
+                            continue
+                    
+                    metadata = ScriptMetadata(
+                        script_id=parsed["script_id"],
+                        filename=script_file.name,
+                        dj=dj_dir.name,
+                        content_type=parsed["content_type"],
+                        timestamp=file_timestamp,
+                        file_size=script_file.stat().st_size,
+                        word_count=len(content.split()),
+                        category=category
+                    )
+                    
+                    scripts.append(Script(metadata=metadata, content=content))
+        
+        # Sort by timestamp (newest first)
+        scripts.sort(key=lambda x: x.metadata.timestamp, reverse=True)
+        
+        # Calculate pagination
+        total_count = len(scripts)
+        start_idx = (page - 1) * page_size
+        end_idx = start_idx + page_size
+        
+        return scripts[start_idx:end_idx], total_count
+    
+    def get_detailed_stats(self) -> dict:
+        """
+        Get detailed statistics with category breakdown and approval rates.
+        
+        Returns:
+            Dictionary with detailed statistics
+        """
+        stats = {
+            "overview": {
+                "total_pending": 0,
+                "total_approved": 0,
+                "total_rejected": 0,
+                "approval_rate": 0.0
+            },
+            "by_category": {},
+            "by_dj": {},
+            "by_date": []
+        }
+        
+        # Collect all scripts
+        all_scripts = []
+        
+        # Pending scripts
+        for dj_dir in self.pending_path.iterdir():
+            if dj_dir.is_dir():
+                for script_file in dj_dir.glob("*.txt"):
+                    parsed = self._parse_filename(script_file.name)
+                    content = self._get_script_content(script_file)
+                    category = self._detect_category(parsed["content_type"], content)
+                    all_scripts.append({
+                        "dj": dj_dir.name,
+                        "category": category,
+                        "status": "pending",
+                        "timestamp": datetime.fromtimestamp(script_file.stat().st_mtime)
+                    })
+                    stats["overview"]["total_pending"] += 1
+        
+        # Approved scripts
+        for dj_dir in self.approved_path.iterdir():
+            if dj_dir.is_dir():
+                for script_file in dj_dir.glob("*.txt"):
+                    parsed = self._parse_filename(script_file.name)
+                    content = self._get_script_content(script_file)
+                    category = self._detect_category(parsed["content_type"], content)
+                    all_scripts.append({
+                        "dj": dj_dir.name,
+                        "category": category,
+                        "status": "approved",
+                        "timestamp": datetime.fromtimestamp(script_file.stat().st_mtime)
+                    })
+                    stats["overview"]["total_approved"] += 1
+        
+        # Rejected scripts
+        for dj_dir in self.rejected_path.iterdir():
+            if dj_dir.is_dir():
+                for script_file in dj_dir.glob("*.txt"):
+                    parsed = self._parse_filename(script_file.name)
+                    content = self._get_script_content(script_file)
+                    category = self._detect_category(parsed["content_type"], content)
+                    all_scripts.append({
+                        "dj": dj_dir.name,
+                        "category": category,
+                        "status": "rejected",
+                        "timestamp": datetime.fromtimestamp(script_file.stat().st_mtime)
+                    })
+                    stats["overview"]["total_rejected"] += 1
+        
+        # Calculate approval rate
+        total_reviewed = stats["overview"]["total_approved"] + stats["overview"]["total_rejected"]
+        if total_reviewed > 0:
+            stats["overview"]["approval_rate"] = round(
+                (stats["overview"]["total_approved"] / total_reviewed) * 100, 1
+            )
+        
+        # Group by category
+        for script in all_scripts:
+            cat = script["category"]
+            if cat not in stats["by_category"]:
+                stats["by_category"][cat] = {
+                    "pending": 0,
+                    "approved": 0,
+                    "rejected": 0
+                }
+            stats["by_category"][cat][script["status"]] += 1
+        
+        # Group by DJ
+        for script in all_scripts:
+            dj = script["dj"]
+            if dj not in stats["by_dj"]:
+                stats["by_dj"][dj] = {
+                    "pending": 0,
+                    "approved": 0,
+                    "rejected": 0
+                }
+            stats["by_dj"][dj][script["status"]] += 1
+        
+        return stats
 
 
 # Global storage instance

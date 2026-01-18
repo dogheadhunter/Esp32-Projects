@@ -44,6 +44,10 @@ class SessionMemory:
         self.mentioned_topics: Dict[str, int] = {}  # topic: count
         self.session_start = datetime.now()
         self.segment_count = 0
+        
+        # Phase 7: Story beat tracking (last 10-20 beats)
+        self.recent_story_beats: List[Dict[str, Any]] = []
+        self.max_story_beats = 15
     
     def add_script(self, 
                   script_type: str, 
@@ -181,6 +185,140 @@ class SessionMemory:
         hours = delta.total_seconds() / 3600
         return f"{hours:.1f} hours"
     
+    # Weather Continuity Methods (Phase 3)
+    
+    def get_weather_continuity_context(self, region: str, current_weather_dict: Dict) -> Dict:
+        """
+        Get weather continuity context for DJ references.
+        
+        Provides information about weather changes and notable events
+        for natural DJ continuity in broadcasts.
+        
+        Args:
+            region: Region name (e.g., "Appalachia")
+            current_weather_dict: Current weather state dict
+        
+        Returns:
+            Dict with weather continuity information:
+            {
+                'weather_changed': bool,
+                'last_weather_type': str or None,
+                'continuity_phrase': str or None,
+                'has_notable_history': bool
+            }
+        """
+        # Get last weather from memory
+        last_weather = self._get_last_weather_from_memory()
+        current_weather_type = current_weather_dict.get('weather_type')
+        
+        # Detect weather change
+        weather_changed = (last_weather is not None and 
+                          last_weather != current_weather_type)
+        
+        # Generate continuity phrase if weather changed
+        continuity_phrase = None
+        if weather_changed:
+            continuity_phrase = self._generate_continuity_phrase(
+                last_weather, 
+                current_weather_type,
+                region
+            )
+        
+        return {
+            'weather_changed': weather_changed,
+            'last_weather_type': last_weather,
+            'continuity_phrase': continuity_phrase,
+            'has_notable_history': len(self.recent_scripts) > 2
+        }
+    
+    def _get_last_weather_from_memory(self) -> Optional[str]:
+        """
+        Get the weather type from the most recent weather segment.
+        
+        Returns:
+            Weather type string or None if no recent weather segments
+        """
+        for entry in reversed(self.recent_scripts):
+            if entry.script_type == 'weather':
+                # Try to get weather_type from metadata
+                return entry.metadata.get('weather_type')
+        
+        return None
+    
+    def _generate_continuity_phrase(self, 
+                                   last_weather: str, 
+                                   current_weather: str,
+                                   region: str) -> str:
+        """
+        Generate a natural continuity phrase for weather changes.
+        
+        Args:
+            last_weather: Previous weather type
+            current_weather: Current weather type
+            region: Region name
+        
+        Returns:
+            Natural transition phrase
+        """
+        import random
+        
+        # Regional location references
+        regional_refs = {
+            "Appalachia": ["the mountains", "the valley", "these parts"],
+            "Mojave": ["the desert", "the Strip", "the wasteland"],
+            "Commonwealth": ["the Commonwealth", "the ruins", "these streets"]
+        }
+        
+        location_ref = regional_refs.get(region, ["the area"])[0]
+        
+        # Weather transition phrases
+        transitions = {
+            ('rainy', 'sunny'): [
+                f"Looks like that rain finally cleared up over {location_ref}.",
+                f"Good news - the storm's passed and we've got clear skies.",
+                f"Rain's moved on, sun's breaking through."
+            ],
+            ('sunny', 'rainy'): [
+                f"Weather's turning - rain moving in over {location_ref}.",
+                f"Those clear skies didn't last long. Rain's coming.",
+                f"Storm clouds rolling in now."
+            ],
+            ('cloudy', 'rad_storm'): [
+                f"Radiation storm detected over {location_ref}. Take shelter.",
+                f"We've got a rad storm forming. This is serious, folks.",
+                f"Geiger counters are spiking - rad storm incoming."
+            ],
+            ('foggy', 'sunny'): [
+                f"Morning fog's finally burning off.",
+                f"That thick fog's clearing out nicely.",
+                f"Visibility's improving as the fog lifts."
+            ],
+            ('rad_storm', 'cloudy'): [
+                f"Radiation storm has passed. You can come out now.",
+                f"All clear - rad levels dropping back to normal.",
+                f"Storm's over, but stay cautious out there."
+            ],
+            ('snow', 'sunny'): [
+                f"Snow's stopped and we're seeing some sun.",
+                f"Winter weather's easing up a bit.",
+                f"Snowfall's done for now."
+            ]
+        }
+        
+        # Try to find specific transition
+        transition_key = (last_weather, current_weather)
+        if transition_key in transitions:
+            return random.choice(transitions[transition_key])
+        
+        # Generic transitions
+        generic = [
+            f"Weather's changed since last time.",
+            f"Conditions are different now over {location_ref}.",
+            f"Update on the weather situation."
+        ]
+        
+        return random.choice(generic)
+    
     def to_dict(self) -> Dict[str, Any]:
         """Serialize session memory to dictionary."""
         return {
@@ -189,15 +327,41 @@ class SessionMemory:
             "recent_scripts": [asdict(s) for s in self.recent_scripts],
             "catchphrase_history": self.catchphrase_history,
             "mentioned_topics": self.mentioned_topics,
+            "recent_story_beats": self.recent_story_beats,
         }
     
     def from_dict(self, data: Dict[str, Any]) -> None:
         """Deserialize session memory from dictionary."""
         self.session_start = datetime.fromisoformat(data["session_start"])
         self.segment_count = data["segment_count"]
+        self.recent_scripts = [
+            ScriptEntry(**entry) for entry in data["recent_scripts"]
+        ]
         self.catchphrase_history = data["catchphrase_history"]
         self.mentioned_topics = data["mentioned_topics"]
-        self.recent_scripts = [
-            ScriptEntry(**script_data) 
-            for script_data in data["recent_scripts"]
-        ]
+        self.recent_story_beats = data.get("recent_story_beats", [])
+    
+    def add_story_beat(self, beat_info: Dict[str, Any]) -> None:
+        """
+        Add story beat to recent history (Phase 7).
+        
+        Args:
+            beat_info: Dictionary with story beat information
+        """
+        self.recent_story_beats.append(beat_info)
+        
+        # Enforce max story beats
+        if len(self.recent_story_beats) > self.max_story_beats:
+            self.recent_story_beats.pop(0)
+    
+    def get_recent_story_beats(self, count: int = 5) -> List[Dict[str, Any]]:
+        """
+        Get recent story beats (Phase 7).
+        
+        Args:
+            count: Number of recent beats to return
+            
+        Returns:
+            List of recent story beat dictionaries
+        """
+        return self.recent_story_beats[-count:]

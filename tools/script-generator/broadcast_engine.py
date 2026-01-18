@@ -27,6 +27,23 @@ from content_types.gossip import GossipTracker, get_gossip_template_vars
 from content_types.news import select_news_category, get_news_template_vars
 from content_types.time_check import get_time_check_template_vars
 
+# Weather simulation system (Phase 2 integration)
+try:
+    from weather_simulator import WeatherSimulator
+    from regional_climate import get_region_from_dj_name, Region
+    WEATHER_SYSTEM_AVAILABLE = True
+except ImportError:
+    WEATHER_SYSTEM_AVAILABLE = False
+
+# Story system (Phase 7 integration)
+try:
+    from story_system.story_scheduler import StoryScheduler
+    from story_system.story_weaver import StoryWeaver
+    from story_system.story_state import StoryState
+    STORY_SYSTEM_AVAILABLE = True
+except ImportError:
+    STORY_SYSTEM_AVAILABLE = False
+
 
 class BroadcastEngine:
     """
@@ -49,7 +66,8 @@ class BroadcastEngine:
                  chroma_db_dir: Optional[str] = None,
                  world_state_path: Optional[str] = None,
                  enable_validation: bool = True,
-                 max_session_memory: int = 10):
+                 max_session_memory: int = 10,
+                 enable_story_system: bool = True):
         """
         Initialize broadcast engine.
         
@@ -60,9 +78,11 @@ class BroadcastEngine:
             world_state_path: Path to persistent world state JSON
             enable_validation: Enable consistency validation
             max_session_memory: Maximum scripts to remember
+            enable_story_system: Enable multi-temporal story system (Phase 7)
         """
         self.dj_name = dj_name
         self.enable_validation = enable_validation
+        self.enable_story_system = enable_story_system
         
         # Initialize script generator
         self.generator = ScriptGenerator(
@@ -92,15 +112,344 @@ class BroadcastEngine:
         # Initialize gossip tracker
         self.gossip_tracker = GossipTracker()
         
+        # Weather simulation system (Phase 2 integration)
+        self.weather_simulator: Optional[WeatherSimulator] = None
+        self.region: Optional[Region] = None
+        if WEATHER_SYSTEM_AVAILABLE:
+            self.region = get_region_from_dj_name(dj_name)
+            self.weather_simulator = WeatherSimulator()
+            self._initialize_weather_calendar()
+        
+        # Story system (Phase 7 integration)
+        self.story_scheduler: Optional[StoryScheduler] = None
+        self.story_weaver: Optional[StoryWeaver] = None
+        self.story_state: Optional[StoryState] = None
+        if STORY_SYSTEM_AVAILABLE and enable_story_system:
+            story_state_path = world_state_path.replace('.json', '_stories.json') if world_state_path else './broadcast_state_stories.json'
+            self.story_state = StoryState(persistence_path=story_state_path)
+            self.story_scheduler = StoryScheduler(story_state=self.story_state)
+            self.story_weaver = StoryWeaver(story_state=self.story_state)
+        
         # Broadcast metrics
         self.broadcast_start = datetime.now()
         self.segments_generated = 0
         self.validation_failures = 0
         self.total_generation_time = 0.0
         
+        # Print initialization summary
         print(f"\n🎙️ BroadcastEngine initialized for {dj_name}")
         print(f"   Session memory: {max_session_memory} scripts")
         print(f"   Validation: {'enabled' if enable_validation else 'disabled'}")
+        if WEATHER_SYSTEM_AVAILABLE and self.region:
+            print(f"   Weather System: enabled ({self.region.value})")
+        else:
+            print(f"   Weather System: disabled (using random selection)")
+        if STORY_SYSTEM_AVAILABLE and enable_story_system:
+            print(f"   Story System: enabled")
+        else:
+            print(f"   Story System: disabled")
+    
+    def _initialize_weather_calendar(self) -> None:
+        """
+        Initialize or load weather calendar for DJ's region.
+        
+        Called during broadcast engine initialization if weather system is available.
+        Checks if calendar exists in WorldState, generates if missing.
+        """
+        if not self.weather_simulator or not self.region:
+            return
+        
+        region_name = self.region.value
+        
+        # Check if calendar exists in world state
+        existing_calendar = self.world_state.get_calendar_for_region(region_name)
+        
+        if not existing_calendar:
+            # Generate new calendar starting from current date
+            print(f"[Weather System] Generating yearly calendar for {region_name}...")
+            start_date = datetime.now().replace(month=1, day=1, hour=0, minute=0, second=0, microsecond=0)
+            
+            calendar = self.weather_simulator.generate_yearly_calendar(
+                start_date=start_date,
+                region=self.region
+            )
+            
+            # Convert WeatherState objects to dicts for JSON storage
+            calendar_dict = {}
+            for date_str, daily_schedule in calendar.items():
+                calendar_dict[date_str] = {
+                    slot: weather.to_dict() 
+                    for slot, weather in daily_schedule.items()
+                }
+            
+            # Store in world state
+            self.world_state.weather_calendars[region_name] = calendar_dict
+            self.world_state.calendar_metadata[region_name] = {
+                "generated_date": datetime.now().isoformat(),
+                "start_date": start_date.isoformat(),
+                "region": region_name
+            }
+            self.world_state.save()
+            print(f"[Weather System] Calendar generated and saved for {region_name}")
+        else:
+            print(f"[Weather System] Loaded existing calendar for {region_name}")
+    
+    def _get_current_weather_from_simulator(self, current_hour: int) -> Optional[Any]:
+        """
+        Get current weather from simulator for this hour.
+        
+        Args:
+            current_hour: Current hour (0-23)
+        
+        Returns:
+            WeatherState object or None if not available
+        """
+        if not self.weather_simulator or not self.region:
+            return None
+        
+        # Check for manual override first
+        region_name = self.region.value
+        override = self.world_state.get_current_weather(region_name)
+        if override:
+            # Manual override exists, use it
+            from weather_simulator import WeatherState
+            return WeatherState.from_dict(override)
+        
+        # Get calendar for this region
+        calendar_dict = self.world_state.get_calendar_for_region(region_name)
+        if not calendar_dict:
+            return None
+        
+        # Query weather for current datetime
+        current_datetime = datetime.now().replace(hour=current_hour, minute=0, second=0, microsecond=0)
+        
+        # Convert calendar dict back to WeatherState objects for querying
+        from weather_simulator import WeatherState
+        calendar = {}
+        for date_str, daily_schedule in calendar_dict.items():
+            calendar[date_str] = {
+                slot: WeatherState.from_dict(weather_dict)
+                for slot, weather_dict in daily_schedule.items()
+            }
+        
+        weather = self.weather_simulator.get_current_weather(
+            current_datetime,
+            self.region,
+            calendar
+        )
+        
+        return weather
+    
+    def _log_weather_to_history(self, weather_state: Any, current_hour: int) -> None:
+        """
+        Log weather to historical archive.
+        
+        Args:
+            weather_state: WeatherState object
+            current_hour: Current hour for timestamping
+        """
+        if not self.region:
+            return
+        
+        timestamp = datetime.now().replace(hour=current_hour, minute=0, second=0, microsecond=0)
+        self.world_state.log_weather_history(
+            self.region.value,
+            timestamp,
+            weather_state.to_dict()
+        )
+    
+    # Phase 4: Emergency Weather System
+    
+    def check_for_emergency_weather(self, current_hour: int) -> Optional[Any]:
+        """
+        Check if current weather requires emergency alert.
+        
+        Args:
+            current_hour: Current hour to check
+        
+        Returns:
+            WeatherState object if emergency alert needed, None otherwise
+        """
+        if not self.weather_simulator or not self.region:
+            return None
+        
+        current_weather = self._get_current_weather_from_simulator(current_hour)
+        
+        if current_weather and current_weather.is_emergency:
+            # Check if we already alerted for this specific event
+            if not self._already_alerted_for_event(current_weather):
+                return current_weather
+        
+        return None
+    
+    def _already_alerted_for_event(self, weather_state: Any) -> bool:
+        """
+        Check if we've already broadcast an alert for this specific weather event.
+        
+        Args:
+            weather_state: WeatherState to check
+        
+        Returns:
+            True if already alerted, False otherwise
+        """
+        # Check recent session memory for emergency weather alerts
+        for entry in reversed(self.session_memory.recent_scripts):
+            if entry.script_type == 'emergency_weather':
+                # Check if it's the same event (within same hour and same type)
+                event_meta = entry.metadata
+                if (event_meta.get('weather_type') == weather_state.weather_type and
+                    event_meta.get('started_at') == weather_state.started_at.isoformat()):
+                    return True
+        
+        return False
+    
+    def _get_regional_shelter_instructions(self) -> str:
+        """
+        Get region-specific shelter instructions for emergencies.
+        
+        Returns:
+            Shelter instruction string
+        """
+        if not self.region:
+            return "Seek immediate shelter in the nearest secure structure."
+        
+        regional_instructions = {
+            "Appalachia": (
+                "Get underground immediately. Vaults, mine shafts, or reinforced basements. "
+                "Seal all openings. If caught outside, find a cave or rocky overhang. "
+                "Scorchbeast activity increases during rad storms - stay hidden."
+            ),
+            "Mojave": (
+                "Seek concrete structures or underground facilities. "
+                "The Strip casinos have reinforced levels. Lucky 38, Vault entrances, or "
+                "the sewers can provide protection. Avoid metal structures - radiation magnets."
+            ),
+            "Commonwealth": (
+                "Get to a Vault-Tec facility, subway station, or reinforced building. "
+                "Diamond City walls provide some protection. Avoid the Glowing Sea direction. "
+                "Institute-grade filtration helps but isn't foolproof."
+            )
+        }
+        
+        return regional_instructions.get(
+            self.region.value,
+            "Seek immediate shelter in the nearest secure structure."
+        )
+    
+    def generate_emergency_weather_alert(self, 
+                                        current_hour: int,
+                                        weather_state: Any) -> Dict[str, Any]:
+        """
+        Generate emergency weather alert segment.
+        
+        Args:
+            current_hour: Current hour
+            weather_state: Emergency WeatherState
+        
+        Returns:
+            Alert segment dict
+        """
+        from datetime import datetime
+        from broadcast_scheduler import TimeOfDay
+        
+        start_time = datetime.now()
+        time_of_day = self.scheduler._get_time_of_day(current_hour)
+        
+        # Build template variables
+        base_vars = {
+            'dj_name': self.dj_name,
+            'emergency_type': weather_state.weather_type,
+            'location': self.region.value if self.region else 'the area',
+            'severity': weather_state.intensity,
+            'duration_hours': weather_state.duration_hours,
+            'temperature': weather_state.temperature,
+            'shelter_instructions': self._get_regional_shelter_instructions(),
+            'year': 2102 if self.region and self.region.value == "Appalachia" else 2287,
+            'hour': current_hour,
+            'time_of_day': time_of_day.name.lower()
+        }
+        
+        # Get RAG context for emergency (shelter locations, safety protocols)
+        rag_context = self._get_emergency_rag_context(weather_state)
+        base_vars['rag_context'] = rag_context
+        
+        # Generate emergency alert
+        result = self.generator.generate(
+            template_name='emergency_weather',
+            template_vars=base_vars,
+            temperature=0.6,  # More focused for emergencies
+            max_words=75  # Keep it brief and urgent
+        )
+        
+        # Track in session memory
+        self.session_memory.add_script(
+            script_type='emergency_weather',
+            content=result.get('script', ''),
+            metadata={
+                'weather_type': weather_state.weather_type,
+                'severity': weather_state.intensity,
+                'started_at': weather_state.started_at.isoformat(),
+                'is_emergency': True
+            }
+        )
+        
+        # Log to history
+        self._log_weather_to_history(weather_state, current_hour)
+        
+        # Update metrics
+        generation_time = (datetime.now() - start_time).total_seconds()
+        self.total_generation_time += generation_time
+        self.segments_generated += 1
+        
+        return {
+            'segment_type': 'emergency_weather',
+            'script': result.get('script', ''),
+            'weather_type': weather_state.weather_type,
+            'severity': weather_state.intensity,
+            'is_emergency': True,
+            'generation_time': generation_time,
+            'metadata': result.get('metadata', {})
+        }
+    
+    def _get_emergency_rag_context(self, weather_state: Any) -> str:
+        """
+        Get RAG context for emergency weather alerts.
+        
+        Args:
+            weather_state: Emergency WeatherState
+        
+        Returns:
+            RAG context string with shelter locations and safety info
+        """
+        if not self.region:
+            return "Seek shelter immediately in any secure structure."
+        
+        # Regional emergency context
+        regional_context = {
+            "Appalachia": (
+                "Appalachian region emergency protocol active. "
+                "Known shelters: Vault 76 entrance caverns, Flatwoods bunker, "
+                "Charleston Fire Department basement, Morgantown Airport hangars. "
+                "Scorchbeasts drawn to radiation - expect increased hostile activity."
+            ),
+            "Mojave": (
+                "Mojave Wasteland emergency protocol active. "
+                "Known shelters: Vault 21 (if accessible), Lucky 38 basement levels, "
+                "Camp McCarran bunkers, Hoover Dam lower levels, NCR safehouses. "
+                "Dust walls can carry debris - structural collapse risk."
+            ),
+            "Commonwealth": (
+                "Commonwealth emergency protocol active. "
+                "Known shelters: Vault 111 entrance, Diamond City security bunker, "
+                "Railroad safehouses, abandoned subway stations, Prydwen (if Brotherhood ally). "
+                "Glowing Sea drift - avoid northeast exposure."
+            )
+        }
+        
+        return regional_context.get(
+            self.region.value,
+            "Seek shelter immediately in any secure structure."
+        )
     
     def start_broadcast(self) -> Dict[str, Any]:
         """
@@ -141,6 +490,23 @@ class BroadcastEngine:
             Generated segment result with metadata
         """
         start_time = datetime.now()
+        
+        # Phase 4: Check for emergency weather first (highest priority)
+        if not force_type and self.weather_simulator and self.region:
+            emergency_weather = self.check_for_emergency_weather(current_hour)
+            if emergency_weather:
+                print(f"⚠️  EMERGENCY WEATHER DETECTED: {emergency_weather.weather_type}")
+                return self.generate_emergency_weather_alert(current_hour, emergency_weather)
+        
+        # Phase 7: Get story beats for this broadcast
+        story_beats = []
+        story_context = ""
+        if self.story_scheduler and self.story_weaver:
+            story_beats = self.story_scheduler.get_story_beats_for_broadcast()
+            if story_beats:
+                woven_result = self.story_weaver.weave_beats(story_beats)
+                story_context = woven_result.get('context_for_llm', '')
+                print(f"📖 Story beats: {self.story_weaver.get_story_summary(story_beats)}")
         
         # Determine segment type
         if force_type:
@@ -186,6 +552,10 @@ class BroadcastEngine:
         session_context = self.session_memory.get_context_for_prompt()
         if session_context:
             template_vars['session_context'] = session_context
+        
+        # Add story context to template vars
+        if story_context:
+            template_vars['story_context'] = story_context
         
         # Generate script (avoid duplicate dj_name in template vars)
         safe_template_vars = {k: v for k, v in template_vars.items() if k != 'dj_name'}
@@ -339,16 +709,78 @@ class BroadcastEngine:
         }
         
         if segment_type == 'weather':
-            weather_type = kwargs.get('weather_type')
-            if not weather_type:
-                weather_type = select_weather()
-            
-            weather_vars = get_weather_template_vars(
-                weather_type,
-                time_of_day.name.lower(),
-                current_hour
-            )
-            base_vars.update(weather_vars)
+            # Phase 2: Use weather simulator if available
+            if self.weather_simulator and self.region:
+                current_weather = self._get_current_weather_from_simulator(current_hour)
+                if current_weather:
+                    # Use simulated weather
+                    weather_vars = {
+                        'weather_type': current_weather.weather_type,
+                        'weather_description': current_weather.weather_type,
+                        'temperature': current_weather.temperature,
+                        'intensity': current_weather.intensity,
+                        'is_emergency': current_weather.is_emergency,
+                        'notable_event': current_weather.notable_event,
+                        'region': current_weather.region,
+                        'location': current_weather.region,
+                        'time_of_day': time_of_day.name.lower()
+                    }
+                    
+                    # Phase 3: Add weather continuity context
+                    weather_continuity = self.session_memory.get_weather_continuity_context(
+                        region=self.region.value,
+                        current_weather_dict=current_weather.to_dict()
+                    )
+                    weather_vars['weather_continuity'] = weather_continuity
+                    
+                    # Phase 3: Add notable recent weather events
+                    notable_events = self.world_state.get_notable_weather_events(
+                        region=self.region.value,
+                        days_back=30
+                    )
+                    if notable_events:
+                        # Convert to simple dicts for template
+                        notable_list = []
+                        for event in notable_events[:3]:  # Max 3 events
+                            notable_list.append({
+                                'weather_type': event.get('weather_type'),
+                                'date': event.get('started_at', 'recent'),
+                                'intensity': event.get('intensity', 'moderate')
+                            })
+                        weather_vars['notable_weather_events'] = notable_list
+                    
+                    # Get additional weather template vars (survival tips, etc.)
+                    additional_vars = get_weather_template_vars(
+                        current_weather.weather_type,
+                        time_of_day.name.lower(),
+                        current_hour
+                    )
+                    weather_vars.update(additional_vars)
+                    base_vars.update(weather_vars)
+                    
+                    # Log weather to history
+                    self._log_weather_to_history(current_weather, current_hour)
+                else:
+                    # Fallback to old random selection
+                    weather_type = kwargs.get('weather_type') or select_weather()
+                    weather_vars = get_weather_template_vars(
+                        weather_type,
+                        time_of_day.name.lower(),
+                        current_hour
+                    )
+                    base_vars.update(weather_vars)
+            else:
+                # Weather system not available, use old method
+                weather_type = kwargs.get('weather_type')
+                if not weather_type:
+                    weather_type = select_weather()
+                
+                weather_vars = get_weather_template_vars(
+                    weather_type,
+                    time_of_day.name.lower(),
+                    current_hour
+                )
+                base_vars.update(weather_vars)
         
         elif segment_type == 'gossip':
             gossip_vars = get_gossip_template_vars(

@@ -1,0 +1,88 @@
+You are {{ personality.name }}, broadcasting an EMERGENCY WEATHER ALERT in the year {{ year }}.
+
+CRITICAL SITUATION - EMERGENCY BROADCAST:
+This is an urgent weather alert. Lives are at stake.
+
+PERSONALITY (maintain even under stress):
+{{ personality.system_prompt }}
+
+{% if catchphrase.emergency_alert %}
+REQUIRED ALERT OPENING: "{{ catchphrase.emergency_alert }}"
+{% elif catchphrase.opening %}
+REQUIRED OPENING: "{{ catchphrase.opening }}"
+{% endif %}
+
+EMERGENCY WEATHER DETAILS:
+- Type: {{ emergency_type }}
+- Severity: {{ severity }}
+- Location: {{ location }}
+- Duration: {{ duration_hours }} hours
+{% if temperature %}
+- Temperature: {{ temperature }}°F
+{% endif %}
+
+REGIONAL CONTEXT:
+{{ rag_context }}
+
+{% if emergency_type == "rad_storm" %}
+RADIATION STORM ALERT:
+This is a severe radiation storm. Geiger counters are going critical.
+Immediate shelter required - this is NOT a drill.
+
+Dangers:
+- Lethal radiation levels
+- Zero visibility during peak
+- Extended exposure = guaranteed death
+- Electronics may malfunction
+
+{% elif emergency_type == "dust_storm" %}
+SEVERE DUST WALL ALERT:
+Massive dust wall approaching with extreme radiation.
+Visibility will drop to absolute zero.
+
+Dangers:
+- Complete whiteout conditions
+- Radioactive particulates
+- Respiratory hazard even through filters
+- Structural damage possible
+
+{% elif emergency_type == "glowing_fog" %}
+RADIOACTIVE FOG ALERT:
+Glowing Sea radiation drift detected.
+Contaminated fog spreading into the area.
+
+Dangers:
+- Airborne radiation
+- Limited visibility
+- Prolonged exposure hazard
+- Avoid breathing without filtration
+
+{% endif %}
+
+SHELTER INSTRUCTIONS ({{ location }}):
+{{ shelter_instructions }}
+
+{% if nearby_shelters %}
+NEAREST SAFE LOCATIONS:
+{% for shelter in nearby_shelters[:3] %}
+- {{ shelter.name }}: {{ shelter.direction }}, {{ shelter.distance }}
+{% endfor %}
+{% endif %}
+
+REQUIREMENTS FOR THIS ALERT:
+- Sound urgent but NOT panicked ({{ personality.name }} is experienced, calm under pressure)
+- Be direct and clear - this saves lives
+- Include specific shelter instructions from context above
+- Keep it under 75 words for rapid broadcast
+- End with estimated all-clear time
+{% if catchphrase.emergency_alert %}
+- CRITICAL: Begin with "{{ catchphrase.emergency_alert }}"
+{% elif catchphrase.opening %}
+- CRITICAL: Begin with "{{ catchphrase.opening }}"
+{% endif %}
+- Do NOT use game mechanics or meta references
+- Sound like a real emergency broadcaster in {{ year }}
+
+TONE: Urgent, authoritative, life-saving. This is {{ personality.name }}'s training kicking in.
+
+Generate the emergency weather alert now ({{ personality.name }}'s voice, urgent but controlled, ~60-75 words):
