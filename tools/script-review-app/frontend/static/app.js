@@ -46,10 +46,6 @@ class ScriptReviewApp {
         if (this.listenersAttached) return;
         this.listenersAttached = true;
 
-        // Action buttons
-        document.getElementById('approveBtn').addEventListener('click', () => this.approveCurrentScript());
-        document.getElementById('rejectBtn').addEventListener('click', () => this.rejectCurrentScript());
-        
         // Rejection modal
         document.getElementById('confirmReject').addEventListener('click', () => this.confirmReject());
         document.getElementById('cancelReject').addEventListener('click', () => this.cancelReject());
@@ -225,11 +221,15 @@ class ScriptReviewApp {
         container.innerHTML = '';
         container.appendChild(card);
         
-        // Swipe disabled - buttons work better on mobile with scrolling
+        // Initialize swipe handler
         if (this.swipeHandler) {
             this.swipeHandler.destroy();
-            this.swipeHandler = null;
         }
+        
+        this.swipeHandler = new SwipeHandler(card, {
+            onApprove: () => this.approveCurrentScript(),
+            onReject: () => this.rejectCurrentScript()
+        });
     }
     
     async approveCurrentScript() {
