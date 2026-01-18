@@ -87,6 +87,10 @@ class ScriptReviewApp {
         
         document.getElementById('refreshBtn').addEventListener('click', () => this.refresh());
         
+        // Timeline view
+        document.getElementById('timelineViewBtn').addEventListener('click', () => this.showTimelineView());
+        document.getElementById('closeTimelineView').addEventListener('click', () => this.closeTimelineView());
+        
         // Keyboard shortcuts
         document.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowRight') {
@@ -173,6 +177,17 @@ class ScriptReviewApp {
             this.currentPage = response.page;
             this.hasMore = response.has_more;
             
+            // Show/hide timeline view button based on story scripts
+            const hasStoryScripts = this.scripts.some(s => 
+                s.metadata.category === 'story' && s.metadata.story_info
+            );
+            const timelineBtn = document.getElementById('timelineViewBtn');
+            if (hasStoryScripts) {
+                timelineBtn.classList.remove('hidden');
+            } else {
+                timelineBtn.classList.add('hidden');
+            }
+            
             if (this.scripts.length === 0) {
                 this.showNoScripts();
             } else {
@@ -226,6 +241,9 @@ class ScriptReviewApp {
         const categoryClass = `badge-${script.metadata.category || 'general'}`;
         const categoryIcon = this.getCategoryIcon(script.metadata.category);
         
+        // Build category-specific metadata section
+        const categoryMetadata = this.buildCategoryMetadata(script);
+        
         const card = document.createElement('div');
         card.className = 'review-card bg-gray-800 overflow-hidden';
         card.innerHTML = `
@@ -245,6 +263,7 @@ class ScriptReviewApp {
                         ${new Date(script.metadata.timestamp).toLocaleString()} | 
                         ${script.metadata.word_count} words
                     </p>
+                    ${categoryMetadata}
                 </div>
                 
                 <div class="p-6 overflow-y-auto flex-1 scrollable-content" style="overscroll-behavior: contain; -webkit-overflow-scrolling: touch;">
@@ -267,6 +286,107 @@ class ScriptReviewApp {
             onApprove: () => this.approveCurrentScript(),
             onReject: () => this.rejectCurrentScript()
         });
+    }
+    
+    buildCategoryMetadata(script) {
+        const category = script.metadata.category;
+        
+        if (category === 'weather' && script.metadata.weather_state) {
+            return this.buildWeatherMetadata(script.metadata.weather_state);
+        } else if (category === 'story' && script.metadata.story_info) {
+            return this.buildStoryMetadata(script.metadata.story_info);
+        }
+        
+        return '';
+    }
+    
+    buildWeatherMetadata(weatherState) {
+        const parts = [];
+        
+        if (weatherState.current) {
+            const emoji = this.getWeatherEmoji(weatherState.current.type);
+            parts.push(`<span class="inline-flex items-center">
+                <span class="text-xl mr-1">${emoji}</span>
+                <span>${this.capitalize(weatherState.current.type)}, ${weatherState.current.temperature}°F</span>
+            </span>`);
+        }
+        
+        if (weatherState.is_emergency) {
+            parts.push(`<span class="inline-flex items-center text-red-400 font-semibold">
+                <span class="mr-1">⚠️</span> Emergency Alert
+            </span>`);
+        }
+        
+        if (weatherState.continuity) {
+            parts.push(`<span class="text-xs opacity-80">Continuity: ${this.escapeHtml(weatherState.continuity)}</span>`);
+        }
+        
+        if (parts.length === 0) return '';
+        
+        return `<div class="mt-2 pt-2 border-t border-white/20 space-y-1 text-xs">
+            ${parts.join('<br>')}
+        </div>`;
+    }
+    
+    buildStoryMetadata(storyInfo) {
+        const parts = [];
+        
+        if (storyInfo.timeline) {
+            const tlEmoji = {
+                'daily': '📅',
+                'weekly': '📆',
+                'monthly': '🗓️',
+                'yearly': '📕'
+            }[storyInfo.timeline.toLowerCase()] || '📖';
+            parts.push(`<span class="inline-flex items-center">
+                <span class="mr-1">${tlEmoji}</span>
+                <span>${this.capitalize(storyInfo.timeline)} Story</span>
+            </span>`);
+        }
+        
+        if (storyInfo.act_position) {
+            const actType = this.capitalize(storyInfo.act_position.type);
+            const actNum = storyInfo.act_position.index + 1;
+            const totalActs = storyInfo.act_position.total;
+            parts.push(`<span class="inline-flex items-center">
+                <span class="mr-1">🎬</span>
+                <span>Act ${actNum}/${totalActs}: ${actType}</span>
+            </span>`);
+        }
+        
+        if (storyInfo.engagement_score !== undefined) {
+            const score = Math.round(storyInfo.engagement_score * 100);
+            const emoji = score >= 75 ? '🔥' : score >= 50 ? '👍' : '📊';
+            parts.push(`<span class="inline-flex items-center">
+                <span class="mr-1">${emoji}</span>
+                <span>Engagement: ${score}%</span>
+            </span>`);
+        }
+        
+        if (parts.length === 0) return '';
+        
+        return `<div class="mt-2 pt-2 border-t border-white/20 space-y-1 text-xs">
+            ${parts.join('<br>')}
+        </div>`;
+    }
+    
+    getWeatherEmoji(weatherType) {
+        const emojis = {
+            'sunny': '☀️',
+            'cloudy': '☁️',
+            'rainy': '🌧️',
+            'rad_storm': '☢️',
+            'dust_storm': '🌪️',
+            'glowing_fog': '☁️',
+            'foggy': '🌫️',
+            'snowy': '❄️'
+        };
+        return emojis[weatherType] || '🌤️';
+    }
+    
+    capitalize(str) {
+        if (!str) return '';
+        return str.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
     }
     
     async approveCurrentScript() {
@@ -411,6 +531,121 @@ class ScriptReviewApp {
             'general': '📄'
         };
         return icons[category] || '📄';
+    }
+    
+    async showTimelineView() {
+        const modal = document.getElementById('timelineModal');
+        const content = document.getElementById('timelineContent');
+        
+        modal.classList.add('active');
+        content.innerHTML = '<p class="text-gray-400 text-center py-8">Loading story timelines...</p>';
+        
+        try {
+            // Group scripts by story timeline
+            const storyScripts = this.scripts.filter(s => 
+                s.metadata.category === 'story' && s.metadata.story_info
+            );
+            
+            if (storyScripts.length === 0) {
+                content.innerHTML = `
+                    <div class="text-center text-gray-400 py-8">
+                        <div class="text-6xl mb-4">📖</div>
+                        <p class="text-xl">No story scripts found</p>
+                        <p class="mt-2">Story scripts will appear here when available.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Group by timeline
+            const byTimeline = {
+                daily: [],
+                weekly: [],
+                monthly: [],
+                yearly: []
+            };
+            
+            storyScripts.forEach(script => {
+                const timeline = (script.metadata.story_info.timeline || 'daily').toLowerCase();
+                if (byTimeline[timeline]) {
+                    byTimeline[timeline].push(script);
+                }
+            });
+            
+            // Build timeline view
+            let html = '';
+            const timelineOrder = ['daily', 'weekly', 'monthly', 'yearly'];
+            const timelineEmojis = {
+                daily: '📅',
+                weekly: '📆',
+                monthly: '🗓️',
+                yearly: '📕'
+            };
+            
+            timelineOrder.forEach(timeline => {
+                const scripts = byTimeline[timeline];
+                if (scripts.length === 0) return;
+                
+                html += `
+                    <div class="bg-gray-900 rounded-lg p-4">
+                        <h3 class="text-lg font-bold mb-3 flex items-center">
+                            <span class="text-2xl mr-2">${timelineEmojis[timeline]}</span>
+                            ${this.capitalize(timeline)} Timeline (${scripts.length} script${scripts.length > 1 ? 's' : ''})
+                        </h3>
+                        <div class="space-y-2">
+                `;
+                
+                scripts.forEach(script => {
+                    const actInfo = script.metadata.story_info.act_position;
+                    const actLabel = actInfo ? 
+                        `Act ${actInfo.index + 1}/${actInfo.total}: ${this.capitalize(actInfo.type)}` :
+                        'Unknown Act';
+                    
+                    const engagement = script.metadata.story_info.engagement_score !== undefined ?
+                        `${Math.round(script.metadata.story_info.engagement_score * 100)}%` :
+                        'N/A';
+                    
+                    html += `
+                        <div class="bg-gray-800 p-3 rounded border-l-4 border-purple-500">
+                            <div class="flex justify-between items-start">
+                                <div class="flex-1">
+                                    <div class="font-semibold">${this.escapeHtml(script.metadata.content_type)}</div>
+                                    <div class="text-sm text-gray-400 mt-1">
+                                        🎬 ${actLabel} | 📊 Engagement: ${engagement}
+                                    </div>
+                                    <div class="text-xs text-gray-500 mt-1">
+                                        ${new Date(script.metadata.timestamp).toLocaleString()}
+                                    </div>
+                                </div>
+                                <div class="text-xs bg-gray-700 px-2 py-1 rounded">
+                                    ${script.metadata.word_count} words
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                html += `
+                        </div>
+                    </div>
+                `;
+            });
+            
+            content.innerHTML = html;
+            
+        } catch (error) {
+            console.error('Error showing timeline view:', error);
+            content.innerHTML = `
+                <div class="text-center text-red-400 py-8">
+                    <p class="text-xl">Error loading timeline</p>
+                    <p class="mt-2 text-sm">${this.escapeHtml(error.message)}</p>
+                </div>
+            `;
+        }
+    }
+    
+    closeTimelineView() {
+        document.getElementById('timelineModal').classList.remove('active');
     }
 }
 
