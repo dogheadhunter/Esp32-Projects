@@ -7,8 +7,14 @@ Tracks ongoing storylines, resolved gossip, and overall world state.
 
 from typing import Dict, Any, List, Optional
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timedelta
 import json
+
+# Import weather simulator types
+try:
+    from weather_simulator import WeatherState
+except ImportError:
+    WeatherState = None  # Graceful fallback if not available
 
 
 class WorldState:
@@ -39,6 +45,13 @@ class WorldState:
         self.total_runtime_hours = 0.0
         self.major_events: List[Dict[str, Any]] = []
         self.faction_relations: Dict[str, float] = {}  # Faction: relation score (-1 to 1)
+        
+        # Weather system state (NEW - Phase 1)
+        self.weather_calendars: Dict[str, Dict] = {}  # {region: {date: {time_of_day: weather_dict}}}
+        self.current_weather_by_region: Dict[str, Dict] = {}  # {region: weather_dict}
+        self.weather_history_archive: Dict[str, Dict] = {}  # {region: {date: {time: weather_dict}}}
+        self.calendar_metadata: Dict[str, Dict] = {}  # {region: {generated_date, seed, etc}}
+        self.manual_overrides: Dict[str, Optional[Dict]] = {}  # {region: weather_dict or None}
         
         # Session tracking
         self.last_broadcast = None
@@ -176,6 +189,142 @@ class WorldState:
         # Return most recent storylines
         return self.ongoing_storylines[-max_count:] if self.ongoing_storylines else []
     
+    # Weather System Methods (NEW - Phase 1)
+    
+    def get_current_weather(self, region: str) -> Optional[Dict]:
+        """
+        Get current weather for a region.
+        
+        Args:
+            region: Region name (e.g., "Appalachia")
+        
+        Returns:
+            Weather state dict or None
+        """
+        # Check manual override first
+        if region in self.manual_overrides and self.manual_overrides[region]:
+            return self.manual_overrides[region]
+        
+        return self.current_weather_by_region.get(region)
+    
+    def update_weather_state(self, region: str, weather_dict: Dict) -> None:
+        """
+        Update current weather state for a region.
+        
+        Args:
+            region: Region name
+            weather_dict: Weather state as dictionary
+        """
+        self.current_weather_by_region[region] = weather_dict
+        self.save()
+    
+    def log_weather_history(self, region: str, timestamp: datetime, weather_dict: Dict) -> None:
+        """
+        Log weather to historical archive.
+        
+        Args:
+            region: Region name
+            timestamp: When this weather occurred
+            weather_dict: Weather state dictionary
+        """
+        if region not in self.weather_history_archive:
+            self.weather_history_archive[region] = {}
+        
+        date_str = timestamp.strftime("%Y-%m-%d")
+        time_str = timestamp.strftime("%H:%M")
+        
+        if date_str not in self.weather_history_archive[region]:
+            self.weather_history_archive[region][date_str] = {}
+        
+        self.weather_history_archive[region][date_str][time_str] = weather_dict
+        self.save()
+    
+    def get_weather_history(self, 
+                           region: str,
+                           start_date: Optional[datetime] = None,
+                           end_date: Optional[datetime] = None) -> List[Dict]:
+        """
+        Query historical weather for a region.
+        
+        Args:
+            region: Region name
+            start_date: Optional start date filter
+            end_date: Optional end date filter
+        
+        Returns:
+            List of weather state dicts
+        """
+        if region not in self.weather_history_archive:
+            return []
+        
+        history = []
+        for date_str, times in self.weather_history_archive[region].items():
+            # Filter by date range if specified
+            if start_date or end_date:
+                date_obj = datetime.fromisoformat(date_str)
+                if start_date and date_obj < start_date:
+                    continue
+                if end_date and date_obj > end_date:
+                    continue
+            
+            for time_str, weather_dict in times.items():
+                history.append(weather_dict)
+        
+        return history
+    
+    def get_notable_weather_events(self, region: str, days_back: int = 30) -> List[Dict]:
+        """
+        Get notable weather events from recent history.
+        
+        Args:
+            region: Region name
+            days_back: How many days back to search
+        
+        Returns:
+            List of notable weather events
+        """
+        end_date = datetime.now()
+        start_date = end_date - timedelta(days=days_back)
+        
+        history = self.get_weather_history(region, start_date, end_date)
+        notable = [w for w in history if w.get("notable_event", False)]
+        
+        return notable
+    
+    def set_manual_weather_override(self, region: str, weather_dict: Dict) -> None:
+        """
+        Set manual weather override for a region.
+        
+        Args:
+            region: Region name
+            weather_dict: Weather state dictionary
+        """
+        self.manual_overrides[region] = weather_dict
+        self.save()
+    
+    def clear_manual_override(self, region: str) -> None:
+        """
+        Clear manual weather override for a region.
+        
+        Args:
+            region: Region name
+        """
+        if region in self.manual_overrides:
+            self.manual_overrides[region] = None
+        self.save()
+    
+    def get_calendar_for_region(self, region: str) -> Optional[Dict]:
+        """
+        Get weather calendar for a region.
+        
+        Args:
+            region: Region name
+        
+        Returns:
+            Calendar dict or None
+        """
+        return self.weather_calendars.get(region)
+    
     def save(self) -> None:
         """Persist world state to JSON file."""
         state_dict = {
@@ -187,6 +336,12 @@ class WorldState:
             "resolved_gossip": self.resolved_gossip,
             "major_events": self.major_events,
             "faction_relations": self.faction_relations,
+            # Weather system state (NEW)
+            "weather_calendars": self.weather_calendars,
+            "current_weather_by_region": self.current_weather_by_region,
+            "weather_history_archive": self.weather_history_archive,
+            "calendar_metadata": self.calendar_metadata,
+            "manual_overrides": self.manual_overrides,
         }
         
         with open(self.persistence_path, 'w') as f:
@@ -210,6 +365,13 @@ class WorldState:
             self.major_events = state_dict.get("major_events", [])
             self.faction_relations = state_dict.get("faction_relations", {})
             
+            # Weather system state (NEW - backward compatible)
+            self.weather_calendars = state_dict.get("weather_calendars", {})
+            self.current_weather_by_region = state_dict.get("current_weather_by_region", {})
+            self.weather_history_archive = state_dict.get("weather_history_archive", {})
+            self.calendar_metadata = state_dict.get("calendar_metadata", {})
+            self.manual_overrides = state_dict.get("manual_overrides", {})
+            
         except (json.JSONDecodeError, IOError) as e:
             print(f"Warning: Could not load world state: {e}")
     
@@ -224,4 +386,10 @@ class WorldState:
             "resolved_gossip": self.resolved_gossip,
             "major_events": self.major_events,
             "faction_relations": self.faction_relations,
+            # Weather system state (NEW)
+            "weather_calendars": self.weather_calendars,
+            "current_weather_by_region": self.current_weather_by_region,
+            "weather_history_archive": self.weather_history_archive,
+            "calendar_metadata": self.calendar_metadata,
+            "manual_overrides": self.manual_overrides,
         }
