@@ -386,7 +386,19 @@ class BroadcastEngine:
                             segment_type: str,
                             template_vars: Dict[str, Any]) -> str:
         """Build RAG context query for segment type"""
-        base_query = "Appalachia West Virginia 2102"
+        # Extract location and year from DJ name
+        # Format: "DJ Name (YEAR, Location)"
+        import re
+        match = re.search(r'\((\d+),\s*([^)]+)\)', self.dj_name)
+        if match:
+            year = match.group(1)
+            location = match.group(2).strip()
+        else:
+            # Fallback to Appalachia if parsing fails
+            year = "2102"
+            location = "Appalachia West Virginia"
+        
+        base_query = f"{location} {year}"
         
         if segment_type == 'weather':
             weather_type = template_vars.get('weather_type', 'general')
@@ -401,7 +413,13 @@ class BroadcastEngine:
             return f"{base_query} gossip {rumor_type} rumors stories"
         
         elif segment_type == 'time':
-            return f"{base_query} Vault 76 schedule daily life"
+            # Use location-specific landmarks
+            if 'Mojave' in location:
+                return f"{base_query} New Vegas Strip casinos daily life"
+            elif 'Commonwealth' in location:
+                return f"{base_query} Diamond City settlement schedule"
+            else:
+                return f"{base_query} Vault 76 schedule daily life"
         
         return base_query
     

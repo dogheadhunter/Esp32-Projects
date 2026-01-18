@@ -10,7 +10,19 @@ class Settings(BaseSettings):
 
     # API Settings
     api_token: str = Field(default="change-me-in-production", validation_alias="SCRIPT_REVIEW_TOKEN")
-    allowed_origins: list[str] = ["*"]
+    allowed_origins: list[str] = Field(default=["*"])
+    production_domain: str | None = Field(default=None, validation_alias="PRODUCTION_DOMAIN")
+    
+    def get_cors_origins(self) -> list[str]:
+        """Get CORS origins based on environment."""
+        if self.production_domain:
+            return [
+                f"https://{self.production_domain}",
+                f"http://{self.production_domain}",
+                "http://localhost:8000",
+                "http://127.0.0.1:8000"
+            ]
+        return self.allowed_origins
     
     # Paths
     scripts_base_path: Path = Path(__file__).parent.parent.parent.parent / "output" / "scripts"
