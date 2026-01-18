@@ -55,9 +55,14 @@ class API {
         }
     }
     
-    async getScripts(djFilter = null) {
-        const query = djFilter ? `?dj=${encodeURIComponent(djFilter)}` : '';
-        return this.request(`/api/scripts${query}`);
+    async getScripts(djFilter = null, page = 1, pageSize = 20) {
+        const params = new URLSearchParams();
+        if (djFilter) params.append('dj', djFilter);
+        params.append('page', page);
+        params.append('page_size', pageSize);
+        
+        const query = params.toString();
+        return this.request(`/api/scripts?${query}`);
     }
     
     async reviewScript(scriptId, status, reasonId = null, customComment = null) {

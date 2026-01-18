@@ -12,6 +12,10 @@ class ScriptReviewApp {
         
         // Set up auth event listeners first (always needed)
         document.getElementById('loginBtn').addEventListener('click', () => this.handleLogin());
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.handleLogin();
+        });
         document.getElementById('apiToken').addEventListener('keypress', (e) => {
             if (e.key === 'Enter') this.handleLogin();
         });
@@ -39,6 +43,9 @@ class ScriptReviewApp {
     }
     
     setupEventListeners() {
+        if (this.listenersAttached) return;
+        this.listenersAttached = true;
+
         // Action buttons
         document.getElementById('approveBtn').addEventListener('click', () => this.approveCurrentScript());
         document.getElementById('rejectBtn').addEventListener('click', () => this.rejectCurrentScript());
@@ -87,6 +94,9 @@ class ScriptReviewApp {
             await api.getStats();
             document.getElementById('authModal').classList.remove('active');
             
+            // Setup listeners after login
+            this.setupEventListeners();
+            
             // Load data
             await this.loadReasons();
             await this.loadScripts();
@@ -123,8 +133,12 @@ class ScriptReviewApp {
         const djFilter = document.getElementById('djFilter').value;
         
         try {
-            this.scripts = await api.getScripts(djFilter || null);
+            const response = await api.getScripts(djFilter || null, 1, 20);
+            this.scripts = response.scripts;
             this.currentIndex = 0;
+            this.totalPages = response.total_pages;
+            this.currentPage = response.page;
+            this.hasMore = response.has_more;
             
             // Populate DJ filter if empty
             this.populateDJFilter();
@@ -200,7 +214,7 @@ class ScriptReviewApp {
                     </p>
                 </div>
                 
-                <div class="flex-1 overflow-y-auto p-6">
+                <div class="p-6">
                     <div class="prose prose-invert max-w-none">
                         <p class="whitespace-pre-wrap leading-relaxed">${this.escapeHtml(script.content)}</p>
                     </div>
@@ -211,15 +225,11 @@ class ScriptReviewApp {
         container.innerHTML = '';
         container.appendChild(card);
         
-        // Initialize swipe handler
+        // Swipe disabled - buttons work better on mobile with scrolling
         if (this.swipeHandler) {
             this.swipeHandler.destroy();
+            this.swipeHandler = null;
         }
-        
-        this.swipeHandler = new SwipeHandler(card, {
-            onApprove: () => this.approveCurrentScript(),
-            onReject: () => this.rejectCurrentScript()
-        });
     }
     
     async approveCurrentScript() {

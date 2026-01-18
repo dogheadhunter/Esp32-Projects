@@ -7,8 +7,8 @@
     <meta name="theme-color" content="#1a1a1a">
     <title>DJ Script Review</title>
     
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind CSS - Local Build (v3) -->
+    <link rel="stylesheet" href="/static/tailwind.min.css">
     
     <!-- Custom styles -->
     <style>
@@ -22,21 +22,19 @@
             position: relative;
             width: 100%;
             max-width: 500px;
-            height: 600px;
+            min-height: 400px;
             margin: 0 auto;
         }
         
         .review-card {
-            position: absolute;
+            position: relative;
             width: 100%;
-            height: 100%;
             border-radius: 16px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             transition: transform 0.3s ease, opacity 0.3s ease;
             cursor: grab;
             user-select: none;
             -webkit-user-select: none;
-            touch-action: none;
         }
         
         .review-card:active {
@@ -190,7 +188,7 @@
         
         <!-- Keyboard Hints -->
         <div class="text-center mt-6 text-sm text-gray-500">
-            <p>Swipe or use keyboard: ← Reject | → Approve</p>
+            <p>Use buttons to review | Keyboard: ← Reject | → Approve</p>
         </div>
         
     </main>
@@ -226,14 +224,19 @@
             <h2 class="text-xl font-bold mb-4">Enter API Token</h2>
             <p class="text-gray-400 mb-4">Please enter your API token to access the script review app.</p>
             
-            <input type="password" 
-                   id="apiToken" 
-                   class="w-full bg-gray-700 text-white px-4 py-2 rounded-lg mb-4 border border-gray-600 focus:outline-none focus:border-blue-500" 
-                   placeholder="API Token">
-            
-            <button id="loginBtn" class="w-full bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition">
-                Login
-            </button>
+            <form id="loginForm" onsubmit="return false;">
+                <input type="password" 
+                       id="apiToken" 
+                       name="token"
+                       autocomplete="off"
+                       class="w-full bg-gray-700 text-white px-4 py-2 rounded-lg mb-4 border border-gray-600 focus:outline-none focus:border-blue-500" 
+                       placeholder="API Token"
+                       aria-label="API Token">
+                
+                <button type="submit" id="loginBtn" class="w-full bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition">
+                    Login
+                </button>
+            </form>
             
             <p class="text-xs text-gray-500 mt-4">
                 Set SCRIPT_REVIEW_TOKEN in your environment to configure the token.

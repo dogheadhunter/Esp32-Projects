@@ -11,15 +11,17 @@ class SwipeHandler {
         this.currentX = 0;
         this.currentY = 0;
         this.isDragging = false;
-        this.threshold = 100; // pixels to trigger swipe
+        this.isScrolling = false;
+        this.threshold = 200; // Increased from 100 to 200 pixels for clearer intent
+        this.scrollThreshold = 15; // If vertical movement exceeds this, treat as scroll
         
         this.init();
     }
     
     init() {
         // Touch events
-        this.element.addEventListener('touchstart', this.handleStart.bind(this));
-        this.element.addEventListener('touchmove', this.handleMove.bind(this));
+        this.element.addEventListener('touchstart', this.handleStart.bind(this), { passive: true });
+        this.element.addEventListener('touchmove', this.handleMove.bind(this), { passive: false });
         this.element.addEventListener('touchend', this.handleEnd.bind(this));
         
         // Mouse events for desktop testing
@@ -30,6 +32,13 @@ class SwipeHandler {
     }
     
     handleStart(e) {
+        // Check if touch started on scrollable content area
+        const target = e.target || e.touches?.[0]?.target;
+        if (target && target.closest('.overflow-y-auto')) {
+            // Don't interfere with scrolling
+            return;
+        }
+        
         if (e.type === 'mousedown') {
             this.startX = e.clientX;
             this.startY = e.clientY;
@@ -38,25 +47,51 @@ class SwipeHandler {
             this.startY = e.touches[0].clientY;
         }
         
-        this.isDragging = true;
-        this.element.classList.add('swiping');
+        // Don't set isDragging yet - wait for move to determine intent
+        this.isDragging = false;
+        this.isScrolling = false;
+        this.intentDetermined = false;
     }
     
     handleMove(e) {
-        if (!this.isDragging) return;
-        
-        e.preventDefault();
+        if (this.isScrolling) return;
         
         if (e.type === 'mousemove') {
             this.currentX = e.clientX;
             this.currentY = e.clientY;
-        } else {
+        } else if (e.touches && e.touches.length > 0) {
             this.currentX = e.touches[0].clientX;
             this.currentY = e.touches[0].clientY;
+        } else {
+            return;
         }
         
         const diffX = this.currentX - this.startX;
         const diffY = this.currentY - this.startY;
+        
+        // Determine intent on first significant movement
+        if (!this.intentDetermined && (Math.abs(diffX) > this.scrollThreshold || Math.abs(diffY) > this.scrollThreshold)) {
+            this.intentDetermined = true;
+            
+            // If vertical movement is dominant, this is a scroll
+            if (Math.abs(diffY) > Math.abs(diffX)) {
+                this.isScrolling = true;
+                return;
+            }
+            
+            // If horizontal movement is dominant, this is a swipe
+            if (Math.abs(diffX) > Math.abs(diffY)) {
+                this.isDragging = true;
+                this.element.classList.add('swiping');
+            }
+        }
+        
+        // Only proceed if we've determined this is a swipe
+        if (!this.isDragging) return;
+        
+        // Prevent default scroll only for confirmed swipe
+        e.preventDefault();
+        
         const rotation = diffX / 10;
         
         // Apply transform
@@ -79,9 +114,20 @@ class SwipeHandler {
     }
     
     handleEnd(e) {
-        if (!this.isDragging) return;
+        if (this.isScrolling) {
+            this.isDragging = false;
+            this.isScrolling = false;
+            this.intentDetermined = false;
+            return;
+        }
+        
+        if (!this.isDragging) {
+            this.intentDetermined = false;
+            return;
+        }
         
         this.isDragging = false;
+        this.intentDetermined = false;
         this.element.classList.remove('swiping');
         
         const diffX = this.currentX - this.startX;

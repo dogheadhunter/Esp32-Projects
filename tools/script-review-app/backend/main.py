@@ -61,24 +61,36 @@ async def health_check():
     return {"status": "healthy", "version": "1.0.0"}
 
 
-@app.get("/api/scripts", response_model=list[Script])
+@app.get("/api/scripts")
 async def get_scripts(
     dj: str | None = Query(None, description="Filter by DJ name"),
+    page: int = Query(1, ge=1, description="Page number (1-indexed)"),
+    page_size: int = Query(20, ge=1, le=100, description="Scripts per page"),
     _: None = Depends(verify_token)
 ):
     """
-    Get list of pending scripts to review.
+    Get paginated list of pending scripts to review.
     
     Args:
         dj: Optional DJ name filter
+        page: Page number (default 1)
+        page_size: Scripts per page (default 20, max 100)
         
     Returns:
-        List of pending scripts
+        Paginated list with scripts and metadata
     """
     try:
-        scripts = storage.list_pending_scripts(dj_filter=dj)
-        logger.info(f"Retrieved {len(scripts)} pending scripts (DJ filter: {dj})")
-        return scripts
+        scripts, total_count = storage.list_pending_scripts(dj_filter=dj, page=page, page_size=page_size)
+        logger.info(f"Retrieved {len(scripts)} scripts (page {page}, total: {total_count}, DJ filter: {dj})")
+        
+        return {
+            "scripts": scripts,
+            "page": page,
+            "page_size": page_size,
+            "total_count": total_count,
+            "total_pages": (total_count + page_size - 1) // page_size,
+            "has_more": page * page_size < total_count
+        }
     except Exception as e:
         logger.error(f"Error retrieving scripts: {e}")
         raise HTTPException(status_code=500, detail=f"Error retrieving scripts: {str(e)}")

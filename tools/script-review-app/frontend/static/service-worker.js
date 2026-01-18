@@ -2,12 +2,13 @@
  * Service Worker for offline support
  */
 
-const CACHE_NAME = 'script-review-v1';
+const CACHE_NAME = 'script-review-v2';
 const urlsToCache = [
     '/',
     '/static/app.js',
     '/static/api.js',
     '/static/swipe.js',
+    '/static/tailwind.min.css',
     '/static/manifest.json'
 ];
 

@@ -10,7 +10,7 @@ class Settings(BaseSettings):
 
     # API Settings
     api_token: str = Field(default="change-me-in-production", validation_alias="SCRIPT_REVIEW_TOKEN")
-    allowed_origins: list[str] = ["http://localhost:8000", "http://127.0.0.1:8000"]
+    allowed_origins: list[str] = ["*"]
     
     # Paths
     scripts_base_path: Path = Path(__file__).parent.parent.parent.parent / "output" / "scripts"

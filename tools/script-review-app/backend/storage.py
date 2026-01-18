@@ -66,15 +66,17 @@ class ScriptStorage:
             logger.error(f"Error reading file {filepath}: {e}")
             return ""
     
-    def list_pending_scripts(self, dj_filter: str | None = None) -> List[Script]:
+    def list_pending_scripts(self, dj_filter: str | None = None, page: int = 1, page_size: int = 20) -> tuple[List[Script], int]:
         """
-        List all pending scripts, optionally filtered by DJ.
+        List pending scripts with pagination, optionally filtered by DJ.
         
         Args:
             dj_filter: Optional DJ name to filter by
+            page: Page number (1-indexed)
+            page_size: Number of scripts per page
             
         Returns:
-            List of Script objects
+            Tuple of (scripts list, total count)
         """
         scripts = []
         
@@ -105,7 +107,13 @@ class ScriptStorage:
         
         # Sort by timestamp (newest first)
         scripts.sort(key=lambda x: x.metadata.timestamp, reverse=True)
-        return scripts
+        
+        # Calculate pagination
+        total_count = len(scripts)
+        start_idx = (page - 1) * page_size
+        end_idx = start_idx + page_size
+        
+        return scripts[start_idx:end_idx], total_count
     
     def approve_script(self, script_id: str) -> bool:
         """

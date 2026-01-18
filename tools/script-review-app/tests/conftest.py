@@ -5,6 +5,7 @@ from playwright.sync_api import sync_playwright
 import subprocess
 import time
 import os
+from pathlib import Path
 
 
 @pytest.fixture(scope="session")
@@ -14,10 +15,13 @@ def server():
     os.environ["SCRIPT_REVIEW_TOKEN"] = "test-token-123"
     os.environ["LOG_LEVEL"] = "ERROR"  # Reduce log noise during tests
     
+    # Get correct working directory (script-review-app root)
+    app_dir = Path(__file__).parent.parent
+    
     # Start server
     process = subprocess.Popen(
         ["python", "-m", "backend.main"],
-        cwd="/home/runner/work/Esp32-Projects/Esp32-Projects/tools/script-review-app",
+        cwd=str(app_dir),
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE
     )
