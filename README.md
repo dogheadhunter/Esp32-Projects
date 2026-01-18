@@ -82,15 +82,17 @@ The file system is organized to support a modular content generation pipeline, s
 
 ### 2. **Python Tools**
 
+*   **`tools/script-generator/`**
+    *   **Main Production System**: `broadcast_engine.py`
+    *   RAG-powered script generation using ChromaDB + Ollama
+    *   DJ knowledge profiles and session memory
+    *   Jinja2 templates for different script types
+    *   Complete test suite in `tests/`
+
 *   **`tools/wiki_to_chromadb/`**
     *   Complete pipeline for Fallout Wiki → ChromaDB ingestion
     *   87 passing tests, 40% code coverage
     *   See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for details
-
-*   **`tools/script-generator/`**
-    *   RAG-powered script generation
-    *   Uses ChromaDB + Ollama LLM
-    *   Jinja2 templates for different script types
 
 *   **`tools/shared/`**
     *   Centralized configuration (`project_config.py`)
@@ -103,11 +105,17 @@ The file system is organized to support a modular content generation pipeline, s
     *   `run_tests.bat`, `ingest_wiki.bat`, `backup_database.bat`
     *   All scripts use `cd /d %~dp0..` for portability
 
-### 3. **Firmware (PlatformIO)**
+### 4. **Archive**
+
+*   **`archive/`**
+    *   Legacy scripts and old documentation
+    *   See `archive/README.md` for details
+    *   Files preserved for reference but superseded by current system
+
+### 5. **Firmware (PlatformIO)**
 *   **`firmware/`**: Contains the C++ firmware code (`main.cpp`) for the ESP32.
     *   Built using PlatformIO with ESP32 platform and Arduino framework.
     *   Audio playback via ESP8266Audio library.
-*   **`lib/`**: Shared C++ libraries.
 *   **`platformio.ini`**: Build configuration and dependencies.
 
 ---
