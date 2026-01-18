@@ -204,8 +204,8 @@ class ScriptReviewApp {
             <div class="approve-indicator">✓</div>
             <div class="reject-indicator">✗</div>
             
-            <div class="h-full flex flex-col">
-                <div class="bg-gradient-to-r from-blue-600 to-purple-600 p-4">
+            <div class="h-full flex flex-col" style="max-height: 70vh;">
+                <div class="bg-gradient-to-r from-blue-600 to-purple-600 p-4 flex-shrink-0">
                     <h2 class="text-xl font-bold">${this.escapeHtml(script.metadata.dj)}</h2>
                     <p class="text-sm opacity-90">${this.escapeHtml(script.metadata.content_type)}</p>
                     <p class="text-xs opacity-75 mt-1">
@@ -214,7 +214,7 @@ class ScriptReviewApp {
                     </p>
                 </div>
                 
-                <div class="p-6">
+                <div class="p-6 overflow-y-auto flex-1 scrollable-content" style="overscroll-behavior: contain; -webkit-overflow-scrolling: touch;">
                     <div class="prose prose-invert max-w-none">
                         <p class="whitespace-pre-wrap leading-relaxed">${this.escapeHtml(script.content)}</p>
                     </div>

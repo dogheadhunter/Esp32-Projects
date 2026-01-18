@@ -45,6 +45,18 @@
             transition: none;
         }
         
+        /* Allow scrolling in content area */
+        .scrollable-content {
+            touch-action: pan-y;
+            cursor: default;
+            user-select: text;
+            -webkit-user-select: text;
+        }
+        
+        .scrollable-content:active {
+            cursor: default;
+        }
+        
         .review-card.approved {
             animation: swipeRight 0.3s ease-out forwards;
         }
