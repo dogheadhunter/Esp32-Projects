@@ -365,4 +365,3 @@ class SessionMemory:
             List of recent story beat dictionaries
         """
         return self.recent_story_beats[-count:]
-        ]
