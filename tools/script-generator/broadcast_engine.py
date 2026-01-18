@@ -486,6 +486,29 @@ class BroadcastEngine:
                         'time_of_day': time_of_day.name.lower()
                     }
                     
+                    # Phase 3: Add weather continuity context
+                    weather_continuity = self.session_memory.get_weather_continuity_context(
+                        region=self.region.value,
+                        current_weather_dict=current_weather.to_dict()
+                    )
+                    weather_vars['weather_continuity'] = weather_continuity
+                    
+                    # Phase 3: Add notable recent weather events
+                    notable_events = self.world_state.get_notable_weather_events(
+                        region=self.region.value,
+                        days_back=30
+                    )
+                    if notable_events:
+                        # Convert to simple dicts for template
+                        notable_list = []
+                        for event in notable_events[:3]:  # Max 3 events
+                            notable_list.append({
+                                'weather_type': event.get('weather_type'),
+                                'date': event.get('started_at', 'recent'),
+                                'intensity': event.get('intensity', 'moderate')
+                            })
+                        weather_vars['notable_weather_events'] = notable_list
+                    
                     # Get additional weather template vars (survival tips, etc.)
                     additional_vars = get_weather_template_vars(
                         current_weather.weather_type,

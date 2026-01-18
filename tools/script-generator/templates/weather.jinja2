@@ -43,6 +43,24 @@ WEATHER DETAILS:
 - Temperature: {{ temperature }}°F
 - Hour: {{ hour }}:00
 
+{% if weather_continuity %}
+WEATHER CONTINUITY CONTEXT:
+{% if weather_continuity.weather_changed and weather_continuity.continuity_phrase %}
+- Weather Update: {{ weather_continuity.continuity_phrase }}
+- IMPORTANT: Acknowledge this weather change naturally in your report
+{% endif %}
+{% if weather_continuity.last_weather_type %}
+- Previous weather: {{ weather_continuity.last_weather_type }}
+{% endif %}
+{% endif %}
+
+{% if notable_weather_events %}
+RECENT NOTABLE WEATHER (can reference if relevant):
+{% for event in notable_weather_events[:2] %}
+- {{ event.weather_type }} on {{ event.date }} ({{ event.intensity }})
+{% endfor %}
+{% endif %}
+
 REQUIREMENTS:
 - Stay in character as {{ personality.name }}
 - Reference Appalachia locations (West Virginia) if relevant
@@ -52,6 +70,9 @@ REQUIREMENTS:
 - Do NOT mention game mechanics or meta information
 - Use present tense (you're broadcasting live in 2102)
 - Include weather-appropriate advice for wastelanders
+{% if weather_continuity.weather_changed %}
+- CRITICAL: Naturally acknowledge the weather change from {{ weather_continuity.last_weather_type }} to {{ weather_type }}
+{% endif %}
 {% if catchphrase.should_use and catchphrase.opening %}
 - CRITICAL: Begin with "{{ catchphrase.opening }}"
 {% endif %}
