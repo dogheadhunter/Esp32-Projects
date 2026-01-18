@@ -227,10 +227,72 @@
                 </button>
             </div>
             
+            <!-- Advanced Filters Toggle -->
+            <div class="flex justify-center">
+                <button id="advancedFiltersToggle" class="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg transition text-sm font-medium flex items-center gap-2">
+                    <span>⚙️ Advanced Filters</span>
+                    <span id="advFilterIndicator" class="text-xs bg-blue-600 px-2 py-1 rounded-full hidden">Active</span>
+                </button>
+            </div>
+            
+            <!-- Advanced Filters Panel (Collapsible) -->
+            <div id="advancedFiltersPanel" class="hidden bg-gray-800 rounded-lg p-4 space-y-3">
+                <!-- Status Filter -->
+                <div>
+                    <label class="block text-sm font-medium mb-2">Status</label>
+                    <select id="statusFilter" class="w-full bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 focus:outline-none focus:border-blue-500">
+                        <option value="">All Status</option>
+                        <option value="pending">Pending Review</option>
+                        <option value="approved">Approved</option>
+                        <option value="rejected">Rejected</option>
+                    </select>
+                </div>
+                
+                <!-- Date Range Filter -->
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-sm font-medium mb-2">From Date</label>
+                        <input type="date" id="dateFromFilter" class="w-full bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 focus:outline-none focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">To Date</label>
+                        <input type="date" id="dateToFilter" class="w-full bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 focus:outline-none focus:border-blue-500">
+                    </div>
+                </div>
+                
+                <!-- Weather Type Filter (shown only when category=weather) -->
+                <div id="weatherTypeFilterContainer" class="hidden">
+                    <label class="block text-sm font-medium mb-2">Weather Type</label>
+                    <select id="weatherTypeFilter" class="w-full bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 focus:outline-none focus:border-blue-500">
+                        <option value="">All Weather Types</option>
+                        <option value="sunny">☀️ Sunny</option>
+                        <option value="rainy">🌧️ Rainy</option>
+                        <option value="cloudy">☁️ Cloudy</option>
+                        <option value="foggy">🌫️ Foggy</option>
+                        <option value="rad storm">☢️ Rad Storm</option>
+                        <option value="dust storm">🌪️ Dust Storm</option>
+                        <option value="glowing fog">💚 Glowing Fog</option>
+                    </select>
+                </div>
+                
+                <!-- Filter Actions -->
+                <div class="flex gap-2 pt-2">
+                    <button id="applyAdvFilters" class="flex-1 bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded transition font-medium">
+                        Apply Filters
+                    </button>
+                    <button id="resetAdvFilters" class="bg-gray-600 hover:bg-gray-500 px-4 py-2 rounded transition font-medium">
+                        Reset
+                    </button>
+                </div>
+            </div>
+            
             <!-- Action Buttons -->
-            <div class="flex justify-center gap-3">
+            <div class="flex justify-center gap-3 flex-wrap">
                 <button id="refreshBtn" class="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition font-medium">
                     🔄 Refresh
+                </button>
+                <button id="statsBtn" class="bg-green-600 hover:bg-green-700 px-6 py-2 rounded-lg transition font-medium">
+                    📊 Stats
                 </button>
                 <button id="timelineViewBtn" class="bg-purple-600 hover:bg-purple-700 px-6 py-2 rounded-lg transition font-medium hidden">
                     📚 Story Timelines
@@ -290,6 +352,20 @@
             
             <div id="timelineContent" class="space-y-6">
                 <p class="text-gray-400 text-center py-8">Loading story timelines...</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Stats Dashboard Modal -->
+    <div id="statsModal" class="modal">
+        <div class="bg-gray-800 rounded-lg p-6 max-w-4xl w-full mx-4 shadow-2xl max-h-[80vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold">📊 Review Statistics</h2>
+                <button id="closeStatsView" class="text-gray-400 hover:text-white text-3xl leading-none">×</button>
+            </div>
+            
+            <div id="statsContent" class="space-y-6">
+                <p class="text-gray-400 text-center py-8">Loading statistics...</p>
             </div>
         </div>
     </div>

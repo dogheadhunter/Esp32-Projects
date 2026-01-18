@@ -11,6 +11,10 @@ class ScriptReviewApp {
         this.pendingRejectScript = null;
         this.selectedDJ = '';
         this.selectedCategory = '';
+        this.selectedStatus = '';
+        this.selectedWeatherType = '';
+        this.dateFrom = '';
+        this.dateTo = '';
         this.djs = [];
         
         // Set up auth event listeners first (always needed)
@@ -81,11 +85,29 @@ class ScriptReviewApp {
                 
                 // Update filter and reload
                 this.selectedCategory = e.target.dataset.category;
+                
+                // Show/hide weather type filter based on category
+                const weatherTypeContainer = document.getElementById('weatherTypeFilterContainer');
+                if (this.selectedCategory === 'weather') {
+                    weatherTypeContainer.classList.remove('hidden');
+                } else {
+                    weatherTypeContainer.classList.add('hidden');
+                }
+                
                 this.loadScripts();
             });
         });
         
+        // Advanced Filters
+        document.getElementById('advancedFiltersToggle').addEventListener('click', () => this.toggleAdvancedFilters());
+        document.getElementById('applyAdvFilters').addEventListener('click', () => this.applyAdvancedFilters());
+        document.getElementById('resetAdvFilters').addEventListener('click', () => this.resetAdvancedFilters());
+        
         document.getElementById('refreshBtn').addEventListener('click', () => this.refresh());
+        
+        // Stats dashboard
+        document.getElementById('statsBtn').addEventListener('click', () => this.showStatsView());
+        document.getElementById('closeStatsView').addEventListener('click', () => this.closeStatsView());
         
         // Timeline view
         document.getElementById('timelineViewBtn').addEventListener('click', () => this.showTimelineView());
@@ -168,9 +190,26 @@ class ScriptReviewApp {
     async loadScripts() {
         const djFilter = this.selectedDJ || null;
         const categoryFilter = this.selectedCategory || null;
+        const statusFilter = this.selectedStatus || null;
+        const weatherTypeFilter = this.selectedWeatherType || null;
+        const dateFrom = this.dateFrom || null;
+        const dateTo = this.dateTo || null;
+        
+        // Show loading state
+        const container = document.getElementById('cardContainer');
+        container.innerHTML = '<div class="text-center text-gray-400 py-8">Loading scripts...</div>';
         
         try {
-            const response = await api.getScripts(djFilter, categoryFilter, 1, 20);
+            const response = await api.getScripts(
+                djFilter, 
+                categoryFilter, 
+                statusFilter, 
+                weatherTypeFilter,
+                dateFrom,
+                dateTo,
+                1, 
+                20
+            );
             this.scripts = response.scripts;
             this.currentIndex = 0;
             this.totalPages = response.total_pages;
@@ -646,6 +685,194 @@ class ScriptReviewApp {
     
     closeTimelineView() {
         document.getElementById('timelineModal').classList.remove('active');
+    }
+    
+    toggleAdvancedFilters() {
+        const panel = document.getElementById('advancedFiltersPanel');
+        const toggle = document.getElementById('advancedFiltersToggle');
+        
+        if (panel.classList.contains('hidden')) {
+            panel.classList.remove('hidden');
+            toggle.textContent = '⚙️ Hide Advanced Filters';
+        } else {
+            panel.classList.add('hidden');
+            toggle.textContent = '⚙️ Advanced Filters';
+        }
+    }
+    
+    applyAdvancedFilters() {
+        // Get filter values
+        this.selectedStatus = document.getElementById('statusFilter').value;
+        this.selectedWeatherType = document.getElementById('weatherTypeFilter').value;
+        this.dateFrom = document.getElementById('dateFromFilter').value;
+        this.dateTo = document.getElementById('dateToFilter').value;
+        
+        // Update indicator
+        const hasActiveFilters = this.selectedStatus || this.selectedWeatherType || this.dateFrom || this.dateTo;
+        const indicator = document.getElementById('advFilterIndicator');
+        
+        if (hasActiveFilters) {
+            indicator.classList.remove('hidden');
+        } else {
+            indicator.classList.add('hidden');
+        }
+        
+        // Reload scripts with new filters
+        this.loadScripts();
+        
+        this.showToast('Filters applied', 'success');
+    }
+    
+    resetAdvancedFilters() {
+        // Clear filter values
+        document.getElementById('statusFilter').value = '';
+        document.getElementById('weatherTypeFilter').value = '';
+        document.getElementById('dateFromFilter').value = '';
+        document.getElementById('dateToFilter').value = '';
+        
+        // Clear state
+        this.selectedStatus = '';
+        this.selectedWeatherType = '';
+        this.dateFrom = '';
+        this.dateTo = '';
+        
+        // Hide indicator
+        document.getElementById('advFilterIndicator').classList.add('hidden');
+        
+        // Reload scripts
+        this.loadScripts();
+        
+        this.showToast('Filters reset', 'success');
+    }
+    
+    async showStatsView() {
+        const modal = document.getElementById('statsModal');
+        const content = document.getElementById('statsContent');
+        
+        modal.classList.add('active');
+        content.innerHTML = '<p class="text-gray-400 text-center py-8">Loading statistics...</p>';
+        
+        try {
+            const stats = await api.getDetailedStats();
+            
+            let html = `
+                <!-- Overview Section -->
+                <div class="bg-gray-700 rounded-lg p-6">
+                    <h3 class="text-xl font-bold mb-4">📊 Overview</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="bg-gray-800 p-4 rounded text-center">
+                            <div class="text-3xl font-bold text-yellow-400">${stats.overview.total_pending}</div>
+                            <div class="text-sm text-gray-400 mt-1">Pending</div>
+                        </div>
+                        <div class="bg-gray-800 p-4 rounded text-center">
+                            <div class="text-3xl font-bold text-green-400">${stats.overview.total_approved}</div>
+                            <div class="text-sm text-gray-400 mt-1">Approved</div>
+                        </div>
+                        <div class="bg-gray-800 p-4 rounded text-center">
+                            <div class="text-3xl font-bold text-red-400">${stats.overview.total_rejected}</div>
+                            <div class="text-sm text-gray-400 mt-1">Rejected</div>
+                        </div>
+                        <div class="bg-gray-800 p-4 rounded text-center">
+                            <div class="text-3xl font-bold text-blue-400">${stats.overview.approval_rate}%</div>
+                            <div class="text-sm text-gray-400 mt-1">Approval Rate</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Category Breakdown -->
+                <div class="bg-gray-700 rounded-lg p-6">
+                    <h3 class="text-xl font-bold mb-4">📂 By Category</h3>
+                    <div class="space-y-3">
+            `;
+            
+            Object.entries(stats.by_category).forEach(([category, counts]) => {
+                const total = counts.pending + counts.approved + counts.rejected;
+                const categoryIcon = this.getCategoryIcon(category);
+                
+                html += `
+                    <div class="bg-gray-800 p-4 rounded">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="font-medium">${categoryIcon} ${this.capitalize(category)}</span>
+                            <span class="text-gray-400 text-sm">Total: ${total}</span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2 text-sm">
+                            <div class="text-center">
+                                <div class="text-yellow-400">${counts.pending}</div>
+                                <div class="text-gray-500 text-xs">Pending</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-green-400">${counts.approved}</div>
+                                <div class="text-gray-500 text-xs">Approved</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-red-400">${counts.rejected}</div>
+                                <div class="text-gray-500 text-xs">Rejected</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += `
+                    </div>
+                </div>
+                
+                <!-- DJ Breakdown -->
+                <div class="bg-gray-700 rounded-lg p-6">
+                    <h3 class="text-xl font-bold mb-4">🎙️ By DJ</h3>
+                    <div class="space-y-3">
+            `;
+            
+            Object.entries(stats.by_dj).forEach(([dj, counts]) => {
+                const total = counts.pending + counts.approved + counts.rejected;
+                const approvalRate = (counts.approved + counts.rejected) > 0 
+                    ? Math.round((counts.approved / (counts.approved + counts.rejected)) * 100)
+                    : 0;
+                
+                html += `
+                    <div class="bg-gray-800 p-4 rounded">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="font-medium">${this.escapeHtml(dj)}</span>
+                            <span class="text-gray-400 text-sm">Approval: ${approvalRate}%</span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2 text-sm">
+                            <div class="text-center">
+                                <div class="text-yellow-400">${counts.pending}</div>
+                                <div class="text-gray-500 text-xs">Pending</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-green-400">${counts.approved}</div>
+                                <div class="text-gray-500 text-xs">Approved</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-red-400">${counts.rejected}</div>
+                                <div class="text-gray-500 text-xs">Rejected</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += `
+                    </div>
+                </div>
+            `;
+            
+            content.innerHTML = html;
+            
+        } catch (error) {
+            console.error('Error showing stats:', error);
+            content.innerHTML = `
+                <div class="text-center text-red-400 py-8">
+                    <p class="text-xl">Error loading statistics</p>
+                    <p class="mt-2 text-sm">${this.escapeHtml(error.message)}</p>
+                </div>
+            `;
+        }
+    }
+    
+    closeStatsView() {
+        document.getElementById('statsModal').classList.remove('active');
     }
 }
 
