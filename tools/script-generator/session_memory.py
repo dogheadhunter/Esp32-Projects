@@ -365,10 +365,4 @@ class SessionMemory:
             List of recent story beat dictionaries
         """
         return self.recent_story_beats[-count:]
-        self.segment_count = data["segment_count"]
-        self.catchphrase_history = data["catchphrase_history"]
-        self.mentioned_topics = data["mentioned_topics"]
-        self.recent_scripts = [
-            ScriptEntry(**script_data) 
-            for script_data in data["recent_scripts"]
         ]

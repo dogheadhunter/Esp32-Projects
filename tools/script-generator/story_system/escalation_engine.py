@@ -10,7 +10,7 @@ Transforms stories from one timeline to another (e.g., daily → weekly):
 Escalation formula: base_prob * engagement * faction_bonus * location_bonus
 """
 
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple, Any
 from datetime import datetime
 import random
 import copy
@@ -388,7 +388,7 @@ class EscalationEngine:
         
         self.escalation_history.append(record)
     
-    def get_escalation_stats(self) -> Dict[str, any]:
+    def get_escalation_stats(self) -> Dict[str, Any]:
         """
         Get escalation statistics.
         

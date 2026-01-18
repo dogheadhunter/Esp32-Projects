@@ -10,7 +10,7 @@ Combines story beats into broadcast-ready narrative text:
 Uses Fichtean curve for pacing (multiple rising crises).
 """
 
-from typing import List, Dict, Optional, Tuple
+from typing import List, Dict, Any, Optional, Tuple
 from datetime import datetime
 import random
 
@@ -49,7 +49,7 @@ class StoryWeaver:
         """
         self.state = story_state
     
-    def weave_beats(self, beats: List[StoryBeat]) -> Dict[str, any]:
+    def weave_beats(self, beats: List[StoryBeat]) -> Dict[str, Any]:
         """
         Weave story beats into broadcast structure.
         
@@ -186,7 +186,7 @@ class StoryWeaver:
         
         return callbacks
     
-    def _find_related_archived_stories(self, beat: StoryBeat) -> List[Dict[str, any]]:
+    def _find_related_archived_stories(self, beat: StoryBeat) -> List[Dict[str, Any]]:
         """
         Find archived stories related to current beat.
         
@@ -225,7 +225,7 @@ class StoryWeaver:
         
         return related
     
-    def _create_callback(self, beat: StoryBeat, related: Dict[str, any]) -> Optional[Dict[str, str]]:
+    def _create_callback(self, beat: StoryBeat, related: Dict[str, Any]) -> Optional[Dict[str, str]]:
         """
         Create callback reference text.
         
