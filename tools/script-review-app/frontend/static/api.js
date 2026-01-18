@@ -55,9 +55,10 @@ class API {
         }
     }
     
-    async getScripts(djFilter = null, page = 1, pageSize = 20) {
+    async getScripts(djFilter = null, categoryFilter = null, page = 1, pageSize = 20) {
         const params = new URLSearchParams();
         if (djFilter) params.append('dj', djFilter);
+        if (categoryFilter) params.append('category', categoryFilter);
         params.append('page', page);
         params.append('page_size', pageSize);
         
@@ -90,6 +91,10 @@ class API {
     
     async getStats() {
         return this.request('/api/stats');
+    }
+    
+    async getDJs() {
+        return this.request('/api/djs');
     }
 }
 

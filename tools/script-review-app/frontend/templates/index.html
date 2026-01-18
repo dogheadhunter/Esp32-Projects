@@ -145,6 +145,33 @@
         .toast.show {
             opacity: 1;
         }
+        
+        /* Category Pills */
+        .category-pill {
+            border: 2px solid transparent;
+        }
+        
+        .category-pill.active {
+            border-color: #60a5fa;
+            box-shadow: 0 0 10px rgba(96, 165, 250, 0.3);
+        }
+        
+        /* Category Badge */
+        .category-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .badge-weather { background-color: #3b82f6; }
+        .badge-story { background-color: #8b5cf6; }
+        .badge-news { background-color: #ef4444; }
+        .badge-gossip { background-color: #f59e0b; }
+        .badge-music { background-color: #10b981; }
+        .badge-general { background-color: #6b7280; }
     </style>
     
     <!-- PWA Manifest -->
@@ -169,14 +196,43 @@
     <!-- Main Content -->
     <main class="container mx-auto px-4 py-8">
         
-        <!-- Filters -->
-        <div class="mb-6 flex justify-center gap-4">
-            <select id="djFilter" class="bg-gray-800 text-white px-4 py-2 rounded-lg border border-gray-700 focus:outline-none focus:border-blue-500">
-                <option value="">All DJs</option>
-            </select>
-            <button id="refreshBtn" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition">
-                🔄 Refresh
-            </button>
+        <!-- DJ Selector & Category Filters -->
+        <div class="mb-6 space-y-4">
+            <!-- DJ Selector -->
+            <div class="flex justify-center">
+                <select id="djFilter" class="bg-gray-800 text-white px-6 py-3 rounded-lg border border-gray-700 focus:outline-none focus:border-blue-500 text-center font-medium">
+                    <option value="">All DJs</option>
+                </select>
+            </div>
+            
+            <!-- Category Filter Pills -->
+            <div class="flex justify-center gap-2 flex-wrap">
+                <button data-category="" class="category-pill active bg-blue-600 px-4 py-2 rounded-full text-sm font-medium transition hover:bg-blue-700">
+                    All
+                </button>
+                <button data-category="weather" class="category-pill bg-gray-700 px-4 py-2 rounded-full text-sm font-medium transition hover:bg-gray-600">
+                    ⛈️ Weather
+                </button>
+                <button data-category="story" class="category-pill bg-gray-700 px-4 py-2 rounded-full text-sm font-medium transition hover:bg-gray-600">
+                    📖 Story
+                </button>
+                <button data-category="news" class="category-pill bg-gray-700 px-4 py-2 rounded-full text-sm font-medium transition hover:bg-gray-600">
+                    📰 News
+                </button>
+                <button data-category="gossip" class="category-pill bg-gray-700 px-4 py-2 rounded-full text-sm font-medium transition hover:bg-gray-600">
+                    💬 Gossip
+                </button>
+                <button data-category="music" class="category-pill bg-gray-700 px-4 py-2 rounded-full text-sm font-medium transition hover:bg-gray-600">
+                    🎵 Music
+                </button>
+            </div>
+            
+            <!-- Refresh Button -->
+            <div class="flex justify-center">
+                <button id="refreshBtn" class="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition font-medium">
+                    🔄 Refresh
+                </button>
+            </div>
         </div>
         
         <!-- Card Container -->

@@ -9,6 +9,9 @@ class ScriptReviewApp {
         this.reasons = [];
         this.swipeHandler = null;
         this.pendingRejectScript = null;
+        this.selectedDJ = '';
+        this.selectedCategory = '';
+        this.djs = [];
         
         // Set up auth event listeners first (always needed)
         document.getElementById('loginBtn').addEventListener('click', () => this.handleLogin());
@@ -37,6 +40,7 @@ class ScriptReviewApp {
         this.setupEventListeners();
         
         // Load data
+        await this.loadDJs();
         await this.loadReasons();
         await this.loadScripts();
         await this.updateStats();
@@ -59,7 +63,28 @@ class ScriptReviewApp {
         });
         
         // Filters
-        document.getElementById('djFilter').addEventListener('change', () => this.loadScripts());
+        document.getElementById('djFilter').addEventListener('change', (e) => {
+            this.selectedDJ = e.target.value;
+            this.loadScripts();
+        });
+        
+        // Category pills
+        document.querySelectorAll('.category-pill').forEach(pill => {
+            pill.addEventListener('click', (e) => {
+                // Update active state
+                document.querySelectorAll('.category-pill').forEach(p => {
+                    p.classList.remove('active', 'bg-blue-600');
+                    p.classList.add('bg-gray-700');
+                });
+                e.target.classList.add('active', 'bg-blue-600');
+                e.target.classList.remove('bg-gray-700');
+                
+                // Update filter and reload
+                this.selectedCategory = e.target.dataset.category;
+                this.loadScripts();
+            });
+        });
+        
         document.getElementById('refreshBtn').addEventListener('click', () => this.refresh());
         
         // Keyboard shortcuts
@@ -113,6 +138,17 @@ class ScriptReviewApp {
         }
     }
     
+    async loadDJs() {
+        try {
+            const response = await api.getDJs();
+            this.djs = response.djs || [];
+            this.populateDJFilter();
+        } catch (error) {
+            console.error('Error loading DJs:', error);
+            // Fallback - DJs will be populated from scripts
+        }
+    }
+    
     populateReasonDropdown() {
         const select = document.getElementById('rejectionReason');
         select.innerHTML = '<option value="">Select a reason...</option>';
@@ -126,18 +162,16 @@ class ScriptReviewApp {
     }
     
     async loadScripts() {
-        const djFilter = document.getElementById('djFilter').value;
+        const djFilter = this.selectedDJ || null;
+        const categoryFilter = this.selectedCategory || null;
         
         try {
-            const response = await api.getScripts(djFilter || null, 1, 20);
+            const response = await api.getScripts(djFilter, categoryFilter, 1, 20);
             this.scripts = response.scripts;
             this.currentIndex = 0;
             this.totalPages = response.total_pages;
             this.currentPage = response.page;
             this.hasMore = response.has_more;
-            
-            // Populate DJ filter if empty
-            this.populateDJFilter();
             
             if (this.scripts.length === 0) {
                 this.showNoScripts();
@@ -156,22 +190,16 @@ class ScriptReviewApp {
     
     populateDJFilter() {
         const select = document.getElementById('djFilter');
-        const currentValue = select.value;
+        select.innerHTML = '<option value="">All DJs</option>';
         
-        // Get unique DJs from scripts
-        const djs = [...new Set(this.scripts.map(s => s.metadata.dj))].sort();
-        
-        // Only update if we have new DJs
-        if (djs.length > 0 && select.options.length === 1) {
-            djs.forEach(dj => {
+        if (this.djs.length > 0) {
+            this.djs.forEach(dj => {
                 const option = document.createElement('option');
-                option.value = dj;
-                option.textContent = dj;
+                option.value = dj.id;
+                option.textContent = `${dj.name} - ${dj.region}`;
                 select.appendChild(option);
             });
         }
-        
-        select.value = currentValue;
     }
     
     showNoScripts() {
@@ -194,6 +222,10 @@ class ScriptReviewApp {
         const script = this.scripts[this.currentIndex];
         const container = document.getElementById('cardContainer');
         
+        // Get category badge class
+        const categoryClass = `badge-${script.metadata.category || 'general'}`;
+        const categoryIcon = this.getCategoryIcon(script.metadata.category);
+        
         const card = document.createElement('div');
         card.className = 'review-card bg-gray-800 overflow-hidden';
         card.innerHTML = `
@@ -202,7 +234,12 @@ class ScriptReviewApp {
             
             <div class="h-full flex flex-col" style="max-height: 70vh;">
                 <div class="bg-gradient-to-r from-blue-600 to-purple-600 p-4 flex-shrink-0">
-                    <h2 class="text-xl font-bold">${this.escapeHtml(script.metadata.dj)}</h2>
+                    <div class="flex items-center justify-between mb-2">
+                        <h2 class="text-xl font-bold">${this.escapeHtml(script.metadata.dj)}</h2>
+                        <span class="category-badge ${categoryClass}">
+                            ${categoryIcon} ${script.metadata.category}
+                        </span>
+                    </div>
                     <p class="text-sm opacity-90">${this.escapeHtml(script.metadata.content_type)}</p>
                     <p class="text-xs opacity-75 mt-1">
                         ${new Date(script.metadata.timestamp).toLocaleString()} | 
@@ -362,6 +399,18 @@ class ScriptReviewApp {
         const div = document.createElement('div');
         div.textContent = text;
         return div.innerHTML;
+    }
+    
+    getCategoryIcon(category) {
+        const icons = {
+            'weather': '⛈️',
+            'story': '📖',
+            'news': '📰',
+            'gossip': '💬',
+            'music': '🎵',
+            'general': '📄'
+        };
+        return icons[category] || '📄';
     }
 }
 

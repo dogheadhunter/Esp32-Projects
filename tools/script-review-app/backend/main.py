@@ -17,6 +17,7 @@ from backend.models import (
     StatsResponse
 )
 from backend.storage import storage
+from backend.dj_profiles import dj_profiles
 
 # Configure logging
 logging.basicConfig(
@@ -64,6 +65,7 @@ async def health_check():
 @app.get("/api/scripts")
 async def get_scripts(
     dj: str | None = Query(None, description="Filter by DJ name"),
+    category: str | None = Query(None, description="Filter by category (weather, story, news, gossip, music)"),
     page: int = Query(1, ge=1, description="Page number (1-indexed)"),
     page_size: int = Query(20, ge=1, le=100, description="Scripts per page"),
     _: None = Depends(verify_token)
@@ -73,6 +75,7 @@ async def get_scripts(
     
     Args:
         dj: Optional DJ name filter
+        category: Optional category filter
         page: Page number (default 1)
         page_size: Scripts per page (default 20, max 100)
         
@@ -80,8 +83,13 @@ async def get_scripts(
         Paginated list with scripts and metadata
     """
     try:
-        scripts, total_count = storage.list_pending_scripts(dj_filter=dj, page=page, page_size=page_size)
-        logger.info(f"Retrieved {len(scripts)} scripts (page {page}, total: {total_count}, DJ filter: {dj})")
+        scripts, total_count = storage.list_pending_scripts(
+            dj_filter=dj, 
+            category_filter=category,
+            page=page, 
+            page_size=page_size
+        )
+        logger.info(f"Retrieved {len(scripts)} scripts (page {page}, total: {total_count}, DJ: {dj}, category: {category})")
         
         return {
             "scripts": scripts,
@@ -175,6 +183,23 @@ async def get_stats(_: None = Depends(verify_token)):
     except Exception as e:
         logger.error(f"Error retrieving stats: {e}")
         raise HTTPException(status_code=500, detail=f"Error retrieving stats: {str(e)}")
+
+
+@app.get("/api/djs")
+async def get_djs(_: None = Depends(verify_token)):
+    """
+    Get list of all DJs with their profiles.
+    
+    Returns:
+        List of DJ profiles with name, station, region, year range
+    """
+    try:
+        djs = dj_profiles.get_all_djs()
+        logger.info(f"Retrieved {len(djs)} DJ profiles")
+        return {"djs": djs}
+    except Exception as e:
+        logger.error(f"Error retrieving DJ profiles: {e}")
+        raise HTTPException(status_code=500, detail=f"Error retrieving DJ profiles: {str(e)}")
 
 
 if __name__ == "__main__":

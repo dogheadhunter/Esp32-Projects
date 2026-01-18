@@ -28,6 +28,25 @@ class ScriptStorage:
         for path in [self.pending_path, self.approved_path, self.rejected_path, self.metadata_path]:
             path.mkdir(parents=True, exist_ok=True)
     
+    def _detect_category(self, content_type: str, content: str) -> str:
+        """Detect script category from content type and content."""
+        content_type_lower = content_type.lower()
+        content_lower = content.lower()
+        
+        # Check content type first
+        if "weather" in content_type_lower or "rad storm" in content_lower or "temperature" in content_lower:
+            return "weather"
+        elif "story" in content_type_lower or "daily" in content_type_lower or "weekly" in content_type_lower or "monthly" in content_type_lower or "yearly" in content_type_lower:
+            return "story"
+        elif "news" in content_type_lower:
+            return "news"
+        elif "gossip" in content_type_lower or "rumor" in content_type_lower:
+            return "gossip"
+        elif "music" in content_type_lower or "song" in content_type_lower:
+            return "music"
+        else:
+            return "general"
+    
     def _parse_filename(self, filename: str) -> dict[str, str]:
         """
         Parse script filename to extract metadata.
@@ -66,12 +85,13 @@ class ScriptStorage:
             logger.error(f"Error reading file {filepath}: {e}")
             return ""
     
-    def list_pending_scripts(self, dj_filter: str | None = None, page: int = 1, page_size: int = 20) -> tuple[List[Script], int]:
+    def list_pending_scripts(self, dj_filter: str | None = None, category_filter: str | None = None, page: int = 1, page_size: int = 20) -> tuple[List[Script], int]:
         """
-        List pending scripts with pagination, optionally filtered by DJ.
+        List pending scripts with pagination, optionally filtered by DJ and category.
         
         Args:
             dj_filter: Optional DJ name to filter by
+            category_filter: Optional category to filter by
             page: Page number (1-indexed)
             page_size: Number of scripts per page
             
@@ -93,6 +113,13 @@ class ScriptStorage:
                 parsed = self._parse_filename(script_file.name)
                 content = self._get_script_content(script_file)
                 
+                # Detect category
+                category = self._detect_category(parsed["content_type"], content)
+                
+                # Skip if category filter doesn't match
+                if category_filter and category != category_filter:
+                    continue
+                
                 metadata = ScriptMetadata(
                     script_id=parsed["script_id"],
                     filename=script_file.name,
@@ -100,7 +127,8 @@ class ScriptStorage:
                     content_type=parsed["content_type"],
                     timestamp=datetime.fromtimestamp(script_file.stat().st_mtime),
                     file_size=script_file.stat().st_size,
-                    word_count=len(content.split())
+                    word_count=len(content.split()),
+                    category=category
                 )
                 
                 scripts.append(Script(metadata=metadata, content=content))
