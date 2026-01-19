@@ -9,6 +9,7 @@ This system generates lore-accurate, character-consistent radio scripts using:
 - **Ollama LLM**: Local text generation (fluffy/l3-8b-stheno-v3.2)
 - **Jinja2 Templates**: 5 script types with personality injection
 - **DJ Personas**: 4 character personalities with temporal/spatial filtering
+- **LLM Validation**: Intelligent script validation with hybrid LLM + rule-based checks
 
 ## Installation
 
@@ -266,6 +267,7 @@ generator.unload_model()  # Frees ~4.5GB
 ```bash
 cd tools/script-generator/tests
 python test_generator.py
+python test_llm_validator.py  # NEW: LLM validation tests
 ```
 
 **Tests:**
@@ -275,18 +277,61 @@ python test_generator.py
 - Ollama generation
 - Full pipeline integration
 - Error handling
+- LLM validation (rule-based, LLM, hybrid)
 
 ### Validate Scripts
 
 ```bash
+# Old validation (rules only)
 python validate_scripts.py
+
+# New LLM validation examples
+python examples/llm_validation_demo.py
 ```
 
-Checks for:
+**Validation Checks:**
 - Character consistency (tone, catchphrases, voice)
 - Lore accuracy (references real content)
-- Script quality (word count, flow)
+- Temporal consistency (timeline, knowledge boundaries)
+- Script quality (word count, flow, engagement)
 - RAG integration (context relevance)
+
+## Script Validation
+
+### New: LLM-Based Validation
+
+The system now includes intelligent LLM-based validation in addition to rule-based checks:
+
+```python
+from generator import ScriptGenerator
+
+generator = ScriptGenerator()
+
+# Generate with automatic LLM validation
+result = generator.generate_and_validate(
+    script_type="weather",
+    dj_name="Julie (2102, Appalachia)",
+    context_query="Appalachia weather",
+    validation_strategy="hybrid",  # "llm", "rules", or "hybrid"
+    max_validation_retries=3,
+    weather_type="sunny"
+)
+
+# Check validation results
+validation = result["validation"]
+print(f"Valid: {validation['is_valid']}")
+print(f"Score: {validation['overall_score']}")
+```
+
+**Validation Strategies:**
+- **"rules"**: Fast rule-based checks (temporal, forbidden topics)
+- **"llm"**: LLM-powered quality and context assessment
+- **"hybrid"**: Both approaches (recommended)
+
+**See:**
+- [LLM_VALIDATION_GUIDE.md](LLM_VALIDATION_GUIDE.md) - Complete documentation
+- [VALIDATION_MIGRATION_GUIDE.md](VALIDATION_MIGRATION_GUIDE.md) - Migration help
+- [examples/llm_validation_demo.py](examples/llm_validation_demo.py) - Examples
 
 ## Troubleshooting
 
