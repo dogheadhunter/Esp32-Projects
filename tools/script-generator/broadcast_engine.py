@@ -11,7 +11,7 @@ Coordinates all Phase 1-4 modules into a complete broadcast workflow:
 PHASE 5: Integration & Polish
 """
 
-from typing import Dict, Any, Optional, List
+from typing import Dict, Any, Optional, List, Union
 from datetime import datetime
 from pathlib import Path
 import json
@@ -21,6 +21,13 @@ from world_state import WorldState
 from broadcast_scheduler import BroadcastScheduler, TimeOfDay
 from consistency_validator import ConsistencyValidator
 from generator import ScriptGenerator
+
+# LLM validation system (Phase 8 integration)
+try:
+    from llm_validator import LLMValidator, HybridValidator, ValidationResult
+    LLM_VALIDATION_AVAILABLE = True
+except ImportError:
+    LLM_VALIDATION_AVAILABLE = False
 
 from content_types.weather import select_weather, get_weather_template_vars
 from content_types.gossip import GossipTracker, get_gossip_template_vars
@@ -66,6 +73,8 @@ class BroadcastEngine:
                  chroma_db_dir: Optional[str] = None,
                  world_state_path: Optional[str] = None,
                  enable_validation: bool = True,
+                 validation_mode: str = 'rules',
+                 llm_validation_config: Optional[Dict[str, Any]] = None,
                  max_session_memory: int = 10,
                  enable_story_system: bool = True):
         """
@@ -77,11 +86,14 @@ class BroadcastEngine:
             chroma_db_dir: Path to ChromaDB directory
             world_state_path: Path to persistent world state JSON
             enable_validation: Enable consistency validation
+            validation_mode: Validation strategy ('rules', 'llm', 'hybrid')
+            llm_validation_config: Optional LLM validator configuration dict
             max_session_memory: Maximum scripts to remember
             enable_story_system: Enable multi-temporal story system (Phase 7)
         """
         self.dj_name = dj_name
         self.enable_validation = enable_validation
+        self.validation_mode = validation_mode
         self.enable_story_system = enable_story_system
         
         # Initialize script generator
@@ -103,11 +115,44 @@ class BroadcastEngine:
         self.scheduler = BroadcastScheduler()
         
         # Initialize validator if enabled
-        self.validator: Optional[ConsistencyValidator] = None
+        self.validator: Optional[Union[ConsistencyValidator, HybridValidator, LLMValidator]] = None
         if enable_validation:
             from personality_loader import load_personality
             personality = load_personality(dj_name)
-            self.validator = ConsistencyValidator(personality)
+            
+            if validation_mode == 'rules':
+                self.validator = ConsistencyValidator(personality)
+            elif validation_mode == 'llm' and LLM_VALIDATION_AVAILABLE:
+                try:
+                    llm_config = llm_validation_config or {}
+                    self.validator = LLMValidator(**llm_config)
+                except ConnectionError:
+                    print("⚠️  Ollama unavailable, falling back to rules-based validation")
+                    self.validator = ConsistencyValidator(personality)
+                    self.validation_mode = 'rules'
+            elif validation_mode == 'hybrid' and LLM_VALIDATION_AVAILABLE:
+                try:
+                    llm_config = llm_validation_config or {}
+                    # Extract HybridValidator-specific params
+                    use_llm = llm_config.pop('use_llm', True)
+                    use_rules = llm_config.pop('use_rules', True)
+                    # Remaining params go to LLMValidator
+                    llm_validator = LLMValidator(**llm_config) if llm_config else None
+                    self.validator = HybridValidator(
+                        llm_validator=llm_validator,
+                        use_llm=use_llm,
+                        use_rules=use_rules
+                    )
+                except ConnectionError:
+                    print("⚠️  Ollama unavailable, falling back to rules-based validation")
+                    self.validator = ConsistencyValidator(personality)
+                    self.validation_mode = 'rules'
+            else:
+                # Fallback to rules if LLM not available
+                if validation_mode in ['llm', 'hybrid'] and not LLM_VALIDATION_AVAILABLE:
+                    print(f"⚠️  LLM validation not available, falling back to rules")
+                    self.validation_mode = 'rules'
+                self.validator = ConsistencyValidator(personality)
         
         # Initialize gossip tracker
         self.gossip_tracker = GossipTracker()
@@ -139,7 +184,10 @@ class BroadcastEngine:
         # Print initialization summary
         print(f"\n🎙️ BroadcastEngine initialized for {dj_name}")
         print(f"   Session memory: {max_session_memory} scripts")
-        print(f"   Validation: {'enabled' if enable_validation else 'disabled'}")
+        if enable_validation:
+            print(f"   Validation: enabled (mode: {self.validation_mode})")
+        else:
+            print(f"   Validation: disabled")
         if WEATHER_SYSTEM_AVAILABLE and self.region:
             print(f"   Weather System: enabled ({self.region.value})")
         else:
@@ -580,11 +628,47 @@ class BroadcastEngine:
         # Validate if enabled
         validation_result = None
         if self.enable_validation and self.validator and result.get('script'):
-            validation_result = self.validator.validate(result['script'])
+            # Build context for validation
+            validation_context = self._build_validation_context(
+                template_vars=template_vars,
+                segment_type=segment_type,
+                current_hour=current_hour
+            )
             
-            if validation_result and isinstance(validation_result, dict) and not validation_result.get('passed', True):
+            # Run validation (supports both old and new validators)
+            if isinstance(self.validator, (HybridValidator, LLMValidator)) if LLM_VALIDATION_AVAILABLE else False:
+                # New LLM validators return ValidationResult
+                from personality_loader import load_personality
+                personality = load_personality(self.dj_name)
+                val_result = self.validator.validate(
+                    script=result['script'],
+                    character_card=personality,
+                    context=validation_context
+                )
+                # Store summary only (not full ValidationResult)
+                validation_result = {
+                    'is_valid': val_result.is_valid,
+                    'score': val_result.overall_score,
+                    'critical_count': len(val_result.get_critical_issues()),
+                    'warnings_count': len(val_result.get_warnings()),
+                    'suggestions_count': len(val_result.get_suggestions()),
+                    'mode': self.validation_mode
+                }
+                is_valid = val_result.is_valid
+            else:
+                # Old ConsistencyValidator returns bool
+                is_valid = self.validator.validate(result['script'])
+                validation_result = {
+                    'is_valid': is_valid,
+                    'violations': self.validator.get_violations() if hasattr(self.validator, 'get_violations') else [],
+                    'warnings': self.validator.get_warnings() if hasattr(self.validator, 'get_warnings') else [],
+                    'mode': 'rules'
+                }
+            
+            if not is_valid:
                 self.validation_failures += 1
-                print(f"⚠️  Validation issues: {len(validation_result.get('violations', []))}")
+                issue_count = validation_result.get('critical_count', len(validation_result.get('violations', [])))
+                print(f"⚠️  Validation issues: {issue_count}")
         
         # Update session memory (normalize segment type aliases)
         segment_type_recorded = 'time' if segment_type == 'time_check' else segment_type
@@ -629,6 +713,58 @@ class BroadcastEngine:
         print(f"✅ Generated in {generation_time:.2f}s")
         
         return segment_result
+    
+    def _build_validation_context(self,
+                                  template_vars: Dict[str, Any],
+                                  segment_type: str,
+                                  current_hour: int) -> Dict[str, Any]:
+        """
+        Build rich context for LLM validation.
+        
+        Packages all available metadata for context-aware validation.
+        
+        Args:
+            template_vars: Template variables used for generation
+            segment_type: Type of segment (weather, gossip, news, etc.)
+            current_hour: Current broadcast hour
+        
+        Returns:
+            Context dict for LLM validator
+        """
+        context = {
+            'segment_type': segment_type,
+            'hour': current_hour,
+            'time_of_day': template_vars.get('time_of_day'),
+        }
+        
+        # Add weather context if applicable
+        if segment_type == 'weather':
+            context['weather'] = {
+                'type': template_vars.get('weather_type'),
+                'intensity': template_vars.get('intensity'),
+                'temperature': template_vars.get('temperature'),
+                'is_emergency': template_vars.get('is_emergency', False),
+                'description': template_vars.get('weather_description')
+            }
+        
+        # Add session context
+        context['recent_broadcasts'] = self.session_memory.get_context_for_prompt(include_recent=2)
+        context['recent_topics'] = self.session_memory.get_mentioned_topics()
+        
+        # Add region if available
+        if self.region:
+            context['region'] = self.region.value
+        
+        # Add story context if available
+        if template_vars.get('story_context'):
+            context['story_context'] = template_vars.get('story_context')
+        
+        # Add any other relevant context from template vars
+        for key in ['rumor_type', 'news_category', 'location']:
+            if key in template_vars:
+                context[key] = template_vars[key]
+        
+        return context
     
     def generate_broadcast_sequence(self,
                                    start_hour: int,

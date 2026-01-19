@@ -16815,6 +16815,17 @@
           "temperature": 37.55103686810091,
           "region": "Appalachia",
           "notable_event": false
+        },
+        "09:00": {
+          "weather_type": "cloudy",
+          "started_at": "2026-01-19T12:00:00",
+          "duration_hours": 3.388608334599421,
+          "intensity": "minor",
+          "transition_state": "stable",
+          "is_emergency": false,
+          "temperature": 34.172870322899236,
+          "region": "Appalachia",
+          "notable_event": false
         }
       }
     }
