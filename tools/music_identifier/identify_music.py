@@ -18,10 +18,19 @@ import sys
 from pathlib import Path
 from typing import List
 
-from .config import get_config
-from .file_organizer import FileOrganizer
-from .identifier import MusicIdentifier
-from .metadata_tagger import MetadataTagger
+# Fix imports for both package and standalone usage
+try:
+    from .config import get_config
+    from .file_organizer import FileOrganizer
+    from .identifier import MusicIdentifier
+    from .metadata_tagger import MetadataTagger
+except ImportError:
+    # Add parent directory to path for standalone execution
+    sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+    from tools.music_identifier.config import get_config
+    from tools.music_identifier.file_organizer import FileOrganizer
+    from tools.music_identifier.identifier import MusicIdentifier
+    from tools.music_identifier.metadata_tagger import MetadataTagger
 
 
 def setup_logging(verbose: bool = False) -> None:
