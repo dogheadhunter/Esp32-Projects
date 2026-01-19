@@ -111,7 +111,8 @@ class LLMValidator:
         ollama_client: Optional[OllamaClient] = None,
         model: str = "fluffy/l3-8b-stheno-v3.2",
         temperature: float = 0.1,  # Low temp for consistent validation
-        templates_dir: Optional[Path] = None
+        templates_dir: Optional[Path] = None,
+        validate_connection: bool = True
     ):
         """
         Initialize LLM validator.
@@ -121,8 +122,30 @@ class LLMValidator:
             model: Model to use for validation
             temperature: Temperature for validation (low = more consistent)
             templates_dir: Directory containing validation prompt templates
+            validate_connection: Whether to validate Ollama connection on init
+        
+        Raises:
+            ConnectionError: If validate_connection=True and Ollama unavailable
         """
-        self.ollama = ollama_client or OllamaClient()
+        try:
+            self.ollama = ollama_client or OllamaClient()
+            
+            # Optionally verify Ollama is accessible
+            if validate_connection:
+                if not self.ollama.check_connection():
+                    raise ConnectionError(
+                        "Cannot connect to Ollama server. "
+                        "Make sure Ollama is running with: ollama serve"
+                    )
+        except Exception as e:
+            if validate_connection:
+                raise ConnectionError(
+                    f"Failed to initialize Ollama client: {e}. "
+                    "Make sure Ollama is running with: ollama serve"
+                ) from e
+            # If not validating, store client anyway for later use
+            self.ollama = ollama_client or OllamaClient()
+        
         self.model = model
         self.temperature = temperature
         
@@ -365,6 +388,12 @@ class LLMValidator:
             return result
             
         except (json.JSONDecodeError, ValueError) as e:
+            # Log JSON parsing failure for debugging
+            import logging
+            logging.warning(
+                f"Failed to parse LLM validation response as JSON: {e}. "
+                f"Falling back to text parsing. Response preview: {response[:100]}..."
+            )
             # Fallback: parse text response
             return self._parse_text_response(response, script)
     

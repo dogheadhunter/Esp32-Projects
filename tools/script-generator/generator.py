@@ -702,14 +702,24 @@ class ScriptGenerator:
                     "suggestions": int
                 }
             }
+        
+        Raises:
+            ConnectionError: If LLM validation is requested but Ollama unavailable
         """
-        # Initialize validators on first use
-        if strategy in ["llm", "hybrid"] and self.llm_validator is None:
-            self.llm_validator = LLMValidator(
-                ollama_client=self.ollama,
-                model="fluffy/l3-8b-stheno-v3.2",
-                temperature=0.1  # Low temperature for consistent validation
-            )
+        # Initialize validators on first use (lazy loading)
+        if strategy in ["llm", "hybrid"]:
+            if self.llm_validator is None:
+                try:
+                    self.llm_validator = LLMValidator(
+                        ollama_client=self.ollama,
+                        model="fluffy/l3-8b-stheno-v3.2",
+                        temperature=0.1  # Low temperature for consistent validation
+                    )
+                except ConnectionError as e:
+                    raise ConnectionError(
+                        f"Cannot initialize LLM validator: {e}. "
+                        "Either start Ollama or use strategy='rules' for rule-based validation only."
+                    ) from e
         
         if strategy == "hybrid" and self.hybrid_validator is None:
             self.hybrid_validator = HybridValidator(

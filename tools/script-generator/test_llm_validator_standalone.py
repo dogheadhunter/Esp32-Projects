@@ -129,7 +129,8 @@ def test_prompt_generation():
     print("="*60)
     
     try:
-        validator = LLMValidator()
+        # Don't validate connection for this test
+        validator = LLMValidator(validate_connection=False)
         
         script = "Test script for validation."
         context = {"weather": "sunny", "time": "morning"}
@@ -166,7 +167,8 @@ def test_json_parsing():
     print("="*60)
     
     try:
-        validator = LLMValidator()
+        # Don't validate connection for this test
+        validator = LLMValidator(validate_connection=False)
         
         # Mock JSON response
         json_response = '''
@@ -230,7 +232,8 @@ def test_text_fallback():
     print("="*60)
     
     try:
-        validator = LLMValidator()
+        # Don't validate connection for this test
+        validator = LLMValidator(validate_connection=False)
         
         # Mock text response (not JSON)
         text_response = """
