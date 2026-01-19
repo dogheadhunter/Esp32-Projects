@@ -46,9 +46,12 @@ class TestMusicIdentifierIntegration:
         mock_response.json.return_value = mock_acoustid_response
         mock_requests.return_value = mock_response
         
-        # 3. ID3 tag handling
-        mock_audio = Mock()
-        mock_easyid3.return_value = mock_audio
+        # 3. ID3 tag handling - use a proper mock that supports dict-like operations
+        mock_audio_dict = {}
+        mock_audio_obj = Mock()
+        mock_audio_obj.__setitem__ = Mock(side_effect=lambda k, v: mock_audio_dict.__setitem__(k, v))
+        mock_audio_obj.save = Mock()
+        mock_easyid3.return_value = mock_audio_obj
         
         # Create test file
         test_file = temp_music_dirs["input"] / "unknown_song.mp3"

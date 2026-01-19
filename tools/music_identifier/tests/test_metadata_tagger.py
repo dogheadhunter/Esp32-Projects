@@ -20,13 +20,12 @@ class TestMetadataTagger:
     @patch('tools.music_identifier.metadata_tagger.EasyID3')
     def test_read_tags_success(self, mock_easyid3):
         """Test reading tags from MP3 file."""
-        # Mock EasyID3 to return tags
-        mock_audio = MagicMock()
-        mock_audio.__iter__ = Mock(return_value=iter({
+        # Mock EasyID3 to return tags as a dict
+        mock_audio = {
             "title": ["Test Song"],
             "artist": ["Test Artist"],
             "album": ["Test Album"]
-        }.items()))
+        }
         mock_easyid3.return_value = mock_audio
         
         tagger = MetadataTagger()
@@ -49,11 +48,10 @@ class TestMetadataTagger:
     @patch('tools.music_identifier.metadata_tagger.EasyID3')
     def test_has_complete_tags_true(self, mock_easyid3):
         """Test checking for complete tags (has title and artist)."""
-        mock_audio = MagicMock()
-        mock_audio.__iter__ = Mock(return_value=iter({
+        mock_audio = {
             "title": ["Song"],
             "artist": ["Artist"]
-        }.items()))
+        }
         mock_easyid3.return_value = mock_audio
         
         tagger = MetadataTagger()
@@ -64,10 +62,9 @@ class TestMetadataTagger:
     @patch('tools.music_identifier.metadata_tagger.EasyID3')
     def test_has_complete_tags_false(self, mock_easyid3):
         """Test checking for complete tags (missing artist)."""
-        mock_audio = MagicMock()
-        mock_audio.__iter__ = Mock(return_value=iter({
+        mock_audio = {
             "title": ["Song"]
-        }.items()))
+        }
         mock_easyid3.return_value = mock_audio
         
         tagger = MetadataTagger()

@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Optional
 
 from pydantic import Field
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class MusicIdentifierConfig(BaseSettings):
@@ -16,6 +16,12 @@ class MusicIdentifierConfig(BaseSettings):
     2. .env file in project root
     3. Direct initialization
     """
+    
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+        case_sensitive=False
+    )
     
     # API Configuration
     acoustid_api_key: str = Field(
@@ -74,12 +80,6 @@ class MusicIdentifierConfig(BaseSettings):
         description="Duration in seconds to fingerprint (max 120 for free tier)"
     )
     
-    class Config:
-        """Pydantic config."""
-        env_file = ".env"
-        env_file_encoding = "utf-8"
-        case_sensitive = False
-        
     def __init__(self, **kwargs):
         """Initialize config and set default paths."""
         super().__init__(**kwargs)
