@@ -22,4 +22,4 @@ REM Start the server
 echo Starting Script Review App...
 echo Access the app at: http://localhost:8000
 echo Press Ctrl+C to stop
-python -m backend.main
+python -m uvicorn backend.main:app --reload --host 0.0.0.0 --port 8000

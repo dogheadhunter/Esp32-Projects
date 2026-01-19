@@ -65,7 +65,7 @@ async def health_check():
 @app.get("/api/scripts")
 async def get_scripts(
     dj: str | None = Query(None, description="Filter by DJ name"),
-    category: str | None = Query(None, description="Filter by category (weather, story, news, gossip, music)"),
+    category: list[str] | None = Query(None, description="Filter by categories (can specify multiple)"),
     status: str | None = Query(None, description="Filter by status (pending, approved, rejected)"),
     weather_type: str | None = Query(None, description="Filter by weather type"),
     date_from: str | None = Query(None, description="Filter scripts from this date (YYYY-MM-DD)"),
@@ -78,7 +78,7 @@ async def get_scripts(
     
     Args:
         dj: Optional DJ name filter
-        category: Optional category filter
+        category: Optional category filter (can specify multiple categories)
         status: Optional status filter (pending, approved, rejected)
         weather_type: Optional weather type filter
         date_from: Optional start date filter (YYYY-MM-DD)
@@ -100,7 +100,7 @@ async def get_scripts(
             page=page, 
             page_size=page_size
         )
-        logger.info(f"Retrieved {len(scripts)} scripts (page {page}, total: {total_count}, filters: DJ={dj}, category={category}, status={status})")
+        logger.info(f"Retrieved {len(scripts)} scripts (page {page}, total: {total_count}, filters: DJ={dj}, categories={category}, status={status})")
         
         return {
             "scripts": scripts,

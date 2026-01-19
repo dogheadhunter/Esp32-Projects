@@ -16805,18 +16805,7 @@
   "weather_history_archive": {
     "Appalachia": {
       "2026-01-19": {
-        "07:00": {
-          "weather_type": "sunny",
-          "started_at": "2026-01-19T06:00:00",
-          "duration_hours": 4.2803186310847465,
-          "intensity": "minor",
-          "transition_state": "stable",
-          "is_emergency": false,
-          "temperature": 37.55103686810091,
-          "region": "Appalachia",
-          "notable_event": false
-        },
-        "06:00": {
+        "08:00": {
           "weather_type": "sunny",
           "started_at": "2026-01-19T06:00:00",
           "duration_hours": 4.2803186310847465,

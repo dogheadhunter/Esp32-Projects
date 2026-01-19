@@ -35,6 +35,7 @@ from session_memory import SessionMemory
 from world_state import WorldState
 from broadcast_scheduler import BroadcastScheduler
 from consistency_validator import ConsistencyValidator
+from llm_validator import LLMValidator, HybridValidator, ValidationSeverity
 
 
 class ScriptGenerator:
@@ -101,6 +102,10 @@ class ScriptGenerator:
         
         # PHASE 2: Consistency validation
         self.consistency_validators: Dict[str, ConsistencyValidator] = {}  # {dj_name: validator}
+        
+        # LLM-based validation (new)
+        self.llm_validator: Optional[LLMValidator] = None
+        self.hybrid_validator: Optional[HybridValidator] = None
     
     def select_catchphrases(self,
                            personality: Dict,
@@ -662,6 +667,195 @@ class ScriptGenerator:
             print(f"[OK] Model unloaded")
         else:
             print(f"[WARN] Model unload may have failed")
+    
+    # ========== LLM-Based Validation Methods ==========
+    
+    def validate_script_with_llm(
+        self,
+        script: str,
+        character_card: Dict[str, Any],
+        context: Optional[Dict[str, Any]] = None,
+        strategy: str = "hybrid"
+    ) -> Dict[str, Any]:
+        """
+        Validate a script using LLM-based validation.
+        
+        Args:
+            script: Script text to validate
+            character_card: Character card with constraints
+            context: Optional context (weather, time, topic, etc.)
+            strategy: Validation strategy ("llm", "rules", "hybrid")
+                - "llm": LLM-only validation (slower, more nuanced)
+                - "rules": Rule-based only (fast, hard constraints)
+                - "hybrid": Both (recommended, best of both worlds)
+        
+        Returns:
+            Dictionary with validation results:
+            {
+                "is_valid": bool,
+                "overall_score": float,
+                "issues": List[Dict],
+                "feedback": str,
+                "summary": {
+                    "critical": int,
+                    "warnings": int,
+                    "suggestions": int
+                }
+            }
+        
+        Raises:
+            ConnectionError: If LLM validation is requested but Ollama unavailable
+        """
+        # Initialize validators on first use (lazy loading)
+        if strategy in ["llm", "hybrid"]:
+            if self.llm_validator is None:
+                try:
+                    self.llm_validator = LLMValidator(
+                        ollama_client=self.ollama,
+                        model="fluffy/l3-8b-stheno-v3.2",
+                        temperature=0.1  # Low temperature for consistent validation
+                    )
+                except ConnectionError as e:
+                    raise ConnectionError(
+                        f"Cannot initialize LLM validator: {e}. "
+                        "Either start Ollama or use strategy='rules' for rule-based validation only."
+                    ) from e
+        
+        if strategy == "hybrid" and self.hybrid_validator is None:
+            self.hybrid_validator = HybridValidator(
+                llm_validator=self.llm_validator,
+                use_llm=True,
+                use_rules=True
+            )
+        
+        # Run validation based on strategy
+        if strategy == "hybrid":
+            result = self.hybrid_validator.validate(script, character_card, context)
+        elif strategy == "llm":
+            result = self.llm_validator.validate(script, character_card, context)
+        else:  # rules
+            from consistency_validator import ConsistencyValidator
+            validator = ConsistencyValidator(character_card)
+            is_valid = validator.validate(script)
+            
+            # Convert to our format
+            from llm_validator import ValidationIssue, ValidationResult
+            issues = []
+            for violation in validator.get_violations():
+                issues.append(
+                    ValidationIssue(
+                        severity=ValidationSeverity.CRITICAL,
+                        category="rule",
+                        message=violation,
+                        source="rule"
+                    )
+                )
+            for warning in validator.get_warnings():
+                issues.append(
+                    ValidationIssue(
+                        severity=ValidationSeverity.WARNING,
+                        category="rule",
+                        message=warning,
+                        source="rule"
+                    )
+                )
+            result = ValidationResult(
+                is_valid=is_valid,
+                script=script,
+                issues=issues
+            )
+        
+        return result.to_dict()
+    
+    def generate_and_validate(
+        self,
+        script_type: str,
+        dj_name: str,
+        context_query: str,
+        validation_strategy: str = "hybrid",
+        max_validation_retries: int = 3,
+        **kwargs
+    ) -> Dict[str, Any]:
+        """
+        Generate a script with LLM validation and retry on critical issues.
+        
+        This method combines script generation with LLM-based validation,
+        automatically retrying if critical issues are found.
+        
+        Args:
+            script_type: Template name
+            dj_name: DJ query name
+            context_query: RAG query for lore context
+            validation_strategy: "llm", "rules", or "hybrid"
+            max_validation_retries: Maximum retries for validation failures
+            **kwargs: Additional arguments passed to generate_script()
+        
+        Returns:
+            Dictionary with script and validation results:
+            {
+                "script": str,
+                "metadata": Dict,
+                "validation": Dict  # Validation results
+            }
+        """
+        # Load personality for validation
+        personality = load_personality(dj_name)
+        
+        # Build validation context from kwargs
+        validation_context = {
+            "script_type": script_type,
+            "weather": kwargs.get("weather_type"),
+            "time_of_day": kwargs.get("time_of_day"),
+            "topic": kwargs.get("news_topic") or kwargs.get("rumor_type"),
+        }
+        
+        for retry in range(max_validation_retries):
+            # Generate script
+            result = self.generate_script(
+                script_type=script_type,
+                dj_name=dj_name,
+                context_query=context_query,
+                **kwargs
+            )
+            
+            script = result["script"]
+            
+            # Validate script
+            validation_result = self.validate_script_with_llm(
+                script=script,
+                character_card=personality,
+                context=validation_context,
+                strategy=validation_strategy
+            )
+            
+            # Check if validation passed
+            if validation_result["is_valid"]:
+                print(f"✅ Validation passed on attempt {retry + 1}")
+                result["validation"] = validation_result
+                return result
+            
+            # Check for critical issues
+            critical_count = validation_result["summary"]["critical"]
+            
+            if critical_count > 0 and retry < max_validation_retries - 1:
+                print(f"⚠️ Validation found {critical_count} critical issue(s), retrying...")
+                # Show first critical issue
+                critical_issues = [
+                    issue for issue in validation_result["issues"]
+                    if issue["severity"] == "critical"
+                ]
+                if critical_issues:
+                    print(f"  - {critical_issues[0]['message']}")
+                continue
+            
+            # Final attempt or no critical issues
+            print(f"⚠️ Validation complete with warnings")
+            result["validation"] = validation_result
+            return result
+        
+        # Should not reach here, but return last result
+        result["validation"] = validation_result
+        return result
     
     # ========== PHASE 1: Session State Methods ==========
     

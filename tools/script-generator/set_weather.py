@@ -76,6 +76,7 @@ def set_override(
         temperature=temp,
         region=region,
         intensity="moderate",
+        transition_state="stable",
         is_emergency=weather_type in ["rad_storm", "dust_storm", "glowing_fog"]
     )
     

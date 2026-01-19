@@ -1,12 +1,21 @@
 {
   "reviews": [
     {
-      "script_id": "2026-01-17_141300_Julie_Gossip",
-      "dj": "Julie",
+      "script_id": "2026-01-17_141200_Mr. New Vegas_Gossip",
+      "dj": "Mr. New Vegas",
       "content_type": "Gossip",
-      "reviewed_at": "2026-01-19T10:26:35.746874",
+      "reviewed_at": "2026-01-18T23:35:41.356597",
       "status": "rejected",
-      "reason_id": "too_generic"
+      "reason_id": "inappropriate"
+    },
+    {
+      "script_id": "2026-01-18_080000_Julie_Weather",
+      "dj": "Julie",
+      "content_type": "Weather",
+      "reviewed_at": "2026-01-18T23:47:18.898751",
+      "status": "rejected",
+      "reason_id": "other",
+      "custom_comment": "Don't like the intro. She shouldn't state the date in the intro"
     }
   ]
 }

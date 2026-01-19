@@ -16810,5 +16810,16 @@
       "region": "Appalachia"
     }
   },
-  "manual_overrides": {}
+  "manual_overrides": {
+    "Appalachia": {
+      "weather_type": "rad_storm",
+      "started_at": "2026-01-18T23:51:26.581016",
+      "duration_hours": 3.0,
+      "temperature": 72.0,
+      "region": "Appalachia",
+      "intensity": "moderate",
+      "transition_state": "stable",
+      "is_emergency": true
+    }
+  }
 }
