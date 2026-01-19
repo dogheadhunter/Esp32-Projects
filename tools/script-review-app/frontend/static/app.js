@@ -10,12 +10,14 @@ class ScriptReviewApp {
         this.swipeHandler = null;
         this.pendingRejectScript = null;
         this.selectedDJ = '';
-        this.selectedCategory = '';
+        this.selectedCategories = [];
         this.selectedStatus = 'pending';
         this.selectedWeatherType = '';
         this.dateFrom = '';
         this.dateTo = '';
         this.djs = [];
+        this.swipeCount = 0;
+        this.lastAction = null; // For undo functionality
         
         // Set up auth event listeners first (always needed)
         document.getElementById('loginBtn').addEventListener('click', () => this.handleLogin());
@@ -30,12 +32,22 @@ class ScriptReviewApp {
         this.init();
     }
     
+    // Haptic feedback helper
+    vibrate(duration = 50) {
+        if ('vibrate' in navigator) {
+            navigator.vibrate(duration);
+        }
+    }
+    
     async init() {
         // Note: Authentication disabled - no API token required for local use
         
         // Hide auth modal (not needed)
         const authModal = document.getElementById('authModal');
         if (authModal) authModal.classList.remove('active');
+        
+        // Load swipe count from localStorage
+        this.swipeCount = parseInt(localStorage.getItem('swipeCount') || '0', 10);
         
         // Setup event listeners
         this.setupEventListeners();
@@ -45,6 +57,12 @@ class ScriptReviewApp {
         await this.loadReasons();
         await this.loadScripts();
         await this.updateStats();
+        
+        // Hide swipe hints if user is experienced
+        if (this.swipeCount > 3) {
+            const hints = document.getElementById('swipeHints');
+            if (hints) hints.classList.add('fade-out');
+        }
     }
     
     setupEventListeners() {
@@ -63,29 +81,59 @@ class ScriptReviewApp {
             }
         });
         
+        // Undo button
+        document.getElementById('undoBtn').addEventListener('click', () => this.performUndo());
+        
         // Filters
         document.getElementById('djFilter').addEventListener('change', (e) => {
             this.selectedDJ = e.target.value;
             this.loadScripts();
         });
         
-        // Category pills
+        // Category pills - Toggle behavior for multi-select
         document.querySelectorAll('.category-pill').forEach(pill => {
             pill.addEventListener('click', (e) => {
-                // Update active state
-                document.querySelectorAll('.category-pill').forEach(p => {
-                    p.classList.remove('active', 'bg-blue-600');
-                    p.classList.add('bg-gray-700');
-                });
-                e.target.classList.add('active', 'bg-blue-600');
-                e.target.classList.remove('bg-gray-700');
+                const category = e.target.dataset.category;
                 
-                // Update filter and reload
-                this.selectedCategory = e.target.dataset.category;
+                // "All" button clears all selections
+                if (category === '') {
+                    document.querySelectorAll('.category-pill').forEach(p => {
+                        p.classList.remove('active', 'bg-blue-600');
+                        p.classList.add('bg-gray-700');
+                    });
+                    e.target.classList.add('active', 'bg-blue-600');
+                    e.target.classList.remove('bg-gray-700');
+                    this.selectedCategories = [];
+                } else {
+                    // Toggle this category
+                    const index = this.selectedCategories.indexOf(category);
+                    if (index > -1) {
+                        // Remove from selection
+                        this.selectedCategories.splice(index, 1);
+                        e.target.classList.remove('active', 'bg-blue-600');
+                        e.target.classList.add('bg-gray-700');
+                    } else {
+                        // Add to selection
+                        this.selectedCategories.push(category);
+                        e.target.classList.add('active', 'bg-blue-600');
+                        e.target.classList.remove('bg-gray-700');
+                    }
+                    
+                    // Deactivate "All" button if any specific category is selected
+                    const allButton = document.querySelector('.category-pill[data-category=""]');
+                    if (this.selectedCategories.length > 0) {
+                        allButton.classList.remove('active', 'bg-blue-600');
+                        allButton.classList.add('bg-gray-700');
+                    } else {
+                        // If no categories selected, activate "All"
+                        allButton.classList.add('active', 'bg-blue-600');
+                        allButton.classList.remove('bg-gray-700');
+                    }
+                }
                 
-                // Show/hide weather type filter based on category
+                // Show/hide weather type filter if weather is in selected categories
                 const weatherTypeContainer = document.getElementById('weatherTypeFilterContainer');
-                if (this.selectedCategory === 'weather') {
+                if (this.selectedCategories.includes('weather')) {
                     weatherTypeContainer.classList.remove('hidden');
                 } else {
                     weatherTypeContainer.classList.add('hidden');
@@ -94,6 +142,11 @@ class ScriptReviewApp {
                 this.loadScripts();
             });
         });
+        
+        // Hamburger Menu
+        document.getElementById('hamburger').addEventListener('click', () => this.toggleSidebar());
+        document.getElementById('closeSidebar').addEventListener('click', () => this.closeSidebar());
+        document.getElementById('sidebarOverlay').addEventListener('click', () => this.closeSidebar());
         
         // Advanced Filters
         document.getElementById('advancedFiltersToggle').addEventListener('click', () => this.toggleAdvancedFilters());
@@ -186,15 +239,14 @@ class ScriptReviewApp {
     
     async loadScripts() {
         const djFilter = this.selectedDJ || null;
-        const categoryFilter = this.selectedCategory || null;
+        const categoryFilter = this.selectedCategories.length > 0 ? this.selectedCategories : null;
         const statusFilter = this.selectedStatus || null;
         const weatherTypeFilter = this.selectedWeatherType || null;
         const dateFrom = this.dateFrom || null;
         const dateTo = this.dateTo || null;
         
-        // Show loading state
-        const container = document.getElementById('cardContainer');
-        container.innerHTML = '<div class="text-center text-gray-400 py-8">Loading scripts...</div>';
+        // Show skeleton loading state
+        this.showSkeletonCard();
         
         try {
             const response = await api.getScripts(
@@ -246,7 +298,7 @@ class ScriptReviewApp {
         if (this.djs.length > 0) {
             this.djs.forEach(dj => {
                 const option = document.createElement('option');
-                option.value = dj.id;
+                option.value = dj.name; // Use name instead of ID for API filter
                 option.textContent = `${dj.name} - ${dj.region}`;
                 select.appendChild(option);
             });
@@ -459,9 +511,29 @@ class ScriptReviewApp {
         
         card.classList.add('approved');
         
+        // Haptic feedback
+        this.vibrate(50);
+        
+        // Increment swipe count and hide hints if needed
+        this.swipeCount++;
+        localStorage.setItem('swipeCount', this.swipeCount.toString());
+        if (this.swipeCount === 3) {
+            const hints = document.getElementById('swipeHints');
+            if (hints) hints.classList.add('fade-out');
+        }
+        
         try {
             await api.reviewScript(script.metadata.script_id, 'approved');
-            this.showToast('Script approved! ✓', 'success');
+            
+            // Store for undo
+            this.lastAction = {
+                type: 'approve',
+                script: script,
+                index: this.currentIndex
+            };
+            
+            // Show undo toast
+            this.showUndoToast('Script approved! ✓');
             
             setTimeout(() => {
                 this.currentIndex++;
@@ -506,6 +578,17 @@ class ScriptReviewApp {
         const card = document.querySelector('.review-card');
         card.classList.add('rejected');
         
+        // Haptic feedback
+        this.vibrate(50);
+        
+        // Increment swipe count and hide hints if needed
+        this.swipeCount++;
+        localStorage.setItem('swipeCount', this.swipeCount.toString());
+        if (this.swipeCount === 3) {
+            const hints = document.getElementById('swipeHints');
+            if (hints) hints.classList.add('fade-out');
+        }
+        
         try {
             await api.reviewScript(
                 this.pendingRejectScript.metadata.script_id,
@@ -514,7 +597,17 @@ class ScriptReviewApp {
                 customComment || null
             );
             
-            this.showToast('Script rejected ✗', 'success');
+            // Store for undo
+            this.lastAction = {
+                type: 'reject',
+                script: this.pendingRejectScript,
+                index: this.currentIndex,
+                reasonId: reasonId,
+                comment: customComment
+            };
+            
+            // Show undo toast
+            this.showUndoToast('Script rejected ✗');
             this.closeRejectionModal();
             
             setTimeout(() => {
@@ -706,16 +799,45 @@ class ScriptReviewApp {
         document.getElementById('timelineModal').classList.remove('active');
     }
     
+    toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+        const hamburger = document.getElementById('hamburger');
+        
+        const isOpen = sidebar.classList.contains('open');
+        
+        if (isOpen) {
+            this.closeSidebar();
+        } else {
+            sidebar.classList.add('open');
+            overlay.classList.add('active');
+            hamburger.classList.add('active');
+        }
+    }
+    
+    closeSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+        const hamburger = document.getElementById('hamburger');
+        
+        sidebar.classList.remove('open');
+        overlay.classList.remove('active');
+        hamburger.classList.remove('active');
+    }
+    
     toggleAdvancedFilters() {
         const panel = document.getElementById('advancedFiltersPanel');
         const toggle = document.getElementById('advancedFiltersToggle');
+        const isExpanded = panel.classList.contains('expanded');
         
-        if (panel.classList.contains('hidden')) {
-            panel.classList.remove('hidden');
-            toggle.textContent = '⚙️ Hide Advanced Filters';
+        if (isExpanded) {
+            panel.classList.remove('expanded');
+            panel.style.padding = '0';
+            toggle.innerHTML = '<span>⚙️ Advanced Filters</span><span id="advFilterIndicator" class="text-xs bg-blue-600 px-2 py-1 rounded-full hidden">Active</span>';
         } else {
-            panel.classList.add('hidden');
-            toggle.textContent = '⚙️ Advanced Filters';
+            panel.classList.add('expanded');
+            panel.style.padding = '1rem';
+            toggle.innerHTML = '<span>⚙️ Hide Advanced Filters</span><span id="advFilterIndicator" class="text-xs bg-blue-600 px-2 py-1 rounded-full hidden">Active</span>';
         }
     }
     
@@ -892,6 +1014,79 @@ class ScriptReviewApp {
     
     closeStatsView() {
         document.getElementById('statsModal').classList.remove('active');
+    }
+    
+    // Undo toast functionality
+    showUndoToast(message) {
+        const toast = document.getElementById('undoToast');
+        const messageEl = document.getElementById('undoMessage');
+        
+        messageEl.textContent = message;
+        toast.style.display = 'flex';
+        toast.classList.add('show');
+        
+        // Auto-hide after 5 seconds
+        if (this.undoTimeout) clearTimeout(this.undoTimeout);
+        this.undoTimeout = setTimeout(() => {
+            this.hideUndoToast();
+        }, 5000);
+    }
+    
+    hideUndoToast() {
+        const toast = document.getElementById('undoToast');
+        toast.classList.remove('show');
+        setTimeout(() => {
+            toast.style.display = 'none';
+        }, 300);
+    }
+    
+    async performUndo() {
+        if (!this.lastAction) return;
+        
+        this.hideUndoToast();
+        
+        try {
+            const action = this.lastAction;
+            
+            // Revert the API call
+            if (action.type === 'approve') {
+                await api.reviewScript(action.script.metadata.script_id, 'pending');
+            } else if (action.type === 'reject') {
+                await api.reviewScript(action.script.metadata.script_id, 'pending');
+            }
+            
+            // Go back to previous script
+            this.currentIndex = action.index;
+            this.showCurrentScript();
+            this.updateStats();
+            
+            this.showToast('Action undone', 'success');
+            this.lastAction = null;
+            
+        } catch (error) {
+            console.error('Error undoing action:', error);
+            this.showToast('Error undoing action', 'error');
+        }
+    }
+    
+    // Skeleton loading state
+    showSkeletonCard() {
+        const container = document.getElementById('cardContainer');
+        container.innerHTML = `
+            <div class="review-card bg-gray-800 overflow-hidden skeleton-card">
+                <div class="h-full flex flex-col" style="max-height: 70vh;">
+                    <div class="bg-gray-700 p-4 flex-shrink-0" style="height: 120px;"></div>
+                    <div class="p-6 flex-1 overflow-y-auto space-y-4">
+                        <div class="bg-gray-700 h-6 rounded w-3/4"></div>
+                        <div class="bg-gray-700 h-6 rounded w-full"></div>
+                        <div class="bg-gray-700 h-6 rounded w-5/6"></div>
+                        <div class="bg-gray-700 h-6 rounded w-full"></div>
+                        <div class="bg-gray-700 h-6 rounded w-4/5"></div>
+                    </div>
+                    <div class="bg-gray-700 p-4 flex-shrink-0" style="height: 80px;"></div>
+                </div>
+            </div>
+        `;
     }
 }
 

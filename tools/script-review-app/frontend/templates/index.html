@@ -82,11 +82,9 @@
         .approve-indicator, .reject-indicator {
             position: absolute;
             top: 50px;
-            font-size: 4rem;
             opacity: 0;
             transition: opacity 0.2s;
             pointer-events: none;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
         
         .approve-indicator {
@@ -172,6 +170,180 @@
         .badge-gossip { background-color: #f59e0b; }
         .badge-music { background-color: #10b981; }
         .badge-general { background-color: #6b7280; }
+        
+        /* Accessibility - Focus Indicators */
+        button:focus-visible, select:focus-visible, input:focus-visible, textarea:focus-visible {
+            outline: 3px solid #60a5fa;
+            outline-offset: 2px;
+        }
+        
+        /* Modal Close Button */
+        .modal-close {
+            min-width: 56px;
+            min-height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        /* Advanced Filters Animation */
+        #advancedFiltersPanel {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, opacity 0.2s ease, padding 0.3s ease;
+        }
+        
+        #advancedFiltersPanel.expanded {
+            max-height: 600px;
+            opacity: 1;
+        }
+        
+        /* Category Pills Animation */
+        @media (prefers-reduced-motion: no-preference) {
+            .category-pill {
+                transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .category-pill:active {
+                transform: scale(0.95);
+            }
+        }
+        
+        /* Category Pills Grid */
+        .category-pills-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            max-width: 48rem;
+            margin: 0 auto 1.5rem auto; /* Added bottom margin */
+        }
+        
+        @media (min-width: 768px) {
+            .category-pills-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .category-pills-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        
+        .category-pill {
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Swipe Hints Fade */
+        .swipe-hints.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        /* Larger Swipe Indicators */
+        .approve-indicator, .reject-indicator {
+            font-size: 6rem;
+            font-weight: bold;
+            text-shadow: 0 0 20px currentColor;
+        }
+        
+        /* Undo Toast */
+        .undo-toast {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        /* Loading Skeleton */
+        .skeleton-card {
+            background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        /* Hamburger Menu & Sidebar */
+        .hamburger {
+            width: 30px;
+            height: 24px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease;
+        }
+        
+        .hamburger span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background: white;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+        
+        .hamburger.active span:nth-child(1) {
+            transform: translateY(10.5px) rotate(45deg);
+        }
+        
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .hamburger.active span:nth-child(3) {
+            transform: translateY(-10.5px) rotate(-45deg);
+        }
+        
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -380px;
+            width: 380px;
+            height: 100vh;
+            background: #1f2937;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.3);
+            transition: left 0.3s ease;
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .sidebar.open {
+            left: 0;
+        }
+        
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 999;
+        }
+        
+        .sidebar-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        @media (max-width: 640px) {
+            .sidebar {
+                width: 90%;
+                left: -90%;
+            }
+        }
     </style>
     
     <!-- PWA Manifest -->
@@ -183,30 +355,28 @@
 </head>
 <body class="bg-gray-900 text-white min-h-screen">
     
-    <!-- Header -->
-    <header class="bg-gray-800 shadow-lg">
-        <div class="container mx-auto px-4 py-4">
-            <h1 class="text-2xl font-bold text-center">🎙️ DJ Script Review</h1>
-            <div id="stats" class="text-center text-sm text-gray-400 mt-2">
-                Loading...
-            </div>
-        </div>
-    </header>
+    <!-- Sidebar Overlay -->
+    <div id="sidebarOverlay" class="sidebar-overlay"></div>
     
-    <!-- Main Content -->
-    <main class="container mx-auto px-4 py-8">
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-xl font-bold">Filters & Actions</h2>
+            <button id="closeSidebar" class="text-gray-400 hover:text-white text-2xl" aria-label="Close sidebar">×</button>
+        </div>
         
-        <!-- DJ Selector & Category Filters -->
-        <div class="mb-6 space-y-4">
-            <!-- DJ Selector -->
-            <div class="flex justify-center">
-                <select id="djFilter" class="bg-gray-800 text-white px-6 py-4 rounded-lg border border-gray-700 focus:outline-none focus:border-blue-500 text-center font-medium">
-                    <option value="">All DJs</option>
-                </select>
-            </div>
-            
-            <!-- Category Filter Pills -->
-            <div class="flex justify-center gap-2 flex-wrap">
+        <!-- DJ Selector -->
+        <div class="mb-6">
+            <label class="block text-sm font-medium mb-2">DJ Filter</label>
+            <select id="djFilter" class="w-full bg-gray-800 text-white px-4 py-3 rounded-lg border border-gray-700 focus:outline-none focus:border-blue-500">
+                <option value="">All DJs</option>
+            </select>
+        </div>
+        
+        <!-- Category Filter Pills -->
+        <div class="mb-6">
+            <label class="block text-sm font-medium mb-3">Category</label>
+            <div class="grid grid-cols-2 gap-3">
                 <button data-category="" class="category-pill active bg-blue-600 px-4 py-3 rounded-full text-sm font-medium transition hover:bg-blue-700">
                     All
                 </button>
@@ -229,79 +399,97 @@
                     📻 General
                 </button>
             </div>
-            
-            <!-- Advanced Filters Toggle -->
-            <div class="flex justify-center">
-                <button id="advancedFiltersToggle" class="bg-gray-700 hover:bg-gray-600 px-4 py-3 rounded-lg transition text-sm font-medium flex items-center gap-2">
-                    <span>⚙️ Advanced Filters</span>
-                    <span id="advFilterIndicator" class="text-xs bg-blue-600 px-2 py-1 rounded-full hidden">Active</span>
-                </button>
+        </div>
+        
+        <!-- Advanced Filters Toggle -->
+        <div class="mb-4">
+            <button id="advancedFiltersToggle" class="w-full bg-gray-700 hover:bg-gray-600 px-6 py-4 rounded-full transition text-base font-semibold flex items-center justify-center gap-2 min-h-[56px]">
+                <span>⚙️ Advanced Filters</span>
+            </button>
+        </div>
+        
+        <!-- Advanced Filters Panel (Collapsible) -->
+        <div id="advancedFiltersPanel" class="bg-gray-800 rounded-lg space-y-3 mb-6" style="padding: 0;">
+            <!-- Status Filter -->
+            <div>
+                <label class="block text-sm font-medium mb-2">Status</label>
+                <select id="statusFilter" class="w-full bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 focus:outline-none focus:border-blue-500">
+                    <option value="">All Status</option>
+                    <option value="pending">Pending Review</option>
+                    <option value="approved">Approved</option>
+                    <option value="rejected">Rejected</option>
+                </select>
             </div>
             
-            <!-- Advanced Filters Panel (Collapsible) -->
-            <div id="advancedFiltersPanel" class="hidden bg-gray-800 rounded-lg p-4 space-y-3">
-                <!-- Status Filter -->
+            <!-- Date Range Filter -->
+            <div class="grid grid-cols-2 gap-3">
                 <div>
-                    <label class="block text-sm font-medium mb-2">Status</label>
-                    <select id="statusFilter" class="w-full bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 focus:outline-none focus:border-blue-500">
-                        <option value="">All Status</option>
-                        <option value="pending">Pending Review</option>
-                        <option value="approved">Approved</option>
-                        <option value="rejected">Rejected</option>
-                    </select>
+                    <label class="block text-sm font-medium mb-2">From Date</label>
+                    <input type="date" id="dateFromFilter" class="w-full bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 focus:outline-none focus:border-blue-500">
                 </div>
-                
-                <!-- Date Range Filter -->
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-sm font-medium mb-2">From Date</label>
-                        <input type="date" id="dateFromFilter" class="w-full bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 focus:outline-none focus:border-blue-500">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-2">To Date</label>
-                        <input type="date" id="dateToFilter" class="w-full bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 focus:outline-none focus:border-blue-500">
-                    </div>
-                </div>
-                
-                <!-- Weather Type Filter (shown only when category=weather) -->
-                <div id="weatherTypeFilterContainer" class="hidden">
-                    <label class="block text-sm font-medium mb-2">Weather Type</label>
-                    <select id="weatherTypeFilter" class="w-full bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 focus:outline-none focus:border-blue-500">
-                        <option value="">All Weather Types</option>
-                        <option value="sunny">☀️ Sunny</option>
-                        <option value="rainy">🌧️ Rainy</option>
-                        <option value="cloudy">☁️ Cloudy</option>
-                        <option value="foggy">🌫️ Foggy</option>
-                        <option value="rad storm">☢️ Rad Storm</option>
-                        <option value="dust storm">🌪️ Dust Storm</option>
-                        <option value="glowing fog">💚 Glowing Fog</option>
-                    </select>
-                </div>
-                
-                <!-- Filter Actions -->
-                <div class="flex gap-2 pt-2">
-                    <button id="applyAdvFilters" class="flex-1 bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded transition font-medium">
-                        Apply Filters
-                    </button>
-                    <button id="resetAdvFilters" class="bg-gray-600 hover:bg-gray-500 px-4 py-2 rounded transition font-medium">
-                        Reset
-                    </button>
+                <div>
+                    <label class="block text-sm font-medium mb-2">To Date</label>
+                    <input type="date" id="dateToFilter" class="w-full bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 focus:outline-none focus:border-blue-500">
                 </div>
             </div>
             
-            <!-- Action Buttons -->
-            <div class="flex justify-center gap-3 flex-wrap">
-                <button id="refreshBtn" class="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg transition font-medium">
-                    🔄 Refresh
+            <!-- Weather Type Filter (shown only when category=weather) -->
+            <div id="weatherTypeFilterContainer" class="hidden">
+                <label class="block text-sm font-medium mb-2">Weather Type</label>
+                <select id="weatherTypeFilter" class="w-full bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 focus:outline-none focus:border-blue-500">
+                    <option value="">All Weather Types</option>
+                    <option value="sunny">☀️ Sunny</option>
+                    <option value="rainy">🌧️ Rainy</option>
+                    <option value="cloudy">☁️ Cloudy</option>
+                    <option value="foggy">🌫️ Foggy</option>
+                    <option value="rad storm">☢️ Rad Storm</option>
+                    <option value="dust storm">🌪️ Dust Storm</option>
+                    <option value="glowing fog">💚 Glowing Fog</option>
+                </select>
+            </div>
+            
+            <!-- Filter Actions -->
+            <div class="flex gap-2 pt-2">
+                <button id="applyAdvFilters" class="flex-1 bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded transition font-medium">
+                    Apply Filters
                 </button>
-                <button id="statsBtn" class="bg-green-600 hover:bg-green-700 px-6 py-3 rounded-lg transition font-medium">
-                    📊 Stats
-                </button>
-                <button id="timelineViewBtn" class="bg-purple-600 hover:bg-purple-700 px-6 py-3 rounded-lg transition font-medium hidden">
-                    📚 Story Timelines
+                <button id="resetAdvFilters" class="bg-gray-600 hover:bg-gray-500 px-4 py-2 rounded transition font-medium">
+                    Reset
                 </button>
             </div>
         </div>
+        
+        <!-- Action Buttons -->
+        <div class="flex flex-col gap-3">
+            <button id="refreshBtn" class="w-full bg-blue-600 hover:bg-blue-700 px-8 py-4 rounded-full transition text-base font-semibold min-h-[56px]">
+                🔄 Refresh
+            </button>
+            <button id="statsBtn" class="w-full bg-green-600 hover:bg-green-700 px-8 py-4 rounded-full transition text-base font-semibold min-h-[56px]">
+                📊 Stats
+            </button>
+            <button id="timelineViewBtn" class="w-full bg-purple-600 hover:bg-purple-700 px-8 py-4 rounded-full transition text-base font-semibold min-h-[56px] hidden">
+                📚 Story Timelines
+            </button>
+        </div>
+    </div>
+    
+    <!-- Header -->
+    <header class="bg-gray-800 shadow-lg relative">
+        <div class="container mx-auto px-4 py-4">
+            <button id="hamburger" class="hamburger absolute left-4 top-1/2 -translate-y-1/2" aria-label="Open menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <h1 class="text-2xl font-bold text-center">🎙️ DJ Script Review</h1>
+            <div id="stats" class="text-center text-sm text-gray-400 mt-2">
+                Loading...
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
         
         <!-- Card Container -->
         <div id="cardContainer" class="card-container">
@@ -313,7 +501,7 @@
         </div>
         
         <!-- Swipe Hints -->
-        <div class="text-center mt-6 text-sm text-gray-500">
+        <div id="swipeHints" class="swipe-hints text-center mt-6 text-sm text-gray-500 transition-opacity duration-500">
             <p>👈 Swipe left to reject | Swipe right to approve 👉</p>
             <p class="mt-1">Keyboard: ← Reject | → Approve</p>
         </div>
@@ -351,7 +539,7 @@
             <!-- Fixed Header -->
             <div class="flex justify-between items-center p-6 pb-4 bg-gray-800 border-b border-gray-700 flex-shrink-0">
                 <h2 class="text-2xl font-bold">📚 Active Story Timelines</h2>
-                <button id="closeTimelineView" class="text-gray-400 hover:text-white text-3xl leading-none flex items-center justify-center flex-shrink-0" style="width: 48px; height: 48px;">×</button>
+                <button id="closeTimelineView" aria-label="Close timeline view" class="modal-close text-gray-400 hover:text-white text-3xl leading-none flex items-center justify-center flex-shrink-0" style="min-width: 56px; min-height: 56px;">×</button>
             </div>
             
             <!-- Scrollable Content -->
@@ -367,7 +555,7 @@
             <!-- Sticky Header -->
             <div class="flex justify-between items-center p-6 pb-4 bg-gray-800 border-b border-gray-700 flex-shrink-0">
                 <h2 class="text-2xl font-bold">📊 Review Statistics</h2>
-                <button id="closeStatsView" class="text-gray-400 hover:text-white text-3xl leading-none flex items-center justify-center flex-shrink-0" style="width: 48px; height: 48px;">×</button>
+                <button id="closeStatsView" aria-label="Close statistics modal" class="modal-close text-gray-400 hover:text-white text-3xl leading-none flex items-center justify-center flex-shrink-0" style="min-width: 56px; min-height: 56px;">×</button>
             </div>
             
             <!-- Scrollable Content -->
@@ -404,7 +592,13 @@
     </div>
     
     <!-- Toast Notification -->
-    <div id="toast" class="toast"></div>
+    <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+    
+    <!-- Undo Toast -->
+    <div id="undoToast" class="toast undo-toast" style="display: none;">
+        <span id="undoMessage"></span>
+        <button id="undoBtn" class="ml-4 px-3 py-1 bg-blue-600 hover:bg-blue-700 rounded font-semibold">Undo</button>
+    </div>
     
     <!-- Scripts -->
     <script src="/static/api.js"></script>

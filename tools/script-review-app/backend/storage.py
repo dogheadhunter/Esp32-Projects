@@ -405,7 +405,7 @@ class ScriptStorage:
     def list_scripts_filtered(
         self, 
         dj_filter: str | None = None, 
-        category_filter: str | None = None,
+        category_filter: list[str] | None = None,
         status_filter: str | None = None,
         weather_type_filter: str | None = None,
         date_from: str | None = None,
@@ -418,7 +418,7 @@ class ScriptStorage:
         
         Args:
             dj_filter: Optional DJ name to filter by
-            category_filter: Optional category to filter by
+            category_filter: Optional list of categories to filter by
             status_filter: Optional status filter (pending, approved, rejected)
             weather_type_filter: Optional weather type filter
             date_from: Optional start date (YYYY-MM-DD)
@@ -463,8 +463,8 @@ class ScriptStorage:
                     # Detect category
                     category = self._detect_category(parsed["content_type"], content)
                     
-                    # Skip if category filter doesn't match
-                    if category_filter and category != category_filter:
+                    # Skip if category filter doesn't match (support multiple categories)
+                    if category_filter and category not in category_filter:
                         continue
                     
                     # Get file timestamp

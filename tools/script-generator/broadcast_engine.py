@@ -353,7 +353,18 @@ class BroadcastEngine:
         from broadcast_scheduler import TimeOfDay
         
         start_time = datetime.now()
-        time_of_day = self.scheduler._get_time_of_day(current_hour)
+        
+        # Determine time of day from hour
+        if 6 <= current_hour < 10:
+            time_of_day = TimeOfDay.MORNING
+        elif 10 <= current_hour < 14:
+            time_of_day = TimeOfDay.MIDDAY
+        elif 14 <= current_hour < 18:
+            time_of_day = TimeOfDay.AFTERNOON
+        elif 18 <= current_hour < 22:
+            time_of_day = TimeOfDay.EVENING
+        else:
+            time_of_day = TimeOfDay.NIGHT
         
         # Build template variables
         base_vars = {
@@ -374,7 +385,7 @@ class BroadcastEngine:
         base_vars['rag_context'] = rag_context
         
         # Generate emergency alert
-        result = self.generator.generate(
+        result = self.generator.generate_script(
             template_name='emergency_weather',
             template_vars=base_vars,
             temperature=0.6,  # More focused for emergencies

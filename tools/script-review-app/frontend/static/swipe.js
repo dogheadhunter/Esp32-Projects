@@ -12,7 +12,8 @@ class SwipeHandler {
         this.currentY = 0;
         this.isDragging = false;
         this.isScrolling = false;
-        this.threshold = 200; // Increased from 100 to 200 pixels for clearer intent
+        // Responsive threshold: 35% of screen width, max 200px
+        this.threshold = Math.min(200, window.innerWidth * 0.35);
         this.scrollThreshold = 15; // If vertical movement exceeds this, treat as scroll
         
         this.init();

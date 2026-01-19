@@ -163,3 +163,4 @@
 - Profile performance-critical sections
 - Monitor memory usage for large datasets
 - Refactor when complexity increases
+- You can't monitor result after starting the script as you will cancel it. You must wait for the script to complete and then review the results.

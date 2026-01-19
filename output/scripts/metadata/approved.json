@@ -48,6 +48,55 @@
       "content_type": "Mr-New-Vegas_Gossip",
       "reviewed_at": "2026-01-18T22:21:41.923524",
       "status": "approved"
+    },
+    {
+      "script_id": "2026-01-18_140000_Travis Miles (Nervous)_Travis_Gossip",
+      "dj": "Travis Miles (Nervous)",
+      "content_type": "Travis_Gossip",
+      "reviewed_at": "2026-01-18T22:40:59.181144",
+      "status": "approved"
+    },
+    {
+      "script_id": "2026-01-18_130000_Julie_News",
+      "dj": "Julie",
+      "content_type": "News",
+      "reviewed_at": "2026-01-18T22:41:03.254949",
+      "status": "approved"
+    },
+    {
+      "script_id": "2026-01-18_120000_Mr. New Vegas_Mr-New-Vegas_News",
+      "dj": "Mr. New Vegas",
+      "content_type": "Mr-New-Vegas_News",
+      "reviewed_at": "2026-01-18T22:41:13.118587",
+      "status": "approved"
+    },
+    {
+      "script_id": "2026-01-18_110000_Julie_Story",
+      "dj": "Julie",
+      "content_type": "Story",
+      "reviewed_at": "2026-01-18T23:11:37.505409",
+      "status": "approved"
+    },
+    {
+      "script_id": "2026-01-18_100000_Travis Miles (Nervous)_Travis_Story",
+      "dj": "Travis Miles (Nervous)",
+      "content_type": "Travis_Story",
+      "reviewed_at": "2026-01-18T23:45:52.982311",
+      "status": "approved"
+    },
+    {
+      "script_id": "2026-01-18_090000_Mr. New Vegas_Mr-New-Vegas_Weather",
+      "dj": "Mr. New Vegas",
+      "content_type": "Mr-New-Vegas_Weather",
+      "reviewed_at": "2026-01-18T23:46:09.075243",
+      "status": "approved"
+    },
+    {
+      "script_id": "2026-01-17_141300_Mr. New Vegas_Gossip",
+      "dj": "Mr. New Vegas",
+      "content_type": "Gossip",
+      "reviewed_at": "2026-01-18T23:48:08.350310",
+      "status": "approved"
     }
   ]
 }

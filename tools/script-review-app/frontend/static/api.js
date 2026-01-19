@@ -58,7 +58,14 @@ class API {
     async getScripts(djFilter = null, categoryFilter = null, statusFilter = null, weatherTypeFilter = null, dateFrom = null, dateTo = null, page = 1, pageSize = 20) {
         const params = new URLSearchParams();
         if (djFilter) params.append('dj', djFilter);
-        if (categoryFilter) params.append('category', categoryFilter);
+        if (categoryFilter) {
+            if (Array.isArray(categoryFilter)) {
+                // Multiple categories: add each as separate param
+                categoryFilter.forEach(cat => params.append('category', cat));
+            } else {
+                params.append('category', categoryFilter);
+            }
+        }
         if (statusFilter) params.append('status', statusFilter);
         if (weatherTypeFilter) params.append('weather_type', weatherTypeFilter);
         if (dateFrom) params.append('date_from', dateFrom);
