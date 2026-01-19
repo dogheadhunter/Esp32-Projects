@@ -20,6 +20,7 @@ from typing import List
 
 # Fix imports for both package and standalone usage
 try:
+    from .batch_stats import BatchStatistics
     from .config import get_config
     from .file_organizer import FileOrganizer
     from .identifier import MusicIdentifier
@@ -27,10 +28,18 @@ try:
 except ImportError:
     # Add parent directory to path for standalone execution
     sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+    from tools.music_identifier.batch_stats import BatchStatistics
     from tools.music_identifier.config import get_config
     from tools.music_identifier.file_organizer import FileOrganizer
     from tools.music_identifier.identifier import MusicIdentifier
     from tools.music_identifier.metadata_tagger import MetadataTagger
+
+# Import tqdm for progress bar
+try:
+    from tqdm import tqdm
+    TQDM_AVAILABLE = True
+except ImportError:
+    TQDM_AVAILABLE = False
 
 
 def setup_logging(verbose: bool = False) -> None:
@@ -72,9 +81,11 @@ def process_file(
     identifier: MusicIdentifier,
     tagger: MetadataTagger,
     organizer: FileOrganizer,
+    stats: BatchStatistics,
     dry_run: bool = False,
-    skip_tagged: bool = False
-) -> bool:
+    skip_tagged: bool = False,
+    verbose: bool = False
+) -> str:
     """Process a single MP3 file.
     
     Args:
@@ -82,49 +93,73 @@ def process_file(
         identifier: MusicIdentifier instance
         tagger: MetadataTagger instance
         organizer: FileOrganizer instance
+        stats: BatchStatistics instance for tracking
         dry_run: If True, don't modify files
         skip_tagged: If True, skip files that already have complete tags
+        verbose: If True, print detailed logs
         
     Returns:
-        True if file was successfully identified, False otherwise
+        Status string: 'identified', 'unidentified', 'error', or 'skipped'
     """
     logger = logging.getLogger(__name__)
     
-    logger.info(f"\n{'='*60}")
-    logger.info(f"Processing: {filepath.name}")
-    logger.info(f"{'='*60}")
+    if verbose:
+        logger.info(f"\n{'='*60}")
+        logger.info(f"Processing: {filepath.name}")
+        logger.info(f"{'='*60}")
     
     # Check existing tags
     if skip_tagged and tagger.has_complete_tags(filepath):
-        logger.info("✓ File already has complete tags - skipping")
-        return True
+        if verbose:
+            logger.info("✓ File already has complete tags - skipping")
+        stats.record_skipped(filepath.name)
+        return 'skipped'
     
-    # Identify file
-    result = identifier.identify_file(filepath)
-    
-    if result.identified:
-        logger.info(f"✓ Identified: {result}")
+    try:
+        # Identify file
+        result = identifier.identify_file(filepath)
         
-        # Update tags
-        if not dry_run:
-            tagger.update_tags(filepath, result, force=True)
+        if result.identified:
+            if verbose:
+                logger.info(f"✓ Identified: {result}")
+            
+            # Check if fingerprint was from cache
+            from_cache = (identifier.use_cache and 
+                         identifier.cache and 
+                         identifier.cache.get(filepath) is not None)
+            
+            # Record stats
+            stats.record_identified(filepath.name, result.confidence, from_cache)
+            
+            # Update tags
+            if not dry_run:
+                tagger.update_tags(filepath, result, force=True)
+            elif verbose:
+                logger.info("[DRY RUN] Would update tags")
+            
+            # Organize file
+            new_path = organizer.organize_file(result, dry_run=dry_run, rename=True)
+            
+            if new_path and verbose:
+                logger.info(f"✓ Success: {new_path.name}")
+            
+            return 'identified'
         else:
-            logger.info("[DRY RUN] Would update tags")
-        
-        # Organize file
-        new_path = organizer.organize_file(result, dry_run=dry_run, rename=True)
-        
-        if new_path:
-            logger.info(f"✓ Success: {new_path.name}")
-        
-        return True
-    else:
-        logger.warning(f"✗ Failed to identify: {result.error}")
-        
-        # Move to unidentified folder
-        organizer.organize_file(result, dry_run=dry_run, rename=False)
-        
-        return False
+            if verbose:
+                logger.warning(f"✗ Failed to identify: {result.error}")
+            
+            # Record stats
+            stats.record_unidentified(filepath.name)
+            
+            # Move to unidentified folder
+            organizer.organize_file(result, dry_run=dry_run, rename=False)
+            
+            return 'unidentified'
+            
+    except Exception as e:
+        logger.error(f"Error processing {filepath.name}: {e}")
+        stats.record_error(filepath.name)
+        return 'error'
 
 
 def main() -> int:
@@ -187,6 +222,18 @@ Examples:
         help="AcoustID API key (or set ACOUSTID_API_KEY environment variable)"
     )
     
+    parser.add_argument(
+        "--no-cache",
+        action="store_true",
+        help="Disable fingerprint caching"
+    )
+    
+    parser.add_argument(
+        "--no-progress",
+        action="store_true",
+        help="Disable progress bar"
+    )
+    
     args = parser.parse_args()
     
     # Setup logging
@@ -239,57 +286,74 @@ Examples:
         logger.info("\n⚠️  DRY RUN MODE - No files will be modified ⚠️\n")
     
     # Initialize components
-    identifier = MusicIdentifier(config)
+    use_cache = not args.no_cache
+    identifier = MusicIdentifier(config, use_cache=use_cache)
     tagger = MetadataTagger()
     organizer = FileOrganizer(config.identified_dir, config.unidentified_dir)
     
-    # Process files
-    results = {
-        "total": len(mp3_files),
-        "identified": 0,
-        "unidentified": 0,
-        "errors": 0
-    }
+    # Initialize batch statistics
+    stats = BatchStatistics()
+    stats.total_files = len(mp3_files)
     
-    for filepath in mp3_files:
-        try:
-            success = process_file(
+    # Process files
+    use_progress = TQDM_AVAILABLE and not args.no_progress and not args.verbose
+    
+    if use_progress:
+        # Use progress bar
+        pbar = tqdm(
+            mp3_files,
+            desc="Processing MP3s",
+            unit="file",
+            bar_format='{l_bar}{bar}| {n_fmt}/{total_fmt} [{elapsed}<{remaining}, {rate_fmt}]'
+        )
+        file_iterator = pbar
+    else:
+        file_iterator = mp3_files
+    
+    try:
+        for filepath in file_iterator:
+            status = process_file(
                 filepath,
                 identifier,
                 tagger,
                 organizer,
+                stats,
                 dry_run=args.dry_run,
-                skip_tagged=args.skip_tagged
+                skip_tagged=args.skip_tagged,
+                verbose=args.verbose
             )
             
-            if success:
-                results["identified"] += 1
-            else:
-                results["unidentified"] += 1
-                
-        except KeyboardInterrupt:
-            logger.info("\n\nInterrupted by user")
-            break
-        except Exception as e:
-            logger.error(f"Unexpected error processing {filepath.name}: {e}", exc_info=args.verbose)
-            results["errors"] += 1
+            # Update progress bar description
+            if use_progress:
+                pbar.set_postfix({
+                    'identified': stats.identified,
+                    'unidentified': stats.unidentified,
+                    'cached': stats.cached_fingerprints
+                })
+    
+    except KeyboardInterrupt:
+        logger.info("\n\nInterrupted by user")
+        if use_progress:
+            pbar.close()
+    
+    finally:
+        if use_progress:
+            pbar.close()
+    
+    # Finish statistics
+    stats.finish()
     
     # Print summary
-    logger.info("\n" + "="*60)
-    logger.info("SUMMARY")
-    logger.info("="*60)
-    logger.info(f"Total files:       {results['total']}")
-    logger.info(f"✓ Identified:      {results['identified']}")
-    logger.info(f"✗ Unidentified:    {results['unidentified']}")
-    if results['errors']:
-        logger.info(f"⚠ Errors:          {results['errors']}")
+    if not args.verbose:
+        print()  # Add spacing
+    stats.print_summary()
     
-    if args.dry_run:
-        logger.info("\n(Dry run - no files were actually modified)")
-    else:
-        stats = organizer.get_stats()
-        logger.info(f"\nFiles in identified folder:   {stats['identified_count']}")
-        logger.info(f"Files in unidentified folder: {stats['unidentified_count']}")
+    # Print file organization stats
+    if not args.dry_run:
+        org_stats = organizer.get_stats()
+        print(f"\nCurrent organization:")
+        print(f"  Identified folder:   {org_stats['identified_count']} files")
+        print(f"  Unidentified folder: {org_stats['unidentified_count']} files")
     
     logger.info("="*60)
     

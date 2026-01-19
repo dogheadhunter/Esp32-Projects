@@ -7,9 +7,12 @@ A robust music identification and tagging system using AcoustID fingerprinting a
 - **Automatic Music Identification**: Uses acoustic fingerprinting to identify songs
 - **Metadata Tagging**: Updates MP3 ID3 tags with correct artist, title, album, year, etc.
 - **Smart Organization**: Automatically organizes files into identified/unidentified folders
-- **Batch Processing**: Handles multiple files at once
+- **Batch Processing**: Handles multiple files at once with progress tracking
+- **Fingerprint Caching**: Caches fingerprints locally to avoid re-processing files
+- **Progress Bar**: Real-time progress with ETA (requires tqdm)
+- **Batch Statistics**: Comprehensive reports on processing results
 - **Robust Error Handling**: Gracefully handles API failures and edge cases
-- **Comprehensive Testing**: Full pytest test suite
+- **Comprehensive Testing**: Full pytest test suite (84 tests)
 
 ## Setup
 
@@ -45,7 +48,7 @@ ACOUSTID_API_KEY=your-api-key-here
 ### Command Line
 
 ```bash
-# Identify all MP3s in the music/input/ folder
+# Identify all MP3s in the music/input/ folder (with progress bar)
 python tools/music_identifier/identify_music.py
 
 # With custom paths
@@ -54,8 +57,14 @@ python tools/music_identifier/identify_music.py --input /path/to/input --identif
 # Dry run (don't move files)
 python tools/music_identifier/identify_music.py --dry-run
 
-# Verbose output
+# Verbose output (shows detailed logs, disables progress bar)
 python tools/music_identifier/identify_music.py --verbose
+
+# Disable fingerprint caching (slower but uses less disk)
+python tools/music_identifier/identify_music.py --no-cache
+
+# Disable progress bar
+python tools/music_identifier/identify_music.py --no-progress
 ```
 
 ### Python API
@@ -78,10 +87,43 @@ else:
 ## How It Works
 
 1. **Fingerprinting**: Uses `fpcalc` (from Chromaprint) to generate acoustic fingerprints
-2. **API Lookup**: Sends fingerprint to AcoustID API for matching
-3. **Metadata Retrieval**: Gets detailed metadata from MusicBrainz
-4. **Tag Update**: Updates MP3 ID3 tags using mutagen library
-5. **File Organization**: Moves files to appropriate folders
+2. **Cache Check**: Checks local cache to avoid re-processing (enabled by default)
+3. **API Lookup**: Sends fingerprint to AcoustID API for matching
+4. **Metadata Retrieval**: Gets detailed metadata from MusicBrainz
+5. **Tag Update**: Updates MP3 ID3 tags using mutagen library
+6. **File Organization**: Moves files to appropriate folders
+7. **Statistics Tracking**: Tracks success rates, confidence scores, and processing speed
+
+## Performance Features
+
+### Fingerprint Caching
+
+Fingerprints are cached locally in `music/.cache/fingerprints.json` to:
+- Avoid re-processing unchanged files
+- Speed up subsequent runs
+- Reduce API calls
+
+Cache uses MD5 file hashing to detect file changes. Disable with `--no-cache` flag.
+
+### Progress Bar
+
+Real-time progress tracking with:
+- Current file being processed
+- Files per minute processing speed
+- Time remaining estimate (ETA)
+- Running counts of identified/unidentified files
+
+Automatically disabled in verbose mode. Disable manually with `--no-progress`.
+
+### Batch Statistics
+
+Detailed end-of-run report including:
+- Success rate percentage
+- Average confidence score
+- Processing speed (files/minute)
+- Cache hit rate
+- List of unidentified files
+- Quality metrics (confidence range)
 
 ## API Considerations
 

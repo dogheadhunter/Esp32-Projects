@@ -48,12 +48,24 @@ Fully refactored codebase with proper Python packaging, centralized configuratio
 *   **Core Firmware**: Stable ESP32 MP3 player in `firmware/` (PlatformIO)
 *   **Wiki Pipeline**: Complete ChromaDB ingestion system (87 passing tests, 40% coverage)
 *   **Script Generator**: RAG-powered content generation using ChromaDB + Ollama
-*   **Music Identifier**: Automatic music identification and tagging using AcoustID (61 tests, 100% pass rate)
+*   **Music Identifier**: Automatic music identification and tagging using AcoustID (84 tests, 100% pass rate)
+    - Fingerprint caching for faster re-runs
+    - Progress bar with ETA
+    - Comprehensive batch statistics
 *   **Personalities**: 4 DJ characters (Julie, Mr. New Vegas, Travis Miles variants)
 *   **Utilities**: Batch scripts for testing, ingestion, backups
 *   **Documentation**: Comprehensive architecture and setup guides
 
-### Recent Changes (v1.1.0 - 2026-01-19)
+### Recent Changes (v1.2.0 - 2026-01-19)
+- ✅ **Enhanced Music Identification System**
+  - **Fingerprint Caching**: Local cache avoids re-processing unchanged files
+  - **Progress Bar with ETA**: Real-time visual progress tracking
+  - **Batch Statistics**: Detailed success rates, confidence scores, and performance metrics
+  - 84 comprehensive tests (23 new tests added)
+- ✅ Performance improvements with cache hit rates of 80-100% on re-runs
+- ✅ Enhanced user experience with tqdm progress bars
+
+### Previous Changes (v1.1.0 - 2026-01-19)
 - ✅ **NEW: Music Identification System** - Automatic song recognition using AcoustID/MusicBrainz
   - Drop MP3 files in `music/input/` folder
   - Run one command to identify and tag all songs

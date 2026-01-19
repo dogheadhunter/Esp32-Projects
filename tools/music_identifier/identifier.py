@@ -64,14 +64,21 @@ class MusicIdentifier:
     
     ACOUSTID_API_URL = "https://api.acoustid.org/v2/lookup"
     
-    def __init__(self, config: Optional[MusicIdentifierConfig] = None, api_key: Optional[str] = None):
+    def __init__(
+        self,
+        config: Optional[MusicIdentifierConfig] = None,
+        api_key: Optional[str] = None,
+        use_cache: bool = True
+    ):
         """Initialize the music identifier.
         
         Args:
             config: Configuration object (optional)
             api_key: AcoustID API key (overrides config if provided)
+            use_cache: Whether to use fingerprint caching (default: True)
         """
         from .config import get_config
+        from .fingerprint_cache import FingerprintCache
         
         self.config = config or get_config()
         
@@ -90,7 +97,13 @@ class MusicIdentifier:
         self._last_request_time = 0.0
         self._min_request_interval = 1.0 / self.config.rate_limit
         
+        # Fingerprint cache
+        self.use_cache = use_cache
+        self.cache = FingerprintCache() if use_cache else None
+        
         logger.info(f"MusicIdentifier initialized with rate limit: {self.config.rate_limit} req/sec")
+        if use_cache:
+            logger.info("Fingerprint caching enabled")
     
     def _rate_limit(self) -> None:
         """Enforce rate limiting between API requests."""
@@ -104,12 +117,22 @@ class MusicIdentifier:
     def generate_fingerprint(self, filepath: Path) -> Optional[Tuple[str, int]]:
         """Generate acoustic fingerprint for an audio file.
         
+        Checks cache first if enabled. If not cached, generates fingerprint
+        and stores in cache for future use.
+        
         Args:
             filepath: Path to the audio file
             
         Returns:
             Tuple of (fingerprint, duration) if successful, None otherwise
         """
+        # Check cache first
+        if self.use_cache and self.cache:
+            cached = self.cache.get(filepath)
+            if cached:
+                logger.info(f"Using cached fingerprint for {filepath.name}")
+                return cached
+        
         try:
             # Run fpcalc to generate fingerprint
             cmd = [
@@ -138,6 +161,11 @@ class MusicIdentifier:
                 return None
             
             logger.debug(f"Generated fingerprint (duration: {duration}s)")
+            
+            # Cache the fingerprint
+            if self.use_cache and self.cache:
+                self.cache.put(filepath, fingerprint, duration)
+            
             return fingerprint, duration
             
         except subprocess.CalledProcessError as e:
