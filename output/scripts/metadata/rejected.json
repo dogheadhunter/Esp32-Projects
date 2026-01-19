@@ -1,0 +1,12 @@
+{
+  "reviews": [
+    {
+      "script_id": "2026-01-17_141300_Julie_Gossip",
+      "dj": "Julie",
+      "content_type": "Gossip",
+      "reviewed_at": "2026-01-19T10:26:35.746874",
+      "status": "rejected",
+      "reason_id": "too_generic"
+    }
+  ]
+}

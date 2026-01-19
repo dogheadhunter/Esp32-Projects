@@ -48,6 +48,41 @@
       "content_type": "Mr-New-Vegas_Gossip",
       "reviewed_at": "2026-01-18T22:21:41.923524",
       "status": "approved"
+    },
+    {
+      "script_id": "2026-01-17_151500_Julie_Gossip",
+      "dj": "Julie",
+      "content_type": "Gossip",
+      "reviewed_at": "2026-01-19T10:26:13.875763",
+      "status": "approved"
+    },
+    {
+      "script_id": "2026-01-17_141200_Julie_Music-Intro",
+      "dj": "Julie",
+      "content_type": "Music-Intro",
+      "reviewed_at": "2026-01-19T10:26:20.611858",
+      "status": "approved"
+    },
+    {
+      "script_id": "2026-01-17_151400_Julie_Gossip",
+      "dj": "Julie",
+      "content_type": "Gossip",
+      "reviewed_at": "2026-01-19T10:27:17.614638",
+      "status": "approved"
+    },
+    {
+      "script_id": "2026-01-17_131000_Julie_Gossip",
+      "dj": "Julie",
+      "content_type": "Gossip",
+      "reviewed_at": "2026-01-19T10:51:03.817406",
+      "status": "approved"
+    },
+    {
+      "script_id": "2026-01-17_131100_Julie_Gossip",
+      "dj": "Julie",
+      "content_type": "Gossip",
+      "reviewed_at": "2026-01-19T10:51:11.263263",
+      "status": "approved"
     }
   ]
 }

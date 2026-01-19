@@ -20,6 +20,8 @@ The Multi-Temporal Story System is a complete narrative management framework for
 5. **Story Weaving**: Natural integration with callbacks to previous stories
 6. **Broadcast Integration**: Seamless injection into existing broadcast engine
 
+> **⚠️ Important Note on Story Metadata**: When viewing generated story scripts via the script-review-app, the `timeline` and `story_info` metadata fields will show as NULL. This is **expected behavior**. Story metadata enrichment (timeline type, act position, engagement scores) only occurs during broadcast generation when the StoryScheduler activates stories from story_state pools and the StoryWeaver injects context into LLM prompts. The metadata is NOT stored in script text files - it's runtime-only data used for narrative management. The story system is fully functional; scripts are correctly categorized as "story" type and will be enriched when used in actual broadcasts.
+
 ---
 
 ## 📂 Module Overview
