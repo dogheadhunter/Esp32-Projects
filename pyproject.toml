@@ -32,6 +32,10 @@ dependencies = [
     # Utilities
     "psutil>=5.9.0",
     "textstat>=0.7.0",
+    
+    # Music Identification
+    "pyacoustid>=1.2.0",
+    "mutagen>=1.47.0",
 ]
 
 [project.optional-dependencies]
@@ -54,7 +58,7 @@ packages = ["tools"]
 tools = ["**/*.json", "**/*.md", "**/*.j2"]
 
 [tool.pytest.ini_options]
-testpaths = ["tools/wiki_to_chromadb/tests", "tools/script-generator/tests"]
+testpaths = ["tools/wiki_to_chromadb/tests", "tools/script-generator/tests", "tools/music_identifier/tests"]
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
