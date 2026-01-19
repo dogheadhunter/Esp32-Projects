@@ -1,5 +1,6 @@
 """Integration tests for the complete music identification workflow."""
 
+import json
 from pathlib import Path
 from unittest.mock import Mock, patch
 
@@ -30,8 +31,6 @@ class TestMusicIdentifierIntegration:
         mock_acoustid_response
     ):
         """Test complete workflow for successfully identified file."""
-        import json
-        
         # Setup mocks
         # 1. fpcalc fingerprint generation
         mock_fpcalc_result = Mock()
@@ -105,8 +104,6 @@ class TestMusicIdentifierIntegration:
         temp_music_dirs
     ):
         """Test complete workflow for file that cannot be identified."""
-        import json
-        
         # Setup mocks for low confidence result
         mock_fpcalc_result = Mock()
         mock_fpcalc_result.stdout = json.dumps({
@@ -220,8 +217,8 @@ class TestErrorHandling:
     @patch('requests.post')
     def test_api_network_error(self, mock_post, temp_music_dirs):
         """Test handling of network errors."""
-        import requests
-        mock_post.side_effect = requests.exceptions.ConnectionError()
+        import requests as req_module
+        mock_post.side_effect = req_module.exceptions.ConnectionError()
         
         config = get_config(
             acoustid_api_key="test_key",

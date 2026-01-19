@@ -58,7 +58,11 @@ packages = ["tools"]
 tools = ["**/*.json", "**/*.md", "**/*.j2"]
 
 [tool.pytest.ini_options]
-testpaths = ["tools/wiki_to_chromadb/tests", "tools/script-generator/tests", "tools/music_identifier/tests"]
+testpaths = [
+    "tools/wiki_to_chromadb/tests",
+    "tools/script-generator/tests",
+    "tools/music_identifier/tests"
+]
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]

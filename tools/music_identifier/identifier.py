@@ -271,7 +271,9 @@ class MusicIdentifier:
             # Try to extract year from release date
             if "firstreleasedate" in release_group:
                 try:
-                    year = int(release_group["firstreleasedate"][:4])
+                    release_date = release_group["firstreleasedate"]
+                    if release_date and len(release_date) >= 4:
+                        year = int(release_date[:4])
                 except (ValueError, TypeError):
                     pass
         
