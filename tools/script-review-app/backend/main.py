@@ -71,8 +71,7 @@ async def get_scripts(
     date_from: str | None = Query(None, description="Filter scripts from this date (YYYY-MM-DD)"),
     date_to: str | None = Query(None, description="Filter scripts to this date (YYYY-MM-DD)"),
     page: int = Query(1, ge=1, description="Page number (1-indexed)"),
-    page_size: int = Query(20, ge=1, le=100, description="Scripts per page"),
-    _: None = Depends(verify_token)
+    page_size: int = Query(20, ge=1, le=100, description="Scripts per page")
 ):
     """
     Get paginated list of scripts to review with advanced filtering.
@@ -118,8 +117,7 @@ async def get_scripts(
 
 @app.post("/api/review", response_model=ReviewResponse)
 async def review_script(
-    review: ReviewRequest,
-    _: None = Depends(verify_token)
+    review: ReviewRequest
 ):
     """
     Submit a review for a script (approve or reject).
@@ -163,7 +161,7 @@ async def review_script(
 
 
 @app.get("/api/reasons", response_model=list[RejectionReason])
-async def get_rejection_reasons(_: None = Depends(verify_token)):
+async def get_rejection_reasons():
     """
     Get list of pre-defined rejection reasons.
     
@@ -180,7 +178,7 @@ async def get_rejection_reasons(_: None = Depends(verify_token)):
 
 
 @app.get("/api/stats", response_model=StatsResponse)
-async def get_stats(_: None = Depends(verify_token)):
+async def get_stats():
     """
     Get review statistics.
     
@@ -198,7 +196,7 @@ async def get_stats(_: None = Depends(verify_token)):
 
 
 @app.get("/api/djs")
-async def get_djs(_: None = Depends(verify_token)):
+async def get_djs():
     """
     Get list of all DJs with their profiles.
     
@@ -215,7 +213,7 @@ async def get_djs(_: None = Depends(verify_token)):
 
 
 @app.get("/api/stats/detailed")
-async def get_detailed_stats(_: None = Depends(verify_token)):
+async def get_detailed_stats():
     """
     Get detailed statistics with category and approval rate breakdown.
     

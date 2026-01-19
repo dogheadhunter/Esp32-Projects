@@ -225,6 +225,9 @@
                 <button data-category="music" class="category-pill bg-gray-700 px-4 py-3 rounded-full text-sm font-medium transition hover:bg-gray-600">
                     🎵 Music
                 </button>
+                <button data-category="general" class="category-pill bg-gray-700 px-4 py-3 rounded-full text-sm font-medium transition hover:bg-gray-600">
+                    📻 General
+                </button>
             </div>
             
             <!-- Advanced Filters Toggle -->
@@ -374,8 +377,8 @@
         </div>
     </div>
     
-    <!-- Auth Modal -->
-    <div id="authModal" class="modal active">
+    <!-- Auth Modal - HIDDEN: No authentication needed for local use -->
+    <div id="authModal" class="modal" style="display: none;">
         <div class="bg-gray-800 rounded-lg p-6 max-w-md w-full mx-4 shadow-2xl">
             <h2 class="text-xl font-bold mb-4">Enter API Token</h2>
             <p class="text-gray-400 mb-4">Please enter your API token to access the script review app.</p>

@@ -31,14 +31,11 @@ class ScriptReviewApp {
     }
     
     async init() {
-        // Check authentication
-        if (!api.getToken()) {
-            this.showAuthModal();
-            return;
-        }
+        // Note: Authentication disabled - no API token required for local use
         
-        // Hide auth modal if token exists
-        document.getElementById('authModal').classList.remove('active');
+        // Hide auth modal (not needed)
+        const authModal = document.getElementById('authModal');
+        if (authModal) authModal.classList.remove('active');
         
         // Setup event listeners
         this.setupEventListeners();

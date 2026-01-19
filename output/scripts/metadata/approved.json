@@ -1,0 +1,53 @@
+{
+  "reviews": [
+    {
+      "script_id": "2026-01-17_151400_Mr. New Vegas_Gossip",
+      "dj": "Mr. New Vegas",
+      "content_type": "Gossip",
+      "reviewed_at": "2026-01-18T21:30:33.969483",
+      "status": "approved"
+    },
+    {
+      "script_id": "2026-01-17_151500_Mr. New Vegas_Gossip",
+      "dj": "Mr. New Vegas",
+      "content_type": "Gossip",
+      "reviewed_at": "2026-01-18T21:38:51.007661",
+      "status": "approved"
+    },
+    {
+      "script_id": "2026-01-18_180000_Julie_General",
+      "dj": "Julie",
+      "content_type": "General",
+      "reviewed_at": "2026-01-18T21:47:58.209389",
+      "status": "approved"
+    },
+    {
+      "script_id": "2026-01-18_170000_Travis Miles (Nervous)_Travis_Music",
+      "dj": "Travis Miles (Nervous)",
+      "content_type": "Travis_Music",
+      "reviewed_at": "2026-01-18T22:04:30.125593",
+      "status": "approved"
+    },
+    {
+      "script_id": "2026-01-18_190000_Mr. New Vegas_Mr-New-Vegas_General",
+      "dj": "Mr. New Vegas",
+      "content_type": "Mr-New-Vegas_General",
+      "reviewed_at": "2026-01-18T22:07:50.339429",
+      "status": "approved"
+    },
+    {
+      "script_id": "2026-01-18_160000_Julie_Music",
+      "dj": "Julie",
+      "content_type": "Music",
+      "reviewed_at": "2026-01-18T22:19:23.251740",
+      "status": "approved"
+    },
+    {
+      "script_id": "2026-01-18_150000_Mr. New Vegas_Mr-New-Vegas_Gossip",
+      "dj": "Mr. New Vegas",
+      "content_type": "Mr-New-Vegas_Gossip",
+      "reviewed_at": "2026-01-18T22:21:41.923524",
+      "status": "approved"
+    }
+  ]
+}

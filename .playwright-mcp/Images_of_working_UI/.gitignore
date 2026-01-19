@@ -1,0 +1,9 @@
+# Ignore all screenshot files (large binaries)
+*.jpg
+*.jpeg
+*.png
+
+# Keep the INDEX.md and folder structure
+!INDEX.md
+!.gitignore
+!*/
