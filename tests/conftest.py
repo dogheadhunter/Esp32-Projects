@@ -163,6 +163,9 @@ def pytest_configure(config):
         "markers", "slow: slow-running tests (e.g., full pipeline tests)"
     )
     config.addinivalue_line(
+        "markers", "e2e: end-to-end tests with real external services"
+    )
+    config.addinivalue_line(
         "markers", "requires_ollama: tests requiring real Ollama server (skip in CI)"
     )
     config.addinivalue_line(

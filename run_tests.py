@@ -3,14 +3,20 @@
 Test Runner Script
 
 Provides convenient commands to run different test suites.
-All tests use mocks - no external dependencies (Ollama, ChromaDB) required.
+Most tests use mocks - no external dependencies (Ollama, ChromaDB) required.
+E2E tests require real services and are skipped by default.
 
 Usage:
-    python run_tests.py           # Run all tests
-    python run_tests.py unit      # Run only unit tests
-    python run_tests.py integration  # Run only integration tests
-    python run_tests.py coverage  # Run with coverage report
-    python run_tests.py quick     # Run fast tests only
+    python run_tests.py                 # Run all tests (E2E tests SKIPPED)
+    python run_tests.py unit            # Run only unit tests
+    python run_tests.py integration     # Run only integration tests
+    python run_tests.py coverage        # Run with coverage report
+    python run_tests.py quick           # Run fast tests only
+    
+    # E2E tests (require real services)
+    python run_tests.py e2e             # Run ALL E2E tests (Ollama + ChromaDB)
+    python run_tests.py e2e-ollama      # Run Ollama E2E tests only
+    python run_tests.py e2e-chromadb    # Run ChromaDB E2E tests only
 """
 
 import sys
@@ -73,6 +79,18 @@ def main():
     elif test_type == "broadcast":
         print("📋 Running broadcast engine tests...")
         cmd = ["pytest", "tests/unit/test_broadcast_engine.py", "-v"]
+    
+    elif test_type == "e2e":
+        print("📋 Running ALL E2E tests (requires Ollama + ChromaDB)...")
+        cmd = ["pytest", "tests/e2e/", "--run-e2e", "-v"]
+    
+    elif test_type == "e2e-ollama":
+        print("📋 Running Ollama E2E tests...")
+        cmd = ["pytest", "tests/e2e/test_ollama_e2e.py", "--run-ollama", "-v"]
+    
+    elif test_type == "e2e-chromadb":
+        print("📋 Running ChromaDB E2E tests...")
+        cmd = ["pytest", "tests/e2e/test_chromadb_e2e.py", "--run-chromadb", "-v"]
     
     elif test_type == "help" or test_type == "-h" or test_type == "--help":
         print(__doc__)

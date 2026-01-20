@@ -5,8 +5,9 @@ Comprehensive test suite for the ESP32 AI Radio project with complete logging an
 ## 📋 Overview
 
 This test suite provides:
-- ✅ **100% Mock Testing**: No external dependencies (Ollama, ChromaDB) required
-- 📝 **Complete Logging**: All test output captured for debugging
+- ✅ **100% Mock Testing**: No external dependencies (Ollama, ChromaDB) required by default
+- 🚀 **E2E Testing**: Optional real service testing with `--run-e2e` flag
+- 📝 **3-Format Logging**: Human-readable, structured JSON, and LLM-optimized markdown
 - 🔍 **Easy to Use**: Simple commands to run all or specific tests
 - 📊 **Coverage Tracking**: Code coverage reports included
 - 🚀 **Fast Execution**: Mocked tests run in seconds
@@ -16,6 +17,7 @@ This test suite provides:
 ```
 tests/
 ├── conftest.py              # Pytest configuration and fixtures
+├── README.md                # This file
 ├── unit/                    # Unit tests for individual modules
 │   ├── test_ollama_client.py
 │   ├── test_logging_config.py
@@ -26,6 +28,12 @@ tests/
 │   ├── test_full_broadcast_pipeline.py
 │   ├── test_story_system.py
 │   └── ...
+├── e2e/                     # End-to-end tests (real services)
+│   ├── conftest.py          # E2E-specific fixtures
+│   ├── test_ollama_e2e.py   # Real Ollama tests
+│   ├── test_chromadb_e2e.py # Real ChromaDB tests
+│   ├── test_full_pipeline_e2e.py # Full RAG pipeline
+│   └── README.md            # E2E test documentation
 ├── mocks/                   # Mock implementations
 │   └── (imported from tools/shared/)
 ├── fixtures/                # Test data and fixtures
@@ -66,6 +74,15 @@ pytest -m mock
 
 # Run only tests that don't require Ollama
 pytest -m "not requires_ollama"
+
+# Run E2E tests (requires real Ollama + ChromaDB)
+pytest tests/e2e/ --run-e2e -v
+
+# Run only Ollama E2E tests
+pytest tests/e2e/test_ollama_e2e.py --run-ollama -v
+
+# Run only ChromaDB E2E tests
+pytest tests/e2e/test_chromadb_e2e.py --run-chromadb -v
 ```
 
 ### Running Specific Test Files
@@ -88,8 +105,9 @@ Tests are organized with markers for easy filtering:
 - `@pytest.mark.mock` - Tests using mock clients (fast, no external deps)
 - `@pytest.mark.integration` - Integration tests with multiple components
 - `@pytest.mark.slow` - Slow-running tests (e.g., full pipeline)
-- `@pytest.mark.requires_ollama` - Tests requiring real Ollama server (skip in CI)
-- `@pytest.mark.requires_chromadb` - Tests requiring real ChromaDB (skip in CI)
+- `@pytest.mark.e2e` - End-to-end tests with real external services
+- `@pytest.mark.requires_ollama` - Tests requiring real Ollama server (skip by default)
+- `@pytest.mark.requires_chromadb` - Tests requiring real ChromaDB (skip by default)
 
 ### Usage Examples
 
@@ -105,19 +123,31 @@ pytest -m integration
 
 # Run slow tests only
 pytest -m slow
+
+# Run E2E tests (they're skipped by default)
+pytest -m e2e --run-e2e
 ```
 
 ## 📝 Comprehensive Logging
 
-All tests capture complete output for debugging. Logs are saved in `/logs/` directory.
+All tests capture output in **THREE simultaneous formats** for maximum flexibility:
+
+### Log Format Comparison
+
+| Format | Purpose | Size | Best For |
+|--------|---------|------|----------|
+| `.log` | Human-readable detailed logs | 100% | Debugging, reading full details |
+| `.json` | Structured metadata | 120% | Programmatic analysis, scripts |
+| `.llm.md` | LLM-optimized markdown | 40-50% | AI review, quick summaries |
 
 ### Automatic Logging Features
 
-1. **Session-Based Logs**: Each test session creates a timestamped log file
+1. **Session-Based Logs**: Each test session creates timestamped log files
 2. **Complete Output Capture**: All print statements, logs, and errors captured
 3. **User Cancellation Tracking**: Ctrl+C events are logged with context
 4. **Exception Tracking**: Full tracebacks saved to logs
 5. **Structured Metadata**: JSON metadata for machine parsing
+6. **LLM-Optimized Format**: Token-efficient markdown for AI analysis
 
 ### Log Files Created
 
@@ -125,6 +155,7 @@ All tests capture complete output for debugging. Logs are saved in `/logs/` dire
 logs/
 ├── session_20260120_153045_test_session.log      # Human-readable log
 ├── session_20260120_153045_test_session.json     # Structured metadata
+├── session_20260120_153045_test_session.llm.md   # LLM-optimized markdown
 └── ...
 ```
 
@@ -134,15 +165,26 @@ logs/
 from tools.shared.logging_config import capture_output
 
 def test_with_logging():
-    """Test with complete output capture"""
-    with capture_output("my_test") as session:
-        print("This will be logged")
+    """Test with complete output capture in 3 formats"""
+    with capture_output("my_test", "Testing feature X") as session:
+        print("This will be logged in all 3 formats")
         
         # Log custom events
         session.log_event("MILESTONE", {"step": "completed"})
         
-        # All output is saved to logs/
+        # All output is saved to logs/ in 3 formats
 ```
+
+### LLM Log Features
+
+The `.llm.md` format is optimized for LLM analysis:
+- **50-60% smaller** than JSON (token-efficient)
+- **Markdown structure** with clear headers
+- **Relative timestamps** (+5s, +10s) for related events
+- **Self-contained blocks** (What/Why/Result/Impact)
+- **State snapshots** every 10 events
+- **Concise summary** at end
+- **Brief error context** (no full stack traces)
 
 ## 🧪 Test Fixtures
 
@@ -183,7 +225,7 @@ def test_with_helpers(helpers):
 
 ## 🔍 Debugging Failed Tests
 
-When tests fail, complete debugging information is available:
+When tests fail, complete debugging information is available in all 3 log formats:
 
 ### 1. Check Test Output
 
@@ -198,11 +240,14 @@ pytest tests/unit/test_ollama_client.py --tb=long
 ### 2. Check Log Files
 
 ```bash
-# View latest session log
+# View latest human-readable log
 ls -lt logs/session_*.log | head -1 | xargs cat
 
-# View session metadata
+# View structured metadata
 ls -lt logs/session_*.json | head -1 | xargs cat
+
+# View LLM-optimized summary
+ls -lt logs/session_*.llm.md | head -1 | xargs cat
 ```
 
 ### 3. Run Single Test with Print Output
@@ -221,6 +266,61 @@ pytest tests/unit/test_ollama_client.py --pdb
 # Drop into debugger on first failure
 pytest tests/unit/test_ollama_client.py -x --pdb
 ```
+
+## 🚀 End-to-End (E2E) Tests
+
+E2E tests verify integration with **real external services**. They are **SKIPPED BY DEFAULT**.
+
+### What are E2E Tests?
+
+E2E tests validate:
+- Real Ollama server (text generation, JSON mode, streaming)
+- Real ChromaDB (document ingestion, semantic search)
+- Full RAG pipeline (ChromaDB → Ollama)
+- Story continuity across segments
+- Real LLM-based validation
+
+### Running E2E Tests
+
+```bash
+# Run ALL E2E tests (requires Ollama + ChromaDB)
+pytest --run-e2e -v
+python run_tests.py e2e
+
+# Run only Ollama E2E tests
+pytest --run-ollama -v
+python run_tests.py e2e-ollama
+
+# Run only ChromaDB E2E tests
+pytest --run-chromadb -v
+python run_tests.py e2e-chromadb
+```
+
+### E2E Test Prerequisites
+
+**For Ollama tests**:
+```bash
+# Install and start Ollama
+curl https://ollama.ai/install.sh | sh
+ollama serve
+
+# Pull required model
+ollama pull llama3.1:8b
+```
+
+**For ChromaDB tests**:
+```bash
+pip install chromadb
+```
+
+### E2E Test Documentation
+
+See **`tests/e2e/README.md`** for complete E2E test documentation including:
+- Setup instructions
+- Test categories
+- Fixtures and usage
+- Troubleshooting
+- Writing new E2E tests
 
 ## 📊 Coverage Reports
 
