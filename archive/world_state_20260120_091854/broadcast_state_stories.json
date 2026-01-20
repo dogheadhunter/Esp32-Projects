@@ -1,10 +1,114 @@
 {
   "schema_version": "1.0",
-  "created_at": "2026-01-20T09:19:20.283517",
-  "last_modified": "2026-01-20T09:19:35.294030",
+  "created_at": "2026-01-20T09:15:59.402264",
+  "last_modified": "2026-01-20T09:16:24.300495",
   "story_pools": {
     "daily": [],
     "weekly": [
+      {
+        "story_id": "story_quest_beyond_the_beef",
+        "title": "Beyond the Beef",
+        "timeline": "weekly",
+        "acts": [
+          {
+            "act_number": 1,
+            "act_type": "setup",
+            "title": "The Vault Dweller arrives at the Charnel House.",
+            "summary": "The Vault Dweller reaches the Charnel House, a settlement along the road to Chernobeff, and meets its eccentric inhabitants. They learn about the strange occurrences in the nearby village of Green Vally.",
+            "source_chunks": [
+              "Beyond the Beef_Quest Stages_8_399"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.2,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          },
+          {
+            "act_number": 2,
+            "act_type": "rising",
+            "title": "Investigating rumors of a sinister cult in Green V",
+            "summary": "The Vault Dweller travels to Green Valley, where they discover evidence of a dark cult operating under the guise of a religious group. The townsfolk seem oblivious or complicit.",
+            "source_chunks": [
+              "Beyond the Beef_Quest Stages_10_401"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.6,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          },
+          {
+            "act_number": 3,
+            "act_type": "climax",
+            "title": "Confronting the cult in their stronghold, Chernobe",
+            "summary": "The Vault Dweller infiltrates the cult's heavily guarded fortress of Chernobeff, engaging in intense combat with fanatical cultists to reach the inner sanctum and confront the mysterious high priest.",
+            "source_chunks": [
+              "Beyond the Beef_Quest Stages_14_405"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 1.0,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          },
+          {
+            "act_number": 4,
+            "act_type": "falling",
+            "title": "Uncovering the cult's true purpose and bringing th",
+            "summary": "In a climactic showdown, the Vault Dweller exposes the cult's heinous plans, which involve human sacrifices and an ancient artifact of immense power. The high priest is defeated, but not before revealing his employer - the Enclave.",
+            "source_chunks": [],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.8,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          },
+          {
+            "act_number": 5,
+            "act_type": "resolution",
+            "title": "The Vault Dweller returns to the Charnel House wit",
+            "summary": "Returning victorious from Chernobeff, the Vault Dweller shares their findings with the Charnel House residents, earning their gratitude and respect. They forge an alliance against the Enclave's growing threat in the region.",
+            "source_chunks": [],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.1,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          }
+        ],
+        "summary": "Quest Stages",
+        "content_type": "quest",
+        "themes": [],
+        "factions": [],
+        "locations": [
+          "general"
+        ],
+        "characters": [],
+        "era": null,
+        "region": null,
+        "year_min": null,
+        "year_max": null,
+        "dj_compatible": [
+          "julie",
+          "three_dog",
+          "mr_new_vegas",
+          "travis_miles_confident"
+        ],
+        "knowledge_tier": "common",
+        "suggested_framing": "direct",
+        "source_wiki_titles": [
+          "Beyond the Beef"
+        ],
+        "extraction_date": "2026-01-20T09:16:23.870432",
+        "estimated_broadcasts": 10,
+        "priority": 0.5
+      },
       {
         "story_id": "story_quest_fallout_3_perks",
         "title": "Fallout 3 Perks",
@@ -112,7 +216,7 @@
         "source_wiki_titles": [
           "Fallout 3 Perks"
         ],
-        "extraction_date": "2026-01-20T09:19:35.070350",
+        "extraction_date": "2026-01-20T09:16:23.870432",
         "estimated_broadcasts": 10,
         "priority": 0.5
       },
@@ -220,7 +324,7 @@
         "source_wiki_titles": [
           "Bounty: Butcher"
         ],
-        "extraction_date": "2026-01-20T09:19:35.070350",
+        "extraction_date": "2026-01-20T09:16:23.870432",
         "estimated_broadcasts": 10,
         "priority": 0.5
       },
@@ -314,8 +418,8 @@
         ],
         "factions": [],
         "locations": [
-          "general",
-          "Commonwealth"
+          "Commonwealth",
+          "general"
         ],
         "characters": [],
         "era": null,
@@ -333,7 +437,7 @@
         "source_wiki_titles": [
           "Revolutionary War"
         ],
-        "extraction_date": "2026-01-20T09:19:35.286537",
+        "extraction_date": "2026-01-20T09:16:24.299493",
         "estimated_broadcasts": 10,
         "priority": 0.5
       },
@@ -443,7 +547,7 @@
         "source_wiki_titles": [
           "Citadel Terminal Entries"
         ],
-        "extraction_date": "2026-01-20T09:19:35.286537",
+        "extraction_date": "2026-01-20T09:16:24.299493",
         "estimated_broadcasts": 10,
         "priority": 0.5
       },
@@ -554,7 +658,7 @@
         "source_wiki_titles": [
           "Battle of Rockland"
         ],
-        "extraction_date": "2026-01-20T09:19:35.286537",
+        "extraction_date": "2026-01-20T09:16:24.299493",
         "estimated_broadcasts": 10,
         "priority": 0.5
       },
@@ -664,7 +768,7 @@
         "source_wiki_titles": [
           "French and Indian War"
         ],
-        "extraction_date": "2026-01-20T09:19:35.286537",
+        "extraction_date": "2026-01-20T09:16:24.299493",
         "estimated_broadcasts": 10,
         "priority": 0.5
       }
@@ -674,124 +778,7 @@
   },
   "active_stories": {
     "daily": null,
-    "weekly": {
-      "story": {
-        "story_id": "story_quest_beyond_the_beef",
-        "title": "Beyond the Beef",
-        "timeline": "weekly",
-        "acts": [
-          {
-            "act_number": 1,
-            "act_type": "setup",
-            "title": "Protagonist arrives in the settlement.",
-            "summary": "The player character, a weary traveler, enters the small settlement of Red Rock Ranch seeking refuge and resupply after traversing the harsh Mojave Wasteland.",
-            "source_chunks": [
-              "Beyond the Beef_Quest Stages_8_399"
-            ],
-            "entities": [],
-            "themes": [],
-            "conflict_level": 0.0,
-            "emotional_tone": "neutral",
-            "broadcast_count": 0,
-            "last_broadcast": null
-          },
-          {
-            "act_number": 2,
-            "act_type": "rising",
-            "title": "Suspicion arises among settlers.",
-            "summary": "As the protagonist interacts with the various inhabitants, undercurrents of distrust and resentment surface, fueled by rumors of a hidden agenda behind their arrival.",
-            "source_chunks": [
-              "Beyond the Beef_Quest Stages_10_401"
-            ],
-            "entities": [],
-            "themes": [],
-            "conflict_level": 0.3,
-            "emotional_tone": "neutral",
-            "broadcast_count": 0,
-            "last_broadcast": null
-          },
-          {
-            "act_number": 3,
-            "act_type": "climax",
-            "title": "Tensions boil over at the local watering hole.",
-            "summary": "After a heated argument between the protagonist and a settler, the situation spirals out of control as more residents join in, leading to a violent confrontation that threatens to destroy the fragile harmony within Red Rock Ranch.",
-            "source_chunks": [
-              "Beyond the Beef_Quest Stages_14_405"
-            ],
-            "entities": [],
-            "themes": [],
-            "conflict_level": 0.8,
-            "emotional_tone": "neutral",
-            "broadcast_count": 0,
-            "last_broadcast": null
-          },
-          {
-            "act_number": 4,
-            "act_type": "falling",
-            "title": "Aftermath and the price of discord.",
-            "summary": "In the aftermath of the cantina brawl, the community is left shattered, with several settlers injured or killed. As blame is assigned and relationships deteriorate further, the protagonist must confront the consequences of their actions and decide whether to stay and try to mend fences or flee into ",
-            "source_chunks": [],
-            "entities": [],
-            "themes": [],
-            "conflict_level": 0.6,
-            "emotional_tone": "neutral",
-            "broadcast_count": 0,
-            "last_broadcast": null
-          },
-          {
-            "act_number": 5,
-            "act_type": "resolution",
-            "title": "Resolution and the path forward.",
-            "summary": "After a period of soul-searching and difficult decisions, the protagonist either makes amends with the surviving settlers, earning their trust again, or chooses to leave Red Rock Ranch forever, vowing to learn from past mistakes and approach future interactions with more empathy and understanding.",
-            "source_chunks": [],
-            "entities": [],
-            "themes": [],
-            "conflict_level": 0.1,
-            "emotional_tone": "neutral",
-            "broadcast_count": 0,
-            "last_broadcast": null
-          }
-        ],
-        "summary": "Quest Stages",
-        "content_type": "quest",
-        "themes": [],
-        "factions": [],
-        "locations": [
-          "general"
-        ],
-        "characters": [],
-        "era": null,
-        "region": null,
-        "year_min": null,
-        "year_max": null,
-        "dj_compatible": [
-          "julie",
-          "three_dog",
-          "mr_new_vegas",
-          "travis_miles_confident"
-        ],
-        "knowledge_tier": "common",
-        "suggested_framing": "direct",
-        "source_wiki_titles": [
-          "Beyond the Beef"
-        ],
-        "extraction_date": "2026-01-20T09:19:35.070350",
-        "estimated_broadcasts": 10,
-        "priority": 0.5
-      },
-      "status": "resolution",
-      "current_act_index": 5,
-      "total_broadcasts": 18,
-      "broadcasts_in_current_act": 0,
-      "started_at": "2026-01-20T09:19:35.294030",
-      "last_broadcast_at": "2026-01-20T09:24:18.842553",
-      "expected_completion": null,
-      "engagement_score": 0.35,
-      "novelty_factor": 0.5,
-      "escalated_from": null,
-      "escalation_count": 0,
-      "can_escalate": true
-    },
+    "weekly": null,
     "monthly": null,
     "yearly": null
   },
@@ -800,13 +787,13 @@
   "escalation_history": [],
   "last_activation": {
     "daily": null,
-    "weekly": "2026-01-20T09:19:35.294030",
+    "weekly": null,
     "monthly": null,
     "yearly": null
   },
   "total_broadcasts_by_timeline": {
     "daily": 0,
-    "weekly": 480,
+    "weekly": 0,
     "monthly": 0,
     "yearly": 0
   }

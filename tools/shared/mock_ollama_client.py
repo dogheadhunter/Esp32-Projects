@@ -159,6 +159,69 @@ class MockOllamaClient:
         # Default response
         return self.default_response
     
+    def chat(
+        self,
+        messages: List[Dict[str, str]],
+        model: str = "llama3.2:latest",
+        temperature: float = 0.8,
+        max_tokens: int = 500,
+        **kwargs
+    ) -> Dict[str, Any]:
+        """
+        Mock chat method compatible with OllamaClient.
+        
+        Converts messages to a single prompt and uses generate().
+        Returns response in chat format.
+        
+        Args:
+            messages: List of message dicts with 'role' and 'content'
+            model: Model name (ignored in mock)
+            temperature: Temperature parameter (ignored in mock)
+            max_tokens: Max tokens parameter (ignored in mock)
+            
+        Returns:
+            Dict with 'message' containing 'content'
+        """
+        # Combine messages into single prompt
+        prompt_parts = []
+        for msg in messages:
+            role = msg.get('role', 'user')
+            content = msg.get('content', '')
+            prompt_parts.append(f"{role}: {content}")
+        
+        combined_prompt = "\n".join(prompt_parts)
+        
+        # Use generate to get response
+        response_text = self.generate(
+            model=model,
+            prompt=combined_prompt,
+            options={
+                'temperature': temperature,
+                'max_tokens': max_tokens,
+                **kwargs
+            }
+        )
+        
+        # Return in chat format
+        return {
+            "message": {
+                "role": "assistant",
+                "content": response_text
+            },
+            "model": model,
+            "created_at": time.time()
+        }
+    
+    def set_custom_response(self, keyword: str, response: str) -> None:
+        """
+        Set custom response for keyword matching.
+        
+        Args:
+            keyword: Keyword to match in prompts (case-insensitive)
+            response: Response to return when keyword is found
+        """
+        self.responses[keyword.lower()] = response
+    
     def unload_model(self, model: str) -> bool:
         """Mock unload model"""
         self.unloaded_models.append(model)

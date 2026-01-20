@@ -164,3 +164,34 @@
 - Monitor memory usage for large datasets
 - Refactor when complexity increases
 - You can't monitor result after starting the script as you will cancel it. You must wait for the script to complete and then review the results.
+
+## Common Pitfalls to Avoid
+
+### Changes & Testing
+- Make ONE change at a time, run tests, verify before next change
+- Read FULL error tracebacks before proposing fixes
+- Verify dependencies exist before modifying imports
+- Check if functions accept parameters before adding them
+- Use absolute paths; verify directories exist before file operations
+- Wait for complete test output before declaring success
+
+### Root Cause Analysis
+- Identify root cause, not just symptoms (avoid cascading fixes)
+- Understand framework behavior (pytest conftest scoping, Windows encoding)
+- Check documentation for standard patterns before inventing solutions
+- Ask "why does this exist?" before removing/moving code
+
+### File Operations
+- Check REPOSITORY_STRUCTURE.md before searching/modifying files
+- Update REPOSITORY_STRUCTURE.md after moving/creating files or restructuring
+- Read relevant README files for the area you're working in (e.g., tests/README.md, tools/*/README.md)
+- Verify all imports/references before moving files
+- Check pytest fixture scopes before modifying conftest.py
+- Use `encoding='utf-8'` for subprocess calls on Windows
+- Test file moves in isolation before batch reorganization
+
+### LLM/RAG Specific
+- Enable validation systems (`validation_enabled: true`) 
+- Verify story beats appear in generated content, not just metadata
+- Filter RAG results by temporal/spatial constraints before LLM call
+- Check that LLM directives are enforced, not just suggested in context

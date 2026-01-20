@@ -51,9 +51,8 @@ class TestOllamaClientMocked:
         # Patch requests.exceptions to raise ConnectionError
         from requests.exceptions import ConnectionError as RequestsConnectionError
         
-        # Import and patch in the correct location
-        import ollama_client
-        with patch.object(ollama_client.requests, 'post', side_effect=RequestsConnectionError("Connection refused")):
+        # Patch requests.post to raise connection error
+        with patch('requests.post', side_effect=RequestsConnectionError("Connection refused")):
             # Should raise our wrapped ConnectionError
             with pytest.raises(ConnectionError):
                 client.generate(model="test-model", prompt="test")

@@ -87,16 +87,19 @@ class SessionLogger:
     - Complete terminal capture
     """
     
-    def __init__(self, session_name: str = "default", session_context: Optional[str] = None):
+    def __init__(self, session_name: str = "default", session_context: Optional[str] = None, log_dir: Optional[Path] = None):
         self.session_name = session_name
         self.session_context = session_context
         self.start_time = datetime.now()
         self.session_id = self.start_time.strftime('%Y%m%d_%H%M%S')
         
+        # Use provided log_dir or default to LOG_DIR
+        output_dir = log_dir if log_dir is not None else LOG_DIR
+        
         # Create session-specific log files
-        self.log_file = LOG_DIR / f"session_{self.session_id}_{session_name}.log"
-        self.metadata_file = LOG_DIR / f"session_{self.session_id}_{session_name}.json"
-        self.llm_file = LOG_DIR / f"session_{self.session_id}_{session_name}.llm.md"
+        self.log_file = output_dir / f"session_{self.session_id}_{session_name}.log"
+        self.metadata_file = output_dir / f"session_{self.session_id}_{session_name}.json"
+        self.llm_file = output_dir / f"session_{self.session_id}_{session_name}.llm.md"
         
         # Session metadata
         self.metadata: Dict[str, Any] = {
@@ -440,7 +443,7 @@ def setup_logger(
 
 
 @contextmanager
-def capture_output(session_name: str = "script", context: Optional[str] = None):
+def capture_output(session_name: str = "script", context: Optional[str] = None, log_dir: Optional[Path] = None):
     """
     Context manager that captures ALL terminal output.
     
@@ -465,11 +468,12 @@ def capture_output(session_name: str = "script", context: Optional[str] = None):
     Args:
         session_name: Name for this session
         context: Optional context/goal description for LLM log
+        log_dir: Optional custom directory for log files (defaults to logs/)
     
     Yields:
         SessionLogger instance for logging events
     """
-    session = SessionLogger(session_name, context)
+    session = SessionLogger(session_name, context, log_dir)
     
     # Capture stdout and stderr
     original_stdout = sys.stdout

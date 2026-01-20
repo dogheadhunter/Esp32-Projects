@@ -70,7 +70,7 @@ REQUIREMENTS:
 - Do NOT mention game mechanics or meta information
 - Use present tense (you're broadcasting live in 2102)
 - Include weather-appropriate advice for wastelanders
-{% if weather_continuity.weather_changed %}
+{% if weather_continuity and weather_continuity.weather_changed %}
 - CRITICAL: Naturally acknowledge the weather change from {{ weather_continuity.last_weather_type }} to {{ weather_type }}
 {% endif %}
 {% if catchphrase.should_use and catchphrase.opening %}

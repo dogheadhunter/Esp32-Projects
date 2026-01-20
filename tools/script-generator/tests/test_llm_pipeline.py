@@ -39,7 +39,7 @@ class TestConstraintEmbedding(unittest.TestCase):
             max_year=2287,
             forbidden_topics=["Institute", "Railroad"],
             forbidden_factions=["Enclave"],
-            tone="informative",
+            required_tone="informative",
             max_length=400
         )
         
@@ -113,7 +113,7 @@ class TestValidationGuidedGeneration(unittest.TestCase):
         constraints = ValidationConstraints(
             max_year=2287,
             forbidden_topics=["Institute"],
-            tone="casual"
+            required_tone="casual"
         )
         
         dj_context = {
@@ -249,7 +249,7 @@ class TestSchedulerIntegration(unittest.TestCase):
         constraints = ValidationConstraints(
             max_year=2287,
             forbidden_topics=["Institute"],
-            tone="casual"
+            required_tone="casual"
         )
         
         # Create mock SegmentPlan

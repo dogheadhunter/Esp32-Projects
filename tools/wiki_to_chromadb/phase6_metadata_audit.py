@@ -469,14 +469,14 @@ class MetadataAuditor:
         
         for report_name, report_data in reports.items():
             report_file = output_path / f"phase6_{report_name}_{timestamp}.json"
-            with open(report_file, 'w') as f:
+            with open(report_file, 'w', encoding='utf-8') as f:
                 json.dump(report_data, f, indent=2)
             logger.info(f"Saved {report_name} to {report_file}")
         
         # Generate summary statistics
         summary = self._generate_summary_stats()
         summary_file = output_path / f"phase6_audit_summary_{timestamp}.json"
-        with open(summary_file, 'w') as f:
+        with open(summary_file, 'w', encoding='utf-8') as f:
             json.dump(summary, f, indent=2)
         logger.info(f"Saved audit summary to {summary_file}")
         
@@ -640,7 +640,7 @@ Based on error rates:
 - `phase6_audit_summary_{timestamp}.json`
 """
         
-        with open(report_file, 'w') as f:
+        with open(report_file, 'w', encoding='utf-8') as f:
             f.write(report)
         
         logger.info(f"Generated markdown report: {report_file}")

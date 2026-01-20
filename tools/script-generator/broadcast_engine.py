@@ -503,6 +503,8 @@ class BroadcastEngine:
             dj_name=self.dj_name,
             context_query=context_query,
             temperature=0.6,  # More focused for emergencies
+            enable_validation_retry=self.enable_validation,
+            enable_consistency_validation=self.enable_validation,
             # Pass emergency-specific vars as **kwargs
             hour=current_hour,
             time_of_day=time_of_day.name.lower(),
@@ -709,6 +711,7 @@ class BroadcastEngine:
             script_type=generator_script_type,
             dj_name=self.dj_name,
             context_query=context_query,
+            enable_validation_retry=self.enable_validation,
             enable_consistency_validation=self.enable_validation,
             **safe_template_vars
         )

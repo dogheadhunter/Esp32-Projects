@@ -81,7 +81,7 @@ class TestComplexityTierClassification:
             section_level=1,
             chunk_index=0,
             total_chunks=1,
-            structural=StructuralMetadata(wikilinks=[{"target": f"link{i}"} for i in range(15)])
+            structural=StructuralMetadata(wikilinks=[{"target": f"link{i}", "display": f"Link {i}", "type": "internal"} for i in range(15)])
         )
         
         text = " ".join(["word"] * 850)  # 850 words
@@ -97,7 +97,7 @@ class TestComplexityTierClassification:
             section_level=1,
             chunk_index=0,
             total_chunks=1,
-            structural=StructuralMetadata(wikilinks=[{"target": f"link{i}"} for i in range(5)])
+            structural=StructuralMetadata(wikilinks=[{"target": f"link{i}", "display": f"Link {i}", "type": "internal"} for i in range(5)])
         )
         
         text = " ".join(["word"] * 400)  # 400 words

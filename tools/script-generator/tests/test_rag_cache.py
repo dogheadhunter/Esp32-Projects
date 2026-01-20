@@ -129,7 +129,7 @@ class TestRAGCache:
     
     def test_cache_key_generation(self, rag_cache):
         """Test cache key generation is consistent"""
-        dj_context = {'name': 'Julie', 'year': 2102, 'region': 'Appalachia'}
+        dj_context = {'name': 'Julie (2102, Appalachia)', 'year': 2102, 'region': 'Appalachia'}
         
         key1 = rag_cache._generate_cache_key("test query", dj_context, 5)
         key2 = rag_cache._generate_cache_key("test query", dj_context, 5)
@@ -195,7 +195,7 @@ class TestRAGCache:
             'distances': [[0.1]]
         })
         
-        dj_context = {'name': 'Julie', 'year': 2102, 'region': 'Appalachia'}
+        dj_context = {'name': 'Julie (2102, Appalachia)', 'year': 2102, 'region': 'Appalachia'}
         
         # First query - should miss cache
         results = rag_cache.query_with_cache("test query", dj_context, num_chunks=5)
@@ -213,7 +213,7 @@ class TestRAGCache:
             'distances': [[0.1]]
         })
         
-        dj_context = {'name': 'Julie', 'year': 2102, 'region': 'Appalachia'}
+        dj_context = {'name': 'Julie (2102, Appalachia)', 'year': 2102, 'region': 'Appalachia'}
         
         # First query - miss
         rag_cache.query_with_cache("test query", dj_context, num_chunks=5)
@@ -235,7 +235,7 @@ class TestRAGCache:
             'distances': [[0.1]]
         })
         
-        dj_context = {'name': 'Julie', 'year': 2102}
+        dj_context = {'name': 'Julie (2102, Appalachia)', 'year': 2102}
         
         # Fill cache
         rag_cache.query_with_cache("query 1", dj_context)
@@ -259,7 +259,7 @@ class TestRAGCache:
             'distances': [[0.1]]
         })
         
-        dj_context = {'name': 'Julie', 'year': 2102}
+        dj_context = {'name': 'Julie (2102, Appalachia)', 'year': 2102}
         
         # Query with short TTL
         rag_cache.query_with_cache("test", dj_context, ttl=1)
@@ -284,7 +284,7 @@ class TestRAGCache:
             'distances': [[0.1]]
         })
         
-        dj_context = {'name': 'Julie', 'year': 2102, 'region': 'Appalachia'}
+        dj_context = {'name': 'Julie (2102, Appalachia)', 'year': 2102, 'region': 'Appalachia'}
         
         # Cache with topic
         rag_cache.query_with_cache(
@@ -310,7 +310,7 @@ class TestRAGCache:
             'distances': [[0.1]]
         })
         
-        dj_context = {'name': 'Julie', 'year': 2102}
+        dj_context = {'name': 'Julie (2102, Appalachia)', 'year': 2102}
         
         # Add some entries
         rag_cache.query_with_cache("query 1", dj_context)
@@ -333,7 +333,7 @@ class TestRAGCache:
             'distances': [[0.1]]
         })
         
-        dj_context = {'name': 'Julie', 'year': 2102}
+        dj_context = {'name': 'Julie (2102, Appalachia)', 'year': 2102}
         
         # Add entries with topics
         rag_cache.query_with_cache("weather query", dj_context, topic='weather')

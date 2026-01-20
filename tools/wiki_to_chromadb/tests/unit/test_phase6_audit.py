@@ -129,7 +129,7 @@ class TestMetadataAuditor:
         
         # Verify JSON structure
         for json_file in json_files:
-            with open(json_file) as f:
+            with open(json_file, encoding='utf-8') as f:
                 data = json.load(f)
                 assert isinstance(data, dict)
     
