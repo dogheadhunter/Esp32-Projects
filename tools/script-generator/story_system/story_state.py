@@ -226,6 +226,10 @@ class StoryState:
             def get_value(obj):
                 return obj.value if hasattr(obj, 'value') else obj
             
+            # Debug: Count active stories
+            active_count = sum(1 for active in self.active_stories.values() if active)
+            print(f"[Story State] Saving: {active_count} active stories, {sum(len(pool) for pool in self.story_pools.values())} in pools")
+            
             state_dict = {
                 "schema_version": self.schema_version,
                 "created_at": self.created_at,
@@ -258,7 +262,7 @@ class StoryState:
             
             # Write with atomic rename for safety
             temp_path = self.persistence_path.with_suffix('.tmp')
-            with open(temp_path, 'w') as f:
+            with open(temp_path, 'w', encoding='utf-8') as f:
                 json.dump(state_dict, f, indent=2)
             
             temp_path.replace(self.persistence_path)

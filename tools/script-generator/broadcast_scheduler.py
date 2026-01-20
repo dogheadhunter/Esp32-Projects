@@ -1,8 +1,14 @@
-"""
+﻿"""
 Broadcast Scheduler Module
 
 Manages time-aware scheduling of different broadcast segment types.
-Ensures appropriate content is generated based on time of day and scheduling intervals.
+Ensures appropriate content is generated based on time of day and fixed schedules.
+
+UPDATED: Time-based scheduling for time checks, news, and weather.
+- Time checks: Every hour on the hour
+- News: 6am, 12pm (noon), 5pm
+- Weather: 6am (day forecast), 12pm (afternoon update), 5pm (evening + tomorrow forecast)
+- Gossip/Story: Fill remaining segments
 """
 
 from enum import Enum
@@ -23,80 +29,26 @@ class BroadcastScheduler:
     """
     Manages time-aware scheduling for broadcast segments.
     
-    Different segment types have different frequencies based on time of day:
-    - Weather: Every 30 minutes
-    - News: Every 45 minutes
-    - Gossip: Every 60 minutes
-    - Music Intros: Every song (5-7 minute intervals)
-    - Time Checks: Every 15 minutes
+    Fixed schedule:
+    - Time checks: Every hour on the hour (first segment)
+    - News: 6am, 12pm, 5pm
+    - Weather: 6am, 12pm, 5pm
+    - Gossip/Story: Fill remaining slots
     """
     
     def __init__(self):
         """Initialize broadcast scheduler."""
-        self.last_segment_times = {
-            "weather": None,
-            "news": None,
-            "gossip": None,
-            "music_intro": None,
-            "time_check": None,
-        }
+        # Track which hours have had their required segments
+        self.time_check_done_hours = set()
+        self.news_done_hours = set()
+        self.weather_done_hours = set()
         
-        # Segment intervals in minutes
-        self.segment_intervals = {
-            "weather": 30,
-            "news": 45,
-            "gossip": 60,
-            "music_intro": 6,      # Every ~6 minutes (song length)
-            "time_check": 15,
-        }
-        
-        # Priority adjustments by time of day
-        # Higher priority = more likely to be selected
-        self.time_of_day_priorities = {
-            TimeOfDay.MORNING: {
-                "weather": 1.5,
-                "news": 1.2,
-                "time_check": 2.0,
-                "gossip": 0.8,
-                "music_intro": 1.0,
-            },
-            TimeOfDay.MIDDAY: {
-                "weather": 1.0,
-                "news": 1.3,
-                "time_check": 1.0,
-                "gossip": 1.2,
-                "music_intro": 1.0,
-            },
-            TimeOfDay.AFTERNOON: {
-                "weather": 0.8,
-                "news": 1.0,
-                "time_check": 0.9,
-                "gossip": 1.5,
-                "music_intro": 1.0,
-            },
-            TimeOfDay.EVENING: {
-                "weather": 2.0,
-                "news": 1.3,
-                "time_check": 1.5,
-                "gossip": 0.9,
-                "music_intro": 1.0,
-            },
-            TimeOfDay.NIGHT: {
-                "weather": 0.5,
-                "news": 0.7,
-                "time_check": 0.5,
-                "gossip": 1.8,
-                "music_intro": 1.2,
-            },
-        }
+        # Fixed schedule for specific segment types
+        self.NEWS_HOURS = {6, 12, 17}
+        self.WEATHER_HOURS = {6, 12, 17}
     
     def get_current_time_of_day(self) -> TimeOfDay:
-        """
-        Determine current time of day from system time.
-        
-        Returns:
-            TimeOfDay enum representing current period
-        """
+        """Determine current time of day from system time."""
         hour = datetime.now().hour
         
         if 6 <= hour < 10:
@@ -107,102 +59,62 @@ class BroadcastScheduler:
             return TimeOfDay.AFTERNOON
         elif 18 <= hour < 22:
             return TimeOfDay.EVENING
-        else:  # 22-6
+        else:
             return TimeOfDay.NIGHT
     
+    def get_required_segment_for_hour(self, current_hour: int) -> Optional[str]:
+        """Get required segment type for this hour."""
+        # Time check first
+        if current_hour not in self.time_check_done_hours:
+            return "time_check"
+        
+        # News at specific hours
+        if current_hour in self.NEWS_HOURS and current_hour not in self.news_done_hours:
+            return "news"
+        
+        # Weather at specific hours
+        if current_hour in self.WEATHER_HOURS and current_hour not in self.weather_done_hours:
+            return "weather"
+        
+        return None
+    
+    def mark_segment_done(self, segment_type: str, current_hour: int) -> None:
+        """Mark that a required segment has been generated."""
+        if segment_type == "time_check":
+            self.time_check_done_hours.add(current_hour)
+        elif segment_type == "news":
+            self.news_done_hours.add(current_hour)
+        elif segment_type == "weather":
+            self.weather_done_hours.add(current_hour)
+    
+    def is_story_ready(self) -> bool:
+        """Check if story should be considered."""
+        return True
+    
     def is_time_for_segment(self, segment_type: str) -> bool:
-        """
-        Check if it's time for a specific segment type.
-        
-        Args:
-            segment_type: Type of segment to check (weather, news, etc.)
-        
-        Returns:
-            True if interval has elapsed since last segment of this type
-        """
-        if segment_type not in self.last_segment_times:
-            return True  # Never generated this type
-        
-        last_time = self.last_segment_times[segment_type]
-        if last_time is None:
-            return True
-        
-        interval_minutes = self.segment_intervals.get(segment_type, 30)
-        elapsed = datetime.now() - last_time
-        
-        return elapsed >= timedelta(minutes=interval_minutes)
+        """Legacy method - always ready for flexible segments."""
+        return True
     
     def record_segment_generated(self, segment_type: str) -> None:
-        """
-        Record that a segment was just generated.
-        
-        Args:
-            segment_type: Type of segment that was generated
-        """
-        if segment_type in self.last_segment_times:
-            self.last_segment_times[segment_type] = datetime.now()
+        """Legacy method - kept for backward compatibility."""
+        pass
     
     def get_next_priority_segment(self) -> Optional[str]:
-        """
-        Determine which segment type should be generated next based on:
-        1. Time since last generation (intervals)
-        2. Time of day (priority adjustments)
-        
-        Returns:
-            Segment type to generate next, or None if no priority segment
-        """
-        current_time = self.get_current_time_of_day()
-        priorities = self.time_of_day_priorities[current_time]
-        
-        # Find segments that are ready (interval elapsed)
-        ready_segments = [
-            segment_type 
-            for segment_type in self.segment_intervals.keys()
-            if self.is_time_for_segment(segment_type)
-        ]
-        
-        if not ready_segments:
-            return None
-        
-        # Score each ready segment by time-of-day priority
-        scored = [
-            (segment, priorities.get(segment, 1.0))
-            for segment in ready_segments
-        ]
-        
-        # Return highest priority segment
-        return max(scored, key=lambda x: x[1])[0]
+        """Legacy method - returns None."""
+        return None
     
     def get_segments_status(self) -> dict:
-        """
-        Get status of all segment types (for debugging/monitoring).
-        
-        Returns:
-            Dictionary with segment status information
-        """
-        status = {}
-        
-        for segment_type, interval_min in self.segment_intervals.items():
-            last_time = self.last_segment_times[segment_type]
-            
-            if last_time is None:
-                time_since = "never"
-                is_ready = True
-            else:
-                elapsed = datetime.now() - last_time
-                minutes_elapsed = int(elapsed.total_seconds() / 60)
-                time_since = f"{minutes_elapsed} minutes ago"
-                is_ready = minutes_elapsed >= interval_min
-            
-            status[segment_type] = {
-                "interval_minutes": interval_min,
-                "last_generated": time_since,
-                "is_ready": is_ready,
-            }
-        
-        return status
+        """Get status of scheduled segments."""
+        return {
+            "time_checks_done": sorted(list(self.time_check_done_hours)),
+            "news_done": sorted(list(self.news_done_hours)),
+            "weather_done": sorted(list(self.weather_done_hours)),
+            "news_hours": sorted(list(self.NEWS_HOURS)),
+            "weather_hours": sorted(list(self.WEATHER_HOURS))
+        }
     
     def reset(self) -> None:
-        """Reset all segment timers (for testing or session restart)."""
-        for segment_type in self.last_segment_times:
-            self.last_segment_times[segment_type] = None
+        """Reset all segment tracking."""
+        self.time_check_done_hours.clear()
+        self.news_done_hours.clear()
+        self.weather_done_hours.clear()

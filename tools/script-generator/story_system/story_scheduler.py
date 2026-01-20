@@ -56,10 +56,10 @@ class StoryScheduler:
     
     # Probability of including story beat in broadcast
     INCLUSION_PROBABILITY = {
-        StoryTimeline.DAILY: 0.7,    # High frequency
-        StoryTimeline.WEEKLY: 0.4,   # Moderate
-        StoryTimeline.MONTHLY: 0.2,  # Occasional
-        StoryTimeline.YEARLY: 0.1,   # Rare
+        StoryTimeline.DAILY: 0.8,    # High frequency (tuned)
+        StoryTimeline.WEEKLY: 0.5,   # Moderate (tuned)
+        StoryTimeline.MONTHLY: 0.3,  # Occasional (tuned)
+        StoryTimeline.YEARLY: 0.15,  # Rare (tuned)
     }
     
     # Minimum broadcasts between beats for same story
@@ -161,13 +161,19 @@ class StoryScheduler:
         
         # Check minimum spacing
         last_broadcast = self.last_beat_broadcast.get(timeline, -100)
-        if self.current_broadcast_number - last_broadcast < self.MIN_SPACING[timeline]:
+        broadcasts_since = self.current_broadcast_number - last_broadcast
+        if broadcasts_since < self.MIN_SPACING[timeline]:
+            print(f"  [SKIP] {timeline.value}: Spacing check failed (broadcasts since last: {broadcasts_since}, min: {self.MIN_SPACING[timeline]})")
             return False
         
         # Probability-based inclusion
-        if random.random() > self.INCLUSION_PROBABILITY[timeline]:
+        roll = random.random()
+        threshold = self.INCLUSION_PROBABILITY[timeline]
+        if roll > threshold:
+            print(f"  [ROLL] {timeline.value}: Probability check failed (roll: {roll:.2f} > {threshold})")
             return False
         
+        print(f"  [OK] {timeline.value}: Beat will be included (roll: {roll:.2f} <= {threshold})")
         return True
     
     def _should_advance_act(self, active_story: ActiveStory) -> bool:
@@ -212,16 +218,20 @@ class StoryScheduler:
             # Simple approximation - in real system would track precisely
             cooldown = self.COOLDOWN_BROADCASTS[timeline]
             if broadcasts_since < cooldown:
+                print(f"[COOLDOWN] Story activation blocked: {timeline.value} timeline (broadcasts since: {broadcasts_since}, cooldown: {cooldown})")
                 return False
         
         # Get pool
         pool = self.state.get_pool(timeline)
         if not pool:
+            print(f"[EMPTY] No stories in pool for {timeline.value} timeline")
             return False
         
         # Select story (for now, just take first)
         # TODO: Could rank by priority, engagement potential, etc.
         story = pool[0]
+        
+        print(f"[ACTIVATE] Story: {story.title} ({timeline.value} timeline)")
         
         # Activate it
         active_story = ActiveStory(

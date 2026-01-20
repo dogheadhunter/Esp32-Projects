@@ -47,6 +47,8 @@ try:
     from story_system.story_scheduler import StoryScheduler
     from story_system.story_weaver import StoryWeaver
     from story_system.story_state import StoryState
+    from story_system.story_extractor import StoryExtractor
+    from story_system.story_models import StoryTimeline
     STORY_SYSTEM_AVAILABLE = True
 except ImportError:
     STORY_SYSTEM_AVAILABLE = False
@@ -174,6 +176,9 @@ class BroadcastEngine:
             self.story_state = StoryState(persistence_path=story_state_path)
             self.story_scheduler = StoryScheduler(story_state=self.story_state)
             self.story_weaver = StoryWeaver(story_state=self.story_state)
+            
+            # Seed story pools if they're empty
+            self._seed_story_pools_if_empty()
         
         # Broadcast metrics
         self.broadcast_start = datetime.now()
@@ -241,6 +246,57 @@ class BroadcastEngine:
             print(f"[Weather System] Calendar generated and saved for {region_name}")
         else:
             print(f"[Weather System] Loaded existing calendar for {region_name}")
+    
+    def _seed_story_pools_if_empty(self) -> None:
+        """
+        Seed story pools if they're empty (first-time initialization).
+        
+        Extracts stories from ChromaDB and populates each timeline with
+        initial story content. Only runs if pools are empty.
+        """
+        if not self.story_state or not self.generator:
+            return
+        
+        # Check if pools need seeding
+        pool_sizes = {timeline: self.story_state.get_pool_size(timeline) for timeline in StoryTimeline}
+        total_stories = sum(pool_sizes.values())
+        
+        if total_stories > 0:
+            print(f"[Story System] Story pools already populated ({total_stories} total stories)")
+            return
+        
+        print("[Story System] Seeding story pools from ChromaDB...")
+        
+        # Create extractor with ChromaDB collection
+        extractor = StoryExtractor(chroma_collection=self.generator.rag.collection)
+        
+        # Extract stories for each timeline (without timeline filter initially to see what we get)
+        print("[Story System] DEBUG: Extracting stories without timeline filter...")
+        all_stories = extractor.extract_stories(max_stories=50, timeline=None, min_chunks=1, max_chunks=10)
+        print(f"[Story System] DEBUG: Extracted {len(all_stories)} total stories")
+        
+        # Group by timeline
+        stories_by_timeline = {
+            StoryTimeline.DAILY: [s for s in all_stories if s.timeline == StoryTimeline.DAILY][:10],
+            StoryTimeline.WEEKLY: [s for s in all_stories if s.timeline == StoryTimeline.WEEKLY][:8],
+            StoryTimeline.MONTHLY: [s for s in all_stories if s.timeline == StoryTimeline.MONTHLY][:5],
+            StoryTimeline.YEARLY: [s for s in all_stories if s.timeline == StoryTimeline.YEARLY][:3]
+        }
+        
+        # Add stories to pools
+        total_added = 0
+        for timeline, stories in stories_by_timeline.items():
+            for story in stories:
+                self.story_state.add_to_pool(story, timeline)
+                total_added += 1
+            print(f"  {timeline.value}: {len(stories)} stories added")
+        
+        # Save state
+        if total_added > 0:
+            self.story_state.save()
+            print(f"[Story System] Seeded {total_added} stories across {len(StoryTimeline)} timelines")
+        else:
+            print("[Story System] Warning: No stories extracted from ChromaDB")
     
     def _get_current_weather_from_simulator(self, current_hour: int) -> Optional[Any]:
         """
@@ -560,23 +616,38 @@ class BroadcastEngine:
         # Phase 7: Get story beats for this broadcast
         story_beats = []
         story_context = ""
+        has_story_available = False
         if self.story_scheduler and self.story_weaver:
             story_beats = self.story_scheduler.get_story_beats_for_broadcast()
             if story_beats:
                 woven_result = self.story_weaver.weave_beats(story_beats)
                 story_context = woven_result.get('context_for_llm', '')
+                has_story_available = True
                 print(f"📖 Story beats: {self.story_weaver.get_story_summary(story_beats)}")
         
         # Determine segment type
         if force_type:
             segment_type = force_type
         else:
-            segment_type = self.scheduler.get_next_priority_segment()
-            if segment_type is None:
+            # Check for required time-based segments first (time check, news, weather)
+            required_segment = self.scheduler.get_required_segment_for_hour(current_hour)
+            
+            if required_segment:
+                segment_type = required_segment
+                print(f"🕐 Required {segment_type} for hour {current_hour}")
+            elif has_story_available:
+                # Story beats available and no required segments
+                segment_type = 'story'
+                print("📚 Story beats available - prioritizing story segment")
+            else:
+                # No required segments, no stories - default to gossip
                 segment_type = 'gossip'
 
         # Map scheduler alias to generator template name
+        # Story segments use 'gossip' template but with story_context enrichment
         generator_script_type = 'time' if segment_type == 'time_check' else segment_type
+        if segment_type == 'story':
+            generator_script_type = 'gossip'  # Use gossip template for stories
         
         print(f"\n🎬 Generating {segment_type} segment (Hour: {current_hour})")
         
@@ -622,6 +693,7 @@ class BroadcastEngine:
             script_type=generator_script_type,
             dj_name=self.dj_name,
             context_query=context_query,
+            enable_consistency_validation=self.enable_validation,
             **safe_template_vars
         )
         
@@ -682,8 +754,11 @@ class BroadcastEngine:
             }
         )
         
-        # Update scheduler
-        self.scheduler.record_segment_generated(segment_type)
+        # Update scheduler - mark required segments as done
+        if segment_type in ['time_check', 'news', 'weather']:
+            self.scheduler.mark_segment_done(segment_type, current_hour)
+        else:
+            self.scheduler.record_segment_generated(segment_type)
         
         # Update world state if applicable
         if segment_type == 'gossip' and result.get('script'):
@@ -793,6 +868,8 @@ class BroadcastEngine:
             print(f"\n⏰ Hour {current_hour}:00")
             
             for segment_num in range(segments_per_hour):
+                # Generate story beats fresh for each segment
+                # This ensures proper story state tracking
                 segment = self.generate_next_segment(current_hour)
                 segments.append(segment)
         
@@ -818,6 +895,11 @@ class BroadcastEngine:
                 runtime_hours=duration.total_seconds() / 3600
             )
             self.world_state.save()
+            
+            # Save story state if enabled
+            if self.story_state:
+                print("[Story System] Saving story state...")
+                self.story_state.save()
         
         stats = {
             'dj_name': self.dj_name,

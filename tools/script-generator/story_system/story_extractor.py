@@ -7,9 +7,21 @@ Identifies quests, events, and narrative arcs from wiki content.
 Uses metadata filtering and semantic analysis to find coherent narratives.
 """
 
-from typing import List, Dict, Any, Optional, Set, Tuple
+from typing import List, Dict, Any, Optional
 from collections import defaultdict
 import re
+import sys
+import os
+
+# Allow imports from script-generator and tools roots
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+TOOLS_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+for path in (BASE_DIR, TOOLS_DIR):
+    if path not in sys.path:
+        sys.path.insert(0, path)
+
+from ollama_client import OllamaClient
+from shared import project_config
 
 from .story_models import (
     Story,
@@ -29,228 +41,216 @@ class StoryExtractor:
     - Character arcs (character content with narrative structure)
     - Faction conflicts (faction metadata + conflict themes)
     """
-    
-    # Keywords for detecting narrative acts
+
     SETUP_KEYWORDS = [
-        "begins", "starts", "arrives", "discovers", "finds", "meets",
-        "introduction", "setup", "beginning", "first"
+        "begins",
+        "starts",
+        "arrives",
+        "discovers",
+        "finds",
+        "meets",
+        "introduction",
+        "setup",
+        "beginning",
+        "first",
     ]
-    
+
     CONFLICT_KEYWORDS = [
-        "battle", "fight", "confrontation", "showdown", "attack", "raid",
-        "conflict", "war", "combat", "struggle", "versus", "against"
+        "battle",
+        "fight",
+        "confrontation",
+        "showdown",
+        "attack",
+        "raid",
+        "conflict",
+        "war",
+        "combat",
+        "struggle",
+        "versus",
+        "against",
     ]
-    
+
     RESOLUTION_KEYWORDS = [
-        "victory", "defeat", "peace", "ended", "resolved", "concluded",
-        "aftermath", "outcome", "result", "consequence"
+        "victory",
+        "defeat",
+        "peace",
+        "ended",
+        "resolved",
+        "concluded",
+        "aftermath",
+        "outcome",
+        "result",
+        "consequence",
     ]
-    
-    def __init__(self, chroma_collection=None):
+
+    def __init__(self, chroma_collection=None, ollama_client: Optional[OllamaClient] = None):
         """
         Initialize story extractor.
-        
+
         Args:
             chroma_collection: ChromaDB collection to query (optional for testing)
+            ollama_client: OllamaClient instance (optional, will create if None)
         """
         self.collection = chroma_collection
-    
+        self.ollama = ollama_client
+
+        if self.ollama is None:
+            try:
+                ollama_url = project_config.OLLAMA_URL.replace("/api/generate", "")
+                self.ollama = OllamaClient(base_url=ollama_url)
+            except Exception as exc:  # fallback gracefully
+                print(f"[WARN] Failed to initialize Ollama client: {exc}")
+                self.ollama = None
+
     def extract_stories(
         self,
         max_stories: int = 10,
         timeline: Optional[StoryTimeline] = None,
-        min_chunks: int = 2,
-        max_chunks: int = 10
+        min_chunks: int = 3,
+        max_chunks: int = 10,
     ) -> List[Story]:
         """
         Extract stories from ChromaDB.
-        
+
         Args:
             max_stories: Maximum number of stories to extract
             timeline: Specific timeline to extract for (optional)
-            min_chunks: Minimum chunks required for a story
+            min_chunks: Minimum chunks required for a story (phase1: raised to 5)
             max_chunks: Maximum chunks to use per story
-            
-        Returns:
-            List of extracted Story objects
         """
         if not self.collection:
             return []
-        
-        stories = []
-        
-        # Extract quest-based stories
+
+        stories: List[Story] = []
+
         quest_stories = self._extract_quest_stories(max_stories // 2, min_chunks, max_chunks)
         stories.extend(quest_stories)
-        
-        # Extract event-based stories
+
         event_stories = self._extract_event_stories(max_stories // 2, min_chunks, max_chunks)
         stories.extend(event_stories)
-        
-        # Filter by timeline if specified
+
         if timeline:
-            stories = [s for s in stories if s.timeline == timeline]
-        
+            stories = [story for story in stories if story.timeline == timeline]
+
         return stories[:max_stories]
-    
+
     def _extract_quest_stories(
         self,
         max_stories: int,
         min_chunks: int,
-        max_chunks: int
+        max_chunks: int,
     ) -> List[Story]:
         """Extract stories from quest content."""
         try:
-            # Query for quest content
             results = self.collection.query(
                 query_texts=["quest objective reward walkthrough"],
-                n_results=max_chunks * max_stories,
-                where={
-                    "$or": [
-                        {"content_type": "quest"},
-                        {"infobox_type": "infobox quest"}
-                    ]
-                }
+                n_results=300,
             )
-            
             if not results or not results.get("ids"):
                 return []
-            
-            # Group chunks by wiki_title
+
             chunks_by_title = self._group_chunks_by_title(results)
-            
-            # Convert to stories
-            stories = []
-            for title, chunks in list(chunks_by_title.items())[:max_stories]:
+            sorted_titles = sorted(
+                chunks_by_title.items(), key=lambda item: len(item[1]), reverse=True
+            )
+
+            stories: List[Story] = []
+            for title, chunks in sorted_titles[: max_stories * 2]:
                 if len(chunks) < min_chunks:
                     continue
-                
                 story = self._chunks_to_story(title, chunks[:max_chunks], "quest")
                 if story:
                     stories.append(story)
-            
+                    if len(stories) >= max_stories:
+                        break
             return stories
-            
-        except Exception as e:
-            print(f"Error extracting quest stories: {e}")
+        except Exception as exc:
+            print(f"Error extracting quest stories: {exc}")
             return []
-    
+
     def _extract_event_stories(
         self,
         max_stories: int,
         min_chunks: int,
-        max_chunks: int
+        max_chunks: int,
     ) -> List[Story]:
         """Extract stories from event content."""
         try:
-            # Query for event content
             results = self.collection.query(
                 query_texts=["battle conflict war event major incident"],
-                n_results=max_chunks * max_stories,
-                where={
-                    "$or": [
-                        {"content_type": "event"},
-                        {"has_year": True}
-                    ]
-                }
+                n_results=300,
             )
-            
             if not results or not results.get("ids"):
                 return []
-            
-            # Group chunks by wiki_title
+
             chunks_by_title = self._group_chunks_by_title(results)
-            
-            # Convert to stories
-            stories = []
-            for title, chunks in list(chunks_by_title.items())[:max_stories]:
+            sorted_titles = sorted(
+                chunks_by_title.items(), key=lambda item: len(item[1]), reverse=True
+            )
+
+            stories: List[Story] = []
+            for title, chunks in sorted_titles[: max_stories * 2]:
                 if len(chunks) < min_chunks:
                     continue
-                
                 story = self._chunks_to_story(title, chunks[:max_chunks], "event")
                 if story:
                     stories.append(story)
-            
+                    if len(stories) >= max_stories:
+                        break
             return stories
-            
-        except Exception as e:
-            print(f"Error extracting event stories: {e}")
+        except Exception as exc:
+            print(f"Error extracting event stories: {exc}")
             return []
-    
+
     def _group_chunks_by_title(self, results: Dict) -> Dict[str, List[Dict]]:
         """Group query results by wiki_title."""
-        chunks_by_title = defaultdict(list)
-        
+        chunks_by_title: Dict[str, List[Dict]] = defaultdict(list)
         if not results or "ids" not in results:
             return {}
-        
-        num_results = len(results["ids"][0]) if results["ids"] else 0
-        
-        for i in range(num_results):
-            metadata = results["metadatas"][0][i] if results.get("metadatas") else {}
+
+        num_results = len(results["ids"][0]) if results.get("ids") else 0
+        for idx in range(num_results):
+            metadata = results.get("metadatas", [{}])[0][idx] if results.get("metadatas") else {}
             title = metadata.get("wiki_title", "unknown")
-            
             chunk = {
-                "id": results["ids"][0][i],
-                "text": results["documents"][0][i] if results.get("documents") else "",
-                "metadata": metadata
+                "id": results["ids"][0][idx],
+                "text": results.get("documents", [[""]])[0][idx],
+                "metadata": metadata,
             }
-            
             chunks_by_title[title].append(chunk)
-        
         return dict(chunks_by_title)
-    
+
     def _chunks_to_story(
         self,
         title: str,
         chunks: List[Dict],
-        content_type: str
+        content_type: str,
     ) -> Optional[Story]:
-        """
-        Convert chunks to a Story object.
-        
-        Args:
-            title: Story title (usually wiki_title)
-            chunks: List of chunk dictionaries
-            content_type: Type of content (quest, event, etc.)
-            
-        Returns:
-            Story object or None if conversion fails
-        """
+        """Convert chunks to a Story object."""
         if not chunks:
             return None
-        
         try:
-            # Extract metadata from first chunk
-            metadata = chunks[0]["metadata"]
-            
-            # Build acts from chunks
+            metadata = chunks[0].get("metadata", {})
             acts = self._build_acts_from_chunks(chunks)
             if not acts:
                 return None
-            
-            # Determine timeline based on content length and type
+
             timeline = self._determine_timeline(chunks, content_type)
-            
-            # Extract entities and metadata
             summary = self._generate_summary(chunks)
             factions = self._extract_factions(chunks)
             locations = self._extract_locations(chunks)
             characters = self._extract_characters(chunks)
             themes = self._extract_themes(chunks)
-            
-            # Get temporal info
+
             year_min = metadata.get("year_min")
             year_max = metadata.get("year_max")
             era = metadata.get("game", metadata.get("era"))
             region = metadata.get("region")
-            
-            # Determine DJ compatibility
+
             dj_compatible = self._determine_dj_compatibility(
                 era, region, year_min, year_max, factions
             )
-            
-            # Create story
+
             story = Story(
                 story_id=f"story_{content_type}_{title.replace(' ', '_').lower()}",
                 title=title,
@@ -269,147 +269,211 @@ class StoryExtractor:
                 dj_compatible=dj_compatible,
                 knowledge_tier=self._determine_knowledge_tier(metadata),
                 source_wiki_titles=[title],
-                estimated_broadcasts=len(acts) * 2  # 2 broadcasts per act on average
+                estimated_broadcasts=len(acts) * 2,
             )
-            
             return story
-            
-        except Exception as e:
-            print(f"Error converting chunks to story: {e}")
+        except Exception as exc:
+            print(f"Error converting chunks to story: {exc}")
             return None
-    
+
+    def _generate_acts_with_llm(
+        self, chunks: List[Dict], title: str
+    ) -> Optional[List[StoryAct]]:
+        """Generate a 5-act structure using LLM (phase3)."""
+        if not self.ollama:
+            return None
+
+        combined_text = "\n\n".join([chunk["text"][:500] for chunk in chunks[:10]])
+        if len(combined_text) > 3000:
+            combined_text = combined_text[:3000] + "..."
+
+        prompt = f"""Analyze this Fallout story and create a 5-act narrative structure.
+
+Story Title: {title}
+
+Story Content:
+{combined_text}
+
+Create exactly 5 acts following this structure:
+1. SETUP - Introduction, characters, setting (low conflict)
+2. RISING - Complications begin, tension builds (medium conflict)
+3. CLIMAX - Peak conflict, major confrontation (high conflict)
+4. FALLING - Consequences unfold, tension decreases (medium conflict)
+5. RESOLUTION - Conclusion, outcomes (low conflict)
+
+For each act, provide:
+- Act Title (3-6 words)
+- Summary (1-2 sentences describing what happens)
+- Conflict Level (0.0 to 1.0)
+
+Format your response exactly like this:
+ACT 1: SETUP
+Title: [title]
+Summary: [summary]
+Conflict: [0.0-1.0]
+
+ACT 2: RISING
+Title: [title]
+Summary: [summary]
+Conflict: [0.0-1.0]
+
+[continue for all 5 acts]
+
+Generate acts now:"""
+
+        try:
+            response = self.ollama.generate(
+                model=project_config.MODEL,
+                prompt=prompt,
+                options={"temperature": 0.7, "top_p": 0.9, "num_predict": 1000},
+                timeout=30,
+            )
+            acts = self._parse_llm_acts(response, chunks)
+            if acts and len(acts) == 5:
+                return acts
+            print(f"[WARN] LLM generated {len(acts) if acts else 0} acts, expected 5")
+            return None
+        except Exception as exc:
+            print(f"[WARN] LLM act generation failed: {exc}")
+            return None
+
+    def _parse_llm_acts(self, response: str, chunks: List[Dict]) -> List[StoryAct]:
+        """Parse LLM response into StoryAct objects."""
+        acts: List[StoryAct] = []
+        act_sections = re.split(r"ACT \d+:", response)
+        act_types = [
+            StoryActType.SETUP,
+            StoryActType.RISING,
+            StoryActType.CLIMAX,
+            StoryActType.FALLING,
+            StoryActType.RESOLUTION,
+        ]
+        chunk_ids = [chunk["id"] for chunk in chunks]
+        for idx, section in enumerate(act_sections[1:6]):
+            if idx >= len(act_types):
+                break
+            title_match = re.search(r"Title:\s*(.+?)(?:\n|$)", section, re.IGNORECASE)
+            summary_match = re.search(
+                r"Summary:\s*(.+?)(?:\n|Conflict)", section, re.IGNORECASE | re.DOTALL
+            )
+            conflict_match = re.search(r"Conflict:\s*([\d.]+)", section, re.IGNORECASE)
+
+            title = title_match.group(1).strip() if title_match else f"Act {idx + 1}"
+            summary = summary_match.group(1).strip() if summary_match else "Story continues."
+            conflict = float(conflict_match.group(1)) if conflict_match else 0.5
+            conflict = max(0.0, min(1.0, conflict))
+
+            chunks_per_act = max(1, len(chunk_ids) // 5)
+            start_idx = idx * chunks_per_act
+            end_idx = start_idx + chunks_per_act if idx < 4 else len(chunk_ids)
+            act_chunks = chunk_ids[start_idx:end_idx]
+
+            acts.append(
+                StoryAct(
+                    act_number=idx + 1,
+                    act_type=act_types[idx],
+                    title=title[:50],
+                    summary=summary[:300],
+                    source_chunks=act_chunks,
+                    conflict_level=conflict,
+                )
+            )
+        return acts
+
     def _build_acts_from_chunks(self, chunks: List[Dict]) -> List[StoryAct]:
         """Build story acts from chunks based on content analysis."""
-        acts = []
-        
-        # Simple strategy: group chunks into acts
-        # First chunk(s) = setup, middle = rising/climax, last = resolution
-        
+        # Prefer LLM even with sparse chunks (>=3)
+        if len(chunks) >= 3 and self.ollama:
+            llm_acts = self._generate_acts_with_llm(
+                chunks, chunks[0].get("metadata", {}).get("wiki_title", "Unknown")
+            )
+            if llm_acts:
+                return llm_acts
+
         num_chunks = len(chunks)
-        if num_chunks == 1:
-            # Single chunk story - make it a simple setup+resolution
-            acts = [
-                StoryAct(
-                    act_number=1,
-                    act_type=StoryActType.SETUP,
-                    title="The Story",
-                    summary=chunks[0]["text"][:200] + "...",
-                    source_chunks=[chunks[0]["id"]],
-                    conflict_level=0.5
-                )
-            ]
-        elif num_chunks == 2:
-            # Two chunks - setup and resolution
-            acts = [
-                StoryAct(
-                    act_number=1,
-                    act_type=StoryActType.SETUP,
-                    title="Beginning",
-                    summary=chunks[0]["text"][:200] + "...",
-                    source_chunks=[chunks[0]["id"]],
-                    conflict_level=0.3
-                ),
-                StoryAct(
-                    act_number=2,
-                    act_type=StoryActType.RESOLUTION,
-                    title="Conclusion",
-                    summary=chunks[1]["text"][:200] + "...",
-                    source_chunks=[chunks[1]["id"]],
-                    conflict_level=0.4
-                )
-            ]
-        else:
-            # Three or more chunks - full arc
-            # First chunk = setup
+        # Deterministic fallback that always yields 5 acts, even with 1–4 chunks
+        if num_chunks == 0:
+            return []
+
+        act_types = [
+            (StoryActType.SETUP, "Setup", 0.2),
+            (StoryActType.RISING, "Rising Action", 0.5),
+            (StoryActType.CLIMAX, "Climax", 0.8),
+            (StoryActType.FALLING, "Falling Action", 0.5),
+            (StoryActType.RESOLUTION, "Resolution", 0.3),
+        ]
+
+        # Map sparse chunks across 5 acts
+        acts: List[StoryAct] = []
+        def chunk_for_act(i: int) -> Dict:
+            # Distribute available chunks across 5 acts fairly
+            if num_chunks == 1:
+                return chunks[0]
+            if num_chunks == 2:
+                return chunks[0] if i in (0,1) else chunks[1]
+            if num_chunks == 3:
+                return [chunks[0], chunks[1], chunks[1], chunks[2], chunks[2]][i]
+            if num_chunks == 4:
+                return [chunks[0], chunks[1], chunks[2], chunks[2], chunks[3]][i]
+            # 5 or more: one per act then spill remaining across middle
+            base = chunks[:5]
+            return base[i]
+
+        for idx, (act_type, act_title, base_conflict) in enumerate(act_types):
+            ch = chunk_for_act(idx)
+            text = ch.get("text", "")
+            summary = text[:200] + ("..." if len(text) > 200 else "")
+
+            adj_conflict = base_conflict
+            if act_type in (StoryActType.RISING, StoryActType.CLIMAX):
+                if any(kw in text.lower() for kw in self.CONFLICT_KEYWORDS):
+                    adj_conflict = min(1.0, adj_conflict + 0.2)
+
             acts.append(StoryAct(
-                act_number=1,
-                act_type=StoryActType.SETUP,
-                title="Setup",
-                summary=chunks[0]["text"][:200] + "...",
-                source_chunks=[chunks[0]["id"]],
-                conflict_level=0.2
+                act_number=idx + 1,
+                act_type=act_type,
+                title=act_title,
+                summary=summary,
+                source_chunks=[ch.get("id")] if ch.get("id") else [],
+                conflict_level=adj_conflict,
             ))
-            
-            # Middle chunks = rising action or climax
-            middle_start = 1
-            middle_end = num_chunks - 1
-            for i in range(middle_start, middle_end):
-                # Check if this chunk has conflict keywords
-                text = chunks[i]["text"].lower()
-                has_conflict = any(kw in text for kw in self.CONFLICT_KEYWORDS)
-                
-                act_type = StoryActType.CLIMAX if has_conflict else StoryActType.RISING
-                conflict_level = 0.8 if has_conflict else 0.5
-                
-                acts.append(StoryAct(
-                    act_number=len(acts) + 1,
-                    act_type=act_type,
-                    title=f"Act {len(acts) + 1}",
-                    summary=chunks[i]["text"][:200] + "...",
-                    source_chunks=[chunks[i]["id"]],
-                    conflict_level=conflict_level
-                ))
-            
-            # Last chunk = resolution
-            acts.append(StoryAct(
-                act_number=len(acts) + 1,
-                act_type=StoryActType.RESOLUTION,
-                title="Resolution",
-                summary=chunks[-1]["text"][:200] + "...",
-                source_chunks=[chunks[-1]["id"]],
-                conflict_level=0.3
-            ))
-        
+
         return acts
-    
+
     def _determine_timeline(self, chunks: List[Dict], content_type: str) -> StoryTimeline:
         """Determine appropriate timeline scale for story."""
-        # Simple heuristic based on content type and chunk count
         num_chunks = len(chunks)
-        
         if content_type == "event":
-            # Events tend to be larger scale
             if num_chunks >= 5:
                 return StoryTimeline.MONTHLY
-            elif num_chunks >= 3:
+            if num_chunks >= 3:
                 return StoryTimeline.WEEKLY
-            else:
-                return StoryTimeline.DAILY
-        else:
-            # Quests and other content
-            if num_chunks >= 7:
-                return StoryTimeline.MONTHLY
-            elif num_chunks >= 4:
-                return StoryTimeline.WEEKLY
-            else:
-                return StoryTimeline.DAILY
-    
+            return StoryTimeline.DAILY
+        if num_chunks >= 7:
+            return StoryTimeline.MONTHLY
+        if num_chunks >= 4:
+            return StoryTimeline.WEEKLY
+        return StoryTimeline.DAILY
+
     def _generate_summary(self, chunks: List[Dict]) -> str:
         """Generate story summary from chunks."""
-        # Use first chunk's text as summary base
         if not chunks:
             return "A story from the wasteland."
-        
         text = chunks[0]["text"]
-        # Take first 300 characters
         summary = text[:300]
         if len(text) > 300:
             summary += "..."
-        
         return summary
-    
+
     def _extract_factions(self, chunks: List[Dict]) -> List[str]:
-        """Extract faction names from chunk metadata."""
         factions = set()
         for chunk in chunks:
             metadata = chunk.get("metadata", {})
             if "faction" in metadata:
                 factions.add(metadata["faction"])
-            # Could also parse from text
         return list(factions)
-    
+
     def _extract_locations(self, chunks: List[Dict]) -> List[str]:
-        """Extract location names from chunk metadata."""
         locations = set()
         for chunk in chunks:
             metadata = chunk.get("metadata", {})
@@ -418,62 +482,50 @@ class StoryExtractor:
             if "region" in metadata:
                 locations.add(metadata["region"])
         return list(locations)
-    
+
     def _extract_characters(self, chunks: List[Dict]) -> List[str]:
-        """Extract character names from chunk metadata."""
         characters = set()
         for chunk in chunks:
             metadata = chunk.get("metadata", {})
             if "character" in metadata:
                 characters.add(metadata["character"])
         return list(characters)
-    
+
     def _extract_themes(self, chunks: List[Dict]) -> List[str]:
-        """Extract themes from chunk metadata."""
         themes = set()
         for chunk in chunks:
             metadata = chunk.get("metadata", {})
-            # Look for theme_* metadata keys
             for key, value in metadata.items():
                 if key.startswith("theme_") and value:
                     themes.add(key.replace("theme_", ""))
         return list(themes)
-    
+
     def _determine_dj_compatibility(
         self,
         era: Optional[str],
         region: Optional[str],
         year_min: Optional[int],
         year_max: Optional[int],
-        factions: List[str]
+        factions: List[str],
     ) -> List[str]:
-        """Determine which DJs can broadcast this story."""
-        compatible = []
-        
-        # Simple mapping based on era
+        compatible: List[str] = []
         era_to_djs = {
             "fallout_76": ["julie"],
             "fallout_3": ["three_dog"],
             "fallout_nv": ["mr_new_vegas"],
             "fallout_4": ["travis_miles_confident"],
         }
-        
         if era in era_to_djs:
             compatible.extend(era_to_djs[era])
         else:
-            # Unknown era - all DJs can use (will be filtered by timeline validator)
             compatible = ["julie", "three_dog", "mr_new_vegas", "travis_miles_confident"]
-        
         return compatible
-    
+
     def _determine_knowledge_tier(self, metadata: Dict) -> str:
-        """Determine knowledge access tier."""
-        # Check metadata for tier hints
         if metadata.get("classified") or metadata.get("secret"):
             return "classified"
-        elif metadata.get("restricted"):
+        if metadata.get("restricted"):
             return "restricted"
-        elif metadata.get("regional"):
+        if metadata.get("regional"):
             return "regional"
-        else:
-            return "common"
+        return "common"
