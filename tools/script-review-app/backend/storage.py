@@ -7,8 +7,8 @@ from datetime import datetime
 from pathlib import Path
 from typing import List
 
-from config import settings
-from models import Script, ScriptMetadata, RejectionReason, StatsResponse
+from .config import settings
+from .models import Script, ScriptMetadata, RejectionReason, StatsResponse
 
 logger = logging.getLogger(__name__)
 

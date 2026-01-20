@@ -1,410 +1,394 @@
 """
-Unit tests for ollama_client.py
+Unit Tests for Ollama Client
 
-Tests the OllamaClient with mocked dependencies.
+Tests the OllamaClient wrapper including:
+- Connection handling
+- Generation with retries
+- Error handling
+- Model unloading
+- Mock client compatibility
 """
 
 import pytest
+from unittest.mock import Mock, patch, MagicMock
+from requests.exceptions import ConnectionError, Timeout, HTTPError
+
+# Import the real client
 import sys
 from pathlib import Path
-from unittest.mock import patch, MagicMock, Mock
-import requests
-from requests.exceptions import Timeout, HTTPError
-
-# Add project root to path
-project_root = Path(__file__).parent.parent.parent
-sys.path.insert(0, str(project_root))
-sys.path.insert(0, str(project_root / "tools" / "script-generator"))
+sys.path.insert(0, str(Path(__file__).parent.parent.parent / "tools" / "script-generator"))
 
 from ollama_client import OllamaClient
+from tools.shared.mock_ollama_client import MockOllamaClient, MockOllamaScenarios
 
 
-@pytest.mark.mock
-class TestOllamaClientConnection:
-    """Test suite for OllamaClient connection methods"""
+class TestOllamaClientMocked:
+    """Tests using mocked HTTP requests"""
     
-    def test_initialization_default_url(self):
-        """Test client initialization with default URL"""
+    def test_successful_generation(self):
+        """Test successful text generation"""
         client = OllamaClient()
-        assert client.base_url == "http://localhost:11434"
-        assert client.generate_url == "http://localhost:11434/api/generate"
-    
-    def test_initialization_custom_url(self):
-        """Test client initialization with custom URL"""
-        custom_url = "http://custom-server:8080"
-        client = OllamaClient(base_url=custom_url)
-        assert client.base_url == custom_url
-        assert client.generate_url == f"{custom_url}/api/generate"
-    
-    @patch('ollama_client.requests.get')
-    def test_check_connection_success(self, mock_get):
-        """Test successful connection check"""
-        mock_response = Mock()
-        mock_response.status_code = 200
-        mock_get.return_value = mock_response
         
-        client = OllamaClient()
-        result = client.check_connection()
-        
-        assert result is True
-        mock_get.assert_called_once_with("http://localhost:11434/api/tags", timeout=5)
-    
-    @patch('ollama_client.requests.get')
-    def test_check_connection_failure(self, mock_get):
-        """Test connection check when server is unreachable"""
-        mock_get.side_effect = requests.exceptions.ConnectionError("Connection refused")
-        
-        client = OllamaClient()
-        result = client.check_connection()
-        
-        assert result is False
-    
-    @patch('ollama_client.requests.get')
-    def test_check_connection_timeout(self, mock_get):
-        """Test connection check with timeout"""
-        mock_get.side_effect = Timeout("Request timed out")
-        
-        client = OllamaClient()
-        result = client.check_connection()
-        
-        assert result is False
-    
-    @patch.object(OllamaClient, 'generate')
-    def test_check_connection_with_model_success(self, mock_generate):
-        """Test connection check with model validation"""
-        mock_generate.return_value = "OK"
-        
-        client = OllamaClient()
-        result = client.check_connection(model="test-model")
-        
-        assert result is True
-        mock_generate.assert_called_once()
-    
-    @patch.object(OllamaClient, 'generate')
-    def test_check_connection_with_model_failure(self, mock_generate):
-        """Test connection check with model validation failure"""
-        mock_generate.side_effect = RuntimeError("Model not found")
-        
-        client = OllamaClient()
-        result = client.check_connection(model="invalid-model")
-        
-        assert result is False
-
-
-@pytest.mark.mock
-class TestOllamaClientGenerate:
-    """Test suite for OllamaClient generate method"""
-    
-    @patch('ollama_client.requests.post')
-    def test_generate_success(self, mock_post):
-        """Test successful generation"""
         mock_response = Mock()
         mock_response.status_code = 200
         mock_response.json.return_value = {
-            'response': 'This is a generated response'
-        }
-        mock_post.return_value = mock_response
-        
-        client = OllamaClient()
-        result = client.generate(
-            model="test-model",
-            prompt="Test prompt"
-        )
-        
-        assert result == "This is a generated response"
-        mock_post.assert_called_once()
-        
-        # Verify payload
-        call_args = mock_post.call_args
-        payload = call_args[1]['json']
-        assert payload['model'] == "test-model"
-        assert payload['prompt'] == "Test prompt"
-        assert payload['stream'] is False
-    
-    @patch('ollama_client.requests.post')
-    def test_generate_with_options(self, mock_post):
-        """Test generation with custom options"""
-        mock_response = Mock()
-        mock_response.status_code = 200
-        mock_response.json.return_value = {'response': 'Test response'}
-        mock_post.return_value = mock_response
-        
-        client = OllamaClient()
-        options = {
-            'temperature': 0.7,
-            'top_p': 0.9,
-            'max_tokens': 100
+            "response": "Hello from Ollama!",
+            "model": "test-model"
         }
         
-        result = client.generate(
-            model="test-model",
-            prompt="Test prompt",
-            options=options
-        )
-        
-        assert result == "Test response"
-        
-        # Verify options were passed
-        call_args = mock_post.call_args
-        payload = call_args[1]['json']
-        assert payload['options'] == options
-    
-    @patch('ollama_client.requests.post')
-    def test_generate_with_timeout(self, mock_post):
-        """Test that timeout parameter is used"""
-        mock_response = Mock()
-        mock_response.status_code = 200
-        mock_response.json.return_value = {'response': 'Test'}
-        mock_post.return_value = mock_response
-        
-        client = OllamaClient()
-        client.generate(
-            model="test-model",
-            prompt="Test",
-            timeout=120
-        )
-        
-        # Verify timeout was passed
-        call_args = mock_post.call_args
-        assert call_args[1]['timeout'] == 120
-    
-    @patch('ollama_client.requests.post')
-    def test_generate_empty_response_error(self, mock_post):
-        """Test error handling for empty response"""
-        mock_response = Mock()
-        mock_response.status_code = 200
-        mock_response.json.return_value = {'response': ''}
-        mock_post.return_value = mock_response
-        
-        client = OllamaClient()
-        
-        with pytest.raises(RuntimeError, match="empty response"):
-            client.generate(
+        with patch('requests.post', return_value=mock_response):
+            result = client.generate(
                 model="test-model",
-                prompt="Test prompt"
+                prompt="Say hello"
             )
+        
+        assert result == "Hello from Ollama!"
     
-    @patch('ollama_client.requests.post')
-    def test_generate_connection_error(self, mock_post):
+    def test_connection_error(self):
         """Test connection error handling"""
-        mock_post.side_effect = requests.exceptions.ConnectionError("Connection refused")
-        
         client = OllamaClient()
         
-        # ConnectionError should be raised immediately without retries
-        with pytest.raises(ConnectionError, match="Cannot connect to Ollama"):
-            client.generate(
-                model="test-model",
-                prompt="Test prompt"
-            )
+        # Patch requests.exceptions to raise ConnectionError
+        from requests.exceptions import ConnectionError as RequestsConnectionError
+        
+        # Import and patch in the correct location
+        import ollama_client
+        with patch.object(ollama_client.requests, 'post', side_effect=RequestsConnectionError("Connection refused")):
+            # Should raise our wrapped ConnectionError
+            with pytest.raises(ConnectionError):
+                client.generate(model="test-model", prompt="test")
     
-    @patch('ollama_client.requests.post')
-    def test_generate_http_error(self, mock_post):
-        """Test HTTP error handling"""
+    def test_timeout_with_retry(self):
+        """Test timeout handling with retry logic"""
+        client = OllamaClient()
+        
+        # First call times out, second succeeds
+        mock_timeout = Mock(side_effect=Timeout("Request timeout"))
+        mock_success = Mock()
+        mock_success.status_code = 200
+        mock_success.json.return_value = {"response": "Success after retry"}
+        
+        call_count = 0
+        def mock_post(*args, **kwargs):
+            nonlocal call_count
+            call_count += 1
+            if call_count == 1:
+                raise Timeout("Request timeout")
+            return mock_success
+        
+        with patch('requests.post', side_effect=mock_post):
+            with patch('time.sleep'):  # Speed up test by mocking sleep
+                result = client.generate(
+                    model="test-model",
+                    prompt="test",
+                    max_retries=3
+                )
+        
+        assert result == "Success after retry"
+        assert call_count == 2  # One failure, one success
+    
+    def test_max_retries_exhausted(self):
+        """Test behavior when max retries are exhausted"""
+        client = OllamaClient()
+        
+        with patch('requests.post', side_effect=Timeout("Persistent timeout")):
+            with patch('time.sleep'):  # Speed up test
+                with pytest.raises(RuntimeError) as exc_info:
+                    client.generate(
+                        model="test-model",
+                        prompt="test",
+                        max_retries=2
+                    )
+        
+        assert "failed after 2 attempts" in str(exc_info.value)
+    
+    def test_http_error_no_retry(self):
+        """Test that HTTP errors (like 404) don't retry"""
+        client = OllamaClient()
+        
         mock_response = Mock()
         mock_response.status_code = 404
         mock_response.text = "Model not found"
         mock_response.raise_for_status.side_effect = HTTPError(response=mock_response)
-        mock_post.return_value = mock_response
         
+        call_count = 0
+        def mock_post(*args, **kwargs):
+            nonlocal call_count
+            call_count += 1
+            return mock_response
+        
+        with patch('requests.post', side_effect=mock_post):
+            with pytest.raises(RuntimeError) as exc_info:
+                client.generate(model="nonexistent-model", prompt="test")
+        
+        assert "HTTP error" in str(exc_info.value)
+        assert call_count == 1  # Should not retry HTTP errors
+    
+    def test_empty_response_handling(self):
+        """Test handling of empty response from Ollama"""
         client = OllamaClient()
         
-        with pytest.raises(RuntimeError, match="Ollama HTTP error: 404"):
-            client.generate(
-                model="invalid-model",
-                prompt="Test prompt"
-            )
-    
-    @patch('ollama_client.requests.post')
-    @patch('ollama_client.time.sleep')
-    def test_generate_timeout_with_retry(self, mock_sleep, mock_post):
-        """Test timeout with retry logic"""
-        # First two calls timeout, third succeeds
         mock_response = Mock()
         mock_response.status_code = 200
-        mock_response.json.return_value = {'response': 'Success after retry'}
+        mock_response.json.return_value = {"response": ""}  # Empty response
         
-        mock_post.side_effect = [
-            Timeout("Timeout 1"),
-            Timeout("Timeout 2"),
-            mock_response
-        ]
+        with patch('requests.post', return_value=mock_response):
+            with pytest.raises(RuntimeError) as exc_info:
+                client.generate(model="test-model", prompt="test")
         
-        client = OllamaClient()
-        result = client.generate(
-            model="test-model",
-            prompt="Test prompt",
-            max_retries=3
-        )
-        
-        assert result == "Success after retry"
-        assert mock_post.call_count == 3
-        assert mock_sleep.call_count == 2  # Sleep after first two failures
+        assert "empty response" in str(exc_info.value)
     
-    @patch('ollama_client.requests.post')
-    @patch('ollama_client.time.sleep')
-    def test_generate_max_retries_exhausted(self, mock_sleep, mock_post):
-        """Test failure after max retries"""
-        mock_post.side_effect = Timeout("Persistent timeout")
-        
+    def test_model_unloading(self):
+        """Test model unloading for VRAM management"""
         client = OllamaClient()
         
-        with pytest.raises(RuntimeError, match="failed after 3 attempts"):
-            client.generate(
-                model="test-model",
-                prompt="Test prompt",
-                max_retries=3
-            )
-        
-        assert mock_post.call_count == 3
-    
-    @patch('ollama_client.requests.post')
-    @patch('ollama_client.time.sleep')
-    def test_generate_exponential_backoff(self, mock_sleep, mock_post):
-        """Test exponential backoff on retries"""
-        mock_post.side_effect = [
-            Timeout("Timeout 1"),
-            Timeout("Timeout 2"),
-            RuntimeError("Error 3")
-        ]
-        
-        client = OllamaClient()
-        
-        with pytest.raises(RuntimeError):
-            client.generate(
-                model="test-model",
-                prompt="Test prompt",
-                max_retries=3
-            )
-        
-        # Verify exponential backoff: 2^0=1s, 2^1=2s
-        sleep_calls = [call[0][0] for call in mock_sleep.call_args_list]
-        assert sleep_calls[0] == 1  # 2^0
-        assert sleep_calls[1] == 2  # 2^1
-
-
-@pytest.mark.mock
-class TestOllamaClientModelManagement:
-    """Test suite for model management methods"""
-    
-    @patch('ollama_client.requests.post')
-    def test_unload_model_success(self, mock_post):
-        """Test successful model unloading"""
         mock_response = Mock()
         mock_response.status_code = 200
-        mock_post.return_value = mock_response
+        mock_response.json.return_value = {"status": "success"}
         
-        client = OllamaClient()
-        result = client.unload_model("test-model")
+        with patch('requests.post', return_value=mock_response) as mock_post:
+            result = client.unload_model("test-model")
         
         assert result is True
         
-        # Verify payload includes keep_alive=0
+        # Verify the call was made with keep_alive=0
         call_args = mock_post.call_args
         payload = call_args[1]['json']
-        assert payload['model'] == "test-model"
         assert payload['keep_alive'] == 0
-        assert payload['prompt'] == ""
+        assert payload['model'] == "test-model"
     
-    @patch('ollama_client.requests.post')
-    def test_unload_model_failure(self, mock_post):
-        """Test model unload failure handling"""
-        mock_post.side_effect = requests.exceptions.ConnectionError("Connection failed")
-        
+    def test_check_connection_server_only(self):
+        """Test connection check without model test"""
         client = OllamaClient()
-        result = client.unload_model("test-model")
         
-        # Should return False but not raise exception
-        assert result is False
-    
-    @patch('ollama_client.requests.post')
-    def test_unload_model_http_error(self, mock_post):
-        """Test model unload with HTTP error"""
         mock_response = Mock()
-        mock_response.status_code = 500
-        mock_response.raise_for_status.side_effect = HTTPError()
-        mock_post.return_value = mock_response
+        mock_response.status_code = 200
         
-        client = OllamaClient()
-        result = client.unload_model("test-model")
+        with patch('requests.get', return_value=mock_response):
+            result = client.check_connection()
         
-        # Should return False but not raise exception
-        assert result is False
+        assert result is True
     
-    @patch('ollama_client.requests.post')
-    def test_unload_model_timeout(self, mock_post):
-        """Test model unload with timeout"""
-        mock_post.side_effect = Timeout("Request timed out")
-        
+    def test_check_connection_with_model(self):
+        """Test connection check with model test"""
         client = OllamaClient()
-        result = client.unload_model("test-model")
         
-        # Should return False but not raise exception
-        assert result is False
-
-
-@pytest.mark.mock
-class TestOllamaClientIntegration:
-    """Integration-style tests using mocked dependencies"""
+        mock_response = Mock()
+        mock_response.status_code = 200
+        mock_response.json.return_value = {"response": "OK"}
+        
+        with patch('requests.post', return_value=mock_response):
+            result = client.check_connection(model="test-model")
+        
+        assert result is True
     
-    @patch('ollama_client.requests.post')
-    def test_multiple_sequential_generations(self, mock_post):
-        """Test multiple sequential generation calls"""
-        responses = [
-            {'response': 'First response'},
-            {'response': 'Second response'},
-            {'response': 'Third response'}
-        ]
-        
-        mock_responses = []
-        for resp_data in responses:
-            mock_resp = Mock()
-            mock_resp.status_code = 200
-            mock_resp.json.return_value = resp_data
-            mock_responses.append(mock_resp)
-        
-        mock_post.side_effect = mock_responses
-        
+    def test_custom_options(self):
+        """Test generation with custom options"""
         client = OllamaClient()
         
-        results = []
-        for i in range(3):
+        mock_response = Mock()
+        mock_response.status_code = 200
+        mock_response.json.return_value = {"response": "Custom response"}
+        
+        with patch('requests.post', return_value=mock_response) as mock_post:
             result = client.generate(
                 model="test-model",
-                prompt=f"Prompt {i}"
+                prompt="test",
+                options={"temperature": 0.8, "top_p": 0.9}
             )
-            results.append(result)
         
-        assert len(results) == 3
-        assert results[0] == "First response"
-        assert results[1] == "Second response"
-        assert results[2] == "Third response"
-        assert mock_post.call_count == 3
+        # Verify options were passed
+        call_args = mock_post.call_args
+        payload = call_args[1]['json']
+        assert payload['options']['temperature'] == 0.8
+        assert payload['options']['top_p'] == 0.9
+
+
+class TestMockOllamaClient:
+    """Tests for the mock Ollama client"""
     
-    @patch('ollama_client.requests.post')
-    @patch('ollama_client.requests.get')
-    def test_connection_check_then_generate(self, mock_get, mock_post):
-        """Test workflow: check connection then generate"""
-        # Setup connection check
-        mock_get_response = Mock()
-        mock_get_response.status_code = 200
-        mock_get.return_value = mock_get_response
+    def test_basic_generation(self):
+        """Test basic mock generation"""
+        client = MockOllamaClient()
+        response = client.generate("test-model", "Hello")
         
-        # Setup generation
-        mock_post_response = Mock()
-        mock_post_response.status_code = 200
-        mock_post_response.json.return_value = {'response': 'Generated text'}
-        mock_post.return_value = mock_post_response
+        assert isinstance(response, str)
+        assert len(response) > 0
+    
+    def test_preconfigured_responses(self):
+        """Test pre-configured response mapping"""
+        client = MockOllamaClient(responses={
+            "What is 2+2?": "4",
+            "What is the capital of France?": "Paris"
+        })
         
-        client = OllamaClient()
+        assert client.generate("test-model", "What is 2+2?") == "4"
+        assert client.generate("test-model", "What is the capital of France?") == "Paris"
+    
+    def test_partial_match(self):
+        """Test partial matching for flexible responses"""
+        client = MockOllamaClient(responses={
+            "weather": "It's sunny today"
+        })
         
-        # Check connection first
-        is_connected = client.check_connection()
-        assert is_connected is True
+        response = client.generate("test-model", "Give me the weather forecast")
+        assert "sunny" in response.lower()
+    
+    def test_smart_weather_response(self):
+        """Test smart weather pattern recognition"""
+        client = MockOllamaClient()
+        response = client.generate("test-model", "What's the weather like?")
         
-        # Then generate
-        result = client.generate(
+        # Should return JSON weather data
+        import json
+        data = json.loads(response)
+        assert "condition" in data
+        assert "temperature" in data
+    
+    def test_smart_news_response(self):
+        """Test smart news pattern recognition"""
+        client = MockOllamaClient()
+        response = client.generate("test-model", "Give me the latest news")
+        
+        assert "wasteland" in response.lower() or "news" in response.lower()
+    
+    def test_call_tracking(self):
+        """Test call history tracking"""
+        client = MockOllamaClient()
+        
+        client.generate("model-1", "prompt 1")
+        client.generate("model-2", "prompt 2")
+        client.generate("model-3", "prompt 3")
+        
+        assert client.get_call_count() == 3
+        
+        last_call = client.get_last_call()
+        assert last_call['model'] == "model-3"
+        assert last_call['prompt'] == "prompt 3"
+    
+    def test_model_unloading(self):
+        """Test mock model unloading"""
+        client = MockOllamaClient()
+        
+        result = client.unload_model("test-model")
+        assert result is True
+        assert client.was_model_unloaded("test-model")
+    
+    def test_connection_check(self):
+        """Test mock connection check"""
+        client = MockOllamaClient()
+        assert client.check_connection() is True
+        assert client.check_connection(model="test-model") is True
+    
+    def test_simulated_failure(self):
+        """Test simulated failure after N calls"""
+        client = MockOllamaClient(fail_after=2)
+        
+        # First two calls succeed
+        client.generate("test-model", "test 1")
+        client.generate("test-model", "test 2")
+        
+        # Third call should fail
+        with pytest.raises(RuntimeError) as exc_info:
+            client.generate("test-model", "test 3")
+        
+        assert "Mock failure after 2 calls" in str(exc_info.value)
+    
+    def test_simulated_connection_error(self):
+        """Test simulated connection error"""
+        client = MockOllamaClient(connection_error=True)
+        
+        with pytest.raises(ConnectionError):
+            client.generate("test-model", "test")
+        
+        assert client.check_connection() is False
+    
+    def test_reset(self):
+        """Test resetting client state"""
+        client = MockOllamaClient()
+        
+        client.generate("test-model", "test")
+        client.unload_model("test-model")
+        
+        assert client.get_call_count() == 1
+        assert client.was_model_unloaded("test-model")
+        
+        client.reset()
+        
+        assert client.get_call_count() == 0
+        assert not client.was_model_unloaded("test-model")
+
+
+class TestMockOllamaScenarios:
+    """Tests for pre-configured mock scenarios"""
+    
+    def test_broadcast_scenario(self):
+        """Test broadcast generation scenario"""
+        client = MockOllamaScenarios.broadcast_generation()
+        
+        # Weather
+        weather = client.generate("test-model", "Generate a weather report")
+        import json
+        weather_data = json.loads(weather)
+        assert "condition" in weather_data
+        
+        # News
+        news = client.generate("test-model", "Generate a news report")
+        assert len(news) > 50  # Should be a decent length
+    
+    def test_flaky_scenario(self):
+        """Test flaky connection scenario"""
+        client = MockOllamaScenarios.flaky_connection()
+        
+        # Should work initially
+        client.generate("test-model", "test 1")
+        client.generate("test-model", "test 2")
+        
+        # Should fail after 2 calls
+        with pytest.raises(RuntimeError):
+            client.generate("test-model", "test 3")
+    
+    def test_no_connection_scenario(self):
+        """Test no connection scenario"""
+        client = MockOllamaScenarios.no_connection()
+        
+        with pytest.raises(ConnectionError):
+            client.generate("test-model", "test")
+
+
+class TestOllamaClientCompatibility:
+    """Tests that real and mock clients have compatible interfaces"""
+    
+    def test_interface_compatibility(self):
+        """Test that mock client has same interface as real client"""
+        real_client = OllamaClient()
+        mock_client = MockOllamaClient()
+        
+        # Both should have the same methods
+        assert hasattr(real_client, 'generate')
+        assert hasattr(mock_client, 'generate')
+        
+        assert hasattr(real_client, 'unload_model')
+        assert hasattr(mock_client, 'unload_model')
+        
+        assert hasattr(real_client, 'check_connection')
+        assert hasattr(mock_client, 'check_connection')
+    
+    def test_generate_signature_compatibility(self):
+        """Test that generate method signatures are compatible"""
+        mock_client = MockOllamaClient()
+        
+        # Should accept same parameters
+        result = mock_client.generate(
             model="test-model",
-            prompt="Test prompt"
+            prompt="test",
+            options={"temperature": 0.7},
+            max_retries=3,
+            timeout=60
         )
-        assert result == "Generated text"
+        
+        assert isinstance(result, str)
+
+
+if __name__ == "__main__":
+    pytest.main([__file__, "-v"])

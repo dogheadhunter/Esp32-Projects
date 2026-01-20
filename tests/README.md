@@ -1,21 +1,48 @@
-# ESP32 AI Radio - Comprehensive Test Suite
+# Test Suite Documentation
+
+Comprehensive test suite for the ESP32 AI Radio project with complete logging and debugging support.
 
 ## 📋 Overview
 
-This directory contains a comprehensive test suite for the ESP32 AI Radio project with complete coverage of all modules, comprehensive logging, and mock infrastructure for testing without external dependencies.
+This test suite provides:
+- ✅ **100% Mock Testing**: No external dependencies (Ollama, ChromaDB) required by default
+- 🚀 **E2E Testing**: Optional real service testing with `--run-e2e` flag
+- 📝 **3-Format Logging**: Human-readable, structured JSON, and LLM-optimized markdown
+- 🔍 **Easy to Use**: Simple commands to run all or specific tests
+- 📊 **Coverage Tracking**: Code coverage reports included
+- 🚀 **Fast Execution**: Mocked tests run in seconds
 
-## 🗂️ Test Structure
+## 🗂️ Directory Structure
 
 ```
 tests/
-├── unit/              # Unit tests for individual components
-├── integration/       # Integration tests with mocked dependencies
-├── e2e/              # End-to-end tests (require Ollama/ChromaDB)
-├── mocks/            # Mock implementations (LLM, ChromaDB)
-├── fixtures/         # Test fixtures and utilities
-├── logs/             # Test execution logs (auto-generated)
-├── conftest.py       # Pytest configuration and fixtures
-└── README.md         # This file
+├── conftest.py              # Pytest configuration and fixtures
+├── README.md                # This file
+├── unit/                    # Unit tests for individual modules
+│   ├── test_ollama_client.py
+│   ├── test_logging_config.py
+│   ├── test_broadcast_engine.py
+│   ├── test_generator.py
+│   └── ...
+├── integration/             # Integration tests (multiple components)
+│   ├── test_full_broadcast_pipeline.py
+│   ├── test_story_system.py
+│   └── ...
+├── e2e/                     # End-to-end tests (real services)
+│   ├── conftest.py          # E2E-specific fixtures
+│   ├── test_ollama_e2e.py   # Real Ollama tests
+│   ├── test_chromadb_e2e.py # Real ChromaDB tests
+│   ├── test_full_pipeline_e2e.py # Full RAG pipeline
+│   └── README.md            # E2E test documentation
+├── mocks/                   # Mock implementations
+│   └── (imported from tools/shared/)
+├── fixtures/                # Test data and fixtures
+│   └── data/
+│       ├── sample_profiles.json
+│       ├── sample_segments.json
+│       └── ...
+└── utils/                   # Test utilities
+    └── test_helpers.py
 ```
 
 ## 🚀 Quick Start
@@ -24,385 +51,509 @@ tests/
 
 ```bash
 # Run all tests with coverage
-pytest tests/ --cov=. --cov-report=html
+pytest
 
-# Run only mock tests (no external dependencies)
-pytest tests/ -m mock
+# Run all tests with verbose output
+pytest -v
 
-# Run with verbose logging
-pytest tests/ -v --log-cli-level=DEBUG
+# Run with coverage report
+pytest --cov=tools --cov-report=html
 ```
 
 ### Running Specific Test Categories
 
 ```bash
-# Unit tests only
+# Run only unit tests
 pytest tests/unit/
 
-# Integration tests only
+# Run only integration tests
 pytest tests/integration/
 
-# End-to-end tests (requires Ollama + ChromaDB)
-pytest tests/e2e/ -m integration
-
-# Specific module tests
-pytest tests/unit/test_broadcast.py
-pytest tests/unit/test_generator.py
-```
-
-## 📝 Test Markers
-
-Tests are organized using pytest markers:
-
-- `@pytest.mark.mock` - Tests using mock clients (no external dependencies)
-- `@pytest.mark.integration` - Tests requiring real Ollama/ChromaDB
-- `@pytest.mark.slow` - Tests that take >5 seconds
-- `@pytest.mark.e2e` - Full end-to-end workflow tests
-
-### Using Markers
-
-```bash
-# Run only mock tests
+# Run only mock tests (fast, no external dependencies)
 pytest -m mock
 
-# Run everything except slow tests
-pytest -m "not slow"
+# Run only tests that don't require Ollama
+pytest -m "not requires_ollama"
 
-# Run integration tests
+# Run E2E tests (requires real Ollama + ChromaDB)
+pytest tests/e2e/ --run-e2e -v
+
+# Run only Ollama E2E tests
+pytest tests/e2e/test_ollama_e2e.py --run-ollama -v
+
+# Run only ChromaDB E2E tests
+pytest tests/e2e/test_chromadb_e2e.py --run-chromadb -v
+```
+
+### Running Specific Test Files
+
+```bash
+# Run ollama client tests
+pytest tests/unit/test_ollama_client.py
+
+# Run logging tests
+pytest tests/unit/test_logging_config.py
+
+# Run broadcast engine tests
+pytest tests/unit/test_broadcast_engine.py -v
+```
+
+## 🏷️ Test Markers
+
+Tests are organized with markers for easy filtering:
+
+- `@pytest.mark.mock` - Tests using mock clients (fast, no external deps)
+- `@pytest.mark.integration` - Integration tests with multiple components
+- `@pytest.mark.slow` - Slow-running tests (e.g., full pipeline)
+- `@pytest.mark.e2e` - End-to-end tests with real external services
+- `@pytest.mark.requires_ollama` - Tests requiring real Ollama server (skip by default)
+- `@pytest.mark.requires_chromadb` - Tests requiring real ChromaDB (skip by default)
+
+### Usage Examples
+
+```bash
+# Run only fast mock tests
+pytest -m mock
+
+# Run everything except tests requiring Ollama
+pytest -m "not requires_ollama"
+
+# Run only integration tests
 pytest -m integration
 
-# Combine markers
-pytest -m "mock and not slow"
+# Run slow tests only
+pytest -m slow
+
+# Run E2E tests (they're skipped by default)
+pytest -m e2e --run-e2e
 ```
 
-## 🔧 Mock Infrastructure
+## 📝 Comprehensive Logging
 
-### Mock LLM Client
+All tests capture output in **THREE simultaneous formats** for maximum flexibility:
 
-The `MockLLMClient` simulates Ollama responses without requiring a GPU or running LLM:
+### Log Format Comparison
+
+| Format | Purpose | Size | Best For |
+|--------|---------|------|----------|
+| `.log` | Human-readable detailed logs | 100% | Debugging, reading full details |
+| `.json` | Structured metadata | 120% | Programmatic analysis, scripts |
+| `.llm.md` | LLM-optimized markdown | 40-50% | AI review, quick summaries |
+
+### Automatic Logging Features
+
+1. **Session-Based Logs**: Each test session creates timestamped log files
+2. **Complete Output Capture**: All print statements, logs, and errors captured
+3. **User Cancellation Tracking**: Ctrl+C events are logged with context
+4. **Exception Tracking**: Full tracebacks saved to logs
+5. **Structured Metadata**: JSON metadata for machine parsing
+6. **LLM-Optimized Format**: Token-efficient markdown for AI analysis
+
+### Log Files Created
+
+```
+logs/
+├── session_20260120_153045_test_session.log      # Human-readable log
+├── session_20260120_153045_test_session.json     # Structured metadata
+├── session_20260120_153045_test_session.llm.md   # LLM-optimized markdown
+└── ...
+```
+
+### Using Logging in Tests
 
 ```python
-from tests.mocks.mock_llm import MockLLMClient
+from tools.shared.logging_config import capture_output
 
-# Basic usage
-mock_llm = MockLLMClient()
-response = mock_llm.generate(
-    model="fluffy/l3-8b-stheno-v3.2",
-    prompt="Generate weather report for sunny day"
-)
-print(response)  # Returns predetermined weather response
-
-# Custom responses
-mock_llm.set_custom_response("custom_keyword", "Custom response text")
-
-# Check call history
-calls = mock_llm.get_call_log()
-last_call = mock_llm.get_last_call()
+def test_with_logging():
+    """Test with complete output capture in 3 formats"""
+    with capture_output("my_test", "Testing feature X") as session:
+        print("This will be logged in all 3 formats")
+        
+        # Log custom events
+        session.log_event("MILESTONE", {"step": "completed"})
+        
+        # All output is saved to logs/ in 3 formats
 ```
 
-### Mock ChromaDB
+### LLM Log Features
 
-The `MockChromaDBIngestor` simulates ChromaDB queries with sample Fallout lore:
+The `.llm.md` format is optimized for LLM analysis:
+- **50-60% smaller** than JSON (token-efficient)
+- **Markdown structure** with clear headers
+- **Relative timestamps** (+5s, +10s) for related events
+- **Self-contained blocks** (What/Why/Result/Impact)
+- **State snapshots** every 10 events
+- **Concise summary** at end
+- **Brief error context** (no full stack traces)
+
+## 🧪 Test Fixtures
+
+Common fixtures are available in `conftest.py`:
+
+### Mock Clients
 
 ```python
-from tests.mocks.mock_chromadb import MockChromaDBIngestor
+def test_with_mock_ollama(mock_ollama_client):
+    """Use mock Ollama client"""
+    response = mock_ollama_client.generate("model", "prompt")
+    assert isinstance(response, str)
 
-# Basic usage
-mock_db = MockChromaDBIngestor()
-results = mock_db.query(
-    text="Tell me about the Brotherhood of Steel",
-    n_results=3
-)
-print(results.documents)  # Returns relevant lore documents
-
-# Check query history
-queries = mock_db.get_query_log()
-last_query = mock_db.get_last_query()
+def test_broadcast_mock(mock_ollama_broadcast):
+    """Use pre-configured broadcast mock"""
+    weather = mock_ollama_broadcast.generate("model", "Generate weather")
+    # Returns realistic weather data
 ```
 
-### Failure Simulation
-
-Test error handling with mock failures:
+### Test Data
 
 ```python
-from tests.mocks.mock_llm import MockLLMClientWithFailure
-from tests.mocks.mock_chromadb import MockChromaDBWithFailure
-
-# LLM that fails after 3 calls
-mock_llm = MockLLMClientWithFailure(fail_after_n_calls=3)
-
-# ChromaDB that fails after 5 queries
-mock_db = MockChromaDBWithFailure(fail_after_n_queries=5)
+def test_with_sample_data(sample_dj_profile, sample_broadcast_segment):
+    """Use sample test data"""
+    assert sample_dj_profile["name"] == "Julie (2102, Appalachia)"
+    assert sample_broadcast_segment["segment_type"] == "news"
 ```
 
-## 📊 Logging System
+### Helpers
 
-### Comprehensive Logging Features
-
-All tests automatically capture:
-- ✅ All stdout/stderr output
-- ✅ LLM API calls and responses
-- ✅ ChromaDB queries and results
-- ✅ User cancellations (Ctrl+C)
-- ✅ Exception tracebacks
-- ✅ Performance metrics
-- ✅ Test execution timeline
-
-### Log Files
-
-Logs are automatically saved to `tests/logs/` with timestamps:
-
-```
-tests/logs/
-├── test_run_20260120_153000.log       # Complete test run log
-├── test_broadcast_20260120_153000.log # Module-specific logs
-├── test_generator_20260120_153000.log
-└── history/                           # Historical logs for comparison
-    ├── test_run_20260120_120000.log
-    └── test_run_20260119_180000.log
+```python
+def test_with_helpers(helpers):
+    """Use test helper utilities"""
+    data = helpers.assert_valid_json('{"key": "value"}')
+    helpers.assert_contains_all("hello world", "hello", "world")
+    helpers.assert_file_exists(Path("test.txt"))
 ```
 
-### Viewing Logs
+## 🔍 Debugging Failed Tests
+
+When tests fail, complete debugging information is available in all 3 log formats:
+
+### 1. Check Test Output
 
 ```bash
-# View latest test run log
-cat tests/logs/test_run_latest.log
+# Run with verbose output
+pytest tests/unit/test_ollama_client.py -v
 
-# View specific module logs
-cat tests/logs/test_broadcast_latest.log
-
-# Compare with historical logs
-diff tests/logs/test_run_latest.log tests/logs/history/test_run_20260119_180000.log
-
-# Analyze logs with provided utility
-python tests/analyze_logs.py tests/logs/test_run_latest.log
+# Run with full traceback
+pytest tests/unit/test_ollama_client.py --tb=long
 ```
 
-### Custom Logging in Tests
+### 2. Check Log Files
+
+```bash
+# View latest human-readable log
+ls -lt logs/session_*.log | head -1 | xargs cat
+
+# View structured metadata
+ls -lt logs/session_*.json | head -1 | xargs cat
+
+# View LLM-optimized summary
+ls -lt logs/session_*.llm.md | head -1 | xargs cat
+```
+
+### 3. Run Single Test with Print Output
+
+```bash
+# Run specific test with print capture disabled
+pytest tests/unit/test_ollama_client.py::TestMockOllamaClient::test_basic_generation -s
+```
+
+### 4. Use Debugger
+
+```bash
+# Run with Python debugger
+pytest tests/unit/test_ollama_client.py --pdb
+
+# Drop into debugger on first failure
+pytest tests/unit/test_ollama_client.py -x --pdb
+```
+
+## 🚀 End-to-End (E2E) Tests
+
+E2E tests verify integration with **real external services**. They are **SKIPPED BY DEFAULT**.
+
+### What are E2E Tests?
+
+E2E tests validate:
+- Real Ollama server (text generation, JSON mode, streaming)
+- Real ChromaDB (document ingestion, semantic search)
+- Full RAG pipeline (ChromaDB → Ollama)
+- Story continuity across segments
+- Real LLM-based validation
+
+### Running E2E Tests
+
+```bash
+# Run ALL E2E tests (requires Ollama + ChromaDB)
+pytest --run-e2e -v
+python run_tests.py e2e
+
+# Run only Ollama E2E tests
+pytest --run-ollama -v
+python run_tests.py e2e-ollama
+
+# Run only ChromaDB E2E tests
+pytest --run-chromadb -v
+python run_tests.py e2e-chromadb
+```
+
+### E2E Test Prerequisites
+
+**For Ollama tests**:
+```bash
+# Install and start Ollama
+curl https://ollama.ai/install.sh | sh
+ollama serve
+
+# Pull required model
+ollama pull llama3.1:8b
+```
+
+**For ChromaDB tests**:
+```bash
+pip install chromadb
+```
+
+### E2E Test Documentation
+
+See **`tests/e2e/README.md`** for complete E2E test documentation including:
+- Setup instructions
+- Test categories
+- Fixtures and usage
+- Troubleshooting
+- Writing new E2E tests
+
+## 📊 Coverage Reports
+
+Generate coverage reports to see what code is tested:
+
+```bash
+# Generate terminal coverage report
+pytest --cov=tools --cov-report=term-missing
+
+# Generate HTML coverage report
+pytest --cov=tools --cov-report=html
+# Then open: htmlcov/index.html
+
+# Generate XML coverage report (for CI)
+pytest --cov=tools --cov-report=xml
+```
+
+## 🎯 Test Writing Guidelines
+
+### 1. Use Mocks for External Dependencies
 
 ```python
-import logging
-from tests.fixtures.logging_utils import get_test_logger
-
-def test_my_feature():
-    logger = get_test_logger(__name__)
-    logger.info("Starting test")
-    logger.debug("Debug information")
-    logger.warning("Warning message")
-    # All logs are captured automatically
-```
-
-## 🎯 Coverage Goals
-
-Current coverage goals:
-- **Unit tests**: 90%+ coverage
-- **Integration tests**: 80%+ coverage
-- **End-to-end tests**: Critical workflows
-
-### Viewing Coverage
-
-```bash
-# Generate coverage report
-pytest tests/ --cov=. --cov-report=html
-
-# Open in browser
-open htmlcov/index.html  # macOS
-xdg-open htmlcov/index.html  # Linux
-start htmlcov/index.html  # Windows
-```
-
-## 🐛 Debugging Failed Tests
-
-### 1. Check Test Logs
-
-```bash
-# View full test output with logging
-pytest tests/unit/test_broadcast.py -v --log-cli-level=DEBUG
-
-# Capture output to file
-pytest tests/ -v --log-cli-level=DEBUG > test_output.log 2>&1
-```
-
-### 2. Use pdb Debugger
-
-```python
-import pytest
-
-def test_my_feature():
-    result = my_function()
-    pytest.set_trace()  # Debugger breakpoint
-    assert result == expected
-```
-
-### 3. Run Individual Tests
-
-```bash
-# Run single test
-pytest tests/unit/test_broadcast.py::test_cli_arguments -v
-
-# Run test with print statements
-pytest tests/unit/test_broadcast.py::test_cli_arguments -s
-```
-
-### 4. Check Historical Logs
-
-```bash
-# Compare current failure with previous successful run
-diff tests/logs/test_run_latest.log tests/logs/history/test_run_20260119_180000.log
-```
-
-## 📚 Writing New Tests
-
-### Unit Test Template
-
-```python
-"""
-Tests for my_module
-
-Tests the functionality of my_module with mocked dependencies.
-"""
-
-import pytest
-from tests.mocks.mock_llm import MockLLMClient
-from tests.mocks.mock_chromadb import MockChromaDBIngestor
-from my_module import MyClass
-
-
-@pytest.mark.mock
-def test_my_feature():
-    """Test my feature with mock dependencies"""
-    # Arrange
-    mock_llm = MockLLMClient()
-    mock_db = MockChromaDBIngestor()
-    obj = MyClass(llm=mock_llm, db=mock_db)
+def test_ollama_generation(mock_ollama_client):
+    """Always use mock clients for tests"""
+    # ✅ Good - uses mock
+    response = mock_ollama_client.generate("model", "test")
     
-    # Act
-    result = obj.my_method()
-    
-    # Assert
-    assert result is not None
-    assert len(mock_llm.get_call_log()) > 0
+    # ❌ Bad - requires real Ollama server
+    # client = OllamaClient()
+    # response = client.generate("model", "test")
+```
 
+### 2. Capture All Output
 
-@pytest.mark.mock
-def test_error_handling():
-    """Test error handling with failing mock"""
-    # Arrange
-    from tests.mocks.mock_llm import MockLLMClientWithFailure
-    mock_llm = MockLLMClientWithFailure(fail_after_n_calls=1)
-    obj = MyClass(llm=mock_llm)
-    
-    # Act & Assert
+```python
+def test_with_logging():
+    """Capture output for debugging"""
+    with capture_output("test_name") as session:
+        # All prints and logs are captured
+        print("Processing...")
+        session.log_event("STEP_1", {"status": "ok"})
+```
+
+### 3. Test One Thing at a Time
+
+```python
+def test_generation_success(mock_ollama_client):
+    """Test successful generation"""
+    response = mock_ollama_client.generate("model", "prompt")
+    assert isinstance(response, str)
+    assert len(response) > 0
+
+def test_generation_failure(mock_ollama_client):
+    """Test generation failure handling - separate test"""
+    client = MockOllamaClient(fail_after=1)
     with pytest.raises(RuntimeError):
-        obj.my_method()
-        obj.my_method()  # Should fail on second call
+        client.generate("model", "test")
 ```
 
-### Integration Test Template
+### 4. Use Descriptive Names
 
 ```python
-"""
-Integration tests for my_module
+# ✅ Good - descriptive
+def test_broadcast_engine_generates_news_segment_with_lore_context():
+    pass
 
-Tests with real Ollama/ChromaDB (mark with @pytest.mark.integration).
-"""
-
-import pytest
-
-
-@pytest.mark.integration
-@pytest.mark.slow
-def test_real_llm_integration():
-    """Test with real Ollama instance"""
-    # This test requires Ollama to be running
-    # Automatically skipped if Ollama not available
+# ❌ Bad - vague
+def test_broadcast():
     pass
 ```
 
-## 🔍 Continuous Integration
+### 5. Document Expected Behavior
 
-### Pre-commit Checks
-
-```bash
-# Run formatting
-black tests/
-
-# Run linting
-ruff check tests/
-
-# Run type checking
-mypy tests/
-
-# Run all tests
-pytest tests/ --cov=. --cov-report=term-missing
+```python
+def test_retry_logic_with_timeout():
+    """
+    Test that generation retries up to max_retries on timeout.
+    
+    Expected behavior:
+    - First call times out
+    - Second call succeeds
+    - Total calls should be 2
+    """
+    # Test implementation
 ```
 
-### CI Pipeline
+## 🛠️ Common Testing Patterns
 
-The CI pipeline automatically:
-1. Runs all mock tests (no external dependencies)
-2. Generates coverage reports
-3. Saves test logs as artifacts
-4. Compares with previous runs
-5. Reports failures with full logs
+### Pattern 1: Testing with Pre-Configured Responses
 
-## 🆘 Troubleshooting
-
-### Tests Hanging
-
-If tests hang:
-1. Press Ctrl+C to cancel (captured in logs)
-2. Check `tests/logs/test_run_latest.log` for where it hung
-3. Look for infinite loops or missing mocks
-
-### Import Errors
-
-```bash
-# Make sure you're in the project root
-cd /path/to/Esp32-Projects
-
-# Install in development mode
-pip install -e .
-
-# Or add to PYTHONPATH
-export PYTHONPATH=/path/to/Esp32-Projects:$PYTHONPATH
+```python
+def test_specific_response():
+    """Test with exact response"""
+    client = MockOllamaClient(responses={
+        "What is 2+2?": "4"
+    })
+    
+    assert client.generate("model", "What is 2+2?") == "4"
 ```
 
-### Mock Not Working
+### Pattern 2: Testing Error Handling
 
-If mocks aren't being used:
-1. Check that test is marked with `@pytest.mark.mock`
-2. Verify fixtures are properly configured in `conftest.py`
-3. Check import paths
+```python
+def test_connection_error_handling():
+    """Test graceful error handling"""
+    client = MockOllamaClient(connection_error=True)
+    
+    with pytest.raises(ConnectionError) as exc_info:
+        client.generate("model", "test")
+    
+    assert "Cannot connect to Ollama" in str(exc_info.value)
+```
 
-## 📞 Support
+### Pattern 3: Testing Call Tracking
 
-For issues or questions:
-1. Check existing tests for examples
-2. Review mock implementation in `tests/mocks/`
-3. Check logs in `tests/logs/`
-4. Consult main project README
+```python
+def test_call_tracking():
+    """Test that calls are tracked"""
+    client = MockOllamaClient()
+    
+    client.generate("model-1", "prompt-1")
+    client.generate("model-2", "prompt-2")
+    
+    assert client.get_call_count() == 2
+    last_call = client.get_last_call()
+    assert last_call["prompt"] == "prompt-2"
+```
 
-## 🔄 Maintenance
+### Pattern 4: Testing Broadcast Generation
 
-### Updating Mocks
+```python
+def test_broadcast_generation(mock_ollama_broadcast):
+    """Test complete broadcast generation"""
+    # Mock is pre-configured with broadcast responses
+    weather = mock_ollama_broadcast.generate("model", "Generate weather")
+    news = mock_ollama_broadcast.generate("model", "Generate news")
+    
+    assert "weather" in weather.lower() or "condition" in weather.lower()
+    assert len(news) > 50  # News should be detailed
+```
 
-When Ollama/ChromaDB APIs change:
-1. Update `tests/mocks/mock_llm.py`
-2. Update `tests/mocks/mock_chromadb.py`
-3. Run tests to verify compatibility
-4. Update mock documentation
+## 🐛 Debugging Tips
 
-### Adding New Test Categories
+### Tip 1: Check What Mock Returned
 
-1. Create new directory under `tests/`
-2. Add `__init__.py`
-3. Update this README
-4. Add pytest markers if needed
-5. Update `conftest.py` with fixtures
+```python
+def test_debug_mock_response(mock_ollama_client):
+    response = mock_ollama_client.generate("model", "weather report")
+    print(f"Mock returned: {response}")  # Use -s flag to see this
+    assert "weather" in response.lower()
+```
+
+### Tip 2: Inspect Call History
+
+```python
+def test_inspect_calls(mock_ollama_client):
+    mock_ollama_client.generate("m1", "p1")
+    mock_ollama_client.generate("m2", "p2")
+    
+    # Print all calls for debugging
+    for call in mock_ollama_client.call_history:
+        print(f"Call: {call}")
+```
+
+### Tip 3: Compare Logs
+
+```python
+# Run test and save output
+pytest tests/unit/test_ollama_client.py > test_output_before.txt
+
+# Make changes
+
+# Run again and compare
+pytest tests/unit/test_ollama_client.py > test_output_after.txt
+diff test_output_before.txt test_output_after.txt
+```
+
+### Tip 4: Check Session Metadata
+
+```python
+with capture_output("debug_session") as session:
+    # Do test work
+    pass
+
+# After test, check: logs/session_*_debug_session.json
+# Contains all events, timings, and errors
+```
+
+## 📚 Additional Resources
+
+- **Main README**: `/README.md` - Project overview
+- **Architecture**: `/docs/ARCHITECTURE.md` - System design
+- **Scripts Reference**: `/SCRIPTS_REFERENCE.md` - All available scripts
+- **Logging Config**: `/tools/shared/logging_config.py` - Logging implementation
+- **Mock Client**: `/tools/shared/mock_ollama_client.py` - Mock implementations
+
+## 🤝 Contributing Tests
+
+When adding new tests:
+
+1. ✅ Use mocks for external dependencies
+2. ✅ Add comprehensive logging
+3. ✅ Use descriptive test names
+4. ✅ Add docstrings explaining what's being tested
+5. ✅ Group related tests in classes
+6. ✅ Use appropriate markers (@pytest.mark.mock, etc.)
+7. ✅ Test both success and failure cases
+8. ✅ Keep tests focused and independent
+
+## 📞 Getting Help
+
+If tests are failing or you need help:
+
+1. Check logs in `/logs/` directory
+2. Run tests with `-v` for verbose output
+3. Run specific test with `-s` to see print statements
+4. Check test documentation in this README
+5. Review session metadata JSON files for detailed debugging info
+
+## ✅ Test Checklist
+
+Before committing code:
+
+- [ ] All tests pass: `pytest`
+- [ ] New code has tests
+- [ ] Tests use mocks (no external dependencies)
+- [ ] Tests have logging enabled
+- [ ] Coverage hasn't decreased
+- [ ] Test names are descriptive
+- [ ] Docstrings explain expected behavior
 
 ---
 
-**Last Updated**: January 2026  
-**Test Coverage**: Target 85%+  
-**Mock Coverage**: 100% (no external dependencies required)
+**Happy Testing! 🎉**
+
+For questions or issues, check the logs in `/logs/` - they contain complete execution history for debugging.

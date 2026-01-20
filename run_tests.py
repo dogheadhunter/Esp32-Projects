@@ -1,154 +1,116 @@
 #!/usr/bin/env python3
 """
-Test Runner for ESP32 AI Radio
+Test Runner Script
 
-Runs the comprehensive test suite with logging.
-All output is captured to logs for debugging and historical comparison.
+Provides convenient commands to run different test suites.
+Most tests use mocks - no external dependencies (Ollama, ChromaDB) required.
+E2E tests require real services and are skipped by default.
+
+Usage:
+    python run_tests.py                 # Run all tests (E2E tests SKIPPED)
+    python run_tests.py unit            # Run only unit tests
+    python run_tests.py integration     # Run only integration tests
+    python run_tests.py coverage        # Run with coverage report
+    python run_tests.py quick           # Run fast tests only
+    
+    # E2E tests (require real services)
+    python run_tests.py e2e             # Run ALL E2E tests (Ollama + ChromaDB)
+    python run_tests.py e2e-ollama      # Run Ollama E2E tests only
+    python run_tests.py e2e-chromadb    # Run ChromaDB E2E tests only
 """
 
 import sys
 import subprocess
-import argparse
 from pathlib import Path
-from datetime import datetime
 
 
-def run_tests(args):
-    """
-    Run pytest with comprehensive logging.
-    
-    Args:
-        args: Parsed command-line arguments
-    """
-    # Build pytest command
-    pytest_args = ['pytest', 'tests/']
-    
-    # Add markers
-    if args.mock_only:
-        pytest_args.extend(['-m', 'mock'])
-    elif args.integration:
-        pytest_args.extend(['-m', 'integration'])
-    elif args.e2e:
-        pytest_args.extend(['-m', 'e2e'])
-    
-    # Add verbosity
-    if args.verbose:
-        pytest_args.append('-vv')
-    else:
-        pytest_args.append('-v')
-    
-    # Add coverage
-    if args.coverage:
-        pytest_args.extend([
-            '--cov=.',
-            '--cov-report=html',
-            '--cov-report=term-missing'
-        ])
-    
-    # Add specific test file if provided
-    if args.test_file:
-        pytest_args[1] = args.test_file
-    
-    # Add logging
-    pytest_args.extend([
-        '--log-cli-level=DEBUG',
-        '-s'  # Don't capture output, let logging_utils handle it
-    ])
-    
-    # Run tests
-    print("="*80)
-    print("ESP32 AI RADIO - TEST SUITE")
-    print("="*80)
-    print(f"Command: {' '.join(pytest_args)}")
-    print(f"Timestamp: {datetime.now().isoformat()}")
-    print("="*80)
-    print()
-    
-    try:
-        result = subprocess.run(pytest_args, check=False)
-        return result.returncode
-    except KeyboardInterrupt:
-        print("\n\nTest run cancelled by user (Ctrl+C)")
-        print("All logs have been saved for review")
-        return 130
+def run_command(cmd):
+    """Run a command and return the exit code"""
+    print(f"Running: {' '.join(cmd)}")
+    print("=" * 80)
+    result = subprocess.run(cmd)
+    print("=" * 80)
+    return result.returncode
 
 
 def main():
-    """Main entry point"""
-    parser = argparse.ArgumentParser(
-        description='Run ESP32 AI Radio test suite with comprehensive logging',
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""
-Examples:
-  # Run all mock tests (no external dependencies)
-  python run_tests.py --mock-only
-  
-  # Run with coverage report
-  python run_tests.py --coverage
-  
-  # Run specific test file
-  python run_tests.py --test-file tests/unit/test_broadcast.py
-  
-  # Run integration tests (requires Ollama/ChromaDB)
-  python run_tests.py --integration
-  
-  # Run with verbose output
-  python run_tests.py -v
-  
-All test runs are logged to tests/logs/ for debugging and comparison.
-        """
-    )
+    # Change to project root
+    project_root = Path(__file__).parent
     
-    parser.add_argument(
-        '--mock-only',
-        action='store_true',
-        help='Run only mock tests (no external dependencies)'
-    )
-    parser.add_argument(
-        '--integration',
-        action='store_true',
-        help='Run integration tests (requires Ollama/ChromaDB)'
-    )
-    parser.add_argument(
-        '--e2e',
-        action='store_true',
-        help='Run end-to-end tests'
-    )
-    parser.add_argument(
-        '--coverage',
-        action='store_true',
-        help='Generate coverage report'
-    )
-    parser.add_argument(
-        '--test-file',
-        type=str,
-        help='Run specific test file'
-    )
-    parser.add_argument(
-        '-v', '--verbose',
-        action='store_true',
-        help='Verbose output'
-    )
+    # Get command line argument
+    test_type = sys.argv[1] if len(sys.argv) > 1 else "all"
     
-    args = parser.parse_args()
+    if test_type == "all":
+        print("📋 Running all tests...")
+        cmd = ["pytest", "-v"]
     
-    # Run tests
-    exit_code = run_tests(args)
+    elif test_type == "unit":
+        print("📋 Running unit tests...")
+        cmd = ["pytest", "tests/unit/", "-v"]
     
-    # Print log location
-    log_dir = Path(__file__).parent / 'tests' / 'logs'
-    latest_log = log_dir / 'test_run_latest.log'
+    elif test_type == "integration":
+        print("📋 Running integration tests...")
+        cmd = ["pytest", "tests/integration/", "-v", "-m", "integration"]
     
-    print()
-    print("="*80)
-    print("TEST RUN COMPLETE")
-    print(f"Exit code: {exit_code}")
-    if latest_log.exists():
-        print(f"Log file: {latest_log}")
-    print("="*80)
+    elif test_type == "coverage":
+        print("📋 Running tests with coverage report...")
+        cmd = ["pytest", "--cov=tools", "--cov-report=term-missing", "--cov-report=html"]
+    
+    elif test_type == "quick":
+        print("📋 Running quick mock tests...")
+        cmd = ["pytest", "-v", "-m", "mock"]
+    
+    elif test_type == "logging":
+        print("📋 Running logging infrastructure tests...")
+        cmd = ["pytest", "tests/unit/test_logging_config.py", "-v"]
+    
+    elif test_type == "ollama":
+        print("📋 Running Ollama client tests...")
+        cmd = ["pytest", "tests/unit/test_ollama_client.py", "-v"]
+    
+    elif test_type == "content":
+        print("📋 Running content types tests...")
+        cmd = ["pytest", "tests/unit/test_content_types.py", "-v"]
+    
+    elif test_type == "generator":
+        print("📋 Running generator tests...")
+        cmd = ["pytest", "tests/unit/test_generator.py", "-v"]
+    
+    elif test_type == "broadcast":
+        print("📋 Running broadcast engine tests...")
+        cmd = ["pytest", "tests/unit/test_broadcast_engine.py", "-v"]
+    
+    elif test_type == "e2e":
+        print("📋 Running ALL E2E tests (requires Ollama + ChromaDB)...")
+        cmd = ["pytest", "tests/e2e/", "--run-e2e", "-v"]
+    
+    elif test_type == "e2e-ollama":
+        print("📋 Running Ollama E2E tests...")
+        cmd = ["pytest", "tests/e2e/test_ollama_e2e.py", "--run-ollama", "-v"]
+    
+    elif test_type == "e2e-chromadb":
+        print("📋 Running ChromaDB E2E tests...")
+        cmd = ["pytest", "tests/e2e/test_chromadb_e2e.py", "--run-chromadb", "-v"]
+    
+    elif test_type == "help" or test_type == "-h" or test_type == "--help":
+        print(__doc__)
+        return 0
+    
+    else:
+        print(f"❌ Unknown test type: {test_type}")
+        print(__doc__)
+        return 1
+    
+    # Run the tests
+    exit_code = run_command(cmd)
+    
+    if exit_code == 0:
+        print("\n✅ All tests passed!")
+    else:
+        print(f"\n❌ Some tests failed (exit code: {exit_code})")
     
     return exit_code
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     sys.exit(main())

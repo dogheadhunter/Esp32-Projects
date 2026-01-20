@@ -7,17 +7,17 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from pathlib import Path
 
-from auth import verify_token
-from config import settings
-from models import (
+from .auth import verify_token
+from .config import settings
+from .models import (
     Script, 
     ReviewRequest, 
     ReviewResponse,
     RejectionReason,
     StatsResponse
 )
-from storage import storage
-from dj_profiles import dj_profiles
+from .storage import storage
+from .dj_profiles import dj_profiles
 
 # Configure logging
 logging.basicConfig(

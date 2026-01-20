@@ -1,308 +1,218 @@
 """
-Pytest configuration and fixtures for ESP32 AI Radio tests
+Test Configuration and Fixtures
 
-This file provides:
-- Test fixtures for mocked dependencies
-- Pytest markers for test organization
-- Logging configuration
-- Shared test utilities
+Centralized test configuration, fixtures, and utilities for the entire project.
 """
 
 import pytest
 import sys
-import os
+import json
 from pathlib import Path
-import logging
+from typing import Dict, Any, Generator
 
-# Add project root to path
-project_root = Path(__file__).parent.parent
-sys.path.insert(0, str(project_root))
-
-# Import logging utilities
-from tests.fixtures.logging_utils import (
-    setup_comprehensive_logging,
-    get_test_logger,
-    log_test_execution
-)
+# Add tools to path for imports
+PROJECT_ROOT = Path(__file__).parent.parent
+sys.path.insert(0, str(PROJECT_ROOT / "tools" / "script-generator"))
+sys.path.insert(0, str(PROJECT_ROOT / "tools" / "wiki_to_chromadb"))
+sys.path.insert(0, str(PROJECT_ROOT / "tools" / "shared"))
 
 # Import mocks
-from tests.mocks.mock_llm import MockLLMClient, MockLLMClientWithFailure
-from tests.mocks.mock_chromadb import MockChromaDBIngestor, MockChromaDBWithFailure
-
-
-# ============================================================================
-# PYTEST CONFIGURATION
-# ============================================================================
-
-def pytest_configure(config):
-    """Pytest startup configuration"""
-    # Setup comprehensive logging
-    setup_comprehensive_logging(level="DEBUG")
-    
-    # Register custom markers
-    config.addinivalue_line(
-        "markers", "mock: tests using mock clients (no external dependencies)"
-    )
-    config.addinivalue_line(
-        "markers", "integration: tests requiring real Ollama/ChromaDB"
-    )
-    config.addinivalue_line(
-        "markers", "slow: tests that take >5 seconds"
-    )
-    config.addinivalue_line(
-        "markers", "e2e: end-to-end workflow tests"
-    )
-
-
-def pytest_collection_modifyitems(config, items):
-    """Modify test collection"""
-    # Auto-mark tests based on path
-    for item in items:
-        # Mark tests in integration/ as integration tests
-        if "integration" in str(item.fspath):
-            item.add_marker(pytest.mark.integration)
-        
-        # Mark tests in e2e/ as e2e tests
-        if "e2e" in str(item.fspath):
-            item.add_marker(pytest.mark.e2e)
-            item.add_marker(pytest.mark.slow)
-        
-        # Mark tests using mocks
-        if "mock" in str(item.fspath).lower() or "unit" in str(item.fspath):
-            item.add_marker(pytest.mark.mock)
-
-
-# ============================================================================
-# LOGGING FIXTURES
-# ============================================================================
-
-@pytest.fixture(scope="session")
-def logger():
-    """Session-scoped logger"""
-    return get_test_logger("test_session")
-
-
-@pytest.fixture(scope="function")
-def test_logger(request):
-    """Function-scoped logger with test name"""
-    test_name = request.node.name
-    with log_test_execution(test_name) as logger:
-        yield logger
-
-
-# ============================================================================
-# MOCK FIXTURES
-# ============================================================================
-
-@pytest.fixture
-def mock_llm():
-    """Fixture providing fresh MockLLMClient instance"""
-    client = MockLLMClient()
-    yield client
-    # Cleanup
-    client.clear_call_log()
+from tools.shared.mock_ollama_client import MockOllamaClient, MockOllamaScenarios
+from tools.shared.logging_config import setup_logger, capture_output
 
 
 @pytest.fixture
-def mock_llm_with_failure():
-    """Fixture providing MockLLMClient that fails after N calls"""
-    def _create_failing_client(fail_after_n_calls=3):
-        return MockLLMClientWithFailure(fail_after_n_calls=fail_after_n_calls)
-    return _create_failing_client
+def mock_ollama_client() -> MockOllamaClient:
+    """Basic mock Ollama client"""
+    return MockOllamaClient()
 
 
 @pytest.fixture
-def mock_chromadb():
-    """Fixture providing fresh MockChromaDBIngestor instance"""
-    db = MockChromaDBIngestor()
-    yield db
-    # Cleanup
-    db.clear_query_log()
+def mock_ollama_broadcast() -> MockOllamaClient:
+    """Mock Ollama client configured for broadcast generation"""
+    return MockOllamaScenarios.broadcast_generation()
 
 
 @pytest.fixture
-def mock_chromadb_with_failure():
-    """Fixture providing MockChromaDBIngestor that fails after N queries"""
-    def _create_failing_db(fail_after_n_queries=3):
-        return MockChromaDBWithFailure(fail_after_n_queries=fail_after_n_queries)
-    return _create_failing_db
-
-
-# ============================================================================
-# UTILITY FIXTURES
-# ============================================================================
-
-@pytest.fixture
-def tmp_output_dir(tmp_path):
-    """Temporary output directory for test files"""
-    output_dir = tmp_path / "output"
-    output_dir.mkdir(parents=True, exist_ok=True)
-    return output_dir
+def mock_ollama_flaky() -> MockOllamaClient:
+    """Mock Ollama client that fails intermittently"""
+    return MockOllamaScenarios.flaky_connection()
 
 
 @pytest.fixture
-def sample_dj_personality():
-    """Sample DJ personality configuration"""
+def project_root() -> Path:
+    """Project root directory"""
+    return PROJECT_ROOT
+
+
+@pytest.fixture
+def test_data_dir(project_root) -> Path:
+    """Test data directory"""
+    data_dir = project_root / "tests" / "fixtures" / "data"
+    data_dir.mkdir(parents=True, exist_ok=True)
+    return data_dir
+
+
+@pytest.fixture
+def test_output_dir(project_root, tmp_path) -> Path:
+    """Temporary output directory for tests"""
+    return tmp_path / "test_output"
+
+
+@pytest.fixture
+def sample_dj_profile() -> Dict[str, Any]:
+    """Sample DJ profile for testing"""
     return {
-        'name': 'Test DJ',
-        'era': '2102',
-        'location': 'Test Wasteland',
-        'personality_traits': [
-            'friendly',
-            'informative',
-            'optimistic'
-        ],
-        'voice_style': 'warm and engaging',
-        'catchphrases': [
-            'Stay safe out there!',
-            'This is Test DJ, keeping you company.'
-        ]
-    }
-
-
-@pytest.fixture
-def sample_weather_data():
-    """Sample weather data for testing"""
-    return {
-        'condition': 'sunny',
-        'temperature': 75,
-        'radiation_level': 'low',
-        'wind_speed': 10,
-        'description': 'Clear skies over the wasteland'
-    }
-
-
-@pytest.fixture
-def sample_script_segment():
-    """Sample script segment for testing"""
-    return {
-        'segment_type': 'weather',
-        'timestamp': '2102-08-15T08:00:00',
-        'content': 'Good morning, survivors! The weather today is looking good.',
-        'metadata': {
-            'dj': 'Test DJ',
-            'validated': True,
-            'word_count': 12
+        "name": "Julie (2102, Appalachia)",
+        "era": "2102",
+        "location": "Appalachia",
+        "personality": {
+            "traits": ["optimistic", "friendly", "helpful"],
+            "speaking_style": "casual and upbeat",
+            "catchphrases": ["Good morning, Appalachia!", "Stay safe out there!"]
+        },
+        "knowledge_base": {
+            "specialties": ["Appalachian lore", "Vault 76", "Reclamation Day"],
+            "topics": ["weather", "news", "gossip"]
         }
     }
 
 
-# ============================================================================
-# INTEGRATION TEST HELPERS
-# ============================================================================
-
-@pytest.fixture(scope="session")
-def check_ollama_available():
-    """Check if Ollama is available for integration tests"""
-    try:
-        import requests
-        response = requests.get("http://localhost:11434/api/tags", timeout=2)
-        return response.status_code == 200
-    except Exception:
-        return False
-
-
-@pytest.fixture(scope="session")
-def check_chromadb_available():
-    """Check if ChromaDB is available for integration tests"""
-    try:
-        import chromadb
-        client = chromadb.Client()
-        return True
-    except Exception:
-        return False
+@pytest.fixture
+def sample_broadcast_segment() -> Dict[str, Any]:
+    """Sample broadcast segment for testing"""
+    return {
+        "id": "test_segment_001",
+        "segment_type": "news",
+        "timestamp": "2102-11-01T08:00:00",
+        "dj": "Julie (2102, Appalachia)",
+        "content": "Good morning, Appalachia! This is Julie bringing you the latest news...",
+        "metadata": {
+            "duration_seconds": 45,
+            "generated_at": "2026-01-20T10:00:00",
+            "model": "test-model"
+        }
+    }
 
 
-def pytest_runtest_setup(item):
-    """Setup hook to skip integration tests if dependencies unavailable"""
-    # Check for integration marker
-    if "integration" in item.keywords:
-        # Check if Ollama is required and available
-        if "ollama" in str(item.fspath).lower():
-            try:
-                import requests
-                response = requests.get("http://localhost:11434/api/tags", timeout=2)
-                if response.status_code != 200:
-                    pytest.skip("Ollama not available for integration test")
-            except Exception:
-                pytest.skip("Ollama not available for integration test")
+@pytest.fixture
+def sample_weather_data() -> Dict[str, Any]:
+    """Sample weather data for testing"""
+    return {
+        "condition": "Partly cloudy with a chance of radstorms",
+        "temperature": 68,
+        "radiation_level": "Moderate",
+        "wind": "Light breeze from the east",
+        "forecast": "Clearing up by evening",
+        "warnings": ["Wear radiation protection if traveling east"]
+    }
+
+
+@pytest.fixture
+def test_logger():
+    """Test logger with minimal configuration"""
+    return setup_logger("test_logger")
+
+
+@pytest.fixture
+def capture_test_output(tmp_path) -> Generator:
+    """Capture all output during test execution"""
+    with capture_output("test_session") as session:
+        yield session
+
+
+@pytest.fixture
+def mock_chromadb_collection():
+    """Mock ChromaDB collection for testing"""
+    class MockCollection:
+        def __init__(self):
+            self.documents = []
+            self.metadatas = []
+            self.ids = []
         
-        # Check if ChromaDB is required and available
-        if "chromadb" in str(item.fspath).lower():
-            try:
-                import chromadb
-                client = chromadb.Client()
-            except Exception:
-                pytest.skip("ChromaDB not available for integration test")
-
-
-# ============================================================================
-# TEST DATA CLEANUP
-# ============================================================================
-
-@pytest.fixture(autouse=True)
-def cleanup_test_artifacts(request, tmp_path):
-    """Automatically cleanup test artifacts after each test"""
-    yield
-    # Cleanup happens after test
-    # Note: tmp_path is automatically cleaned up by pytest
-
-
-# ============================================================================
-# COVERAGE CONFIGURATION
-# ============================================================================
-
-def pytest_sessionfinish(session, exitstatus):
-    """Hook called after whole test run finished"""
-    # Note: Logging may be closed at this point, so we skip final logging
-    # All important logging is done during test execution
-    pass
-
-
-# ============================================================================
-# HELPER FUNCTIONS
-# ============================================================================
-
-def assert_mock_llm_called(mock_llm, expected_calls=None):
-    """
-    Assert that mock LLM was called.
+        def add(self, documents, metadatas, ids):
+            self.documents.extend(documents)
+            self.metadatas.extend(metadatas)
+            self.ids.extend(ids)
+        
+        def query(self, query_texts, n_results=10, where=None):
+            # Return mock results
+            return {
+                "documents": [self.documents[:n_results] if self.documents else []],
+                "metadatas": [self.metadatas[:n_results] if self.metadatas else []],
+                "ids": [self.ids[:n_results] if self.ids else []],
+                "distances": [[0.1] * min(n_results, len(self.documents))]
+            }
+        
+        def count(self):
+            return len(self.documents)
     
-    Args:
-        mock_llm: MockLLMClient instance
-        expected_calls: Expected number of calls (None = any calls)
-    """
-    calls = mock_llm.get_call_log()
-    if expected_calls is not None:
-        assert len(calls) == expected_calls, \
-            f"Expected {expected_calls} LLM calls, got {len(calls)}"
-    else:
-        assert len(calls) > 0, "Expected LLM to be called at least once"
+    return MockCollection()
 
 
-def assert_mock_chromadb_called(mock_db, expected_queries=None):
-    """
-    Assert that mock ChromaDB was queried.
+# Markers for test organization
+def pytest_configure(config):
+    """Configure custom pytest markers"""
+    config.addinivalue_line(
+        "markers", "mock: tests using mock clients (fast, no external dependencies)"
+    )
+    config.addinivalue_line(
+        "markers", "integration: integration tests requiring multiple components"
+    )
+    config.addinivalue_line(
+        "markers", "slow: slow-running tests (e.g., full pipeline tests)"
+    )
+    config.addinivalue_line(
+        "markers", "e2e: end-to-end tests with real external services"
+    )
+    config.addinivalue_line(
+        "markers", "requires_ollama: tests requiring real Ollama server (skip in CI)"
+    )
+    config.addinivalue_line(
+        "markers", "requires_chromadb: tests requiring real ChromaDB (skip in CI)"
+    )
+
+
+# Test utilities
+class TestHelpers:
+    """Helper utilities for tests"""
     
-    Args:
-        mock_db: MockChromaDBIngestor instance
-        expected_queries: Expected number of queries (None = any queries)
-    """
-    queries = mock_db.get_query_log()
-    if expected_queries is not None:
-        assert len(queries) == expected_queries, \
-            f"Expected {expected_queries} ChromaDB queries, got {len(queries)}"
-    else:
-        assert len(queries) > 0, "Expected ChromaDB to be queried at least once"
+    @staticmethod
+    def assert_valid_json(text: str) -> Dict[str, Any]:
+        """Assert text is valid JSON and return parsed result"""
+        try:
+            return json.loads(text)
+        except json.JSONDecodeError as e:
+            pytest.fail(f"Invalid JSON: {e}")
+    
+    @staticmethod
+    def assert_contains_all(text: str, *keywords: str):
+        """Assert text contains all specified keywords"""
+        text_lower = text.lower()
+        for keyword in keywords:
+            assert keyword.lower() in text_lower, f"Missing keyword: {keyword}"
+    
+    @staticmethod
+    def assert_file_exists(path: Path):
+        """Assert file exists and is not empty"""
+        assert path.exists(), f"File does not exist: {path}"
+        assert path.stat().st_size > 0, f"File is empty: {path}"
+    
+    @staticmethod
+    def load_json_file(path: Path) -> Dict[str, Any]:
+        """Load and parse JSON file"""
+        with open(path, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    
+    @staticmethod
+    def save_json_file(path: Path, data: Dict[str, Any]):
+        """Save data as JSON file"""
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with open(path, 'w', encoding='utf-8') as f:
+            json.dump(data, f, indent=2)
 
 
-# Make helper functions available as fixtures
 @pytest.fixture
-def assert_llm_called():
-    """Fixture providing assert_mock_llm_called function"""
-    return assert_mock_llm_called
-
-
-@pytest.fixture
-def assert_chromadb_called():
-    """Fixture providing assert_mock_chromadb_called function"""
-    return assert_mock_chromadb_called
+def helpers():
+    """Test helper utilities"""
+    return TestHelpers()

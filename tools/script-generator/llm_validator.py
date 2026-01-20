@@ -224,9 +224,10 @@ class LLMValidator:
         aspects: List[str]
     ) -> str:
         """
-        Build comprehensive validation prompt.
+        Build comprehensive validation prompt with enhanced continuity checking.
         
         Uses structured format with clear sections for the LLM to analyze.
+        Includes previous scripts for continuity validation.
         """
         # Extract character info
         dj_name = character_card.get("name", "Unknown DJ")
@@ -234,58 +235,118 @@ class LLMValidator:
         do_guidelines = character_card.get("do", [])
         dont_guidelines = character_card.get("dont", [])
         knowledge_constraints = character_card.get("knowledge_constraints", {})
+        catchphrases = character_card.get("catchphrases", [])
+        voice = character_card.get("voice", {})
         
         # Build prompt sections
         prompt_parts = [
             "<validation_task>",
             "You are an expert validator for Fallout radio scripts.",
-            "Analyze the following script and identify any issues.",
+            "Your primary responsibility is to ensure COMPLETE CONSISTENCY with:",
+            "1. DJ Character Voice and Personality",
+            "2. Temporal Accuracy (timeline and knowledge constraints)",
+            "3. Tone and Emotional Consistency",
+            "4. Continuity with Previous Broadcast Segments",
+            "5. Regional/Location Accuracy",
+            "",
+            "Be thorough and catch ANY inconsistencies, even subtle ones.",
             "</validation_task>",
             "",
             "<character_profile>",
             f"DJ Name: {dj_name}",
-            f"Tone: {tone}",
+            f"Required Tone: {tone}",
+            "",
+            "CRITICAL: This DJ must ALWAYS maintain their characteristic voice.",
         ]
         
+        # Add voice characteristics
+        if voice:
+            prompt_parts.append("\nVoice Characteristics:")
+            for key, value in voice.items():
+                prompt_parts.append(f"  - {key}: {value}")
+        
+        # Add catchphrases
+        if catchphrases:
+            prompt_parts.append("\nSignature Catchphrases (should appear naturally):")
+            for phrase in catchphrases[:5]:  # Include up to 5
+                prompt_parts.append(f"  - \"{phrase}\"")
+        
         if do_guidelines:
-            prompt_parts.append("\nDO Guidelines:")
+            prompt_parts.append("\nCharacter MUST DO:")
             for guideline in do_guidelines:
-                prompt_parts.append(f"  - {guideline}")
+                prompt_parts.append(f"  ✓ {guideline}")
         
         if dont_guidelines:
-            prompt_parts.append("\nDON'T Guidelines:")
+            prompt_parts.append("\nCharacter MUST NOT DO:")
             for guideline in dont_guidelines:
-                prompt_parts.append(f"  - {guideline}")
+                prompt_parts.append(f"  ✗ {guideline}")
         
-        # Add temporal constraints
+        # Add temporal constraints with emphasis
         temporal_cutoff = knowledge_constraints.get("temporal_cutoff_year")
+        region = knowledge_constraints.get("region", "Unknown")
         if temporal_cutoff:
-            prompt_parts.append(
-                f"\nTemporal Constraint: DJ only knows events up to year {temporal_cutoff}"
-            )
+            prompt_parts.extend([
+                "",
+                "═══ TEMPORAL CONSTRAINTS (CRITICAL) ═══",
+                f"DJ Knowledge Cutoff: Year {temporal_cutoff}",
+                f"Region: {region}",
+                f"RULE: {dj_name} CANNOT know about ANY events after {temporal_cutoff}",
+                f"RULE: {dj_name} CANNOT reference locations/factions outside {region}",
+            ])
         
-        # Add forbidden knowledge
+        # Add forbidden knowledge with emphasis
         forbidden_factions = knowledge_constraints.get("forbidden_factions", [])
         if forbidden_factions:
-            prompt_parts.append(
-                f"\nForbidden Factions (DJ shouldn't know): {', '.join(forbidden_factions)}"
-            )
+            prompt_parts.extend([
+                "",
+                "FORBIDDEN FACTIONS (DJ Cannot Mention):",
+                f"  {', '.join(forbidden_factions)}",
+                "If ANY of these are mentioned, mark as CRITICAL violation."
+            ])
         
         forbidden_topics = knowledge_constraints.get("forbidden_topics", [])
         if forbidden_topics:
-            prompt_parts.append(
-                f"\nForbidden Topics (DJ shouldn't reference): {', '.join(forbidden_topics)}"
-            )
+            prompt_parts.extend([
+                "",
+                "FORBIDDEN TOPICS (DJ Cannot Reference):",
+                f"  {', '.join(forbidden_topics)}",
+                "If ANY of these are mentioned, mark as CRITICAL violation."
+            ])
         
         prompt_parts.append("</character_profile>")
         prompt_parts.append("")
         
-        # Add context if provided
+        # Add previous scripts for continuity checking
+        previous_scripts = context.get('previous_scripts', [])
+        if previous_scripts:
+            prompt_parts.extend([
+                "<previous_broadcast_segments>",
+                "IMPORTANT: Validate continuity with these previous segments from the same broadcast:",
+                ""
+            ])
+            for i, prev_script in enumerate(previous_scripts[-3:], 1):  # Last 3 segments
+                prompt_parts.extend([
+                    f"Segment {i}:",
+                    prev_script,
+                    ""
+                ])
+            prompt_parts.extend([
+                "CHECK FOR:",
+                "  - Contradictions in information (weather, events, facts)",
+                "  - Inconsistent tone or mood",
+                "  - Voice pattern changes",
+                "  - Repetition of same information",
+                "</previous_broadcast_segments>",
+                ""
+            ])
+        
+        # Add current context if provided
         if context:
-            prompt_parts.append("<context>")
+            prompt_parts.append("<current_context>")
             for key, value in context.items():
-                prompt_parts.append(f"{key}: {value}")
-            prompt_parts.append("</context>")
+                if key != 'previous_scripts':  # Already handled above
+                    prompt_parts.append(f"{key}: {value}")
+            prompt_parts.append("</current_context>")
             prompt_parts.append("")
         
         # Add script to validate
@@ -295,42 +356,100 @@ class LLMValidator:
             "</script_to_validate>",
             "",
             "<validation_instructions>",
-            "Analyze the script for the following aspects:",
+            "Perform COMPREHENSIVE validation checking ALL of the following:",
+            ""
         ])
         
-        # Add specific validation aspects
-        aspect_descriptions = {
-            "lore": "Lore Accuracy - Does it fit Fallout canon and world rules?",
-            "character": "Character Consistency - Does it match the DJ's personality and voice?",
-            "temporal": "Temporal Consistency - Does it respect timeline and knowledge constraints?",
-            "quality": "Quality - Is it well-written, engaging, and natural?",
-            "tone": "Tone - Does it match the expected mood and context?"
+        # Enhanced validation aspects with detailed descriptions
+        enhanced_aspects = {
+            "temporal": [
+                "Temporal Accuracy:",
+                "  • Does DJ reference any years/events AFTER their knowledge cutoff?",
+                "  • Are there anachronistic terms (internet, smartphone, etc.)?",
+                "  • Are dates and timelines internally consistent?",
+                "  SEVERITY: CRITICAL for any temporal violations"
+            ],
+            "character": [
+                "Character Voice Consistency:",
+                "  • Does the speech pattern match the DJ's personality?",
+                "  • Are characteristic filler words/phrases present?",
+                "  • Are catchphrases used naturally (if expected)?",
+                "  • Does vocabulary match education/background?",
+                "  • Are 'DO' guidelines followed?",
+                "  • Are 'DON'T' guidelines avoided?",
+                "  SEVERITY: CRITICAL for guideline violations, WARNING for voice drift"
+            ],
+            "tone": [
+                f"Tone Consistency (Required: {tone}):",
+                "  • Does the emotional tone match the expected tone?",
+                "  • Is the mood consistent throughout?",
+                "  • Does tone match the context (weather, events, time of day)?",
+                "  • Is there inappropriate levity or seriousness?",
+                "  SEVERITY: WARNING for tone inconsistency"
+            ],
+            "lore": [
+                "Lore & Regional Accuracy:",
+                "  • Are faction references accurate for the region/timeline?",
+                "  • Are location names correct?",
+                "  • Does DJ mention forbidden factions/topics?",
+                "  • Are regional characteristics accurate?",
+                "  SEVERITY: CRITICAL for forbidden knowledge, WARNING for minor errors"
+            ],
+            "quality": [
+                "Script Quality:",
+                "  • Is it well-written and engaging?",
+                "  • Are there awkward phrasings?",
+                "  • Is information clear and coherent?",
+                "  • Does it sound natural when spoken?",
+                "  SEVERITY: SUGGESTION for quality improvements"
+            ]
         }
         
+        # Add continuity aspect if previous scripts exist
+        if previous_scripts:
+            enhanced_aspects["continuity"] = [
+                "Continuity with Previous Segments:",
+                "  • Are there contradictions with previous statements?",
+                "  • Is information repeated unnecessarily?",
+                "  • Is tone/mood consistent across segments?",
+                "  • Does voice pattern remain stable?",
+                "  SEVERITY: CRITICAL for contradictions, WARNING for repetition"
+            ]
+        
+        # Include requested aspects or all if using LLM-only validation
         for aspect in aspects:
-            desc = aspect_descriptions.get(aspect, aspect)
-            prompt_parts.append(f"  - {desc}")
+            if aspect in enhanced_aspects:
+                for line in enhanced_aspects[aspect]:
+                    prompt_parts.append(line)
+                prompt_parts.append("")
         
         prompt_parts.extend([
             "",
-            "Respond in JSON format with the following structure:",
+            "═══ RESPONSE FORMAT ═══",
+            "Respond ONLY with valid JSON in this exact structure:",
             "{",
-            '  "overall_score": 0.85,  // 0.0-1.0, overall script quality',
-            '  "is_valid": true,  // false if critical issues found',
+            '  "overall_score": 0.85,  // 0.0-1.0 overall quality score',
+            '  "is_valid": true,       // false if ANY critical issues found',
             '  "issues": [',
             '    {',
-            '      "severity": "warning",  // "critical", "warning", or "suggestion"',
-            '      "category": "character",  // "lore", "character", "temporal", "quality", "tone"',
-            '      "message": "Script lacks characteristic filler words",',
-            '      "suggestion": "Add filler words like \'um\' or \'you know\'",',
-            '      "confidence": 0.8  // 0.0-1.0, your confidence in this issue',
+            '      "severity": "critical",    // "critical", "warning", or "suggestion"',
+            '      "category": "temporal",     // "temporal", "character", "tone", "lore", "continuity", "quality"',
+            '      "message": "Specific description of the problem",',
+            '      "evidence": "Quote from script showing the issue",',
+            '      "suggestion": "How to fix this issue",',
+            '      "confidence": 0.95  // 0.0-1.0 your confidence in this finding',
             '    }',
             '  ],',
-            '  "feedback": "Brief overall feedback on the script"',
+            '  "feedback": "Brief overall assessment and recommendations"',
             "}",
             "",
-            "Only include issues you actually found. Empty issues array is fine if script is perfect.",
-            "Be constructive and specific in your feedback.",
+            "CRITICAL RULES:",
+            "• Include 'evidence' - quote the exact part of the script with the issue",
+            "• Be specific in 'message' - explain WHY it's a problem",
+            "• Empty issues array is fine if script is perfect",
+            "• Only report ACTUAL problems, not nitpicks",
+            "• Temporal and forbidden knowledge violations are ALWAYS critical",
+            "• Character guideline violations are ALWAYS critical",
             "</validation_instructions>"
         ])
         
