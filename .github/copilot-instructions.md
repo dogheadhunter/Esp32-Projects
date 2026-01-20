@@ -88,6 +88,9 @@
 - A/B test prompt variations with real-world data
 - Monitor production outputs for drift and degradation
 - Maintain golden datasets for regression testing
+- **ALWAYS check LLM-optimized logs** (`*.llm.md` files) when debugging test failures - they provide concise test results, failed test details, and coverage information
+- Review `logs/archive/YYYY/MM/DD/session_*_TESTTYPE.llm.md` for quick test result summaries without parsing full logs
+- Use JSON logs (`*.json`) for programmatic analysis of test runs and build automation
 
 ### Performance & Optimization
 - Batch similar requests when possible
@@ -174,6 +177,8 @@
 - Check if functions accept parameters before adding them
 - Use absolute paths; verify directories exist before file operations
 - Wait for complete test output before declaring success
+- **Check LLM logs** (`logs/archive/YYYY/MM/DD/session_*.llm.md`) for concise test summaries when debugging
+- Use JSON logs for programmatic access to test results and coverage data
 
 ### Root Cause Analysis
 - Identify root cause, not just symptoms (avoid cascading fixes)

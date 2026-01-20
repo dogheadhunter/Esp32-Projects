@@ -28,12 +28,81 @@ Usage:
 
 import sys
 import subprocess
+import re
 from pathlib import Path
 from datetime import datetime
+from typing import Dict, Any
 
 # Add tools to path for logging imports
 sys.path.insert(0, str(Path(__file__).parent / "tools" / "shared"))
 from logging_config import capture_output
+
+
+def _parse_pytest_output(output: str) -> Dict[str, Any]:
+    """
+    Parse pytest output to extract test results, coverage, and failed tests.
+    
+    Returns dict with:
+    - passed: int
+    - failed: int
+    - skipped: int
+    - errors: int  
+    - total: int
+    - duration_seconds: float
+    - failed_tests: list of failed test names
+    - coverage_percent: int (if available)
+    """
+    results = {
+        "passed": 0,
+        "failed": 0,
+        "skipped": 0,
+        "errors": 0,
+        "warnings": 0,
+        "total": 0,
+        "duration_seconds": 0.0,
+        "failed_tests": [],
+        "coverage_percent": None
+    }
+    
+    # Parse final summary line: "===== 15 failed, 912 passed, 23 skipped in 367.73s ====="
+    summary_pattern = r'=+\s*(?:(\d+)\s*failed)?[,\s]*(?:(\d+)\s*passed)?[,\s]*(?:(\d+)\s*skipped)?[,\s]*(?:(\d+)\s*error)?[,\s]*(?:(\d+)\s*warning)?.*?in\s+([\d.]+)s?\s*=+'
+    summary_match = re.search(summary_pattern, output, re.IGNORECASE)
+    
+    if summary_match:
+        failed, passed, skipped, errors, warnings, duration = summary_match.groups()
+        results["failed"] = int(failed) if failed else 0
+        results["passed"] = int(passed) if passed else 0
+        results["skipped"] = int(skipped) if skipped else 0
+        results["errors"] = int(errors) if errors else 0
+        results["warnings"] = int(warnings) if warnings else 0
+        results["duration_seconds"] = float(duration)
+        results["total"] = results["passed"] + results["failed"] + results["skipped"] + results["errors"]
+    
+    # Extract failed test names from "FAILED test_file.py::TestClass::test_name - Error"
+    # Look for lines starting with "FAILED " followed by test path and error
+    lines = output.split('\n')
+    failed_tests = []
+    
+    for line in lines:
+        line = line.strip()
+        if line.startswith('FAILED '):
+            # Parse: "FAILED test_path - error_message"
+            match = re.match(r'^FAILED\s+([\w/\-.:]+(?:::[\w\-]+)*)\s*-\s*(.+)$', line)
+            if match:
+                test_name = match.group(1)
+                error_msg = match.group(2).strip()
+                failed_tests.append({"name": test_name, "error": error_msg})
+    
+    results["failed_tests"] = failed_tests
+    
+    # Extract coverage percentage: "TOTAL ... 52%"
+    coverage_pattern = r'TOTAL\s+\d+\s+\d+\s+(\d+)%'
+    coverage_match = re.search(coverage_pattern, output)
+    
+    if coverage_match:
+        results["coverage_percent"] = int(coverage_match.group(1))
+    
+    return results
 
 
 def get_log_directory():
@@ -91,13 +160,22 @@ def run_command_with_logging(cmd, test_type):
             # Print captured output (already logged by capture_output context)
             if result.stdout:
                 print(result.stdout, end='')
+                
+                # Parse pytest output for test results
+                test_results = _parse_pytest_output(result.stdout)
+            else:
+                test_results = {}
             
             exit_code = result.returncode
             
-            session.log_event("TEST_COMPLETED", {
+            # Log test completion with detailed results
+            completion_data = {
                 "exit_code": exit_code,
                 "status": "passed" if exit_code == 0 else "failed"
-            })
+            }
+            completion_data.update(test_results)
+            
+            session.log_event("TEST_COMPLETED", completion_data)
             
             print("=" * 80)
             

@@ -241,6 +241,49 @@ Python Version: {sys.version.split()[0]}
                 f.write(f"**Message:** {event_data.get('message', 'No message')}\n")
                 f.write(f"**Impact:** Operation failed\n\n")
             
+            elif event_type == "TEST_COMPLETED":
+                # Enhanced test result reporting
+                f.write(f"**What:** Test suite completed\n")
+                f.write(f"**Status:** {event_data.get('status', 'unknown').upper()}\n")
+                f.write(f"**Exit code:** {event_data.get('exit_code', 'N/A')}\n\n")
+                
+                # Test results summary
+                if 'total' in event_data and event_data['total'] > 0:
+                    f.write(f"**Test Results:**\n")
+                    f.write(f"- ✅ Passed: {event_data.get('passed', 0)}\n")
+                    if event_data.get('failed', 0) > 0:
+                        f.write(f"- ❌ Failed: {event_data.get('failed', 0)}\n")
+                    if event_data.get('skipped', 0) > 0:
+                        f.write(f"- ⏭️  Skipped: {event_data.get('skipped', 0)}\n")
+                    if event_data.get('errors', 0) > 0:
+                        f.write(f"- 🔥 Errors: {event_data.get('errors', 0)}\n")
+                    if event_data.get('warnings', 0) > 0:
+                        f.write(f"- ⚠️  Warnings: {event_data.get('warnings', 0)}\n")
+                    f.write(f"- 📊 Total: {event_data.get('total', 0)}\n")
+                    f.write(f"- ⏱️  Duration: {event_data.get('duration_seconds', 0):.1f}s\n")
+                    
+                    # Coverage if available
+                    if event_data.get('coverage_percent') is not None:
+                        f.write(f"- 📈 Coverage: {event_data['coverage_percent']}%\n")
+                    
+                    f.write("\n")
+                    
+                    # Failed tests details (max 10 for brevity)
+                    failed_tests = event_data.get('failed_tests', [])
+                    if failed_tests:
+                        f.write(f"**Failed Tests:** (showing {min(len(failed_tests), 10)} of {len(failed_tests)})\n")
+                        for i, test in enumerate(failed_tests[:10]):
+                            test_name = test.get('name', 'unknown')
+                            # Shorten long test names
+                            if len(test_name) > 80:
+                                test_name = "..." + test_name[-77:]
+                            error = test.get('error', '')
+                            # Shorten long errors
+                            if len(error) > 100:
+                                error = error[:97] + "..."
+                            f.write(f"{i+1}. `{test_name}`\n   - {error}\n")
+                        f.write("\n")
+            
             elif "test" in event_type.lower():
                 f.write(f"**What:** {event_data.get('description', event_type)}\n")
                 f.write(f"**Result:** {event_data.get('result', 'Unknown')}\n")
