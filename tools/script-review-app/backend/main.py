@@ -7,17 +7,17 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from pathlib import Path
 
-from backend.auth import verify_token
-from backend.config import settings
-from backend.models import (
+from auth import verify_token
+from config import settings
+from models import (
     Script, 
     ReviewRequest, 
     ReviewResponse,
     RejectionReason,
     StatsResponse
 )
-from backend.storage import storage
-from backend.dj_profiles import dj_profiles
+from storage import storage
+from dj_profiles import dj_profiles
 
 # Configure logging
 logging.basicConfig(
@@ -160,6 +160,41 @@ async def review_script(
         raise HTTPException(status_code=500, detail=f"Error processing review: {str(e)}")
 
 
+@app.delete("/api/review/{script_id}")
+async def undo_review(script_id: str):
+    """
+    Undo a previous review (approval or rejection).
+    
+    Args:
+        script_id: Script identifier to undo
+        
+    Returns:
+        Success status
+    """
+    try:
+        success = storage.undo_review(script_id)
+        
+        if not success:
+            raise HTTPException(
+                status_code=404,
+                detail=f"No review found for script: {script_id}"
+            )
+        
+        logger.info(f"Undid review for script {script_id}")
+        
+        return {
+            "success": True,
+            "message": f"Review undone successfully",
+            "script_id": script_id
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error undoing review: {e}")
+        raise HTTPException(status_code=500, detail=f"Error undoing review: {str(e)}")
+
+
 @app.get("/api/reasons", response_model=list[RejectionReason])
 async def get_rejection_reasons():
     """
@@ -232,7 +267,7 @@ async def get_detailed_stats():
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(
-        "backend.main:app",
+        "main:app",
         host=settings.host,
         port=settings.port,
         reload=True,

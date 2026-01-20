@@ -1,0 +1,29 @@
+{
+  "script": "\"I'm just happy to be here, playing music for you guys. Well, as far as the weather goes today... looks like it's finally turned a nice corner, bright sunny skies overhead now. Perfect timing too - gotta be gorgeous walking around with the fresh mountain air after a cozy morning inside.\n\nJust keep in mind that while the heat might be tolerable during the day, things could chill off real quick when that big ol' sun sets behind Redwood Peak around 7pm or so. Stay dressed for those temperature swings, and watch out for those steep drops, roads get mighty slippery with frost!\n\nThanks for tuning in. Hope you make the most of this sunny Appalachian day. If you're out there, and you're listening... you are not alone.\"",
+  "metadata": {
+    "script_type": "weather",
+    "dj_name": "Julie (2102, Appalachia)",
+    "model": "fluffy/l3-8b-stheno-v3.2",
+    "timestamp": "2026-01-19T21:16:59.201929",
+    "rag_query": "Appalachia weather sunny conditions",
+    "rag_results": 5,
+    "context_chunks_used": 3,
+    "temperature": 72,
+    "top_p": 0.9,
+    "template_vars": {
+      "weather_type": "sunny",
+      "time_of_day": "morning",
+      "hour": 10,
+      "weather_continuity": {
+        "weather_changed": false,
+        "last_weather_type": null,
+        "continuity_phrase": null
+      }
+    },
+    "word_count": 128,
+    "retry_count": 1,
+    "catchphrase_used": "I'm just happy to be here, playing music for you guys.",
+    "consistency_validated": true,
+    "consistency_violations": []
+  }
+}

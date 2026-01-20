@@ -111,6 +111,12 @@ class API {
     async getDJs() {
         return this.request('/api/djs');
     }
+    
+    async undoReview(scriptId) {
+        return this.request(`/api/review/${scriptId}`, {
+            method: 'DELETE'
+        });
+    }
 }
 
 const api = new API();

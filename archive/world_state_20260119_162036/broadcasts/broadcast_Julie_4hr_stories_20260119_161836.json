@@ -1,0 +1,246 @@
+{
+  "metadata": {
+    "dj": "Julie (2102, Appalachia)",
+    "duration_hours": 4,
+    "segments_per_hour": 2,
+    "start_hour": 8,
+    "story_system_enabled": true,
+    "validation_enabled": false,
+    "validation_mode": null,
+    "generation_timestamp": "2026-01-19T16:18:36.236407",
+    "total_segments": 8
+  },
+  "segments": [
+    {
+      "segment_type": "gossip",
+      "script": "\"Hey there, App fans! So, I heard from someone who swore they saw it with their own eyes... apparently, there's this group of settlers over by the old Pioneer Trading Post. Rumor has it, they've got a farm-to-table thing going on! Like, actual crops and livestock. Word is, they're doing well for themselves out there in the wilds.\n\nNow, I don't know if that's true or not - hard to believe folks could make a go of farming 'round here with all the radiation and whatnot. But hey, stranger things have happened! Maybe they've got some secret to success? If anyone's listening from that neck o' the woods, give us a holler on the radio sometime! We'd love to hear how you're doing.\"",
+      "metadata": {
+        "hour": 8,
+        "time_of_day": "MORNING",
+        "generation_time": 8.849427,
+        "segment_number": 1,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 8,
+          "time_of_day": "morning",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "initial",
+          "continuing_topic": null,
+          "follow_up_suggestion": null,
+          "has_active_gossip": false
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "story",
+      "script": "\"Welcome home, Appalachia! I've got some interesting chatter floating around out there in the wasteland. You know how rumors go, right? They're like tumbleweeds - they blow wherever the wind takes 'em. \n\nI heard tell of a settlement near the old Grafton site. Supposedly it's thriving, but the weird part is... it's entirely comprised of former Scorch Beasts! Apparently, some sort of radiation anomaly has altered their physiology to make 'em human-like again. Can you imagine running into one of those guys in town? That'd be a real jaw-dropper!\n\nSomeone told me there are hidden underground bunkers scattered all across Appalachia, just waiting for the right person (or robot) to stumble upon 'em. Word is they're filled with pre-war treasures - but only if you can navigate the traps and puzzles guarding each one.\n\nAnd finally, I heard a whisper about a mysterious figure known as \"The Keeper of Harpers Ferry\". Apparently this enigmatic character has taken it upon themselves to restore and repurpose old technology in that area. Could be interesting meeting them someday... or not, depending on their views on trespassers! \n\nThat's all for now - just a few tidbits from the wasteland grapevine. Stay curious, stay kind, and keep those radio dials tuned here for more!\"",
+      "metadata": {
+        "hour": 8,
+        "time_of_day": "MORNING",
+        "generation_time": 12.565454,
+        "segment_number": 2,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 8,
+          "time_of_day": "morning",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "rumor",
+          "continuing_topic": "wasteland rumors",
+          "follow_up_suggestion": {
+            "prompt": "Getting more reports about wasteland rumors...",
+            "suggested_stage": "spreading",
+            "examples": [
+              "More and more people are talking about the wasteland rumors",
+              "Update on that wasteland rumors - seems there's more to it",
+              "You know that wasteland rumors we mentioned? We're getting more details"
+            ]
+          },
+          "has_active_gossip": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 1\n\n[GOSSIP]\n\"Hey there, App fans! So, I heard from someone who swore they saw it with their own eyes... apparently, there's this group of settlers over by the old Pioneer Trading Post. Rumor has it, they've got a...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)",
+          "story_context": "STORY BEATS FOR THIS BROADCAST:\n\n1. Story story_quest_and_stay_out! (daily, Act 1)\n   Type: setup\n   Summary: Quest Objectives...\n   Tone: neutral, Conflict: 0.5/1.0\n\n\nDIRECTIONS:\n- Weave these stories naturally into your broadcast segments\n- Maintain your DJ personality while delivering the story content\n- Use callbacks to create continuity with previous broadcasts\n- Respect the emotional tone and conflict level of each beat"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "news",
+      "script": "I'm just happy to be here, playing music for you guys. Always good to connect with my fellow wastelanders today! \n\nYou know how there's been all that tension between the settlers and the raiders lately? Well, I heard some folks from both sides getting together in Harpers Ferry - having a little powwow, like. Just talking things through, finding common ground. Isn't that something? Maybe we can all learn from their example.\n\nAnd hey, I know we're still rebuilding after the Scorched Plague, but look at all the new life springing up! Plants are growing, animals are thriving... even those pesky radtoads seem to be doing alright for themselves out there in the woods. Nature's resilience is truly something to marvel at.\n\nSo let's keep looking forward, friends. Every small step we take together brings us closer to a brighter future. Stay safe out there, and remember - music unites us!",
+      "metadata": {
+        "hour": 9,
+        "time_of_day": "MORNING",
+        "generation_time": 9.825206,
+        "segment_number": 3,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 9,
+          "time_of_day": "morning",
+          "news_category": "historical_discovery",
+          "region": "Appalachia",
+          "confidence_level": 0.85,
+          "confidence_language": "solid reports indicate",
+          "rag_query": "Appalachia pre-war artifacts vault bunker history HIGH confidence factual",
+          "source_credibility": "high",
+          "appropriate_for_dj": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 2\n\n[GOSSIP]\n\"Hey there, App fans! So, I heard from someone who swore they saw it with their own eyes... apparently, there's this group of settlers over by the old Pioneer Trading Post. Rumor has it, they've got a...\n\n[STORY]\n\"Welcome home, Appalachia! I've got some interesting chatter floating around out there in the wasteland. You know how rumors go, right? They're like tumbleweeds - they blow wherever the wind takes 'em...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "music_intro",
+      "script": "\"This next song takes us back to the '50s - a simpler time, you know? The era of poodle skirts and sock hops. It's got that classic feel-good vibe that just makes me smile. When I hear it, I imagine the town dances back in the day, folks gathering to socialize and have some fun. It's a beautiful reminder that even amidst all this hardship, we can still find joy in music. So let's kick up our heels and enjoy 'In the Mood' by Glenn Miller! If you're out there, and you're listening... you are not alone.\"",
+      "metadata": {
+        "hour": 9,
+        "time_of_day": "MORNING",
+        "generation_time": 7.32453,
+        "segment_number": 4,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 9,
+          "time_of_day": "morning",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 3\n\n[GOSSIP]\n\"Hey there, App fans! So, I heard from someone who swore they saw it with their own eyes... apparently, there's this group of settlers over by the old Pioneer Trading Post. Rumor has it, they've got a...\n\n[STORY]\n\"Welcome home, Appalachia! I've got some interesting chatter floating around out there in the wasteland. You know how rumors go, right? They're like tumbleweeds - they blow wherever the wind takes 'em...\n\n[NEWS]\nI'm just happy to be here, playing music for you guys. Always good to connect with my fellow wastelanders today! \n\nYou know how there's been all that tension between the settlers and the raiders latel...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "time_check",
+      "script": "\"Good morning, everybody! It's Julie here on your favorite radio station, Appalachia Radio. Currently, it's 10:00 AM - a brand new day dawning over the hills of our beautiful homeland. As the sun rises higher, let's fill this crisp morning air with hope and unity, shall we? If you're out there, listening in... remember, you are not alone on this journey forward.\"",
+      "metadata": {
+        "hour": 10,
+        "time_of_day": "MIDDAY",
+        "generation_time": 5.812396,
+        "segment_number": 5,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 10,
+          "time_of_day": "morning",
+          "time": "10:18 AM",
+          "minute": 18,
+          "announcement": "It's 10:18 AM on the airwaves.",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 4\n\n[STORY]\n\"Welcome home, Appalachia! I've got some interesting chatter floating around out there in the wasteland. You know how rumors go, right? They're like tumbleweeds - they blow wherever the wind takes 'em...\n\n[NEWS]\nI'm just happy to be here, playing music for you guys. Always good to connect with my fellow wastelanders today! \n\nYou know how there's been all that tension between the settlers and the raiders latel...\n\n[MUSIC_INTRO]\n\"This next song takes us back to the '50s - a simpler time, you know? The era of poodle skirts and sock hops. It's got that classic feel-good vibe that just makes me smile. When I hear it, I imagine t...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "weather",
+      "script": "\"Alright, good morning out there. It's Julie with your Radio Appalachia update for 10:00 am.\n\nIf you're out there, and you're listening... you are not alone. And right now, you should stay wrapped up - the cloudy skies from yesterday just aren't parting way. Still overcast this hour in '18 Labs, Lewisburg and Flatwoods too, you know?\n\nSo it's a great time to grab that hat, add an extra layer... do everything you can to conserve energy while still venturing out to keep Appalachia alive and thriving.\n\nStick together with your fellow survivors - there's safety and warmth in community. We're all just trying to make it another day.\n\nStay bright side up through the foggy mist and welcome home, Appalachia!\"",
+      "metadata": {
+        "hour": 10,
+        "time_of_day": "MIDDAY",
+        "generation_time": 8.850055,
+        "segment_number": 6,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 10,
+          "time_of_day": 10,
+          "weather_type": "cloudy",
+          "weather_description": "Overcast",
+          "temperature": 37.50022681974551,
+          "intensity": "minor",
+          "is_emergency": false,
+          "notable_event": false,
+          "region": "Appalachia",
+          "location": "midday",
+          "weather_continuity": {
+            "weather_changed": false,
+            "last_weather_type": null,
+            "continuity_phrase": null,
+            "has_notable_history": true
+          },
+          "rad_level": "low",
+          "radiation_warning": false,
+          "survival_tips": [
+            "Moderate visibility for outdoor work",
+            "Good day for settlement repairs",
+            "Keep an eye out for unexpected storms"
+          ],
+          "mood": "neutral",
+          "clothing_advice": "standard protective gear",
+          "rag_query": "midday wasteland activities daily life settlements",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 5\n\n[NEWS]\nI'm just happy to be here, playing music for you guys. Always good to connect with my fellow wastelanders today! \n\nYou know how there's been all that tension between the settlers and the raiders latel...\n\n[MUSIC_INTRO]\n\"This next song takes us back to the '50s - a simpler time, you know? The era of poodle skirts and sock hops. It's got that classic feel-good vibe that just makes me smile. When I hear it, I imagine t...\n\n[TIME]\n\"Good morning, everybody! It's Julie here on your favorite radio station, Appalachia Radio. Currently, it's 10:00 AM - a brand new day dawning over the hills of our beautiful homeland. As the sun rise...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "gossip",
+      "script": "\"Welcome home, Appalachia! I've got some juicy rumors to share with you folks tonight. So, word is... there's a new settlement springing up around Harpers Ferry. Apparently, it's been growing fast - all thanks to one super-hospitable guy named Marcus who invited everyone in. Now, I haven't personally checked it out (it's a bit of a hike from here), but if you're looking for community and cooperation... might be worth a trip? Also, rumor has it there are some... unusual creatures lurking around the old Gorge Region train tracks. Like, giant insects and stuff. Has anyone else seen anything weird like that while exploring? Let me know in the comments! I love sharing these stories with you, neighbors.\"",
+      "metadata": {
+        "hour": 11,
+        "time_of_day": "MIDDAY",
+        "generation_time": 8.613753,
+        "segment_number": 7,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 11,
+          "time_of_day": "midday",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "rumor",
+          "continuing_topic": "wasteland rumors",
+          "follow_up_suggestion": {
+            "prompt": "Getting more reports about wasteland rumors...",
+            "suggested_stage": "spreading",
+            "examples": [
+              "More and more people are talking about the wasteland rumors",
+              "Update on that wasteland rumors - seems there's more to it",
+              "You know that wasteland rumors we mentioned? We're getting more details"
+            ]
+          },
+          "has_active_gossip": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 6\n\n[MUSIC_INTRO]\n\"This next song takes us back to the '50s - a simpler time, you know? The era of poodle skirts and sock hops. It's got that classic feel-good vibe that just makes me smile. When I hear it, I imagine t...\n\n[TIME]\n\"Good morning, everybody! It's Julie here on your favorite radio station, Appalachia Radio. Currently, it's 10:00 AM - a brand new day dawning over the hills of our beautiful homeland. As the sun rise...\n\n[WEATHER]\n\"Alright, good morning out there. It's Julie with your Radio Appalachia update for 10:00 am.\n\nIf you're out there, and you're listening... you are not alone. And right now, you should stay wrapped up ...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "gossip",
+      "script": "I'm just happy to be here, playing music for you guys.\n\nSo, uh, I heard that there's this one settlement not too far from here where they've got a, like, really special garden. Someone told me it's all hydroponic and stuff, which is pretty amazing considering everything we've lost. Word is they're even growing things that were thought to be extinct! Tomatoes, peppers... can you imagine? \n\nI mean, if that's true, it'd be incredible for the future of farming in Appalachia. We could really use some fresh produce around here. I don't know how reliable this rumor is, but it's sure got me hoping.\n\nHere's a song to keep us going while we think about those possible crops: \"Fortunate Son\" by Creedence Clearwater Revival!",
+      "metadata": {
+        "hour": 11,
+        "time_of_day": "MIDDAY",
+        "generation_time": 8.873526,
+        "segment_number": 8,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 11,
+          "time_of_day": "midday",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "rumor",
+          "continuing_topic": "wasteland rumors",
+          "follow_up_suggestion": {
+            "prompt": "Getting more reports about wasteland rumors...",
+            "suggested_stage": "spreading",
+            "examples": [
+              "More and more people are talking about the wasteland rumors",
+              "Update on that wasteland rumors - seems there's more to it",
+              "You know that wasteland rumors we mentioned? We're getting more details"
+            ]
+          },
+          "has_active_gossip": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 7\n\n[TIME]\n\"Good morning, everybody! It's Julie here on your favorite radio station, Appalachia Radio. Currently, it's 10:00 AM - a brand new day dawning over the hills of our beautiful homeland. As the sun rise...\n\n[WEATHER]\n\"Alright, good morning out there. It's Julie with your Radio Appalachia update for 10:00 am.\n\nIf you're out there, and you're listening... you are not alone. And right now, you should stay wrapped up ...\n\n[GOSSIP]\n\"Welcome home, Appalachia! I've got some juicy rumors to share with you folks tonight. So, word is... there's a new settlement springing up around Harpers Ferry. Apparently, it's been growing fast - a...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    }
+  ],
+  "stats": {
+    "dj_name": "Julie (2102, Appalachia)",
+    "duration_seconds": 70.718275,
+    "segments_generated": 8,
+    "validation_failures": 0,
+    "total_generation_time": 70.714347,
+    "avg_generation_time": 8.839293375,
+    "session_memory_size": 8,
+    "mentioned_topics": [
+      "factions",
+      "weather",
+      "vault",
+      "locations",
+      "cryptids",
+      "raiders"
+    ]
+  }
+}

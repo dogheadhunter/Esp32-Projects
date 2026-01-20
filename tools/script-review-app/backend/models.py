@@ -26,6 +26,14 @@ class Script(BaseModel):
     
     metadata: ScriptMetadata
     content: str = Field(..., description="Script text content")
+    
+    # Optional fields for broadcast scripts
+    broadcast_id: str | None = Field(default=None, description="Source broadcast ID")
+    segment_index: int | None = Field(default=None, description="Segment index in broadcast")
+    validation_score: float | None = Field(default=None, description="Validation score (0.0-1.0)")
+    validation_feedback: str | None = Field(default=None, description="Validation feedback from LLM")
+    weather_type: str | None = Field(default=None, description="Weather type for weather segments")
+    source: str | None = Field(default=None, description="Source (broadcast or file)")
 
 
 class RejectionReason(BaseModel):

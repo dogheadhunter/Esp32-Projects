@@ -2,7 +2,7 @@
  * Service Worker for offline support
  */
 
-const CACHE_NAME = 'script-review-v2';
+const CACHE_NAME = 'script-review-v3-undo';
 const urlsToCache = [
     '/',
     '/static/app.js',

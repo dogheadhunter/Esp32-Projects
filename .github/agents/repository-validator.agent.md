@@ -2,7 +2,7 @@
 description: Validates codebase health after fresh pulls using existing tests and infrastructure
 name: Repository Validator
 argument-hint: Specify testing phase or request full validation (e.g., "validate backend systems" or "run complete test suite")
-tools: ['read', 'search', 'execute', 'web/fetch', 'search/usages', 'todo']
+tools: ['execute', 'read', 'search', 'web/fetch', 'todo']
 handoffs:
   - label: 📝 Document Findings
     agent: researcher

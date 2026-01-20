@@ -1,0 +1,202 @@
+{
+  "metadata": {
+    "dj": "Julie (2102, Appalachia)",
+    "duration_hours": 4,
+    "segments_per_hour": 2,
+    "start_hour": 8,
+    "story_system_enabled": true,
+    "validation_enabled": false,
+    "validation_mode": null,
+    "generation_timestamp": "2026-01-19T21:27:28.082806",
+    "total_segments": 8
+  },
+  "segments": [
+    {
+      "segment_type": "time_check",
+      "script": "\"Hey Appalachia! It's Julie on your morning mixtape. Can't believe we made it to 8:00 AM already - time flies when you're rebuilding! As the sun rises over these mountains, I want you to know... If you're out there, and you're listening... you are not alone. Let's get today started with hope in our hearts!\"",
+      "metadata": {
+        "hour": 8,
+        "time_of_day": "MORNING",
+        "generation_time": 12.179841,
+        "segment_number": 1,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 8,
+          "time_of_day": "morning",
+          "time": "8:25 AM",
+          "minute": 25,
+          "announcement": "It's 8:25 AM on the airwaves.",
+          "story_context": "STORY BEATS FOR THIS BROADCAST:\n\n1. Story story_quest_beyond_the_beef (daily, Act 3)\n   Type: climax\n   Summary: Quest Stages\n   Tone: neutral, Conflict: 0.8/1.0\n\n\nDIRECTIONS:\n- Weave these stories naturally into your broadcast segments\n- Maintain your DJ personality while delivering the story content\n- Use callbacks to create continuity with previous broadcasts\n- Respect the emotional tone and conflict level of each beat"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "story",
+      "script": "I'm just happy to be here, playing music for you guys.\n\nAnyway, I heard this rumor and thought I'd share it with ya'll. There's supposed to be a hidden underground bunker somewhere in the Cranberry Glades area that still has running water! Can you imagine? Clean drinking water out there in the wasteland! \n\nWord is some folks found a cryptic map or something in an old terminal, supposedly leading to this secret spot. Of course, no one's actually seen it, so I'm not saying it's true... but wouldn't that be something? A little oasis of sanity and hygiene in all this radiation.\n\nI mean, if you do happen upon it, please do make use of the showers! We could all use a good scrub every now and then. But seriously, folks, keep an eye out for any leads on this supposed bunker. It'd be a real game-changer for life out here. \n\nStay safe out there, and thanks again for tuning in to Appalachia Radio!",
+      "metadata": {
+        "hour": 8,
+        "time_of_day": "MORNING",
+        "generation_time": 10.201916,
+        "segment_number": 2,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 8,
+          "time_of_day": "morning",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "initial",
+          "continuing_topic": null,
+          "follow_up_suggestion": null,
+          "has_active_gossip": false,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 1\n\n[TIME]\n\"Hey Appalachia! It's Julie on your morning mixtape. Can't believe we made it to 8:00 AM already - time flies when you're rebuilding! As the sun rises over these mountains, I want you to know... If yo...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)",
+          "story_context": "STORY BEATS FOR THIS BROADCAST:\n\n1. Story story_quest_beyond_the_beef (daily, Act 4)\n   Type: falling\n   Summary: Quest Stages\n   Tone: neutral, Conflict: 0.5/1.0\n\n\nDIRECTIONS:\n- Weave these stories naturally into your broadcast segments\n- Maintain your DJ personality while delivering the story content\n- Use callbacks to create continuity with previous broadcasts\n- Respect the emotional tone and conflict level of each beat"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "time_check",
+      "script": "\"Mornin' y'all! This is Julie on your favorite radio station, Appalachia Radio. It's 9:00 AM sharp - a brand new day in the hills! The sun's risin', birds are chirpin', and we're ready to kick off another wonderful morning with great tunes for you all out there. I'm just happy to be here, playing music for you guys.\"",
+      "metadata": {
+        "hour": 9,
+        "time_of_day": "MORNING",
+        "generation_time": 5.29524,
+        "segment_number": 3,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 9,
+          "time_of_day": "morning",
+          "time": "9:25 AM",
+          "minute": 25,
+          "announcement": "It's 9:25 AM on the airwaves.",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 2\n\n[TIME]\n\"Hey Appalachia! It's Julie on your morning mixtape. Can't believe we made it to 8:00 AM already - time flies when you're rebuilding! As the sun rises over these mountains, I want you to know... If yo...\n\n[STORY]\nI'm just happy to be here, playing music for you guys.\n\nAnyway, I heard this rumor and thought I'd share it with ya'll. There's supposed to be a hidden underground bunker somewhere in the Cranberry Gl...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)",
+          "story_context": "STORY BEATS FOR THIS BROADCAST:\n\n1. Story story_quest_beyond_the_beef (daily, Act 4)\n   Type: falling\n   Summary: Quest Stages\n   Tone: neutral, Conflict: 0.5/1.0\n\n\nDIRECTIONS:\n- Weave these stories naturally into your broadcast segments\n- Maintain your DJ personality while delivering the story content\n- Use callbacks to create continuity with previous broadcasts\n- Respect the emotional tone and conflict level of each beat"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "story",
+      "script": "If you're out there, and you're listening... you are not alone.\n\nHey there, Appalachia! It's Julie here on Radio Appalachia. I heard something kinda interesting recently, and I thought I'd share with y'all. Apparently, up in the Cranberry Glades, some folks have seen what they call a \"Scorched Ghost Town.\" \n\nNow, I don't know if that's just another wild rumor or not, but it got me thinking. Maybe there are still some old settlements out there, hidden away from the rest of us. You know, like little pockets of survivors who managed to hang on after everything went to hell.\n\nI mean, can you imagine stumbling upon a whole town of people living in secret? It'd be like finding a piece of the old world again! Of course, it's probably just some folks spinning tall tales around a campfire... but hey, wouldn't it be something if it was true?\n\nAnyway, that's my little morsel of wasteland gossip for today. Stay safe out there, and keep those ears open! Maybe you'll uncover your own hidden story someday. Until next time, this is Julie signing off from Appalachia Radio - the voice in the wilderness, keeping hope alive one song at a time.",
+      "metadata": {
+        "hour": 9,
+        "time_of_day": "MORNING",
+        "generation_time": 21.069212,
+        "segment_number": 4,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 9,
+          "time_of_day": "morning",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "initial",
+          "continuing_topic": null,
+          "follow_up_suggestion": null,
+          "has_active_gossip": false,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 3\n\n[TIME]\n\"Hey Appalachia! It's Julie on your morning mixtape. Can't believe we made it to 8:00 AM already - time flies when you're rebuilding! As the sun rises over these mountains, I want you to know... If yo...\n\n[STORY]\nI'm just happy to be here, playing music for you guys.\n\nAnyway, I heard this rumor and thought I'd share it with ya'll. There's supposed to be a hidden underground bunker somewhere in the Cranberry Gl...\n\n[TIME]\n\"Mornin' y'all! This is Julie on your favorite radio station, Appalachia Radio. It's 9:00 AM sharp - a brand new day in the hills! The sun's risin', birds are chirpin', and we're ready to kick off ano...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)",
+          "story_context": "STORY BEATS FOR THIS BROADCAST:\n\n1. Story story_quest_beyond_the_beef (daily, Act 4)\n   Type: falling\n   Summary: Quest Stages\n   Tone: neutral, Conflict: 0.5/1.0\n\n\nDIRECTIONS:\n- Weave these stories naturally into your broadcast segments\n- Maintain your DJ personality while delivering the story content\n- Use callbacks to create continuity with previous broadcasts\n- Respect the emotional tone and conflict level of each beat"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "time_check",
+      "script": "\"Hey everyone, this is Julie! Good morning to all you brave survivors out there tuning in. It's 10:00 now - the sun's shining bright over Appalachia today. I mean, just look at that gorgeous blue sky! If you're out there, and you're listening... you are not alone. Keep on keeping on, friends. We'll get through this together.\"",
+      "metadata": {
+        "hour": 10,
+        "time_of_day": "MIDDAY",
+        "generation_time": 23.026913,
+        "segment_number": 5,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 10,
+          "time_of_day": "morning",
+          "time": "10:26 AM",
+          "minute": 26,
+          "announcement": "It's 10:26 AM on the airwaves.",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 4\n\n[STORY]\nI'm just happy to be here, playing music for you guys.\n\nAnyway, I heard this rumor and thought I'd share it with ya'll. There's supposed to be a hidden underground bunker somewhere in the Cranberry Gl...\n\n[TIME]\n\"Mornin' y'all! This is Julie on your favorite radio station, Appalachia Radio. It's 9:00 AM sharp - a brand new day in the hills! The sun's risin', birds are chirpin', and we're ready to kick off ano...\n\n[STORY]\nIf you're out there, and you're listening... you are not alone.\n\nHey there, Appalachia! It's Julie here on Radio Appalachia. I heard something kinda interesting recently, and I thought I'd share with ...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "story",
+      "script": "So like... have you guys heard this rumor going around? Someone told me there's a trader in Whitespring who's got some really valuable junk. Apparently, he's got a stash of fusion cores that are supposedly from pre-war times! I mean, can you even imagine? Those would be super rare and expensive.\n\nWord is, the trader only deals with people who've completed the quest line at the Whitespring Resort. So if any of you have been working on that, you might wanna keep an ear out for this guy's name - it's supposedly Ryder or something like that.\n\nI don't know if it's true, but hey, a good rumor is always worth sharing! And who knows, maybe there really is some high-quality loot waiting to be found. Wouldn't that be something? Rebuilding Appalachia, one fusion core at a time! Haha, okay, I'll stop with the cheesy analogies now. Anyways, keep an eye out and let me know if you hear anything about this trader!",
+      "metadata": {
+        "hour": 10,
+        "time_of_day": "MIDDAY",
+        "generation_time": 9.848676,
+        "segment_number": 6,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 10,
+          "time_of_day": "midday",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "initial",
+          "continuing_topic": null,
+          "follow_up_suggestion": null,
+          "has_active_gossip": false,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 5\n\n[TIME]\n\"Mornin' y'all! This is Julie on your favorite radio station, Appalachia Radio. It's 9:00 AM sharp - a brand new day in the hills! The sun's risin', birds are chirpin', and we're ready to kick off ano...\n\n[STORY]\nIf you're out there, and you're listening... you are not alone.\n\nHey there, Appalachia! It's Julie here on Radio Appalachia. I heard something kinda interesting recently, and I thought I'd share with ...\n\n[TIME]\n\"Hey everyone, this is Julie! Good morning to all you brave survivors out there tuning in. It's 10:00 now - the sun's shining bright over Appalachia today. I mean, just look at that gorgeous blue sky!...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)",
+          "story_context": "STORY BEATS FOR THIS BROADCAST:\n\n1. Story story_quest_beyond_the_beef (daily, Act 5)\n   Type: resolution\n   Summary: Quest Stages\n   Tone: neutral, Conflict: 0.3/1.0\n\n\nDIRECTIONS:\n- Weave these stories naturally into your broadcast segments\n- Maintain your DJ personality while delivering the story content\n- Use callbacks to create continuity with previous broadcasts\n- Respect the emotional tone and conflict level of each beat"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "time_check",
+      "script": "\"Morning everybody! It's your girl Julie comin' atcha from Appalachia Radio. Gosh, it's already 11 o'clock - where does the time go? I mean, there's just so much to do around here when you're tryin' to rebuild. But hey, that's what makes every new day exciting! If you're out there listenin', know you're not alone in this beautiful place called home.\"",
+      "metadata": {
+        "hour": 11,
+        "time_of_day": "MIDDAY",
+        "generation_time": 17.124148,
+        "segment_number": 7,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 11,
+          "time_of_day": "morning",
+          "time": "11:26 AM",
+          "minute": 26,
+          "announcement": "It's 11:26 AM on the airwaves.",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 6\n\n[STORY]\nIf you're out there, and you're listening... you are not alone.\n\nHey there, Appalachia! It's Julie here on Radio Appalachia. I heard something kinda interesting recently, and I thought I'd share with ...\n\n[TIME]\n\"Hey everyone, this is Julie! Good morning to all you brave survivors out there tuning in. It's 10:00 now - the sun's shining bright over Appalachia today. I mean, just look at that gorgeous blue sky!...\n\n[STORY]\nSo like... have you guys heard this rumor going around? Someone told me there's a trader in Whitespring who's got some really valuable junk. Apparently, he's got a stash of fusion cores that are suppo...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "gossip",
+      "script": "\"Hey there friends, it's Julie from Appalachia Radio here with your daily dose of wasteland news and rumors! You know how folks around these parts love to spin tales? Well, I got a story for you that'll make you go 'huh.'\n\nSomeone told me they spotted a pack of those weird mole rats near the old mine entrance. Apparently, there were at least six of them scurrying about together. Now, I'm not saying it's true or anything, but rumor has it these critters might be getting smarter. Like, what even is that? Intelligent rodents? Word is, they've been seen opening up old traps and even stealing caps from settlements! Can you imagine? Cap-stealing mole rats, running around Appalachia... it sounds crazy, right?\n\nSo take this one with a grain of salt, friends. Just another wild rumor floating around the wasteland. But hey, stranger things have happened in these parts, am I right?\"",
+      "metadata": {
+        "hour": 11,
+        "time_of_day": "MIDDAY",
+        "generation_time": 18.95327,
+        "segment_number": 8,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 11,
+          "time_of_day": "midday",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "initial",
+          "continuing_topic": null,
+          "follow_up_suggestion": null,
+          "has_active_gossip": false,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 7\n\n[TIME]\n\"Hey everyone, this is Julie! Good morning to all you brave survivors out there tuning in. It's 10:00 now - the sun's shining bright over Appalachia today. I mean, just look at that gorgeous blue sky!...\n\n[STORY]\nSo like... have you guys heard this rumor going around? Someone told me there's a trader in Whitespring who's got some really valuable junk. Apparently, he's got a stash of fusion cores that are suppo...\n\n[TIME]\n\"Morning everybody! It's your girl Julie comin' atcha from Appalachia Radio. Gosh, it's already 11 o'clock - where does the time go? I mean, there's just so much to do around here when you're tryin' t...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    }
+  ],
+  "stats": {
+    "dj_name": "Julie (2102, Appalachia)",
+    "duration_seconds": 117.699216,
+    "segments_generated": 8,
+    "validation_failures": 0,
+    "total_generation_time": 117.699216,
+    "avg_generation_time": 14.712402,
+    "session_memory_size": 8,
+    "mentioned_topics": [
+      "locations",
+      "vault",
+      "weather",
+      "trading"
+    ]
+  }
+}

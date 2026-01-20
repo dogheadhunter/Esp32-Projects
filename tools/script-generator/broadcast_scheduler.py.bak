@@ -1,0 +1,200 @@
+"""
+Broadcast Scheduler Module
+
+Manages time-aware scheduling of different broadcast segment types.
+Ensures appropriate content is generated based on time of day and scheduling intervals.
+"""
+
+from enum import Enum
+from datetime import datetime, timedelta
+from typing import Optional, List
+
+
+class TimeOfDay(Enum):
+    """Enumeration of in-game time periods."""
+    MORNING = "morning"      # 6 AM - 10 AM: Fresh start, hope
+    MIDDAY = "midday"        # 10 AM - 2 PM: Active hours, activity
+    AFTERNOON = "afternoon"  # 2 PM - 6 PM: Trade hours, gossip
+    EVENING = "evening"      # 6 PM - 10 PM: Sunset danger, weather
+    NIGHT = "night"          # 10 PM - 6 AM: Quiet, reflective
+
+
+class BroadcastScheduler:
+    """
+    Manages time-aware scheduling for broadcast segments.
+    
+    Different segment types have different frequencies based on time of day:
+    - Weather: Every 30 minutes
+    - News: Every 45 minutes
+    - Gossip: Every 60 minutes
+    - Music Intros: Every song (5-7 minute intervals)
+    - Time Checks: Every 15 minutes
+    """
+    
+    def __init__(self):
+        """Initialize broadcast scheduler."""
+        # Track which hours have had their required segments
+        self.time_check_done_hours = set()
+        self.news_done_hours = set()
+        self.weather_done_hours = set()
+        
+        # Fixed schedule for specific segment types
+        # Time checks: every hour on the hour
+        # News: 6am, 12pm (noon), 5pm (17:00)
+        # Weather: 6am (day forecast), 12pm (afternoon update), 5pm (evening + tomorrow forecast)
+        self.NEWS_HOURS = {6, 12, 17}
+        self.WEATHER_HOURS = {6, 12, 17}
+    
+    def get_required_segment_for_hour(self, current_hour: int) -> Optional[str]:
+        """
+        Get required segment type for this hour (time-based scheduling).
+        
+        Args:
+            current_hour: Current hour (0-23)
+        
+        Returns:
+            Required segment type ('time_check', 'news', 'weather') or None
+        """
+        # Time check is required every hour (first segment of the hour)
+        if current_hour not in self.time_check_done_hours:
+            return 'time_check'
+        
+        # News at specific hours (after time check)
+        if current_hour in self.NEWS_HOURS and current_hour not in self.news_done_hours:
+            return 'news'
+        
+        # Weather at specific hours (after time check and news)
+        if current_hour in self.WEATHER_HOURS and current_hour not in self.weather_done_hours:
+            return 'weather'
+        
+        return None
+    
+    def mark_segment_done(self, segment_type: str, current_hour: int) -> None:
+        """
+        Mark that a required segment has been generated for this hour.
+        
+        Args:
+            segment_type: Type of segment generated
+            current_hour: Hour it was generated for
+        """
+        if segment_type == 'time_check':
+            self.time_check_done_hours.add(current_hour)
+        elif segment_type == 'news':
+            self.news_done_hours.add(current_hour)
+        elif segment_type == 'weather':
+            self.weather_done_hours.add(current_hour)
+        """
+        Determine current time of day from system time.
+        
+        Returns:
+            TimeOfDay enum representing current period
+        """
+        hour = datetime.now().hour
+        
+        if 6 <= hour < 10:
+            return TimeOfDay.MORNING
+        elif 10 <= hour < 14:
+            return TimeOfDay.MIDDAY
+        elif 14 <= hour < 18:
+            return TimeOfDay.AFTERNOON
+        elif 18 <= hour < 22:
+            return TimeOfDay.EVENING
+        else:  # 22-6
+            return TimeOfDay.NIGHT
+    
+    def is_time_for_segment(self, segment_type: str) -> bool:
+        """
+        Check if it's time for a specific segment type.
+        
+        Args:
+            segment_type: Type of segment to check (weather, news, etc.)
+        
+        Returns:
+            True if interval has elapsed since last segment of this type
+        """
+        if segment_type not in self.last_segment_times:
+            return True  # Never generated this type
+        
+        last_time = self.last_segment_times[segment_type]
+        if last_time is None:
+            return True
+        
+        interval_minutes = self.segment_intervals.get(segment_type, 30)
+        elapsed = datetime.now() - last_time
+        
+        return elapsed >= timedelta(minutes=interval_minutes)
+    
+    def record_segment_generated(self, segment_type: str) -> None:
+        """
+        Record that a segment was just generated.
+        
+        Args:
+            segment_type: Type of segment that was generated
+        """
+        if segment_type in self.last_segment_times:
+            self.last_segment_times[segment_type] = datetime.now()
+    
+    def get_next_priority_segment(self) -> Optional[str]:
+        """
+        Determine which segment type should be generated next based on:
+        1. Time since last generation (intervals)
+        2. Time of day (priority adjustments)
+        
+        Returns:
+            Segment type to generate next, or None if no priority segment
+        """
+        current_time = self.get_current_time_of_day()
+        priorities = self.time_of_day_priorities[current_time]
+        
+        # Find segments that are ready (interval elapsed)
+        ready_segments = [
+            segment_type 
+            for segment_type in self.segment_intervals.keys()
+            if self.is_time_for_segment(segment_type)
+        ]
+        
+        if not ready_segments:
+            return None
+        
+        # Score each ready segment by time-of-day priority
+        scored = [
+            (segment, priorities.get(segment, 1.0))
+            for segment in ready_segments
+        ]
+        
+        # Return highest priority segment
+        return max(scored, key=lambda x: x[1])[0]
+    
+    def get_segments_status(self) -> dict:
+        """
+        Get status of all segment types (for debugging/monitoring).
+        
+        Returns:
+            Dictionary with segment status information
+        """
+        status = {}
+        
+        for segment_type, interval_min in self.segment_intervals.items():
+            last_time = self.last_segment_times[segment_type]
+            
+            if last_time is None:
+                time_since = "never"
+                is_ready = True
+            else:
+                elapsed = datetime.now() - last_time
+                minutes_elapsed = int(elapsed.total_seconds() / 60)
+                time_since = f"{minutes_elapsed} minutes ago"
+                is_ready = minutes_elapsed >= interval_min
+            
+            status[segment_type] = {
+                "interval_minutes": interval_min,
+                "last_generated": time_since,
+                "is_ready": is_ready,
+            }
+        
+        return status
+    
+    def reset(self) -> None:
+        """Reset all segment timers (for testing or session restart)."""
+        for segment_type in self.last_segment_times:
+            self.last_segment_times[segment_type] = None

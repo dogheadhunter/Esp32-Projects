@@ -16,6 +16,14 @@ Usage:
 """
 
 import sys
+import io
+
+# Ensure UTF-8 encoding for output (critical on Windows)
+if sys.stdout.encoding and 'utf' not in sys.stdout.encoding.lower():
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
+if sys.stderr.encoding and 'utf' not in sys.stderr.encoding.lower():
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
+
 import argparse
 import json
 from pathlib import Path
@@ -30,7 +38,7 @@ from broadcast_engine import BroadcastEngine
 # Available DJs
 AVAILABLE_DJS = [
     "Julie (2102, Appalachia)",
-    "Mr. New Vegas (2281, Mojave Wasteland)",
+    "Mr. New Vegas (2281, Mojave)",
     "Travis Miles (Nervous) (2287, Commonwealth)",
     "Travis Miles (Confident) (2287, Commonwealth)",
     "Three Dog (2277, Capital Wasteland)"
@@ -39,7 +47,7 @@ AVAILABLE_DJS = [
 # DJ shortcuts
 DJ_SHORTCUTS = {
     'julie': "Julie (2102, Appalachia)",
-    'vegas': "Mr. New Vegas (2281, Mojave Wasteland)",
+    'vegas': "Mr. New Vegas (2281, Mojave)",
     'travis': "Travis Miles (Nervous) (2287, Commonwealth)",
     'travis-confident': "Travis Miles (Confident) (2287, Commonwealth)",
     'threedog': "Three Dog (2277, Capital Wasteland)",
@@ -135,6 +143,12 @@ Available DJs:
         choices=['rules', 'llm', 'hybrid'],
         default='rules',
         help='Validation strategy (default: rules)'
+    )
+    parser.add_argument(
+        '--validation-model',
+        type=str,
+        default='fluffy/l3-8b-stheno-v3.2',
+        help='LLM model for validation (default: fluffy/l3-8b-stheno-v3.2). Examples: dolphin-llama3, hermes3'
     )
     
     # Output options
@@ -312,10 +326,18 @@ def main():
         if not args.quiet:
             print('Initializing broadcast engine...\n')
         
+        # Build LLM validation config if validation enabled
+        llm_validation_config = None
+        if enable_validation and args.validation_mode in ['llm', 'hybrid']:
+            llm_validation_config = {
+                'model': args.validation_model
+            }
+        
         engine = BroadcastEngine(
             dj_name=dj_name,
             enable_validation=enable_validation,
             validation_mode=args.validation_mode if enable_validation else 'rules',
+            llm_validation_config=llm_validation_config,
             enable_story_system=enable_stories
         )
         

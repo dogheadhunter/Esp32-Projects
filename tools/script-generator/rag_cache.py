@@ -215,6 +215,31 @@ class RAGCache:
         
         return filtered
     
+    def _chunks_to_chromadb_format(self, chunks: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """
+        Convert list of chunks back to ChromaDB query result format.
+        
+        Args:
+            chunks: List of chunk dictionaries
+            
+        Returns:
+            Dict in ChromaDB format with 'ids', 'documents', 'metadatas', 'distances'
+        """
+        if not chunks:
+            return {
+                'ids': [[]],
+                'documents': [[]],
+                'metadatas': [[]],
+                'distances': [[]]
+            }
+        
+        return {
+            'ids': [[chunk.get('id', '') for chunk in chunks]],
+            'documents': [[chunk.get('text', '') for chunk in chunks]],
+            'metadatas': [[chunk.get('metadata', {}) for chunk in chunks]],
+            'distances': [[chunk.get('distance', 0.0) for chunk in chunks]]
+        }
+    
     def _evict_lru(self):
         """Evict least recently used cache entry"""
         if self.cache:
@@ -288,7 +313,8 @@ class RAGCache:
                 self.cache.move_to_end(cache_key)
                 
                 # Apply DJ filters and return
-                return self._apply_dj_filters(entry.results, dj_context)
+                filtered_chunks = self._apply_dj_filters(entry.results, dj_context)
+                return self._chunks_to_chromadb_format(filtered_chunks)
             else:
                 # Expired entry
                 del self.cache[cache_key]
@@ -306,7 +332,8 @@ class RAGCache:
                     self.cache.move_to_end(key)
                     
                     # Apply DJ filters and return
-                    return self._apply_dj_filters(entry.results, dj_context)
+                    filtered_chunks = self._apply_dj_filters(entry.results, dj_context)
+                    return self._chunks_to_chromadb_format(filtered_chunks)
         
         # Cache miss - query ChromaDB
         self.stats.cache_misses += 1
@@ -315,7 +342,7 @@ class RAGCache:
         from tools.wiki_to_chromadb.chromadb_ingest import query_for_dj
         results = query_for_dj(
             ingestor=self.chromadb,
-            query=query,
+            query_text=query,
             dj_name=dj_context.get('name', 'Unknown'),
             n_results=num_chunks
         )
@@ -354,7 +381,8 @@ class RAGCache:
             self.topic_index[topic].add(cache_key)
         
         # Apply DJ filters and return
-        return self._apply_dj_filters(chunks, dj_context)
+        filtered_chunks = self._apply_dj_filters(chunks, dj_context)
+        return self._chunks_to_chromadb_format(filtered_chunks)
     
     def get_cached_chunks_for_topic(self, topic: str) -> Optional[List[Dict[str, Any]]]:
         """

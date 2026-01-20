@@ -1,0 +1,79 @@
+{
+  "metadata": {
+    "dj": "Julie (2102, Appalachia)",
+    "duration_hours": 1,
+    "segments_per_hour": 2,
+    "start_hour": 8,
+    "story_system_enabled": true,
+    "validation_enabled": false,
+    "validation_mode": null,
+    "generation_timestamp": "2026-01-19T16:16:41.914224",
+    "total_segments": 2
+  },
+  "segments": [
+    {
+      "segment_type": "gossip",
+      "script": "I'm just happy to be here, playing music for you guys. So, rumor has it... someone told me they spotted a pack of wild Mirelurks down in the Flooded Metro not too long ago! Apparently, they looked pretty healthy and well-fed. Word is, there's even been some reports of them acting almost... friendly? Like, they didn't attack when approached or anything. Now, I don't know if that's true or just survivor's hearsay, but wouldn't it be something if the mighty Mirelurks started to calm down in these post-war times? It gives a girl hope, you know?\n\nAnyway, let's get back to the tunes! Up next, we've got another Appalachia classic for ya - John Denver's \"Country Roads\". This song just never gets old, and I think it's a big part of why folks keep coming back here. There's something special about these mountains and valleys that calls to people, even after all this time...",
+      "metadata": {
+        "hour": 8,
+        "time_of_day": "MORNING",
+        "generation_time": 10.510192,
+        "segment_number": 1,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 8,
+          "time_of_day": "morning",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "initial",
+          "continuing_topic": null,
+          "follow_up_suggestion": null,
+          "has_active_gossip": false
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "gossip",
+      "script": "\"Welcome home, Appalachia. I mean, uh, I've been hearing some rumors lately that I thought I'd share with you all. So, word is there's this old bunker system hidden deep in the woods somewhere around Harpers Ferry. Supposedly, it's still sealed up tight from before the war. Someone told me they saw a Ghoul peeking out of one of the entrances once, but that could've just been a trick of the light, right? I mean, we all know how shadows can play tricks in these parts.\n\nAnyway, apparently there are all sorts of supplies and tech stashed inside these bunkers. Weapons, armor, even some pre-war cash! Now, I haven't confirmed any of this myself, but it's definitely sparked my curiosity. If anyone out there has info on the location or wants to team up to investigate, feel free to hit me up on the airwaves.\"",
+      "metadata": {
+        "hour": 8,
+        "time_of_day": "MORNING",
+        "generation_time": 9.639024,
+        "segment_number": 2,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 8,
+          "time_of_day": "morning",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "rumor",
+          "continuing_topic": "wasteland rumors",
+          "follow_up_suggestion": {
+            "prompt": "Getting more reports about wasteland rumors...",
+            "suggested_stage": "spreading",
+            "examples": [
+              "More and more people are talking about the wasteland rumors",
+              "Update on that wasteland rumors - seems there's more to it",
+              "You know that wasteland rumors we mentioned? We're getting more details"
+            ]
+          },
+          "has_active_gossip": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 1\n\n[GOSSIP]\nI'm just happy to be here, playing music for you guys. So, rumor has it... someone told me they spotted a pack of wild Mirelurks down in the Flooded Metro not too long ago! Apparently, they looked pre...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    }
+  ],
+  "stats": {
+    "dj_name": "Julie (2102, Appalachia)",
+    "duration_seconds": 20.150853,
+    "segments_generated": 2,
+    "validation_failures": 0,
+    "total_generation_time": 20.149216,
+    "avg_generation_time": 10.074608,
+    "session_memory_size": 2,
+    "mentioned_topics": [
+      "raiders",
+      "locations"
+    ]
+  }
+}

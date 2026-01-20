@@ -1,0 +1,79 @@
+{
+  "metadata": {
+    "dj": "Julie (2102, Appalachia)",
+    "duration_hours": 1,
+    "segments_per_hour": 2,
+    "start_hour": 8,
+    "story_system_enabled": true,
+    "validation_enabled": false,
+    "validation_mode": null,
+    "generation_timestamp": "2026-01-19T16:14:57.808664",
+    "total_segments": 2
+  },
+  "segments": [
+    {
+      "segment_type": "gossip",
+      "script": "If you're out there, and you're listening... you are not alone.\n\nSo I've been hearing whispers about some folks finding an old bunker under the ruins of a farmstead. Word is, it's loaded with pre-war tech and even some actual weapons from before the bombs fell. Now, I don't know if any of that's true - but wouldn't it be something to find a real arsenal? Like, what would you even do with all those guns?\n\nSomeone told me there might've been a few skeletons in there too, which gives me the heebie-jeebies just thinking about it. But hey, at least the rumors say they're pretty far under the earth so you won't stumble across 'em unless you really dig deep.\n\nAnyway, if you're out there and you hear anything more about this supposed bunker, let me know, okay? I'm always curious to see what our fellow wastelanders are up to. Stay safe out there!",
+      "metadata": {
+        "hour": 8,
+        "time_of_day": "MORNING",
+        "generation_time": 9.96269,
+        "segment_number": 1,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 8,
+          "time_of_day": "morning",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "initial",
+          "continuing_topic": null,
+          "follow_up_suggestion": null,
+          "has_active_gossip": false
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "story",
+      "script": "Hey there, folks! So, I heard from someone who knows a thing or two that there's been some... unusual stuff going on in the wasteland lately. Word is, there's a group of raiders out near Beckley that are obsessed with the Charleston Sun newspaper. Like, they collect every issue they can find and use it for something. I'm not sure what exactly, but rumor has it it's pretty weird.\n\nSomeone else told me about a hidden bunker down by the New River Gorge where people have been stockpiling all sorts of junk food and snacks. You know, like Doritos and Twinkies that are so old they're practically artifacts now! I mean, who knows, maybe in the apocalypse, those things will be gourmet cuisine or something.\n\nAnyway, just some strange stories floating around out there. Don't mind me, just your friendly neighborhood DJ sharing some gossip and tunes to pass the time. Stay safe, everybody!",
+      "metadata": {
+        "hour": 8,
+        "time_of_day": "MORNING",
+        "generation_time": 9.820343,
+        "segment_number": 2,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 8,
+          "time_of_day": "morning",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "rumor",
+          "continuing_topic": "wasteland rumors",
+          "follow_up_suggestion": {
+            "prompt": "Getting more reports about wasteland rumors...",
+            "suggested_stage": "spreading",
+            "examples": [
+              "More and more people are talking about the wasteland rumors",
+              "Update on that wasteland rumors - seems there's more to it",
+              "You know that wasteland rumors we mentioned? We're getting more details"
+            ]
+          },
+          "has_active_gossip": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 1\n\n[GOSSIP]\nIf you're out there, and you're listening... you are not alone.\n\nSo I've been hearing whispers about some folks finding an old bunker under the ruins of a farmstead. Word is, it's loaded with pre-war ...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)",
+          "story_context": "STORY BEATS FOR THIS BROADCAST:\n\n1. Story story_quest_and_stay_out! (daily, Act 1)\n   Type: setup\n   Summary: Quest Objectives...\n   Tone: neutral, Conflict: 0.5/1.0\n\n\nDIRECTIONS:\n- Weave these stories naturally into your broadcast segments\n- Maintain your DJ personality while delivering the story content\n- Use callbacks to create continuity with previous broadcasts\n- Respect the emotional tone and conflict level of each beat"
+        },
+        "validation": null
+      }
+    }
+  ],
+  "stats": {
+    "dj_name": "Julie (2102, Appalachia)",
+    "duration_seconds": 19.783536,
+    "segments_generated": 2,
+    "validation_failures": 0,
+    "total_generation_time": 19.783033,
+    "avg_generation_time": 9.8915165,
+    "session_memory_size": 2,
+    "mentioned_topics": [
+      "raiders"
+    ]
+  }
+}

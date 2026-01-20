@@ -1,0 +1,239 @@
+{
+  "metadata": {
+    "dj": "Julie (2102, Appalachia)",
+    "duration_hours": 4,
+    "segments_per_hour": 2,
+    "start_hour": 8,
+    "story_system_enabled": true,
+    "validation_enabled": false,
+    "validation_mode": null,
+    "generation_timestamp": "2026-01-19T17:46:49.670791",
+    "total_segments": 8
+  },
+  "segments": [
+    {
+      "segment_type": "story",
+      "script": "\"If you're out there, and you're listening... you are not alone.\"\n\n\"You know, I heard from someone who heard from another that there's a hidden cache of pre-war money somewhere in the woods. Like, real cash. Not caps or bottle caps, but actual bills. Someone told me it's buried beneath an old oak tree in the north part of the map. Course, that could just be a tall tale, but hey, if you're out there tramping through the underbrush and stumble upon some greenbacks, well, more power to ya!\n\nAlso, have you heard about the new settlement folks are talking up near the Abandoned Boggs Mine? Supposedly they've got a nice little community going on there. From what I gathered, it's mostly vault dwellers from Vault 63 who ended up here after their own place got nuked. Word is they're friendly and would love to trade or just chat if you swing by.\"\n\n\"I'm not gonna act like it's mine, like I own it or anything. But I'll keep keeping the signal strong for as long as I can.\"",
+      "metadata": {
+        "hour": 8,
+        "time_of_day": "MORNING",
+        "generation_time": 11.179018,
+        "segment_number": 1,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 8,
+          "time_of_day": "morning",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "initial",
+          "continuing_topic": null,
+          "follow_up_suggestion": null,
+          "has_active_gossip": false,
+          "story_context": "STORY BEATS FOR THIS BROADCAST:\n\n1. Story story_quest_beyond_the_beef (daily, Act 2)\n   Type: rising\n   Summary: Quest Stages\n   Tone: neutral, Conflict: 0.5/1.0\n\n\nDIRECTIONS:\n- Weave these stories naturally into your broadcast segments\n- Maintain your DJ personality while delivering the story content\n- Use callbacks to create continuity with previous broadcasts\n- Respect the emotional tone and conflict level of each beat"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "story",
+      "script": "I'm just happy to be here, playing music for you guys.\n\nHey there, listeners! Julie's your DJ today on Appalachia Radio. So I was talking with this trader yesterday - you know, the one who sets up shop by the old coal mine? Anyway, he mentioned hearing rumors about a secret lab deep in the woods. Apparently, it's hidden behind some kind of force field or something. Word is, they're still doing... um, experiments in there.\n\nNow, I don't know if this is true or just some wild tale, but the trader seemed pretty convinced. He even offered to take me there! Can you imagine? I mean, I love a good mystery, but venturing into the unknown? That's a big ask! What do you guys think? You heard any similar stories lately?\n\nAnyway, let's not dwell on dark rumors for now. Here's some uplifting tunes to brighten your day. Stay safe out there, and remember: we're all in this together!\n\n\"Take Me Home, Country Roads,\" by John Denver.",
+      "metadata": {
+        "hour": 8,
+        "time_of_day": "MORNING",
+        "generation_time": 10.521837,
+        "segment_number": 2,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 8,
+          "time_of_day": "morning",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "initial",
+          "continuing_topic": null,
+          "follow_up_suggestion": null,
+          "has_active_gossip": false,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 1\n\n[STORY]\n\"If you're out there, and you're listening... you are not alone.\"\n\n\"You know, I heard from someone who heard from another that there's a hidden cache of pre-war money somewhere in the woods. Like, rea...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)",
+          "story_context": "STORY BEATS FOR THIS BROADCAST:\n\n1. Story story_quest_beyond_the_beef (daily, Act 3)\n   Type: climax\n   Summary: Quest Stages\n   Tone: neutral, Conflict: 0.8/1.0\n\n\nDIRECTIONS:\n- Weave these stories naturally into your broadcast segments\n- Maintain your DJ personality while delivering the story content\n- Use callbacks to create continuity with previous broadcasts\n- Respect the emotional tone and conflict level of each beat"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "story",
+      "script": "Welcome home, Appalachia!\n\nHey there, listeners! So I heard from someone who knows someone that... allegedly? Maybe? There's supposed to be a secret underground bunker hidden somewhere in the hills. Can you believe it?! Apparently it's loaded with pre-war tech and junk and all sorts of treasures. Of course, nobody's found it yet, or they wouldn't be telling this story, right?\n\nI mean, I don't know if there's any truth to it, but man, that would be amazing! A whole hidden base full of goodies. We could use some good news around here. If you have any leads on where this supposed bunker might be, hit me up after the show, okay? \n\nAnyway, next up is a classic from those crooners Blue Moon Boys - \"Rock and Roll (Will Stand)\"! Take it away, boys...\n\n[plays song]",
+      "metadata": {
+        "hour": 9,
+        "time_of_day": "MORNING",
+        "generation_time": 9.209264,
+        "segment_number": 3,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 9,
+          "time_of_day": "morning",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "initial",
+          "continuing_topic": null,
+          "follow_up_suggestion": null,
+          "has_active_gossip": false,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 2\n\n[STORY]\n\"If you're out there, and you're listening... you are not alone.\"\n\n\"You know, I heard from someone who heard from another that there's a hidden cache of pre-war money somewhere in the woods. Like, rea...\n\n[STORY]\nI'm just happy to be here, playing music for you guys.\n\nHey there, listeners! Julie's your DJ today on Appalachia Radio. So I was talking with this trader yesterday - you know, the one who sets up sho...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)",
+          "story_context": "STORY BEATS FOR THIS BROADCAST:\n\n1. Story story_quest_beyond_the_beef (daily, Act 4)\n   Type: falling\n   Summary: Quest Stages\n   Tone: neutral, Conflict: 0.5/1.0\n\n\nDIRECTIONS:\n- Weave these stories naturally into your broadcast segments\n- Maintain your DJ personality while delivering the story content\n- Use callbacks to create continuity with previous broadcasts\n- Respect the emotional tone and conflict level of each beat"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "gossip",
+      "script": "\"Hey there, listeners! I hope you're all doing well out there in the wilds of Appalachia.\n\nI heard from some folks who ventured into the old Whitespring Resort that it's like a ghost town now. Apparently, they say you can still see the former employees going about their daily routines, just... frozen in time. Isn't that something? \n\nAnd someone told me that there are these really tall trees with glowing leaves around the edge of the Mire. I mean, have you ever seen anything like that before? It sounds so strange and beautiful at the same time.\n\nWord is that some travelers found an old school bus out in the countryside that's just filled to the brim with junk and treasure. They say it's practically a mini vault!\n\nAnyway, enough of these wild stories for now. Let's get back to some good ol' country tunes, shall we? Here's another round of 'Take Me Home, Country Roads', because why mess with perfection?\"",
+      "metadata": {
+        "hour": 9,
+        "time_of_day": "MORNING",
+        "generation_time": 9.867355,
+        "segment_number": 4,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 9,
+          "time_of_day": "morning",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "initial",
+          "continuing_topic": null,
+          "follow_up_suggestion": null,
+          "has_active_gossip": false,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 3\n\n[STORY]\n\"If you're out there, and you're listening... you are not alone.\"\n\n\"You know, I heard from someone who heard from another that there's a hidden cache of pre-war money somewhere in the woods. Like, rea...\n\n[STORY]\nI'm just happy to be here, playing music for you guys.\n\nHey there, listeners! Julie's your DJ today on Appalachia Radio. So I was talking with this trader yesterday - you know, the one who sets up sho...\n\n[STORY]\nWelcome home, Appalachia!\n\nHey there, listeners! So I heard from someone who knows someone that... allegedly? Maybe? There's supposed to be a secret underground bunker hidden somewhere in the hills. C...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "story",
+      "script": "I'm just happy to be here, playing music for you guys. So I was talking to this guy in Harpers Ferry the other day... well, he wasn't really talking so much as mumbling, but that's beside the point! Anyway, he mentioned a strange occurrence out by the Abandoned Bog Camp.\n\nApparently, there have been sightings of... get this... glowing wild dogs? Yeah, I know it sounds crazy. But supposedly these dogs roam the area at night, radiating this eerie blue glow. Now, I haven't seen anything like that myself, but hey, stranger things have happened in Appalachia, right?\n\nSomeone told me they heard these dogs howling some sort of chant before disappearing into the fog. Chant? Like a real chant with words and everything! That's wild to even imagine.\n\nWord is, people are keeping their distance from the Bog Camp at night, just in case those glowing canines make an appearance. Has anyone else out there heard anything about these mysterious hounds? Let me know if you have any insight or spooky stories to share!",
+      "metadata": {
+        "hour": 10,
+        "time_of_day": "MIDDAY",
+        "generation_time": 10.588058,
+        "segment_number": 5,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 10,
+          "time_of_day": "midday",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "rumor",
+          "continuing_topic": "wasteland rumors",
+          "follow_up_suggestion": {
+            "prompt": "Getting more reports about wasteland rumors...",
+            "suggested_stage": "spreading",
+            "examples": [
+              "More and more people are talking about the wasteland rumors",
+              "Update on that wasteland rumors - seems there's more to it",
+              "You know that wasteland rumors we mentioned? We're getting more details"
+            ]
+          },
+          "has_active_gossip": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 4\n\n[STORY]\nI'm just happy to be here, playing music for you guys.\n\nHey there, listeners! Julie's your DJ today on Appalachia Radio. So I was talking with this trader yesterday - you know, the one who sets up sho...\n\n[STORY]\nWelcome home, Appalachia!\n\nHey there, listeners! So I heard from someone who knows someone that... allegedly? Maybe? There's supposed to be a secret underground bunker hidden somewhere in the hills. C...\n\n[GOSSIP]\n\"Hey there, listeners! I hope you're all doing well out there in the wilds of Appalachia.\n\nI heard from some folks who ventured into the old Whitespring Resort that it's like a ghost town now. Apparen...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)",
+          "story_context": "STORY BEATS FOR THIS BROADCAST:\n\n1. Story story_quest_beyond_the_beef (daily, Act 5)\n   Type: resolution\n   Summary: Quest Stages\n   Tone: neutral, Conflict: 0.3/1.0\n\n\nDIRECTIONS:\n- Weave these stories naturally into your broadcast segments\n- Maintain your DJ personality while delivering the story content\n- Use callbacks to create continuity with previous broadcasts\n- Respect the emotional tone and conflict level of each beat"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "story",
+      "script": "\"If you're out there, and you're listening... you are not alone.\"\n\n\"Hey there, folks! Julie here on your friendly local station, Appalachia Radio. I've got a little rumor to share, but don't quote me just yet. Word is, some settlers have found an old pre-war cafe in the woods, like, totally untouched by time or radiation. They're saying it's called 'Sally's Nook' and that the decor and everything still looks fresh from 2077! Can you imagine? I mean, would love to see it for myself one day.\"\n\n\"Just a heads up: if you do decide to go exploring, be careful out there. These woods can be tricky. But hey, if you find Sally's Nook and get some pics, hit me up on the radio or in-game chat! I'd love to hear about your adventures.\"\n\n\"Stay hopeful, stay kind, and keep on tuning in for more tunes and updates from around Appalachia!\"",
+      "metadata": {
+        "hour": 10,
+        "time_of_day": "MIDDAY",
+        "generation_time": 9.89301,
+        "segment_number": 6,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 10,
+          "time_of_day": "midday",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "rumor",
+          "continuing_topic": "wasteland rumors",
+          "follow_up_suggestion": {
+            "prompt": "Getting more reports about wasteland rumors...",
+            "suggested_stage": "spreading",
+            "examples": [
+              "More and more people are talking about the wasteland rumors",
+              "Update on that wasteland rumors - seems there's more to it",
+              "You know that wasteland rumors we mentioned? We're getting more details"
+            ]
+          },
+          "has_active_gossip": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 5\n\n[STORY]\nWelcome home, Appalachia!\n\nHey there, listeners! So I heard from someone who knows someone that... allegedly? Maybe? There's supposed to be a secret underground bunker hidden somewhere in the hills. C...\n\n[GOSSIP]\n\"Hey there, listeners! I hope you're all doing well out there in the wilds of Appalachia.\n\nI heard from some folks who ventured into the old Whitespring Resort that it's like a ghost town now. Apparen...\n\n[STORY]\nI'm just happy to be here, playing music for you guys. So I was talking to this guy in Harpers Ferry the other day... well, he wasn't really talking so much as mumbling, but that's beside the point! A...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)",
+          "story_context": "STORY BEATS FOR THIS BROADCAST:\n\n1. Story story_quest_beyond_the_beef (daily, Act 5)\n   Type: resolution\n   Summary: Quest Stages\n   Tone: neutral, Conflict: 0.3/1.0\n\n\nDIRECTIONS:\n- Weave these stories naturally into your broadcast segments\n- Maintain your DJ personality while delivering the story content\n- Use callbacks to create continuity with previous broadcasts\n- Respect the emotional tone and conflict level of each beat"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "story",
+      "script": "I'm just happy to be here, playing music for you guys. So, I was talking with some folks in Harpers Ferry and they mentioned something about an old abandoned bunker out near the Gorge Market trail. Word is that it's filled with pre-war cash and valuables! Now, I don't know if this rumor is true or just a tale to get people excited, but wouldn't it be amazing to find some of those lost treasures from before the bombs fell? Someone told me they've even seen glimmers of gold in the walls through the cracks. Of course, there are dangers too - radiation and who knows what kind of creatures might have made it their home by now.\n\nAnyway, that's the latest rumor making its way around Appalachia. I wish you all luck if you decide to go on a treasure hunt! For now, let's get back to some great music. Here's \"Paradise\" by John Denver - a real Appalachian classic.",
+      "metadata": {
+        "hour": 11,
+        "time_of_day": "MIDDAY",
+        "generation_time": 9.808342,
+        "segment_number": 7,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 11,
+          "time_of_day": "midday",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "rumor",
+          "continuing_topic": "wasteland rumors",
+          "follow_up_suggestion": {
+            "prompt": "Getting more reports about wasteland rumors...",
+            "suggested_stage": "spreading",
+            "examples": [
+              "More and more people are talking about the wasteland rumors",
+              "Update on that wasteland rumors - seems there's more to it",
+              "You know that wasteland rumors we mentioned? We're getting more details"
+            ]
+          },
+          "has_active_gossip": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 6\n\n[GOSSIP]\n\"Hey there, listeners! I hope you're all doing well out there in the wilds of Appalachia.\n\nI heard from some folks who ventured into the old Whitespring Resort that it's like a ghost town now. Apparen...\n\n[STORY]\nI'm just happy to be here, playing music for you guys. So I was talking to this guy in Harpers Ferry the other day... well, he wasn't really talking so much as mumbling, but that's beside the point! A...\n\n[STORY]\n\"If you're out there, and you're listening... you are not alone.\"\n\n\"Hey there, folks! Julie here on your friendly local station, Appalachia Radio. I've got a little rumor to share, but don't quote me ...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)",
+          "story_context": "STORY BEATS FOR THIS BROADCAST:\n\n1. Story story_quest_beyond_the_beef (daily, Act 5)\n   Type: resolution\n   Summary: Quest Stages\n   Tone: neutral, Conflict: 0.3/1.0\n\n\nDIRECTIONS:\n- Weave these stories naturally into your broadcast segments\n- Maintain your DJ personality while delivering the story content\n- Use callbacks to create continuity with previous broadcasts\n- Respect the emotional tone and conflict level of each beat"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "news",
+      "script": "\"You know, I've been thinking... maybe it's time we started looking on the bright side of things out here in Appalachia. I mean, sure, life as a wastelander ain't easy, but there's hope to be found if you look for it.\n\nCase in point: did you hear about the new settlement springing up near Harper's Ferry? Folks from all walks of life coming together to rebuild - that's something to get excited about! And I heard tell of a group of traders making regular runs between Vault 96 and Morgantown, establishing routes and fostering trade. Little by little, we're connecting our communities again.\n\nNow, don't get me wrong, there's still plenty of danger out here. But if we stick together, look out for one another... well, that's half the battle won already. So keep your chins up, neighbors! Better days are coming - I can feel it in my bones. And remember, you're not alone out here.\"",
+      "metadata": {
+        "hour": 11,
+        "time_of_day": "MIDDAY",
+        "generation_time": 10.312192,
+        "segment_number": 8,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 11,
+          "time_of_day": "midday",
+          "news_category": "historical_discovery",
+          "region": "Appalachia",
+          "confidence_level": 0.85,
+          "confidence_language": "solid reports indicate",
+          "rag_query": "Appalachia pre-war artifacts vault bunker history HIGH confidence factual",
+          "source_credibility": "high",
+          "appropriate_for_dj": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 7\n\n[STORY]\nI'm just happy to be here, playing music for you guys. So I was talking to this guy in Harpers Ferry the other day... well, he wasn't really talking so much as mumbling, but that's beside the point! A...\n\n[STORY]\n\"If you're out there, and you're listening... you are not alone.\"\n\n\"Hey there, folks! Julie here on your friendly local station, Appalachia Radio. I've got a little rumor to share, but don't quote me ...\n\n[STORY]\nI'm just happy to be here, playing music for you guys. So, I was talking with some folks in Harpers Ferry and they mentioned something about an old abandoned bunker out near the Gorge Market trail. Wo...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    }
+  ],
+  "stats": {
+    "dj_name": "Julie (2102, Appalachia)",
+    "duration_seconds": 81.383288,
+    "segments_generated": 8,
+    "validation_failures": 0,
+    "total_generation_time": 81.379076,
+    "avg_generation_time": 10.1723845,
+    "session_memory_size": 8,
+    "mentioned_topics": [
+      "vault",
+      "weather",
+      "trading",
+      "locations",
+      "factions",
+      "cryptids"
+    ]
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "metadata": {
+    "dj": "Mr. New Vegas (2281, Mojave)",
+    "duration_hours": 1,
+    "segments_per_hour": 2,
+    "start_hour": 8,
+    "story_system_enabled": true,
+    "validation_enabled": false,
+    "validation_mode": null,
+    "generation_timestamp": "2026-01-19T21:35:59.387190",
+    "total_segments": 2
+  },
+  "segments": [
+    {
+      "segment_type": "emergency_weather",
+      "script": "\"Quote/unquote, my loves... an emergency dust storm is raging across the Mojave. This is NOT a drill! The massive wall of radiation-laced sand will leave you blind and vulnerable. Seek immediate shelter in concrete strongholds or underground sites like the Strip's reinforced casinos or hidden vaults. Avoid metal structures that attract deadly radiation. Until the all-clear, stay safe... and know I'll be right here with you through this tempest. Estimated clearance time: 3 hours.\"",
+      "weather_type": "dust_storm",
+      "severity": "moderate",
+      "is_emergency": true,
+      "generation_time": 18.403794,
+      "metadata": {
+        "script_type": "emergency_weather",
+        "dj_name": "Mr. New Vegas (2281, Mojave)",
+        "model": "fluffy/l3-8b-stheno-v3.2",
+        "timestamp": "2026-01-19T21:35:41.325907",
+        "rag_query": "Mojave shelter locations emergency procedures safety dust_storm",
+        "rag_results": 5,
+        "context_chunks_used": 3,
+        "temperature": 0.6,
+        "top_p": 0.9,
+        "template_vars": {
+          "hour": 8,
+          "time_of_day": "morning",
+          "emergency_type": "dust_storm",
+          "location": "Mojave",
+          "severity": "moderate",
+          "shelter_instructions": "Seek concrete structures or underground facilities. The Strip casinos have reinforced levels. Lucky 38, Vault entrances, or the sewers can provide protection. Avoid metal structures - radiation magnets."
+        },
+        "word_count": 74,
+        "retry_count": 0,
+        "catchphrase_used": null,
+        "consistency_validated": true,
+        "consistency_violations": []
+      }
+    },
+    {
+      "segment_type": "time_check",
+      "script": "\"Good morning to you, darlings! It's 8:00 right now and the Mojave sun is just starting to peek over the horizon, painting our desert landscape in warm hues of orange and pink. I mean, isn't it a beautiful sight? Anyway, enough gushing from me. The women of New Vegas ask me a lot if there's a Mrs. New Vegas. Well, of course there is. You're her.\"",
+      "metadata": {
+        "hour": 8,
+        "time_of_day": "MORNING",
+        "generation_time": 17.766955,
+        "segment_number": 2,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 8,
+          "time_of_day": "morning",
+          "time": "8:35 AM",
+          "minute": 35,
+          "announcement": "It's 8:35 AM on the airwaves.",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 1\n\n[EMERGENCY_WEATHER]\n\"Quote/unquote, my loves... an emergency dust storm is raging across the Mojave. This is NOT a drill! The massive wall of radiation-laced sand will leave you blind and vulnerable. Seek immediate shelt...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    }
+  ],
+  "stats": {
+    "dj_name": "Mr. New Vegas (2281, Mojave)",
+    "duration_seconds": 36.17601,
+    "segments_generated": 2,
+    "validation_failures": 0,
+    "total_generation_time": 36.170749,
+    "avg_generation_time": 18.0853745,
+    "session_memory_size": 2,
+    "mentioned_topics": [
+      "vault",
+      "weather"
+    ]
+  }
+}

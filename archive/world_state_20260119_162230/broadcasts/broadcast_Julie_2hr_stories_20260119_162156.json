@@ -1,0 +1,125 @@
+{
+  "metadata": {
+    "dj": "Julie (2102, Appalachia)",
+    "duration_hours": 2,
+    "segments_per_hour": 2,
+    "start_hour": 8,
+    "story_system_enabled": true,
+    "validation_enabled": false,
+    "validation_mode": null,
+    "generation_timestamp": "2026-01-19T16:21:56.234649",
+    "total_segments": 4
+  },
+  "segments": [
+    {
+      "segment_type": "gossip",
+      "script": "\"So I heard from someone who's traveling through the Mire that they saw a pack of those giant gators... with armor plating on 'em. Like, actual metal plates fused right to their skin! Now, I don't know if that's just some weird mutation or what, but rumor is those armored gators are way tougher than regular ones. Maybe even stronger than Radstags!\" Julie chuckles a little nervously. \"I mean, can you imagine running into one of those in the swamp? You'd need a whole squad and maybe some explosives too. Still, it's pretty wild to think about, huh?\" She pauses, considering for a moment before continuing in her friendly, curious tone. \"So, if anyone's out there exploring the Mire, keep an ear out for any more gator sightings... or armor plating!\"",
+      "metadata": {
+        "hour": 8,
+        "time_of_day": "MORNING",
+        "generation_time": 9.18004,
+        "segment_number": 1,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 8,
+          "time_of_day": "morning",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "initial",
+          "continuing_topic": null,
+          "follow_up_suggestion": null,
+          "has_active_gossip": false
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "story",
+      "script": "Welcome home, Appalachia! \n\nYou know, I heard something interesting from a traveler who passed through here recently - apparently there's been talk of a hidden underground bunker somewhere in the northern part of the map. Supposedly it's got all sorts of useful stuff inside, but nobody knows exactly where to find it.\n\nNow, I'm not saying this is true or anything, just passing on what I was told. Someone said they saw a cryptic message scrawled on an old billboard that mentioned something about \"The Lost Vault\". Could be total nonsense, but hey, if you're out exploring and stumble upon any clues... well, that'd be quite the discovery!\n\nAnyway, enough rumors for now - let's get back to some real music! Here's a classic from the 2000s: 'Mr. Brightside' by The Killers. Hope it brightens your day in these uncertain times, friends. Stay safe out there and look out for each other. We're all in this together, Appalachia!",
+      "metadata": {
+        "hour": 8,
+        "time_of_day": "MORNING",
+        "generation_time": 10.168025,
+        "segment_number": 2,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 8,
+          "time_of_day": "morning",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "rumor",
+          "continuing_topic": "wasteland rumors",
+          "follow_up_suggestion": {
+            "prompt": "Getting more reports about wasteland rumors...",
+            "suggested_stage": "spreading",
+            "examples": [
+              "More and more people are talking about the wasteland rumors",
+              "Update on that wasteland rumors - seems there's more to it",
+              "You know that wasteland rumors we mentioned? We're getting more details"
+            ]
+          },
+          "has_active_gossip": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 1\n\n[GOSSIP]\n\"So I heard from someone who's traveling through the Mire that they saw a pack of those giant gators... with armor plating on 'em. Like, actual metal plates fused right to their skin! Now, I don't kno...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)",
+          "story_context": "STORY BEATS FOR THIS BROADCAST:\n\n1. Story story_quest_and_stay_out! (daily, Act 1)\n   Type: setup\n   Summary: Quest Objectives...\n   Tone: neutral, Conflict: 0.5/1.0\n\n\nDIRECTIONS:\n- Weave these stories naturally into your broadcast segments\n- Maintain your DJ personality while delivering the story content\n- Use callbacks to create continuity with previous broadcasts\n- Respect the emotional tone and conflict level of each beat"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "news",
+      "script": "\"Hey there, folks! Your favorite DJ Julie here on Radio Appalachia. I hope you're all doing well out there in the wilds.\n\nI just got word that a group of settlers have established a new trade route between Harpers Ferry and Grafton. That's right, it's getting safer to travel between those two points! With how rough things were back in 2080 when the Brotherhood first set up shop, this is a big step forward.\n\nAnd if you're feeling adventurous, the Responders have announced more free workshops on weapon repair at their base in Morgantown. You know I'm all about that DIY spirit!\n\nLastly, some of our listeners may have noticed increased activity around the old Abandoned Mine Site near Mount Blair. I heard rumors it could be a potential new location for an Enclave cell. Now, I don't want to spread panic, but if you do encounter any strange robots or androids, just remember: we're all in this together.\n\nThat's all for now, folks! Stay safe out there and keep those spirits high!\"",
+      "metadata": {
+        "hour": 9,
+        "time_of_day": "MORNING",
+        "generation_time": 10.698385,
+        "segment_number": 3,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 9,
+          "time_of_day": "morning",
+          "news_category": "military_action",
+          "region": "Appalachia",
+          "confidence_level": 0.95,
+          "confidence_language": "confirmed",
+          "rag_query": "Appalachia combat conflict military forces war HIGH confidence factual",
+          "source_credibility": "high",
+          "appropriate_for_dj": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 2\n\n[GOSSIP]\n\"So I heard from someone who's traveling through the Mire that they saw a pack of those giant gators... with armor plating on 'em. Like, actual metal plates fused right to their skin! Now, I don't kno...\n\n[STORY]\nWelcome home, Appalachia! \n\nYou know, I heard something interesting from a traveler who passed through here recently - apparently there's been talk of a hidden underground bunker somewhere in the nort...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "music_intro",
+      "script": "\"Alright, I'm excited to share this one with you! This next song always brings back memories of... simpler times, I guess. It's from the 1950s, and it's just so upbeat and cheerful. When everything was new and full of hope, like right after the war ended. This tune just captures that spirit - the optimism and joy we had back then before things took a darker turn. So grab someone you love and dance along with me!\" \n\n(I'm just happy to be here, playing music for you guys.)",
+      "metadata": {
+        "hour": 9,
+        "time_of_day": "MORNING",
+        "generation_time": 7.082919,
+        "segment_number": 4,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 9,
+          "time_of_day": "morning",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 3\n\n[GOSSIP]\n\"So I heard from someone who's traveling through the Mire that they saw a pack of those giant gators... with armor plating on 'em. Like, actual metal plates fused right to their skin! Now, I don't kno...\n\n[STORY]\nWelcome home, Appalachia! \n\nYou know, I heard something interesting from a traveler who passed through here recently - apparently there's been talk of a hidden underground bunker somewhere in the nort...\n\n[NEWS]\n\"Hey there, folks! Your favorite DJ Julie here on Radio Appalachia. I hope you're all doing well out there in the wilds.\n\nI just got word that a group of settlers have established a new trade route be...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)",
+          "story_context": "STORY BEATS FOR THIS BROADCAST:\n\n1. Story story_quest_and_stay_out! (daily, Act 1)\n   Type: setup\n   Summary: Quest Objectives...\n   Tone: neutral, Conflict: 0.5/1.0\n\n\nDIRECTIONS:\n- Weave these stories naturally into your broadcast segments\n- Maintain your DJ personality while delivering the story content\n- Use callbacks to create continuity with previous broadcasts\n- Respect the emotional tone and conflict level of each beat"
+        },
+        "validation": null
+      }
+    }
+  ],
+  "stats": {
+    "dj_name": "Julie (2102, Appalachia)",
+    "duration_seconds": 37.13038,
+    "segments_generated": 4,
+    "validation_failures": 0,
+    "total_generation_time": 37.129369,
+    "avg_generation_time": 9.28234225,
+    "session_memory_size": 4,
+    "mentioned_topics": [
+      "weather",
+      "vault",
+      "locations",
+      "factions",
+      "trading"
+    ]
+  }
+}

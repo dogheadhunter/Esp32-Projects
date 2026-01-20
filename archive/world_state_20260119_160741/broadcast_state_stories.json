@@ -1,0 +1,513 @@
+{
+  "schema_version": "1.0",
+  "created_at": "2026-01-19T15:30:02.632812",
+  "last_modified": "2026-01-19T15:30:03.874209",
+  "story_pools": {
+    "daily": [
+      {
+        "story_id": "story_quest_and_stay_out!",
+        "title": "And Stay Out!",
+        "timeline": "daily",
+        "acts": [
+          {
+            "act_number": 1,
+            "act_type": "setup",
+            "title": "The Story",
+            "summary": "Quest Objectives...",
+            "source_chunks": [
+              "And Stay Out!_Quest Objectives_0_439"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.5,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          }
+        ],
+        "summary": "Quest Objectives",
+        "content_type": "quest",
+        "themes": [],
+        "factions": [],
+        "locations": [
+          "general"
+        ],
+        "characters": [],
+        "era": null,
+        "region": null,
+        "year_min": null,
+        "year_max": null,
+        "dj_compatible": [
+          "julie",
+          "three_dog",
+          "mr_new_vegas",
+          "travis_miles_confident"
+        ],
+        "knowledge_tier": "common",
+        "suggested_framing": "direct",
+        "source_wiki_titles": [
+          "And Stay Out!"
+        ],
+        "extraction_date": "2026-01-19T15:30:03.406165",
+        "estimated_broadcasts": 2,
+        "priority": 0.5
+      },
+      {
+        "story_id": "story_quest_beat_it",
+        "title": "Beat It",
+        "timeline": "daily",
+        "acts": [
+          {
+            "act_number": 1,
+            "act_type": "setup",
+            "title": "The Story",
+            "summary": "Quest Objectives...",
+            "source_chunks": [
+              "Beat It_Quest Objectives_1_455"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.5,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          }
+        ],
+        "summary": "Quest Objectives",
+        "content_type": "quest",
+        "themes": [],
+        "factions": [],
+        "locations": [
+          "general"
+        ],
+        "characters": [],
+        "era": null,
+        "region": null,
+        "year_min": null,
+        "year_max": null,
+        "dj_compatible": [
+          "julie",
+          "three_dog",
+          "mr_new_vegas",
+          "travis_miles_confident"
+        ],
+        "knowledge_tier": "common",
+        "suggested_framing": "direct",
+        "source_wiki_titles": [
+          "Beat It"
+        ],
+        "extraction_date": "2026-01-19T15:30:03.406165",
+        "estimated_broadcasts": 2,
+        "priority": 0.5
+      },
+      {
+        "story_id": "story_quest_higher_learning",
+        "title": "Higher Learning",
+        "timeline": "daily",
+        "acts": [
+          {
+            "act_number": 1,
+            "act_type": "setup",
+            "title": "The Story",
+            "summary": "Quest Objectives...",
+            "source_chunks": [
+              "Higher Learning_Quest Objectives_1_408"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.5,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          }
+        ],
+        "summary": "Quest Objectives",
+        "content_type": "quest",
+        "themes": [],
+        "factions": [],
+        "locations": [
+          "general"
+        ],
+        "characters": [],
+        "era": null,
+        "region": null,
+        "year_min": null,
+        "year_max": null,
+        "dj_compatible": [
+          "julie",
+          "three_dog",
+          "mr_new_vegas",
+          "travis_miles_confident"
+        ],
+        "knowledge_tier": "common",
+        "suggested_framing": "direct",
+        "source_wiki_titles": [
+          "Higher Learning"
+        ],
+        "extraction_date": "2026-01-19T15:30:03.406165",
+        "estimated_broadcasts": 2,
+        "priority": 0.5
+      },
+      {
+        "story_id": "story_quest_a_dividing_detonation",
+        "title": "A Dividing Detonation",
+        "timeline": "daily",
+        "acts": [
+          {
+            "act_number": 1,
+            "act_type": "setup",
+            "title": "The Story",
+            "summary": "Quest Objectives...",
+            "source_chunks": [
+              "A Dividing Detonation_Quest Objectives_1_479"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.5,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          }
+        ],
+        "summary": "Quest Objectives",
+        "content_type": "quest",
+        "themes": [],
+        "factions": [],
+        "locations": [
+          "general"
+        ],
+        "characters": [],
+        "era": null,
+        "region": null,
+        "year_min": null,
+        "year_max": null,
+        "dj_compatible": [
+          "julie",
+          "three_dog",
+          "mr_new_vegas",
+          "travis_miles_confident"
+        ],
+        "knowledge_tier": "common",
+        "suggested_framing": "direct",
+        "source_wiki_titles": [
+          "A Dividing Detonation"
+        ],
+        "extraction_date": "2026-01-19T15:30:03.406165",
+        "estimated_broadcasts": 2,
+        "priority": 0.5
+      },
+      {
+        "story_id": "story_quest_forged_in_the_dark",
+        "title": "Forged In The Dark",
+        "timeline": "daily",
+        "acts": [
+          {
+            "act_number": 1,
+            "act_type": "setup",
+            "title": "The Story",
+            "summary": "Quest Objectives...",
+            "source_chunks": [
+              "Forged In The Dark_Quest Objectives_1_122"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.5,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          }
+        ],
+        "summary": "Quest Objectives",
+        "content_type": "quest",
+        "themes": [],
+        "factions": [],
+        "locations": [
+          "general"
+        ],
+        "characters": [],
+        "era": null,
+        "region": null,
+        "year_min": null,
+        "year_max": null,
+        "dj_compatible": [
+          "julie",
+          "three_dog",
+          "mr_new_vegas",
+          "travis_miles_confident"
+        ],
+        "knowledge_tier": "common",
+        "suggested_framing": "direct",
+        "source_wiki_titles": [
+          "Forged In The Dark"
+        ],
+        "extraction_date": "2026-01-19T15:30:03.406165",
+        "estimated_broadcasts": 2,
+        "priority": 0.5
+      },
+      {
+        "story_id": "story_quest_a_favor_for_the_king",
+        "title": "A Favor for the King",
+        "timeline": "daily",
+        "acts": [
+          {
+            "act_number": 1,
+            "act_type": "setup",
+            "title": "The Story",
+            "summary": "Quest Objectives...",
+            "source_chunks": [
+              "A Favor for the King_Quest Objectives_0_0"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.5,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          }
+        ],
+        "summary": "Quest Objectives",
+        "content_type": "quest",
+        "themes": [],
+        "factions": [],
+        "locations": [
+          "general"
+        ],
+        "characters": [],
+        "era": null,
+        "region": null,
+        "year_min": null,
+        "year_max": null,
+        "dj_compatible": [
+          "julie",
+          "three_dog",
+          "mr_new_vegas",
+          "travis_miles_confident"
+        ],
+        "knowledge_tier": "common",
+        "suggested_framing": "direct",
+        "source_wiki_titles": [
+          "A Favor for the King"
+        ],
+        "extraction_date": "2026-01-19T15:30:03.406165",
+        "estimated_broadcasts": 2,
+        "priority": 0.5
+      },
+      {
+        "story_id": "story_quest_a_gun_in_every_hand,_for_now",
+        "title": "A Gun in Every Hand, For Now",
+        "timeline": "daily",
+        "acts": [
+          {
+            "act_number": 1,
+            "act_type": "setup",
+            "title": "The Story",
+            "summary": "Quest Objectives...",
+            "source_chunks": [
+              "A Gun in Every Hand, For Now_Quest Objectives_0_43"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.5,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          }
+        ],
+        "summary": "Quest Objectives",
+        "content_type": "quest",
+        "themes": [],
+        "factions": [],
+        "locations": [
+          "general"
+        ],
+        "characters": [],
+        "era": null,
+        "region": null,
+        "year_min": null,
+        "year_max": null,
+        "dj_compatible": [
+          "julie",
+          "three_dog",
+          "mr_new_vegas",
+          "travis_miles_confident"
+        ],
+        "knowledge_tier": "common",
+        "suggested_framing": "direct",
+        "source_wiki_titles": [
+          "A Gun in Every Hand, For Now"
+        ],
+        "extraction_date": "2026-01-19T15:30:03.406165",
+        "estimated_broadcasts": 2,
+        "priority": 0.5
+      },
+      {
+        "story_id": "story_quest_a_problem_of_legacy",
+        "title": "A Problem of Legacy",
+        "timeline": "daily",
+        "acts": [
+          {
+            "act_number": 1,
+            "act_type": "setup",
+            "title": "The Story",
+            "summary": "Quest Objectives...",
+            "source_chunks": [
+              "A Problem of Legacy_Quest Objectives_0_266"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.5,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          }
+        ],
+        "summary": "Quest Objectives",
+        "content_type": "quest",
+        "themes": [],
+        "factions": [],
+        "locations": [
+          "general"
+        ],
+        "characters": [],
+        "era": null,
+        "region": null,
+        "year_min": null,
+        "year_max": null,
+        "dj_compatible": [
+          "julie",
+          "three_dog",
+          "mr_new_vegas",
+          "travis_miles_confident"
+        ],
+        "knowledge_tier": "common",
+        "suggested_framing": "direct",
+        "source_wiki_titles": [
+          "A Problem of Legacy"
+        ],
+        "extraction_date": "2026-01-19T15:30:03.406165",
+        "estimated_broadcasts": 2,
+        "priority": 0.5
+      },
+      {
+        "story_id": "story_quest_a_very_good_neighbor",
+        "title": "A Very Good Neighbor",
+        "timeline": "daily",
+        "acts": [
+          {
+            "act_number": 1,
+            "act_type": "setup",
+            "title": "The Story",
+            "summary": "Quest Objectives...",
+            "source_chunks": [
+              "A Very Good Neighbor_Quest Objectives_1_388"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.5,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          }
+        ],
+        "summary": "Quest Objectives",
+        "content_type": "quest",
+        "themes": [],
+        "factions": [],
+        "locations": [
+          "general"
+        ],
+        "characters": [],
+        "era": null,
+        "region": null,
+        "year_min": null,
+        "year_max": null,
+        "dj_compatible": [
+          "julie",
+          "three_dog",
+          "mr_new_vegas",
+          "travis_miles_confident"
+        ],
+        "knowledge_tier": "common",
+        "suggested_framing": "direct",
+        "source_wiki_titles": [
+          "A Very Good Neighbor"
+        ],
+        "extraction_date": "2026-01-19T15:30:03.406165",
+        "estimated_broadcasts": 2,
+        "priority": 0.5
+      },
+      {
+        "story_id": "story_quest_fool's_golden_gloves",
+        "title": "Fool's Golden Gloves",
+        "timeline": "daily",
+        "acts": [
+          {
+            "act_number": 1,
+            "act_type": "setup",
+            "title": "The Story",
+            "summary": "Quest Objectives...",
+            "source_chunks": [
+              "Fool's Golden Gloves_Quest Objectives_0_212"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.5,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          }
+        ],
+        "summary": "Quest Objectives",
+        "content_type": "quest",
+        "themes": [],
+        "factions": [],
+        "locations": [
+          "California"
+        ],
+        "characters": [],
+        "era": null,
+        "region": null,
+        "year_min": null,
+        "year_max": null,
+        "dj_compatible": [
+          "julie",
+          "three_dog",
+          "mr_new_vegas",
+          "travis_miles_confident"
+        ],
+        "knowledge_tier": "common",
+        "suggested_framing": "direct",
+        "source_wiki_titles": [
+          "Fool's Golden Gloves"
+        ],
+        "extraction_date": "2026-01-19T15:30:03.406165",
+        "estimated_broadcasts": 2,
+        "priority": 0.5
+      }
+    ],
+    "weekly": [],
+    "monthly": [],
+    "yearly": []
+  },
+  "active_stories": {
+    "daily": null,
+    "weekly": null,
+    "monthly": null,
+    "yearly": null
+  },
+  "completed_stories": [],
+  "archived_stories": [],
+  "escalation_history": [],
+  "last_activation": {
+    "daily": null,
+    "weekly": null,
+    "monthly": null,
+    "yearly": null
+  },
+  "total_broadcasts_by_timeline": {
+    "daily": 0,
+    "weekly": 0,
+    "monthly": 0,
+    "yearly": 0
+  }
+}

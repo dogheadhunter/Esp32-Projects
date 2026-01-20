@@ -7,8 +7,8 @@ from datetime import datetime
 from pathlib import Path
 from typing import List
 
-from backend.config import settings
-from backend.models import Script, ScriptMetadata, RejectionReason, StatsResponse
+from config import settings
+from models import Script, ScriptMetadata, RejectionReason, StatsResponse
 
 logger = logging.getLogger(__name__)
 
@@ -23,6 +23,9 @@ class ScriptStorage:
         self.approved_path = self.base_path / "approved"
         self.rejected_path = self.base_path / "rejected"
         self.metadata_path = self.base_path / "metadata"
+        
+        # Broadcast output directory (where generated broadcasts are saved)
+        self.broadcast_path = self.base_path.parent / "broadcast"
         
         # Ensure directories exist
         for path in [self.pending_path, self.approved_path, self.rejected_path, self.metadata_path]:
@@ -104,6 +107,135 @@ class ScriptStorage:
             logger.error(f"Error reading file {filepath}: {e}")
             return ""
     
+    def _load_broadcast_scripts(self) -> List[Script]:
+        """Load and extract scripts from broadcast JSON files."""
+        scripts = []
+        
+        # Check if broadcast output directory exists (navigate up to esp32-project/output)
+        broadcast_dir = Path(__file__).parent.parent.parent.parent / "output"
+        if not broadcast_dir.exists():
+            logger.warning(f"Broadcast directory not found: {broadcast_dir}")
+            return scripts
+        
+        logger.info(f"Loading broadcast scripts from: {broadcast_dir}")
+        
+        # Load all broadcast_*.json files
+        for broadcast_file in broadcast_dir.glob("broadcast_*.json"):
+            try:
+                with open(broadcast_file, 'r', encoding='utf-8') as f:
+                    broadcast = json.load(f)
+                
+                # Validate structure
+                if not isinstance(broadcast, dict):
+                    logger.warning(f"Invalid broadcast structure in {broadcast_file}: not a dict")
+                    continue
+                
+                # Handle both old and new broadcast formats
+                metadata = broadcast.get("metadata", {})
+                stats = broadcast.get("stats", {})
+                
+                # Try metadata.dj first (new format), then stats.dj_name (old format)
+                if isinstance(metadata, dict):
+                    dj_name = metadata.get("dj")
+                else:
+                    dj_name = None
+                
+                if not dj_name and isinstance(stats, dict):
+                    dj_name = stats.get("dj_name")
+                
+                if not dj_name:
+                    dj_name = "Unknown DJ"
+                    
+                broadcast_id = broadcast_file.stem
+                
+                # Extract segments
+                segments = broadcast.get("segments", [])
+                if not isinstance(segments, list):
+                    logger.warning(f"Invalid segments in {broadcast_file}: not a list")
+                    continue
+                
+                for idx, segment in enumerate(segments):
+                    if not isinstance(segment, dict):
+                        logger.warning(f"Invalid segment {idx} in {broadcast_file}: not a dict")
+                        continue
+                    
+                    script_content = segment.get("script", "")
+                    segment_type = segment.get("segment_type", "unknown")
+                    
+                    # Create script ID combining broadcast and segment index
+                    script_id = f"{broadcast_id}_seg{idx}_{segment_type}"
+                    
+                    # Check if this script has already been reviewed
+                    approval_file = self.metadata_path / f"{script_id}_approval.json"
+                    rejection_file = self.metadata_path / f"{script_id}_rejection.json"
+                    
+                    if approval_file.exists() or rejection_file.exists():
+                        logger.debug(f"Skipping already-reviewed script: {script_id}")
+                        continue  # Skip already reviewed scripts
+                    
+                    # Extract metadata
+                    segment_metadata = segment.get("metadata", {})
+                    if not isinstance(segment_metadata, dict):
+                        segment_metadata = {}
+                    
+                    # Try multiple timestamp sources (new and old formats)
+                    timestamp_str = segment_metadata.get("timestamp")
+                    if not timestamp_str and isinstance(metadata, dict):
+                        timestamp_str = metadata.get("generation_timestamp")
+                    if not timestamp_str:
+                        # Use file modification time as fallback
+                        timestamp = datetime.fromtimestamp(broadcast_file.stat().st_mtime)
+                    else:
+                        try:
+                            timestamp = datetime.fromisoformat(timestamp_str)
+                        except (ValueError, TypeError):
+                            timestamp = datetime.fromtimestamp(broadcast_file.stat().st_mtime)
+                    
+                    # Detect category
+                    category = self._detect_category(segment_type, script_content)
+                    
+                    # Get weather type if available
+                    weather_type = segment.get("weather_type", "")
+                    
+                    # Extract validation info
+                    validation_info = segment_metadata.get("validation", {})
+                    if not isinstance(validation_info, dict):
+                        validation_info = {}
+                    
+                    validation_score = validation_info.get("score", 0.0)
+                    validation_feedback = validation_info.get("feedback", "")
+                    
+                    script_metadata = ScriptMetadata(
+                        script_id=script_id,
+                        filename=f"{script_id}.txt",
+                        dj=dj_name,
+                        content_type=segment_type,
+                        timestamp=timestamp,
+                        file_size=len(script_content),
+                        word_count=len(script_content.split()),
+                        category=category
+                    )
+                    
+                    # Add extra attributes for broadcast scripts
+                    script = Script(metadata=script_metadata, content=script_content)
+                    script.broadcast_id = broadcast_id
+                    script.segment_index = idx
+                    script.validation_score = validation_score
+                    script.validation_feedback = validation_feedback
+                    script.weather_type = weather_type
+                    script.source = "broadcast"
+                    
+                    scripts.append(script)
+            
+            except json.JSONDecodeError as e:
+                logger.error(f"Error parsing broadcast JSON {broadcast_file}: {e}")
+                continue
+            except Exception as e:
+                logger.error(f"Error processing broadcast file {broadcast_file}: {e}")
+                continue
+        
+        return scripts
+    
     def list_pending_scripts(self, dj_filter: str | None = None, category_filter: str | None = None, page: int = 1, page_size: int = 20) -> tuple[List[Script], int]:
         """
         List pending scripts with pagination, optionally filtered by DJ and category.
@@ -172,6 +304,27 @@ class ScriptStorage:
         Returns:
             True if successful, False otherwise
         """
+        # Check if this is a broadcast script
+        if script_id.startswith("broadcast_"):
+            logger.info(f"Recording approval for broadcast script: {script_id}")
+            # For broadcast scripts, just log the approval
+            approval_data = {
+                "script_id": script_id,
+                "status": "approved",
+                "timestamp": datetime.now().isoformat()
+            }
+            # Save to metadata
+            metadata_file = self.metadata_path / f"{script_id}_approval.json"
+            try:
+                with open(metadata_file, 'w', encoding='utf-8') as f:
+                    json.dump(approval_data, f, indent=2)
+                logger.info(f"Recorded approval for broadcast script: {script_id}")
+                return True
+            except Exception as e:
+                logger.error(f"Error recording approval: {e}")
+                return False
+        
+        # For regular scripts, use the file-based workflow
         return self._move_script(script_id, "approved", None, None)
     
     def reject_script(self, script_id: str, reason_id: str, custom_comment: str | None = None) -> bool:
@@ -186,10 +339,71 @@ class ScriptStorage:
         Returns:
             True if successful, False otherwise
         """
+        # Check if this is a broadcast script
+        if script_id.startswith("broadcast_"):
+            logger.info(f"Recording rejection for broadcast script: {script_id}")
+            # For broadcast scripts, just log the rejection
+            rejection_data = {
+                "script_id": script_id,
+                "status": "rejected",
+                "reason_id": reason_id,
+                "custom_comment": custom_comment,
+                "timestamp": datetime.now().isoformat()
+            }
+            # Save to metadata
+            metadata_file = self.metadata_path / f"{script_id}_rejection.json"
+            try:
+                with open(metadata_file, 'w', encoding='utf-8') as f:
+                    json.dump(rejection_data, f, indent=2)
+                logger.info(f"Recorded rejection for broadcast script: {script_id}")
+                return True
+            except Exception as e:
+                logger.error(f"Error recording rejection: {e}")
+                return False
+        
+        # For regular scripts, use the file-based workflow
         success = self._move_script(script_id, "rejected", reason_id, custom_comment)
         if success:
             self._log_rejection(script_id, reason_id, custom_comment)
         return success
+    
+    def undo_review(self, script_id: str) -> bool:
+        """
+        Undo a previous review (approval or rejection).
+        Deletes the metadata file to return script to pending state.
+        
+        Args:
+            script_id: Script identifier
+            
+        Returns:
+            True if successful, False otherwise
+        """
+        try:
+            # Check for approval metadata file
+            approval_file = self.metadata_path / f"{script_id}_approval.json"
+            rejection_file = self.metadata_path / f"{script_id}_rejection.json"
+            
+            deleted = False
+            
+            if approval_file.exists():
+                approval_file.unlink()
+                logger.info(f"Deleted approval metadata for {script_id}")
+                deleted = True
+            
+            if rejection_file.exists():
+                rejection_file.unlink()
+                logger.info(f"Deleted rejection metadata for {script_id}")
+                deleted = True
+            
+            if not deleted:
+                logger.warning(f"No review metadata found for {script_id}")
+                return False
+            
+            return True
+            
+        except Exception as e:
+            logger.error(f"Error undoing review for {script_id}: {e}")
+            return False
     
     def _move_script(
         self, 
@@ -431,6 +645,11 @@ class ScriptStorage:
         """
         scripts = []
         
+        # Always include broadcast scripts first
+        if not status_filter or status_filter == "pending":
+            broadcast_scripts = self._load_broadcast_scripts()
+            scripts.extend(broadcast_scripts)
+        
         # Determine which directories to search
         search_paths = []
         if not status_filter or status_filter == "pending":
@@ -448,6 +667,9 @@ class ScriptStorage:
             to_date = to_date.replace(hour=23, minute=59, second=59)
         
         for status, base_path in search_paths:
+            if not base_path.exists():
+                continue
+                
             for dj_dir in base_path.iterdir():
                 if not dj_dir.is_dir():
                     continue
@@ -495,15 +717,40 @@ class ScriptStorage:
                     
                     scripts.append(Script(metadata=metadata, content=content))
         
+        # Apply filters to all scripts
+        filtered_scripts = []
+        for script in scripts:
+            # Filter by DJ
+            if dj_filter and script.metadata.dj != dj_filter:
+                continue
+            
+            # Filter by category
+            if category_filter and script.metadata.category not in category_filter:
+                continue
+            
+            # Filter by date
+            if from_date and script.metadata.timestamp < from_date:
+                continue
+            if to_date and script.metadata.timestamp > to_date:
+                continue
+            
+            # Filter by weather type (for broadcast scripts)
+            if weather_type_filter:
+                weather = getattr(script, 'weather_type', '')
+                if weather and weather_type_filter.lower() not in weather.lower():
+                    continue
+            
+            filtered_scripts.append(script)
+        
         # Sort by timestamp (newest first)
-        scripts.sort(key=lambda x: x.metadata.timestamp, reverse=True)
+        filtered_scripts.sort(key=lambda x: x.metadata.timestamp, reverse=True)
         
         # Calculate pagination
-        total_count = len(scripts)
+        total_count = len(filtered_scripts)
         start_idx = (page - 1) * page_size
         end_idx = start_idx + page_size
         
-        return scripts[start_idx:end_idx], total_count
+        return filtered_scripts[start_idx:end_idx], total_count
     
     def get_detailed_stats(self) -> dict:
         """

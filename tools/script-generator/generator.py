@@ -492,7 +492,7 @@ class ScriptGenerator:
                 
                 # Query with cache (Phase 1)
                 rag_results = self.rag_cache.query_with_cache(
-                    query_text=context_query,
+                    query=context_query,
                     dj_context=dj_context,
                     num_chunks=n_results,
                     topic=topic

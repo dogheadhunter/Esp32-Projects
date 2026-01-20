@@ -1,0 +1,204 @@
+{
+  "metadata": {
+    "dj": "Julie (2102, Appalachia)",
+    "duration_hours": 4,
+    "segments_per_hour": 2,
+    "start_hour": 8,
+    "story_system_enabled": true,
+    "validation_enabled": false,
+    "validation_mode": null,
+    "generation_timestamp": "2026-01-19T21:23:05.462430",
+    "total_segments": 8
+  },
+  "segments": [
+    {
+      "segment_type": "time_check",
+      "script": "\"Hey everybody, it's Julie on Appalachia Radio! Welcome back to the morning show, if you're just joining us now - you know, the sun's up, birds are singing, new day dawning. I hope you slept well and woke refreshed. We've got a great lineup for today, so let's dive right in! If you're out there, and you're listening... you are not alone.\"",
+      "metadata": {
+        "hour": 8,
+        "time_of_day": "MORNING",
+        "generation_time": 24.956798,
+        "segment_number": 1,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 8,
+          "time_of_day": "morning",
+          "time": "8:21 AM",
+          "minute": 21,
+          "announcement": "It's 8:21 AM on the airwaves."
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "story",
+      "script": "If you're out there, and you're listening... you are not alone.\n\nI heard that some folks claim to have spotted an elusive creature lurking in the woods of Whitespring - a pack of ghouls with glowing eyes! Someone told me they were seen wandering near the old clinic ruins. Word is, they might be looking for a new home now that the settlement's been cleared out.\n\nNow, I don't know if this is true or just some tall tale to make us all nervous, but it does have me wondering... what other secrets are still hiding in Appalachia's woods? We've got so much to explore and discover here. And hey, maybe we'll even find a new friend or two - ghoul friends! \n\nKeep on keepin' on out there, and remember: you're never truly alone as long as you have good music and good neighbors. Here's some more tunes to keep your spirits high while you're out there rebuilding our world, one song at a time.",
+      "metadata": {
+        "hour": 8,
+        "time_of_day": "MORNING",
+        "generation_time": 13.000751,
+        "segment_number": 2,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 8,
+          "time_of_day": "morning",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "initial",
+          "continuing_topic": null,
+          "follow_up_suggestion": null,
+          "has_active_gossip": false,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 1\n\n[TIME]\n\"Hey everybody, it's Julie on Appalachia Radio! Welcome back to the morning show, if you're just joining us now - you know, the sun's up, birds are singing, new day dawning. I hope you slept well and ...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)",
+          "story_context": "STORY BEATS FOR THIS BROADCAST:\n\n1. Story story_quest_beyond_the_beef (daily, Act 1)\n   Type: setup\n   Summary: Quest Stages\n   Tone: neutral, Conflict: 0.2/1.0\n\n\nDIRECTIONS:\n- Weave these stories naturally into your broadcast segments\n- Maintain your DJ personality while delivering the story content\n- Use callbacks to create continuity with previous broadcasts\n- Respect the emotional tone and conflict level of each beat"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "time_check",
+      "script": "\"Hey there, folks! Julie here on your morning radio fix. It's 9:00 AM sharp - that first sip of coffee really hits the spot, don't you think? The sun's up, birds are singing their hearts out... it's a brand new day in Appalachia! Welcome home, Appalachia.\"",
+      "metadata": {
+        "hour": 9,
+        "time_of_day": "MORNING",
+        "generation_time": 11.284591,
+        "segment_number": 3,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 9,
+          "time_of_day": "morning",
+          "time": "9:22 AM",
+          "minute": 22,
+          "announcement": "It's 9:22 AM on the airwaves.",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 2\n\n[TIME]\n\"Hey everybody, it's Julie on Appalachia Radio! Welcome back to the morning show, if you're just joining us now - you know, the sun's up, birds are singing, new day dawning. I hope you slept well and ...\n\n[STORY]\nIf you're out there, and you're listening... you are not alone.\n\nI heard that some folks claim to have spotted an elusive creature lurking in the woods of Whitespring - a pack of ghouls with glowing e...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)",
+          "story_context": "STORY BEATS FOR THIS BROADCAST:\n\n1. Story story_quest_beyond_the_beef (daily, Act 1)\n   Type: setup\n   Summary: Quest Stages\n   Tone: neutral, Conflict: 0.2/1.0\n\n\nDIRECTIONS:\n- Weave these stories naturally into your broadcast segments\n- Maintain your DJ personality while delivering the story content\n- Use callbacks to create continuity with previous broadcasts\n- Respect the emotional tone and conflict level of each beat"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "story",
+      "script": "\"I'm just happy to be here, playing music for you guys. You know, I've been hearing some pretty wild rumors lately... like, did you hear about that supposedly secret underground bunker near Harpers Ferry? Apparently it's supposed to be filled with pre-war tech and treasures! Someone told me they even saw a group of raiders heading in that direction the other day.\n\nAnd then there's this thing about the Grafton Dam. Word is, when the water level drops just right, you can see something strange poking out from beneath the surface. Like, a giant metal hand or something? I mean, I haven't seen it myself, but I know some folks who swear it's real.\n\nYou hear any of these rumors out there in the wasteland? I'm always curious to hear what people are saying.\"",
+      "metadata": {
+        "hour": 9,
+        "time_of_day": "MORNING",
+        "generation_time": 8.415646,
+        "segment_number": 4,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 9,
+          "time_of_day": "morning",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "initial",
+          "continuing_topic": null,
+          "follow_up_suggestion": null,
+          "has_active_gossip": false,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 3\n\n[TIME]\n\"Hey everybody, it's Julie on Appalachia Radio! Welcome back to the morning show, if you're just joining us now - you know, the sun's up, birds are singing, new day dawning. I hope you slept well and ...\n\n[STORY]\nIf you're out there, and you're listening... you are not alone.\n\nI heard that some folks claim to have spotted an elusive creature lurking in the woods of Whitespring - a pack of ghouls with glowing e...\n\n[TIME]\n\"Hey there, folks! Julie here on your morning radio fix. It's 9:00 AM sharp - that first sip of coffee really hits the spot, don't you think? The sun's up, birds are singing their hearts out... it's a...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)",
+          "story_context": "STORY BEATS FOR THIS BROADCAST:\n\n1. Story story_quest_beyond_the_beef (daily, Act 1)\n   Type: setup\n   Summary: Quest Stages\n   Tone: neutral, Conflict: 0.2/1.0\n\n\nDIRECTIONS:\n- Weave these stories naturally into your broadcast segments\n- Maintain your DJ personality while delivering the story content\n- Use callbacks to create continuity with previous broadcasts\n- Respect the emotional tone and conflict level of each beat"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "time_check",
+      "script": "Good morning everybody! It's your girl Julie here at AppaRadio. Can't believe we've made it to 10 o'clock already - the sun is shining bright today! If you're out there, and you're listening... you are not alone. We're all in this together as we rebuild our wonderful world. Stay safe, stay strong, and remember: hope is on the airwaves!",
+      "metadata": {
+        "hour": 10,
+        "time_of_day": "MIDDAY",
+        "generation_time": 5.217813,
+        "segment_number": 5,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 10,
+          "time_of_day": "morning",
+          "time": "10:22 AM",
+          "minute": 22,
+          "announcement": "It's 10:22 AM on the airwaves.",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 4\n\n[STORY]\nIf you're out there, and you're listening... you are not alone.\n\nI heard that some folks claim to have spotted an elusive creature lurking in the woods of Whitespring - a pack of ghouls with glowing e...\n\n[TIME]\n\"Hey there, folks! Julie here on your morning radio fix. It's 9:00 AM sharp - that first sip of coffee really hits the spot, don't you think? The sun's up, birds are singing their hearts out... it's a...\n\n[STORY]\n\"I'm just happy to be here, playing music for you guys. You know, I've been hearing some pretty wild rumors lately... like, did you hear about that supposedly secret underground bunker near Harpers Fe...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "story",
+      "script": "If you're out there, and you're listening... you are not alone.\n\nSo, I heard something interesting the other day from someone who swears they saw it with their own eyes. Apparently, in an abandoned house near the old Horizons campground, there's a super mutated dog. Like, bigger than any normal beast of prey. Word is, it's got this eerie howl that can be heard for miles at night.\n\nNow, I don't know if I believe it all - sounds like quite the tall tale, doesn't it? But if you're in those parts and happen to hear some strange hound cries, maybe keep an ear out. Could be our friend is real after all! Just remember, safety first out there. Stay vigilant, stay together... and let's rebuild this beautiful Appalachian world we call home.\n\nTake me home, country roads...",
+      "metadata": {
+        "hour": 10,
+        "time_of_day": "MIDDAY",
+        "generation_time": 8.698974,
+        "segment_number": 6,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 10,
+          "time_of_day": "midday",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "initial",
+          "continuing_topic": null,
+          "follow_up_suggestion": null,
+          "has_active_gossip": false,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 5\n\n[TIME]\n\"Hey there, folks! Julie here on your morning radio fix. It's 9:00 AM sharp - that first sip of coffee really hits the spot, don't you think? The sun's up, birds are singing their hearts out... it's a...\n\n[STORY]\n\"I'm just happy to be here, playing music for you guys. You know, I've been hearing some pretty wild rumors lately... like, did you hear about that supposedly secret underground bunker near Harpers Fe...\n\n[TIME]\nGood morning everybody! It's your girl Julie here at AppaRadio. Can't believe we've made it to 10 o'clock already - the sun is shining bright today! If you're out there, and you're listening... you ar...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)",
+          "story_context": "STORY BEATS FOR THIS BROADCAST:\n\n1. Story story_quest_beyond_the_beef (daily, Act 2)\n   Type: rising\n   Summary: Quest Stages\n   Tone: neutral, Conflict: 0.5/1.0\n\n\nDIRECTIONS:\n- Weave these stories naturally into your broadcast segments\n- Maintain your DJ personality while delivering the story content\n- Use callbacks to create continuity with previous broadcasts\n- Respect the emotional tone and conflict level of each beat"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "time_check",
+      "script": "\"Good morning, Appalachia! I'm Julie on your radio, checking in at 11 o'clock sharp. The sun's rising over the mountains, and a new day's dawning for us all here. Like, we've got challenges ahead, but our community spirit keeps growing stronger. So grab a cup of joe, saddle up, and get ready to face whatever comes next together! Welcome home, Appalachia.\"",
+      "metadata": {
+        "hour": 11,
+        "time_of_day": "MIDDAY",
+        "generation_time": 16.183343,
+        "segment_number": 7,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 11,
+          "time_of_day": "morning",
+          "time": "11:22 AM",
+          "minute": 22,
+          "announcement": "It's 11:22 AM on the airwaves.",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 6\n\n[STORY]\n\"I'm just happy to be here, playing music for you guys. You know, I've been hearing some pretty wild rumors lately... like, did you hear about that supposedly secret underground bunker near Harpers Fe...\n\n[TIME]\nGood morning everybody! It's your girl Julie here at AppaRadio. Can't believe we've made it to 10 o'clock already - the sun is shining bright today! If you're out there, and you're listening... you ar...\n\n[STORY]\nIf you're out there, and you're listening... you are not alone.\n\nSo, I heard something interesting the other day from someone who swears they saw it with their own eyes. Apparently, in an abandoned ho...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)",
+          "story_context": "STORY BEATS FOR THIS BROADCAST:\n\n1. Story story_quest_beyond_the_beef (daily, Act 2)\n   Type: rising\n   Summary: Quest Stages\n   Tone: neutral, Conflict: 0.5/1.0\n\n\nDIRECTIONS:\n- Weave these stories naturally into your broadcast segments\n- Maintain your DJ personality while delivering the story content\n- Use callbacks to create continuity with previous broadcasts\n- Respect the emotional tone and conflict level of each beat"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "story",
+      "script": "\"If you're out there, and you're listening... you are not alone.\"\n\n\"I heard from some folks that there's a group of raiders operating deep in the fire-breathing dragon's den. Now, I don't know if it's true, but apparently they've been causing quite the trouble for anyone who stumbles into their territory. Someone told me they're led by this character called 'Scorchbeard' - sounds like quite a fearsome leader! Word is he's got a real taste for trouble and won't hesitate to take what he wants from unsuspecting travelers.\"\n\n\"But hey, we've all got our own stories of dealing with the more unsavory types out there. I mean, who hasn't had to fend off some unwanted company at one point or another? The important thing is that we stick together and look out for each other, right?\"\n\n\"So if you're planning a trip into those dragon's lair areas, just be extra cautious and keep your wits about you. And of course, don't forget to tune in here at Appalachia Radio for the latest updates and some good ol' fashioned tunes while you're on the move!\"",
+      "metadata": {
+        "hour": 11,
+        "time_of_day": "MIDDAY",
+        "generation_time": 11.058858,
+        "segment_number": 8,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 11,
+          "time_of_day": "midday",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "initial",
+          "continuing_topic": null,
+          "follow_up_suggestion": null,
+          "has_active_gossip": false,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 7\n\n[TIME]\nGood morning everybody! It's your girl Julie here at AppaRadio. Can't believe we've made it to 10 o'clock already - the sun is shining bright today! If you're out there, and you're listening... you ar...\n\n[STORY]\nIf you're out there, and you're listening... you are not alone.\n\nSo, I heard something interesting the other day from someone who swears they saw it with their own eyes. Apparently, in an abandoned ho...\n\n[TIME]\n\"Good morning, Appalachia! I'm Julie on your radio, checking in at 11 o'clock sharp. The sun's rising over the mountains, and a new day's dawning for us all here. Like, we've got challenges ahead, but...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)",
+          "story_context": "STORY BEATS FOR THIS BROADCAST:\n\n1. Story story_quest_beyond_the_beef (daily, Act 2)\n   Type: rising\n   Summary: Quest Stages\n   Tone: neutral, Conflict: 0.5/1.0\n\n\nDIRECTIONS:\n- Weave these stories naturally into your broadcast segments\n- Maintain your DJ personality while delivering the story content\n- Use callbacks to create continuity with previous broadcasts\n- Respect the emotional tone and conflict level of each beat"
+        },
+        "validation": null
+      }
+    }
+  ],
+  "stats": {
+    "dj_name": "Julie (2102, Appalachia)",
+    "duration_seconds": 98.816774,
+    "segments_generated": 8,
+    "validation_failures": 0,
+    "total_generation_time": 98.816774,
+    "avg_generation_time": 12.35209675,
+    "session_memory_size": 8,
+    "mentioned_topics": [
+      "locations",
+      "weather",
+      "cryptids",
+      "raiders",
+      "vault"
+    ]
+  }
+}

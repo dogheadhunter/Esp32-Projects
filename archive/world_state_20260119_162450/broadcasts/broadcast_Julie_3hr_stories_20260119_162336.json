@@ -1,0 +1,183 @@
+{
+  "metadata": {
+    "dj": "Julie (2102, Appalachia)",
+    "duration_hours": 3,
+    "segments_per_hour": 2,
+    "start_hour": 8,
+    "story_system_enabled": true,
+    "validation_enabled": false,
+    "validation_mode": null,
+    "generation_timestamp": "2026-01-19T16:23:36.350396",
+    "total_segments": 6
+  },
+  "segments": [
+    {
+      "segment_type": "gossip",
+      "script": "Welcome home, Appalachia! I've got some juicy rumors to share with y'all tonight. Word is that there's been sightings of... giant ants? Like, really big ones! Some folks say they're just mutated regular ants, but others claim they're straight outta a horror movie. Apparently, these behemoths have been spotted in the northern parts of the map, maybe even around Watoga.\n\nNow, I don't know if there's any truth to this, but it's sure got folks talking! Someone told me they found some kinda anthill near an old factory, and when they tried to investigate, these massive ants started swarming out. Scary stuff!\n\nOf course, with the state of things post-war, you can never be too careful. If you do happen to encounter any giant ants out there, just remember: they're probably more scared of you than you are of them! So keep your wits about you and maybe bring some bug spray, just in case.\n\nThat's all for now, friends. Stay safe out there, and don't forget to tune in next time on Appalachia Radio!",
+      "metadata": {
+        "hour": 8,
+        "time_of_day": "MORNING",
+        "generation_time": 11.25002,
+        "segment_number": 1,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 8,
+          "time_of_day": "morning",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "initial",
+          "continuing_topic": null,
+          "follow_up_suggestion": null,
+          "has_active_gossip": false
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "story",
+      "script": "I'm just happy to be here, playing music for you guys.\n\nSo, word is... there's been some talk about a hidden underground bunker not too far from here. Apparently it's super secure and full of pre-war tech and supplies! I mean, can you imagine finding all that stuff still in one piece? Someone told me the entrance might be near one of those old mine shafts.\n\nNow, I don't know if this is just a tall tale or not, but the idea of stumbling upon something like that? That's pretty exciting, right? If anyone out there knows more about it, feel free to share with Julie. I'm always curious to hear your stories and rumors!\n\nHere's \"Country Roads\" for you while we ponder those possibilities...",
+      "metadata": {
+        "hour": 8,
+        "time_of_day": "MORNING",
+        "generation_time": 8.390488,
+        "segment_number": 2,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 8,
+          "time_of_day": "morning",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "rumor",
+          "continuing_topic": "wasteland rumors",
+          "follow_up_suggestion": {
+            "prompt": "Getting more reports about wasteland rumors...",
+            "suggested_stage": "spreading",
+            "examples": [
+              "More and more people are talking about the wasteland rumors",
+              "Update on that wasteland rumors - seems there's more to it",
+              "You know that wasteland rumors we mentioned? We're getting more details"
+            ]
+          },
+          "has_active_gossip": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 1\n\n[GOSSIP]\nWelcome home, Appalachia! I've got some juicy rumors to share with y'all tonight. Word is that there's been sightings of... giant ants? Like, really big ones! Some folks say they're just mutated regul...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)",
+          "story_context": "STORY BEATS FOR THIS BROADCAST:\n\n1. Story story_quest_and_stay_out! (daily, Act 1)\n   Type: setup\n   Summary: Quest Objectives...\n   Tone: neutral, Conflict: 0.5/1.0\n\n\nDIRECTIONS:\n- Weave these stories naturally into your broadcast segments\n- Maintain your DJ personality while delivering the story content\n- Use callbacks to create continuity with previous broadcasts\n- Respect the emotional tone and conflict level of each beat"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "news",
+      "script": "\"If you're out there, and you're listening... you are not alone. I mean, it's days like today that make me feel especially grateful for this little radio station of ours. Today marks a major milestone in the expansion of our beloved Appalachia - Shenandoah is officially open to all adventurers! \n\nImagine strolling through those lush, uncharted woods, discovering hidden ruins and encountering new factions along the way. The possibilities are endless! And don't forget, Project Paradise is still ongoing at Greenboro Forest, so if you're looking for some rewards or a fresh start, now's the perfect time to head on over.\n\nIt's stories like these that remind me of why we're all here - to rebuild and make this wild wasteland a little more hospitable. So keep exploring, keep helping each other out, and most importantly... keep listening! I'm Julie, your friendly Appalachia Radio DJ, and we'll be with you every step of the way.\"",
+      "metadata": {
+        "hour": 9,
+        "time_of_day": "MORNING",
+        "generation_time": 9.803814,
+        "segment_number": 3,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 9,
+          "time_of_day": "morning",
+          "news_category": "weather_pattern",
+          "region": "Appalachia",
+          "confidence_level": 0.7,
+          "confidence_language": "according to reports",
+          "rag_query": "Appalachia weather patterns seasons climate HIGH confidence factual",
+          "source_credibility": "medium",
+          "appropriate_for_dj": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 2\n\n[GOSSIP]\nWelcome home, Appalachia! I've got some juicy rumors to share with y'all tonight. Word is that there's been sightings of... giant ants? Like, really big ones! Some folks say they're just mutated regul...\n\n[STORY]\nI'm just happy to be here, playing music for you guys.\n\nSo, word is... there's been some talk about a hidden underground bunker not too far from here. Apparently it's super secure and full of pre-war ...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "music_intro",
+      "script": "\"This next tune takes me back to the good ol' days, you know? The kind of carefree summer afternoons where life felt simple and full of possibility. 'Boogie Woogie Bugle Boy' always gets my toes tappin' and a smile on my face. It's just such an infectious, upbeat number that never fails to put me in a sunny mood.\n\nWritten back in 1941 by Don Raye and Hughie Prince, this big band swing classic is just the kind of pick-me-up we all need out here in the wasteland sometimes. So grab your dancin' shoes and let's boogie! It's Julie on Radio Appalachia, keepin' the music alive.\"",
+      "metadata": {
+        "hour": 9,
+        "time_of_day": "MORNING",
+        "generation_time": 8.342598,
+        "segment_number": 4,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 9,
+          "time_of_day": "morning",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 3\n\n[GOSSIP]\nWelcome home, Appalachia! I've got some juicy rumors to share with y'all tonight. Word is that there's been sightings of... giant ants? Like, really big ones! Some folks say they're just mutated regul...\n\n[STORY]\nI'm just happy to be here, playing music for you guys.\n\nSo, word is... there's been some talk about a hidden underground bunker not too far from here. Apparently it's super secure and full of pre-war ...\n\n[NEWS]\n\"If you're out there, and you're listening... you are not alone. I mean, it's days like today that make me feel especially grateful for this little radio station of ours. Today marks a major milestone...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "time_check",
+      "script": "\"Mornin' everybody! It's Julie here on Appalachia Radio, comin' at ya live at 10:00. The morning sun is shinin', a brand new day has begun - I'm just happy to be here, playin' music for you guys while we rebuild. So grab your coffee or whatever gets you goin', and let's make the most of this beautiful Appalachian mornin'!\"",
+      "metadata": {
+        "hour": 10,
+        "time_of_day": "MIDDAY",
+        "generation_time": 5.818273,
+        "segment_number": 5,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 10,
+          "time_of_day": "morning",
+          "time": "10:23 AM",
+          "minute": 23,
+          "announcement": "It's 10:23 AM on the airwaves.",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 4\n\n[STORY]\nI'm just happy to be here, playing music for you guys.\n\nSo, word is... there's been some talk about a hidden underground bunker not too far from here. Apparently it's super secure and full of pre-war ...\n\n[NEWS]\n\"If you're out there, and you're listening... you are not alone. I mean, it's days like today that make me feel especially grateful for this little radio station of ours. Today marks a major milestone...\n\n[MUSIC_INTRO]\n\"This next tune takes me back to the good ol' days, you know? The kind of carefree summer afternoons where life felt simple and full of possibility. 'Boogie Woogie Bugle Boy' always gets my toes tappi...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "weather",
+      "script": "\"I'm just happy to be here, playing music for you guys out there on these misty mornings.\n\nRight now at 10 o'clock, it's a hazy overcast - so typical this time of year in West Virginia. We're sitting right around 52 degrees Fahrenheit today, maybe inching up a hair later in the day as clouds part to let some sunshine peek through. If you plan on roaming, remember that the visibility might be poor under all this fog.\n\nStick close with your group and use those radars if you can find them in the gloom. Better safe than lost! I always worry about nightfall during these long, drizzly weeks. So do try to scrounge up some good flashlights or lamps for after dark, yeah?\n\nKeep tuned as we cruise through today's playlist of upbeat tracks - all meant to keep your spirits bright and help us build our little community back from the ash.\n\nTake care out there in the clouds.\"",
+      "metadata": {
+        "hour": 10,
+        "time_of_day": "MIDDAY",
+        "generation_time": 9.940124,
+        "segment_number": 6,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 10,
+          "time_of_day": 10,
+          "weather_type": "cloudy",
+          "weather_description": "Overcast",
+          "temperature": 44.28910840927202,
+          "intensity": "minor",
+          "is_emergency": false,
+          "notable_event": false,
+          "region": "Appalachia",
+          "location": "midday",
+          "weather_continuity": {
+            "weather_changed": false,
+            "last_weather_type": null,
+            "continuity_phrase": null,
+            "has_notable_history": true
+          },
+          "rad_level": "low",
+          "radiation_warning": false,
+          "survival_tips": [
+            "Moderate visibility for outdoor work",
+            "Good day for settlement repairs",
+            "Keep an eye out for unexpected storms"
+          ],
+          "mood": "neutral",
+          "clothing_advice": "standard protective gear",
+          "rag_query": "midday wasteland activities daily life settlements",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 5\n\n[NEWS]\n\"If you're out there, and you're listening... you are not alone. I mean, it's days like today that make me feel especially grateful for this little radio station of ours. Today marks a major milestone...\n\n[MUSIC_INTRO]\n\"This next tune takes me back to the good ol' days, you know? The kind of carefree summer afternoons where life felt simple and full of possibility. 'Boogie Woogie Bugle Boy' always gets my toes tappi...\n\n[TIME]\n\"Mornin' everybody! It's Julie here on Appalachia Radio, comin' at ya live at 10:00. The morning sun is shinin', a brand new day has begun - I'm just happy to be here, playin' music for you guys while...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    }
+  ],
+  "stats": {
+    "dj_name": "Julie (2102, Appalachia)",
+    "duration_seconds": 53.546871,
+    "segments_generated": 6,
+    "validation_failures": 0,
+    "total_generation_time": 53.545317,
+    "avg_generation_time": 8.9242195,
+    "session_memory_size": 6,
+    "mentioned_topics": [
+      "locations",
+      "weather",
+      "vault"
+    ]
+  }
+}

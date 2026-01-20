@@ -1,0 +1,87 @@
+{
+  "metadata": {
+    "dj": "Mr. New Vegas (2281, Mojave)",
+    "duration_hours": 1,
+    "segments_per_hour": 2,
+    "start_hour": 8,
+    "story_system_enabled": true,
+    "validation_enabled": true,
+    "validation_mode": "llm",
+    "generation_timestamp": "2026-01-19T22:20:34.471369",
+    "total_segments": 2
+  },
+  "segments": [
+    {
+      "segment_type": "emergency_weather",
+      "script": "This is Mr. New Vegas, and I feel something magic in the air tonight... but not the kind you want to breathe right now. A massive dust storm is bearing down on us, bringing near-zero visibility and toxic radiation.\n\nSeek concrete shelter immediately - the Strip casinos, Vault entrances, or underground tunnels can protect you. Avoid metal structures that attract deadly radiation. This emergency will last for approximately 4 hours.\n\nStay safe, my loves, and know that as long as I'm broadcasting, hope remains in this harsh Mojave landscape.",
+      "weather_type": "dust_storm",
+      "severity": "moderate",
+      "is_emergency": true,
+      "generation_time": 19.40178,
+      "metadata": {
+        "script_type": "emergency_weather",
+        "dj_name": "Mr. New Vegas (2281, Mojave)",
+        "model": "fluffy/l3-8b-stheno-v3.2",
+        "timestamp": "2026-01-19T22:20:16.716789",
+        "rag_query": "Mojave shelter locations emergency procedures safety dust_storm",
+        "rag_results": 5,
+        "context_chunks_used": 3,
+        "temperature": 0.6,
+        "top_p": 0.9,
+        "template_vars": {
+          "hour": 8,
+          "time_of_day": "morning",
+          "emergency_type": "dust_storm",
+          "location": "Mojave",
+          "severity": "moderate",
+          "shelter_instructions": "Seek concrete structures or underground facilities. The Strip casinos have reinforced levels. Lucky 38, Vault entrances, or the sewers can provide protection. Avoid metal structures - radiation magnets."
+        },
+        "word_count": 89,
+        "retry_count": 1,
+        "catchphrase_used": null,
+        "consistency_validated": true,
+        "consistency_violations": []
+      }
+    },
+    {
+      "segment_type": "time_check",
+      "script": "\"Good morning to all my beautiful listeners out there in the Mojave Wasteland! This is Mr. New Vegas, and I feel something magic in the air tonight. It's 8:00 am, a brand new day full of possibilities, don't you agree? You know what they say, 'the early bird catches the worm.' Well, I catch your heart, every single time. Stay tuned for more love and music, because darling, you're nobody till somebody loves you.\"",
+      "metadata": {
+        "hour": 8,
+        "time_of_day": "MORNING",
+        "generation_time": 17.476961,
+        "segment_number": 2,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 8,
+          "time_of_day": "morning",
+          "time": "8:20 AM",
+          "minute": 20,
+          "announcement": "It's 8:20 AM on the airwaves.",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 1\n\n[EMERGENCY_WEATHER]\nThis is Mr. New Vegas, and I feel something magic in the air tonight... but not the kind you want to breathe right now. A massive dust storm is bearing down on us, bringing near-zero visibility and to...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": {
+          "is_valid": true,
+          "score": 0.95,
+          "critical_count": 0,
+          "warnings_count": 0,
+          "suggestions_count": 0,
+          "mode": "llm"
+        }
+      }
+    }
+  ],
+  "stats": {
+    "dj_name": "Mr. New Vegas (2281, Mojave)",
+    "duration_seconds": 36.882749,
+    "segments_generated": 2,
+    "validation_failures": 0,
+    "total_generation_time": 36.878741,
+    "avg_generation_time": 18.4393705,
+    "session_memory_size": 2,
+    "mentioned_topics": [
+      "vault",
+      "weather"
+    ]
+  }
+}

@@ -1,0 +1,135 @@
+{
+  "metadata": {
+    "dj": "Julie (2102, Appalachia)",
+    "duration_hours": 2,
+    "segments_per_hour": 2,
+    "start_hour": 8,
+    "story_system_enabled": true,
+    "validation_enabled": false,
+    "validation_mode": null,
+    "generation_timestamp": "2026-01-19T17:41:35.932210",
+    "total_segments": 4
+  },
+  "segments": [
+    {
+      "segment_type": "story",
+      "script": "Hey there, folks! It's your girl Julie from Appalachia Radio, back with some juicy rumors straight from the wasteland floor. Now, I don't want to spread too much false hope, but someone told me that out in the Cranberry Glades, they found an old, abandoned lab coat. Like, a real deal scientist outfit! Apparently it was just hanging there, no body attached or anything weird like that. Word is, whoever lost it must've made a run for it pretty fast.\n\nNow, I know what you're thinking - what's the big deal about a coat? But think about it: if scientists were still working out here before the bombs dropped, maybe, just maybe, there are more secrets waiting to be uncovered. Wouldn't that be something? Anyway, just a rumor for now, but hey, a girl can dream, right? Stay safe out there, and tune in next time!",
+      "metadata": {
+        "hour": 8,
+        "time_of_day": "MORNING",
+        "generation_time": 9.725747,
+        "segment_number": 1,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 8,
+          "time_of_day": "morning",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "initial",
+          "continuing_topic": null,
+          "follow_up_suggestion": null,
+          "has_active_gossip": false,
+          "story_context": "STORY BEATS FOR THIS BROADCAST:\n\n1. Story story_quest_beyond_the_beef (daily, Act 1)\n   Type: setup\n   Summary: Quest Stages\n   Tone: neutral, Conflict: 0.2/1.0\n\n\nDIRECTIONS:\n- Weave these stories naturally into your broadcast segments\n- Maintain your DJ personality while delivering the story content\n- Use callbacks to create continuity with previous broadcasts\n- Respect the emotional tone and conflict level of each beat"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "gossip",
+      "script": "\"You know, word is that there's been some... unusual sightings out in the wasteland lately. Like, I heard a story about someone finding a whole bunch of wild Mutfruit trees growing together in this one spot near the old town of Lewisburg. Apparently they were all super big and juicy too!\n\nSomeone told me another traveler stumbled upon a pack of Wolves that had white fur instead of gray! Can you imagine? White wolves, like something out of a storybook.\n\nI mean, I don't know if any of this is true, but it's fun to think about. It's like... maybe there are some little pockets of normalcy still hanging on out there in the wilderness. You know? Places where nature can just be itself again without all the radiation and nuclear fallout messing things up.\n\nAnyway, that's your dose of wasteland gossip for today! Take it for what it's worth - a couple curious stories to spice up your day. Now, let's get back to some good ol' music, shall we?\"",
+      "metadata": {
+        "hour": 8,
+        "time_of_day": "MORNING",
+        "generation_time": 10.179053,
+        "segment_number": 2,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 8,
+          "time_of_day": "morning",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "initial",
+          "continuing_topic": null,
+          "follow_up_suggestion": null,
+          "has_active_gossip": false,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 1\n\n[STORY]\nHey there, folks! It's your girl Julie from Appalachia Radio, back with some juicy rumors straight from the wasteland floor. Now, I don't want to spread too much false hope, but someone told me that o...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "story",
+      "script": "\"If you're out there, and you're listening... you are not alone.\" I mean, it's just nice to know that in this big ol' wasteland. \n\nAnyway, rumor has it there's a hidden bunker under the old nuclear power plant near Harpers Ferry. Word is, someone found some sort of logbook or journal in there, detailing how they survived the Great War for years on end. I don't know if I believe it - seems like quite the tale! But hey, stranger things have happened, right? \n\nSomeone told me the bunker's supposed to be filled with all kinds of goodies too - guns, ammo, maybe even some pre-war cash and stuff. That'd sure come in handy for any of us still trying to rebuild. I heard there are some pretty rough folks out there looking for that spot though, so you'd best watch your back if you're planning a trip. \n\nThat's all the gossip for now, folks! Keep those radio dials tuned and stay safe out there. \"Country Roads\" is up next - one of my personal favorites from before the bombs fell.",
+      "metadata": {
+        "hour": 9,
+        "time_of_day": "MORNING",
+        "generation_time": 10.800652,
+        "segment_number": 3,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 9,
+          "time_of_day": "morning",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "rumor",
+          "continuing_topic": "wasteland rumors",
+          "follow_up_suggestion": {
+            "prompt": "Getting more reports about wasteland rumors...",
+            "suggested_stage": "spreading",
+            "examples": [
+              "More and more people are talking about the wasteland rumors",
+              "Update on that wasteland rumors - seems there's more to it",
+              "You know that wasteland rumors we mentioned? We're getting more details"
+            ]
+          },
+          "has_active_gossip": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 2\n\n[STORY]\nHey there, folks! It's your girl Julie from Appalachia Radio, back with some juicy rumors straight from the wasteland floor. Now, I don't want to spread too much false hope, but someone told me that o...\n\n[GOSSIP]\n\"You know, word is that there's been some... unusual sightings out in the wasteland lately. Like, I heard a story about someone finding a whole bunch of wild Mutfruit trees growing together in this on...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)",
+          "story_context": "STORY BEATS FOR THIS BROADCAST:\n\n1. Story story_quest_beyond_the_beef (daily, Act 2)\n   Type: rising\n   Summary: Quest Stages\n   Tone: neutral, Conflict: 0.5/1.0\n\n\nDIRECTIONS:\n- Weave these stories naturally into your broadcast segments\n- Maintain your DJ personality while delivering the story content\n- Use callbacks to create continuity with previous broadcasts\n- Respect the emotional tone and conflict level of each beat"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "story",
+      "script": "Welcome home, Appalachia!\n\nI heard from someone who claims to have seen it with their own eyes - there's been some sort of super mutant gathering happening deep in the Savage Divide. I mean, like, supposedly hundreds of them are just roaming around together! Can you even imagine?\n\nApparently, they've been raiding settlements left and right, but not attacking people inside or anything weird like that. Word is, they're more interested in scavenging for stuff than causing trouble. That's...oddly reassuring, I guess? \n\nAnyway, that's the latest rumor floating around out there. Take it for what it's worth! We'll have to wait and see if this super mutant party pans out.\n\nNow, let's shift gears with some tunes to lift our spirits. Here's a classic - \"Country Roads\" by John Denver. This one never fails to make me think about home and the folks I left behind. I hope it does the same for you all out there in the wasteland. Stay safe, friends!",
+      "metadata": {
+        "hour": 9,
+        "time_of_day": "MORNING",
+        "generation_time": 10.212587,
+        "segment_number": 4,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 9,
+          "time_of_day": "morning",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "rumor",
+          "continuing_topic": "wasteland rumors",
+          "follow_up_suggestion": {
+            "prompt": "Getting more reports about wasteland rumors...",
+            "suggested_stage": "spreading",
+            "examples": [
+              "More and more people are talking about the wasteland rumors",
+              "Update on that wasteland rumors - seems there's more to it",
+              "You know that wasteland rumors we mentioned? We're getting more details"
+            ]
+          },
+          "has_active_gossip": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 3\n\n[STORY]\nHey there, folks! It's your girl Julie from Appalachia Radio, back with some juicy rumors straight from the wasteland floor. Now, I don't want to spread too much false hope, but someone told me that o...\n\n[GOSSIP]\n\"You know, word is that there's been some... unusual sightings out in the wasteland lately. Like, I heard a story about someone finding a whole bunch of wild Mutfruit trees growing together in this on...\n\n[STORY]\n\"If you're out there, and you're listening... you are not alone.\" I mean, it's just nice to know that in this big ol' wasteland. \n\nAnyway, rumor has it there's a hidden bunker under the old nuclear po...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)",
+          "story_context": "STORY BEATS FOR THIS BROADCAST:\n\n1. Story story_quest_beyond_the_beef (daily, Act 2)\n   Type: rising\n   Summary: Quest Stages\n   Tone: neutral, Conflict: 0.5/1.0\n\n\nDIRECTIONS:\n- Weave these stories naturally into your broadcast segments\n- Maintain your DJ personality while delivering the story content\n- Use callbacks to create continuity with previous broadcasts\n- Respect the emotional tone and conflict level of each beat"
+        },
+        "validation": null
+      }
+    }
+  ],
+  "stats": {
+    "dj_name": "Julie (2102, Appalachia)",
+    "duration_seconds": 40.919685,
+    "segments_generated": 4,
+    "validation_failures": 0,
+    "total_generation_time": 40.918039,
+    "avg_generation_time": 10.22950975,
+    "session_memory_size": 4,
+    "mentioned_topics": [
+      "locations",
+      "weather",
+      "raiders"
+    ]
+  }
+}

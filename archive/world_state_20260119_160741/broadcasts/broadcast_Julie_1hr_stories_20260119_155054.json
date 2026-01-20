@@ -1,0 +1,80 @@
+{
+  "metadata": {
+    "dj": "Julie (2102, Appalachia)",
+    "duration_hours": 1,
+    "segments_per_hour": 2,
+    "start_hour": 8,
+    "story_system_enabled": true,
+    "validation_enabled": false,
+    "validation_mode": null,
+    "generation_timestamp": "2026-01-19T15:50:54.613038",
+    "total_segments": 2
+  },
+  "segments": [
+    {
+      "segment_type": "gossip",
+      "script": "\"If you're out there, and you're listening... you are not alone.\"\n\n\"Hey, so I heard this rumor, like. Word is... there's a hidden cache of pre-war cash somewhere in the Cranberry Glades. Can you imagine? Bags and bags of old greenbacks, just waiting to be found! Someone told me it's buried deep in one of those caves, but no one knows which one yet.\"\n\n\"I mean, I don't know if this is true or not. But if it is... man, that'd really help a lot of folks out here, you know? Could go a long way towards rebuilding and all. So, if you're heading to Cranberry Glades anytime soon, keep an ear out for rumors about hidden treasure, I guess! Just remember, always be careful in those caves. And hey, even if there's no cash... the scenery is still pretty amazing.\"",
+      "metadata": {
+        "hour": 8,
+        "time_of_day": "MORNING",
+        "generation_time": 9.584602,
+        "segment_number": 1,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 8,
+          "time_of_day": "morning",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "initial",
+          "continuing_topic": null,
+          "follow_up_suggestion": null,
+          "has_active_gossip": false
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "story",
+      "script": "I'm just happy to be here, playing music for you guys. You know how sometimes I like to share some of the stories and rumors floating around out there in the wasteland? Well, I heard something pretty interesting recently. Apparently, some folks down near the old Poseidon Energy Plant have spotted a pack of super mutated hounds! Now, I haven't seen 'em myself, but someone told me they're huge - like three or four times bigger than regular wolves. And from what I understand, these beasts are super aggressive too.\n\nI mean, it's always exciting to hear about new sights and sounds out there in the wilds of Appalachia. At the same time, you gotta wonder if maybe those folks should avoid that area for a while until they figure out what's going on with these hounds. But hey, as long as no one gets hurt, right? Maybe we'll get some brave explorers to come back and tell us more about 'em sometime. In the meantime, let's focus on something more uplifting... like this next song! Stay safe out there, everyone.",
+      "metadata": {
+        "hour": 8,
+        "time_of_day": "MORNING",
+        "generation_time": 11.058415,
+        "segment_number": 2,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 8,
+          "time_of_day": "morning",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "rumor",
+          "continuing_topic": "wasteland rumors",
+          "follow_up_suggestion": {
+            "prompt": "Getting more reports about wasteland rumors...",
+            "suggested_stage": "spreading",
+            "examples": [
+              "More and more people are talking about the wasteland rumors",
+              "Update on that wasteland rumors - seems there's more to it",
+              "You know that wasteland rumors we mentioned? We're getting more details"
+            ]
+          },
+          "has_active_gossip": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 1\n\n[GOSSIP]\n\"If you're out there, and you're listening... you are not alone.\"\n\n\"Hey, so I heard this rumor, like. Word is... there's a hidden cache of pre-war cash somewhere in the Cranberry Glades. Can you imagi...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)",
+          "story_context": "STORY BEATS FOR THIS BROADCAST:\n\n1. Story story_quest_and_stay_out! (daily, Act 1)\n   Type: setup\n   Summary: Quest Objectives...\n   Tone: neutral, Conflict: 0.5/1.0\n\n\nDIRECTIONS:\n- Weave these stories naturally into your broadcast segments\n- Maintain your DJ personality while delivering the story content\n- Use callbacks to create continuity with previous broadcasts\n- Respect the emotional tone and conflict level of each beat"
+        },
+        "validation": null
+      }
+    }
+  ],
+  "stats": {
+    "dj_name": "Julie (2102, Appalachia)",
+    "duration_seconds": 20.643522,
+    "segments_generated": 2,
+    "validation_failures": 0,
+    "total_generation_time": 20.643017,
+    "avg_generation_time": 10.3215085,
+    "session_memory_size": 2,
+    "mentioned_topics": [
+      "locations",
+      "cryptids"
+    ]
+  }
+}

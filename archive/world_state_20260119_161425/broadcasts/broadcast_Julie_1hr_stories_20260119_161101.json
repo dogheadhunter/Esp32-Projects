@@ -1,0 +1,80 @@
+{
+  "metadata": {
+    "dj": "Julie (2102, Appalachia)",
+    "duration_hours": 1,
+    "segments_per_hour": 2,
+    "start_hour": 8,
+    "story_system_enabled": true,
+    "validation_enabled": false,
+    "validation_mode": null,
+    "generation_timestamp": "2026-01-19T16:11:01.622313",
+    "total_segments": 2
+  },
+  "segments": [
+    {
+      "segment_type": "gossip",
+      "script": "\"Welcome home, Appalachia!\"\n\nSo, I heard this rumor going around about Grafton Station being haunted by the ghosts of old railroad workers. Someone told me they saw a figure in an engineer's cap wandering the tracks at night. Now, I don't know if that's just some wild imagination or maybe exposure to too much radiation, but it does make for a spooky story!\n\nI mean, can you imagine hearing footsteps and whispers in the dark? It'd give me the chills! But hey, maybe those spirits are just looking out for any travelers passing through. After all, we could use all the help we can get rebuilding this place.\n\nAnyway, if you've got any experiences with Grafton Station or ghostly encounters, I want to hear 'em! Share your stories with me and let's keep the conversation going. Now, here's a song that always lifts my spirits: \"Country Roads\" by John Denver. Hope it brings a smile to your face out there in Appalachia!\"",
+      "metadata": {
+        "hour": 8,
+        "time_of_day": "MORNING",
+        "generation_time": 10.392703,
+        "segment_number": 1,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 8,
+          "time_of_day": "morning",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "initial",
+          "continuing_topic": null,
+          "follow_up_suggestion": null,
+          "has_active_gossip": false
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "gossip",
+      "script": "\"If you're out there, and you're listening... you are not alone.\"\n\nHey everyone, it's Julie from Appalachia Radio. I wanted to share a little rumor I heard floating around the wasteland recently. Word is, some folks have spotted an odd-looking creature out near the old Abandoned Mine Site. Apparently it had these strange, almost translucent wings sprouting from its back! Can you imagine? Someone told me they even tried shooting at it, but the shots just passed right through like it was made of mist.\n\nNow I don't know if this is just some tall tale or actual fact, but it's definitely given folks a lot to talk about. Makes me wonder what kind of critters might be out there that we haven't seen before... The mine site has always been a bit of an enigma anyway. Anyway, that's all for now. If you do happen to spot this ghostly creature, please let us know at the station! Stay safe out there and keep on listening. \"",
+      "metadata": {
+        "hour": 8,
+        "time_of_day": "MORNING",
+        "generation_time": 10.049278,
+        "segment_number": 2,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 8,
+          "time_of_day": "morning",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "rumor",
+          "continuing_topic": "wasteland rumors",
+          "follow_up_suggestion": {
+            "prompt": "Getting more reports about wasteland rumors...",
+            "suggested_stage": "spreading",
+            "examples": [
+              "More and more people are talking about the wasteland rumors",
+              "Update on that wasteland rumors - seems there's more to it",
+              "You know that wasteland rumors we mentioned? We're getting more details"
+            ]
+          },
+          "has_active_gossip": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 1\n\n[GOSSIP]\n\"Welcome home, Appalachia!\"\n\nSo, I heard this rumor going around about Grafton Station being haunted by the ghosts of old railroad workers. Someone told me they saw a figure in an engineer's cap wande...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    }
+  ],
+  "stats": {
+    "dj_name": "Julie (2102, Appalachia)",
+    "duration_seconds": 20.442717,
+    "segments_generated": 2,
+    "validation_failures": 0,
+    "total_generation_time": 20.441981,
+    "avg_generation_time": 10.2209905,
+    "session_memory_size": 2,
+    "mentioned_topics": [
+      "locations",
+      "weather",
+      "cryptids"
+    ]
+  }
+}

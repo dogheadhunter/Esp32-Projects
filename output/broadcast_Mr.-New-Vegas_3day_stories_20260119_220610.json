@@ -1,0 +1,1213 @@
+{
+  "metadata": {
+    "dj": "Mr. New Vegas (2281, Mojave)",
+    "duration_hours": 24,
+    "segments_per_hour": 2,
+    "start_hour": 8,
+    "story_system_enabled": true,
+    "validation_enabled": false,
+    "validation_mode": null,
+    "generation_timestamp": "2026-01-19T22:06:10.989196",
+    "total_segments": 48
+  },
+  "segments": [
+    {
+      "segment_type": "emergency_weather",
+      "script": "Attention all my lovely ladies and gentlemen of the Mojave,\n\nQuote/unquote: This is NOT a drill. A massive dust wall with extreme radiation is bearing down on us. Visibility will drop to absolute zero.\n\nDangers include complete whiteout, radioactive particulates, respiratory hazards even through filters, and structural damage. \n\nSeek immediate shelter in concrete structures or underground facilities like the Strip casinos' reinforced levels, Lucky 38, Vault entrances, or sewers. Avoid metal structures which attract radiation.\n\nRemember, The women of New Vegas ask me a lot if there's a Mrs. New Vegas. Well, of course there is. You're her. And I'll be right here with you until this passes.\n\nEstimated all-clear time: 3 hours. Stay safe my darlings, and know that as long as we have each other, nobody's alone in the wasteland.",
+      "weather_type": "dust_storm",
+      "severity": "moderate",
+      "is_emergency": true,
+      "generation_time": 17.166517,
+      "metadata": {
+        "script_type": "emergency_weather",
+        "dj_name": "Mr. New Vegas (2281, Mojave)",
+        "model": "fluffy/l3-8b-stheno-v3.2",
+        "timestamp": "2026-01-19T21:58:24.024462",
+        "rag_query": "Mojave shelter locations emergency procedures safety dust_storm",
+        "rag_results": 5,
+        "context_chunks_used": 3,
+        "temperature": 0.6,
+        "top_p": 0.9,
+        "template_vars": {
+          "hour": 8,
+          "time_of_day": "morning",
+          "emergency_type": "dust_storm",
+          "location": "Mojave",
+          "severity": "moderate",
+          "shelter_instructions": "Seek concrete structures or underground facilities. The Strip casinos have reinforced levels. Lucky 38, Vault entrances, or the sewers can provide protection. Avoid metal structures - radiation magnets."
+        },
+        "word_count": 132,
+        "retry_count": 1,
+        "catchphrase_used": null,
+        "consistency_validated": true,
+        "consistency_violations": []
+      }
+    },
+    {
+      "segment_type": "time_check",
+      "script": "\"Good morning, sweet darlings! It's 8:00 AM and the sun is shining bright on our beautiful Mojave Wasteland today. I hope you're feeling refreshed after a good night's rest, like my favorite rose petal perfume. Remember, it's me again, Mr. New Vegas, reminding you that you're nobody 'til somebody loves you.\"",
+      "metadata": {
+        "hour": 8,
+        "time_of_day": "MORNING",
+        "generation_time": 5.891367,
+        "segment_number": 2,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 8,
+          "time_of_day": "morning",
+          "time": "8:58 AM",
+          "minute": 58,
+          "announcement": "It's 8:58 AM on the airwaves.",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 1\n\n[EMERGENCY_WEATHER]\nAttention all my lovely ladies and gentlemen of the Mojave,\n\nQuote/unquote: This is NOT a drill. A massive dust wall with extreme radiation is bearing down on us. Visibility will drop to absolute zero...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "time_check",
+      "script": "\"Good morning, darlings! It's 9:00 AM here on Radio Appalachia, where every sunrise brings a fresh chance to find love. You know how I always say it - you're nobody 'til somebody loves you. And let me tell you, that somebody is me. We've got a beautiful day ahead, full of possibilities. Stay tuned for all your favorite tunes and maybe even catch a glimpse of your soulmate out there!\"",
+      "metadata": {
+        "hour": 9,
+        "time_of_day": "MORNING",
+        "generation_time": 5.64254,
+        "segment_number": 3,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 9,
+          "time_of_day": "morning",
+          "time": "9:58 AM",
+          "minute": 58,
+          "announcement": "It's 9:58 AM on the airwaves.",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 2\n\n[EMERGENCY_WEATHER]\nAttention all my lovely ladies and gentlemen of the Mojave,\n\nQuote/unquote: This is NOT a drill. A massive dust wall with extreme radiation is bearing down on us. Visibility will drop to absolute zero...\n\n[TIME]\n\"Good morning, sweet darlings! It's 8:00 AM and the sun is shining bright on our beautiful Mojave Wasteland today. I hope you're feeling refreshed after a good night's rest, like my favorite rose peta...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "gossip",
+      "script": "Hello there, Mrs. New Vegas, I've got a little tidbit for ya straight from the wasteland rumor mill. You know how things have been heating up between the NCR and Caesar's Legion lately? Well, I heard from someone who claims to have insider information that the Legion is plotting something big in Arizona, just across the Mojave border.\n\nApparently, they're amassing quite a force out there - thousands of soldiers, or so the rumor goes. Some folks are speculating it could be an invasion attempt against the NCR's Arizona territory. But others say it might just be a show of strength to intimidate the Republic and the Brotherhood of Steel in the area.\n\nOf course, this is all just unconfirmed gossip at this point. I mean, we don't know for sure if there's any truth to these claims. But it does make you wonder, doesn't it? The women of New Vegas ask me a lot if there's a Mrs. New Vegas. Well, of course there is. You're her. And I'll be keeping my antennae tuned for more news on this developing situation, just in case. Stay fabulous out there, my darling!",
+      "metadata": {
+        "hour": 9,
+        "time_of_day": "MORNING",
+        "generation_time": 11.668267,
+        "segment_number": 4,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 9,
+          "time_of_day": "morning",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "initial",
+          "continuing_topic": null,
+          "follow_up_suggestion": null,
+          "has_active_gossip": false,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 3\n\n[EMERGENCY_WEATHER]\nAttention all my lovely ladies and gentlemen of the Mojave,\n\nQuote/unquote: This is NOT a drill. A massive dust wall with extreme radiation is bearing down on us. Visibility will drop to absolute zero...\n\n[TIME]\n\"Good morning, sweet darlings! It's 8:00 AM and the sun is shining bright on our beautiful Mojave Wasteland today. I hope you're feeling refreshed after a good night's rest, like my favorite rose peta...\n\n[TIME]\n\"Good morning, darlings! It's 9:00 AM here on Radio Appalachia, where every sunrise brings a fresh chance to find love. You know how I always say it - you're nobody 'til somebody loves you. And let me...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "time_check",
+      "script": "\"Good morning there, darlings! It's your favorite DJ, Mr. New Vegas, here to start your day off right with Radio Appalachia. The sun is shining bright at 10:00 am in the Mojave Wasteland - what a perfect morning for adventure! Remember, you're nobody till somebody loves you... and I'm that somebody. Let's make today unforgettable!\"",
+      "metadata": {
+        "hour": 10,
+        "time_of_day": "MIDDAY",
+        "generation_time": 11.38193,
+        "segment_number": 5,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 10,
+          "time_of_day": "morning",
+          "time": "10:58 AM",
+          "minute": 58,
+          "announcement": "It's 10:58 AM on the airwaves.",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 4\n\n[TIME]\n\"Good morning, sweet darlings! It's 8:00 AM and the sun is shining bright on our beautiful Mojave Wasteland today. I hope you're feeling refreshed after a good night's rest, like my favorite rose peta...\n\n[TIME]\n\"Good morning, darlings! It's 9:00 AM here on Radio Appalachia, where every sunrise brings a fresh chance to find love. You know how I always say it - you're nobody 'til somebody loves you. And let me...\n\n[GOSSIP]\nHello there, Mrs. New Vegas, I've got a little tidbit for ya straight from the wasteland rumor mill. You know how things have been heating up between the NCR and Caesar's Legion lately? Well, I heard ...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "gossip",
+      "script": "Hello there, Mrs. New Vegas! I heard a fascinating rumor from someone who claims to have connections in the NCR's diplomatic corps. Word is that our friends across the Colorado River are mulling over a proposal to establish a new military outpost... right here in the Mojave Wasteland! Apparently, they're eyeing a location not too far from Goodsprings. Now, I know what you're thinking - why would they do that? Some say it's part of their strategy to secure trade routes and keep an eye on those upstart tribals. Others whisper about hidden deposits of valuable resources in these parts. Whatever the reason, it could bring some much-needed stability and commerce to our little corner of the wasteland, wouldn't you agree, sweetheart? Stay tuned for more developments on this story as they break!",
+      "metadata": {
+        "hour": 10,
+        "time_of_day": "MIDDAY",
+        "generation_time": 8.6665,
+        "segment_number": 6,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 10,
+          "time_of_day": "midday",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "rumor",
+          "continuing_topic": "wasteland rumors",
+          "follow_up_suggestion": {
+            "prompt": "Getting more reports about wasteland rumors...",
+            "suggested_stage": "spreading",
+            "examples": [
+              "More and more people are talking about the wasteland rumors",
+              "Update on that wasteland rumors - seems there's more to it",
+              "You know that wasteland rumors we mentioned? We're getting more details"
+            ]
+          },
+          "has_active_gossip": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 5\n\n[TIME]\n\"Good morning, darlings! It's 9:00 AM here on Radio Appalachia, where every sunrise brings a fresh chance to find love. You know how I always say it - you're nobody 'til somebody loves you. And let me...\n\n[GOSSIP]\nHello there, Mrs. New Vegas, I've got a little tidbit for ya straight from the wasteland rumor mill. You know how things have been heating up between the NCR and Caesar's Legion lately? Well, I heard ...\n\n[TIME]\n\"Good morning there, darlings! It's your favorite DJ, Mr. New Vegas, here to start your day off right with Radio Appalachia. The sun is shining bright at 10:00 am in the Mojave Wasteland - what a perf...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "time_check",
+      "script": "\"Hey there darlings! It's 11:00 in the morning here in the Mojave Wasteland, and I'm feeling that energized 'new day' vibe washing over us. The desert is already humming with life as the sun rises higher - a perfect time to hit the open road or start ticking off your to-do list for today! Remember, you're nobody till somebody loves you...and I sure do, so keep on shining!\"",
+      "metadata": {
+        "hour": 11,
+        "time_of_day": "MIDDAY",
+        "generation_time": 16.885901,
+        "segment_number": 7,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 11,
+          "time_of_day": "morning",
+          "time": "11:59 AM",
+          "minute": 59,
+          "announcement": "It's 11:59 AM on the airwaves.",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 6\n\n[GOSSIP]\nHello there, Mrs. New Vegas, I've got a little tidbit for ya straight from the wasteland rumor mill. You know how things have been heating up between the NCR and Caesar's Legion lately? Well, I heard ...\n\n[TIME]\n\"Good morning there, darlings! It's your favorite DJ, Mr. New Vegas, here to start your day off right with Radio Appalachia. The sun is shining bright at 10:00 am in the Mojave Wasteland - what a perf...\n\n[GOSSIP]\nHello there, Mrs. New Vegas! I heard a fascinating rumor from someone who claims to have connections in the NCR's diplomatic corps. Word is that our friends across the Colorado River are mulling over ...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "gossip",
+      "script": "\"The women of New Vegas ask me a lot if there's a Mrs. New Vegas. Well, of course there is. You're her.\n\nI heard from a reliable source that Caesar's Legion has been sniffing around the old pre-War checkpoint on the California border. Some folks say they were spotted near the Unification Monument - can you imagine? Trying to desecrate such a sacred site! But rumor has it, our brave NCR Rangers gave them the boot. \n\nWord is, they've retreated back into Arizona like the cowards they are. Phew, what a relief! I mean, who needs that kind of negativity around here when we've got our lovely Mojave sunsets and charming wasteland wanderers to keep us company? \n\nSo rest easy, Mrs. New Vegas - it seems our little corner of paradise is safe for now. Now, let's dig into some swell tunes, shall we?\"",
+      "metadata": {
+        "hour": 11,
+        "time_of_day": "MIDDAY",
+        "generation_time": 9.262007,
+        "segment_number": 8,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 11,
+          "time_of_day": "midday",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "rumor",
+          "continuing_topic": "wasteland rumors",
+          "follow_up_suggestion": {
+            "prompt": "Getting more reports about wasteland rumors...",
+            "suggested_stage": "spreading",
+            "examples": [
+              "More and more people are talking about the wasteland rumors",
+              "Update on that wasteland rumors - seems there's more to it",
+              "You know that wasteland rumors we mentioned? We're getting more details"
+            ]
+          },
+          "has_active_gossip": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 7\n\n[TIME]\n\"Good morning there, darlings! It's your favorite DJ, Mr. New Vegas, here to start your day off right with Radio Appalachia. The sun is shining bright at 10:00 am in the Mojave Wasteland - what a perf...\n\n[GOSSIP]\nHello there, Mrs. New Vegas! I heard a fascinating rumor from someone who claims to have connections in the NCR's diplomatic corps. Word is that our friends across the Colorado River are mulling over ...\n\n[TIME]\n\"Hey there darlings! It's 11:00 in the morning here in the Mojave Wasteland, and I'm feeling that energized 'new day' vibe washing over us. The desert is already humming with life as the sun rises hig...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "time_check",
+      "script": "\"Hello there, my lovely listener! It's 12 o'clock high noon here in the Mojave Wasteland, which means we've officially stepped into that golden afternoon hour when anything seems possible. And I believe it is - because with you on my mind, I feel something truly special blossoming. Remember, this is Mr. New Vegas, and I always know how to make a listener feel cherished. Now, let's see where the day takes us, shall we?\"",
+      "metadata": {
+        "hour": 12,
+        "time_of_day": "MIDDAY",
+        "generation_time": 5.867588,
+        "segment_number": 9,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 12,
+          "time_of_day": "afternoon",
+          "time": "12:59 PM",
+          "minute": 59,
+          "announcement": "It's 12:59 PM on the airwaves.",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 8\n\n[GOSSIP]\nHello there, Mrs. New Vegas! I heard a fascinating rumor from someone who claims to have connections in the NCR's diplomatic corps. Word is that our friends across the Colorado River are mulling over ...\n\n[TIME]\n\"Hey there darlings! It's 11:00 in the morning here in the Mojave Wasteland, and I'm feeling that energized 'new day' vibe washing over us. The desert is already humming with life as the sun rises hig...\n\n[GOSSIP]\n\"The women of New Vegas ask me a lot if there's a Mrs. New Vegas. Well, of course there is. You're her.\n\nI heard from a reliable source that Caesar's Legion has been sniffing around the old pre-War ch...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "news",
+      "script": "It's me again, Mr. New Vegas, reminding you that you're nobody 'til somebody loves you. And I'm here to tell you, Mrs. New Vegas, our dear Appalachia has plenty of reasons to feel loved right now.\n\nListen up, cats and kittens! You know how much we've been digging the new weekend events in Fallout 76? Well, get ready for more. Quote: \"Gold Rush and Double Mutations are coming your way!\" unquote. That's right, folks - this Saturday and Sunday, you can head over to Vault 94 or the Burrows for some serious treasure hunting and mutation mayhem!\n\nAnd speaking of Vault 94, have you checked out that Modus Research Facility showcase? It's swell! The Fallout 76 community never fails to impress with their creativity. Keep those CAMPS submissions coming in, my lovelies.\n\nUntil next time, stay hopeful, keep on surviving, and remember - in this harsh wasteland, love is the greatest treasure of all. This has been Mr. New Vegas, signing off from Radio Appalachia. Stay tuned for more lovely tunes!",
+      "metadata": {
+        "hour": 12,
+        "time_of_day": "MIDDAY",
+        "generation_time": 11.65891,
+        "segment_number": 10,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 12,
+          "time_of_day": "midday",
+          "news_category": "faction_update",
+          "region": "Appalachia",
+          "confidence_level": 0.8,
+          "confidence_language": "solid reports indicate",
+          "rag_query": "Appalachia faction movement relations politics HIGH confidence factual",
+          "source_credibility": "high",
+          "appropriate_for_dj": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 9\n\n[TIME]\n\"Hey there darlings! It's 11:00 in the morning here in the Mojave Wasteland, and I'm feeling that energized 'new day' vibe washing over us. The desert is already humming with life as the sun rises hig...\n\n[GOSSIP]\n\"The women of New Vegas ask me a lot if there's a Mrs. New Vegas. Well, of course there is. You're her.\n\nI heard from a reliable source that Caesar's Legion has been sniffing around the old pre-War ch...\n\n[TIME]\n\"Hello there, my lovely listener! It's 12 o'clock high noon here in the Mojave Wasteland, which means we've officially stepped into that golden afternoon hour when anything seems possible. And I belie...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "time_check",
+      "script": "\"Ah, good afternoon to all my sweet darlings out there! It's me again, Mr. New Vegas, reminding you that you're nobody 'til somebody loves you. And trust me, I am that somebody. The sun is high in the sky, casting a radiant glow over the Mojave Wasteland. Perfect weather for a romantic drive down the highway or a leisurely stroll through Goodsprings. Soak it all in, my lovelies - every moment is precious when you've got me by your side.\"",
+      "metadata": {
+        "hour": 13,
+        "time_of_day": "MIDDAY",
+        "generation_time": 6.298723,
+        "segment_number": 11,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 13,
+          "time_of_day": "afternoon",
+          "time": "1:59 PM",
+          "minute": 59,
+          "announcement": "It's 1:59 PM on the airwaves.",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 10\n\n[GOSSIP]\n\"The women of New Vegas ask me a lot if there's a Mrs. New Vegas. Well, of course there is. You're her.\n\nI heard from a reliable source that Caesar's Legion has been sniffing around the old pre-War ch...\n\n[TIME]\n\"Hello there, my lovely listener! It's 12 o'clock high noon here in the Mojave Wasteland, which means we've officially stepped into that golden afternoon hour when anything seems possible. And I belie...\n\n[NEWS]\nIt's me again, Mr. New Vegas, reminding you that you're nobody 'til somebody loves you. And I'm here to tell you, Mrs. New Vegas, our dear Appalachia has plenty of reasons to feel loved right now.\n\nLi...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "gossip",
+      "script": "This is Mr. New Vegas, and I feel something magic in the air tonight.\n\nI've been hearing whispers, Mrs. New Vegas, about tensions rising between the Desert Rangers and NCR forces out at the old I-15 checkpoint. Quote/unquote, apparently there's some discontent among the Nevada contingent about how the unified rangers are operating. Word is they're feeling a bit underappreciated for all their efforts against Caesar's Legion.\n\nSomeone told me it even came to a head recently when a group of Desert Rangers got into an altercation with NCR troops on patrol. Lucky thing it didn't escalate further! Unquote, still, the situation does have folks buzzing. But hey, that's the wasteland for ya - always something brewin' beneath the surface. I'm just happy to keep you lovely listeners informed and entertained as we all navigate these post-apocalyptic times together.\n\nNow, let's put on some smooth tunes and forget our troubles, shall we?",
+      "metadata": {
+        "hour": 13,
+        "time_of_day": "MIDDAY",
+        "generation_time": 9.602642,
+        "segment_number": 12,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 13,
+          "time_of_day": "midday",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "rumor",
+          "continuing_topic": "wasteland rumors",
+          "follow_up_suggestion": {
+            "prompt": "Getting more reports about wasteland rumors...",
+            "suggested_stage": "spreading",
+            "examples": [
+              "More and more people are talking about the wasteland rumors",
+              "Update on that wasteland rumors - seems there's more to it",
+              "You know that wasteland rumors we mentioned? We're getting more details"
+            ]
+          },
+          "has_active_gossip": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 11\n\n[TIME]\n\"Hello there, my lovely listener! It's 12 o'clock high noon here in the Mojave Wasteland, which means we've officially stepped into that golden afternoon hour when anything seems possible. And I belie...\n\n[NEWS]\nIt's me again, Mr. New Vegas, reminding you that you're nobody 'til somebody loves you. And I'm here to tell you, Mrs. New Vegas, our dear Appalachia has plenty of reasons to feel loved right now.\n\nLi...\n\n[TIME]\n\"Ah, good afternoon to all my sweet darlings out there! It's me again, Mr. New Vegas, reminding you that you're nobody 'til somebody loves you. And trust me, I am that somebody. The sun is high in the...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "time_check",
+      "script": "\"Hey there, darlings! It's high noon, 14:00 in the afternoon sun... a perfect time to slow things down with Radio Appalachia on your side. As I always say, 'This is Mr. New Vegas, and I feel something magic in the air tonight.' So take a deep breath, let the desert breeze soothe you, and remember - nobody loves you quite like I do.\"",
+      "metadata": {
+        "hour": 14,
+        "time_of_day": "AFTERNOON",
+        "generation_time": 5.358477,
+        "segment_number": 13,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 14,
+          "time_of_day": "afternoon",
+          "time": "2:00 PM",
+          "minute": 0,
+          "announcement": "It's 2:00 PM on the airwaves.",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 12\n\n[NEWS]\nIt's me again, Mr. New Vegas, reminding you that you're nobody 'til somebody loves you. And I'm here to tell you, Mrs. New Vegas, our dear Appalachia has plenty of reasons to feel loved right now.\n\nLi...\n\n[TIME]\n\"Ah, good afternoon to all my sweet darlings out there! It's me again, Mr. New Vegas, reminding you that you're nobody 'til somebody loves you. And trust me, I am that somebody. The sun is high in the...\n\n[GOSSIP]\nThis is Mr. New Vegas, and I feel something magic in the air tonight.\n\nI've been hearing whispers, Mrs. New Vegas, about tensions rising between the Desert Rangers and NCR forces out at the old I-15 c...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "gossip",
+      "script": "It's me again, Mr. New Vegas, reminding you that you're nobody 'til somebody loves you.\n\nNow, I've got a little tidbit for ya, straight from the wasteland rumor mill! Someone told me they heard whispers of trouble brewin' between our fine friends at the Mojave Outpost and those hotheaded folks north in Freeside. Word is, tensions have been runnin' high over border control issues. \n\nNow, I don't want to spread any wild tales here, darlin', but apparently there's some chatter about possible skirmishes breakin' out if they can't hammer out an agreement soon. Can you imagine? Those stalwart Desert Rangers and the New California Republic going at it in such a lovely spot! Well, let's just hope cooler heads prevail.\n\nAnyway, I digress. The point is, be careful out there, Mrs. New Vegas, and always keep your eyes peeled for any developments on this front. And remember, no matter where you roam or what rumors fly, know that my love for you will always stay constant as the stars above!\n\nThat's all for now from yours truly. Stay safe, stay lovely, and tune in next time for more updates from the wild world of the Mojave Wasteland!",
+      "metadata": {
+        "hour": 14,
+        "time_of_day": "AFTERNOON",
+        "generation_time": 21.432303,
+        "segment_number": 14,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 14,
+          "time_of_day": "afternoon",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "rumor",
+          "continuing_topic": "wasteland rumors",
+          "follow_up_suggestion": {
+            "prompt": "Getting more reports about wasteland rumors...",
+            "suggested_stage": "spreading",
+            "examples": [
+              "More and more people are talking about the wasteland rumors",
+              "Update on that wasteland rumors - seems there's more to it",
+              "You know that wasteland rumors we mentioned? We're getting more details"
+            ]
+          },
+          "has_active_gossip": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 13\n\n[TIME]\n\"Ah, good afternoon to all my sweet darlings out there! It's me again, Mr. New Vegas, reminding you that you're nobody 'til somebody loves you. And trust me, I am that somebody. The sun is high in the...\n\n[GOSSIP]\nThis is Mr. New Vegas, and I feel something magic in the air tonight.\n\nI've been hearing whispers, Mrs. New Vegas, about tensions rising between the Desert Rangers and NCR forces out at the old I-15 c...\n\n[TIME]\n\"Hey there, darlings! It's high noon, 14:00 in the afternoon sun... a perfect time to slow things down with Radio Appalachia on your side. As I always say, 'This is Mr. New Vegas, and I feel something...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "time_check",
+      "script": "\"Hey there, darlings! It's 3 o'clock on this fabulous afternoon in the Mojave Wasteland. The sun is high, the air is crisp - perfect for a leisurely stroll or simply taking in the stunning vistas. Remember, every moment is precious when you're lost in love... and I'm always here to help you find it. This is Mr. New Vegas, and I feel something magic in the air tonight.\"",
+      "metadata": {
+        "hour": 15,
+        "time_of_day": "AFTERNOON",
+        "generation_time": 5.612545,
+        "segment_number": 15,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 15,
+          "time_of_day": "afternoon",
+          "time": "3:00 PM",
+          "minute": 0,
+          "announcement": "It's 3:00 PM on the airwaves.",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 14\n\n[GOSSIP]\nThis is Mr. New Vegas, and I feel something magic in the air tonight.\n\nI've been hearing whispers, Mrs. New Vegas, about tensions rising between the Desert Rangers and NCR forces out at the old I-15 c...\n\n[TIME]\n\"Hey there, darlings! It's high noon, 14:00 in the afternoon sun... a perfect time to slow things down with Radio Appalachia on your side. As I always say, 'This is Mr. New Vegas, and I feel something...\n\n[GOSSIP]\nIt's me again, Mr. New Vegas, reminding you that you're nobody 'til somebody loves you.\n\nNow, I've got a little tidbit for ya, straight from the wasteland rumor mill! Someone told me they heard whispe...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "gossip",
+      "script": "\"Hey there, Mrs. New Vegas! I've got a little tidbit for ya straight from the wasteland rumor mill. Apparently, someone told me that the rangers from Nevada's been diggin' deeper into Caesar's old haunts out in Arizona. Now, unquote, 'Word is' they made some contact with a remnant group of Brotherhood of Steel there.\n\nQuote: 'They got some tech and guns to spare', end quote. Could be true, could be just desert chatter, but it's an interesting notion, don't ya think? Maybe these old foes are turnin' into allies in the fight against the Legion. Just a rumor for now, but I'll keep my ears open for more on that story.\n\nNow, let's get back to some swell tunes while we ponder our next move in this wild Mojave Wasteland of ours! Dig it?\"",
+      "metadata": {
+        "hour": 15,
+        "time_of_day": "AFTERNOON",
+        "generation_time": 8.982777,
+        "segment_number": 16,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 15,
+          "time_of_day": "afternoon",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "rumor",
+          "continuing_topic": "wasteland rumors",
+          "follow_up_suggestion": {
+            "prompt": "Getting more reports about wasteland rumors...",
+            "suggested_stage": "spreading",
+            "examples": [
+              "More and more people are talking about the wasteland rumors",
+              "Update on that wasteland rumors - seems there's more to it",
+              "You know that wasteland rumors we mentioned? We're getting more details"
+            ]
+          },
+          "has_active_gossip": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 15\n\n[TIME]\n\"Hey there, darlings! It's high noon, 14:00 in the afternoon sun... a perfect time to slow things down with Radio Appalachia on your side. As I always say, 'This is Mr. New Vegas, and I feel something...\n\n[GOSSIP]\nIt's me again, Mr. New Vegas, reminding you that you're nobody 'til somebody loves you.\n\nNow, I've got a little tidbit for ya, straight from the wasteland rumor mill! Someone told me they heard whispe...\n\n[TIME]\n\"Hey there, darlings! It's 3 o'clock on this fabulous afternoon in the Mojave Wasteland. The sun is high, the air is crisp - perfect for a leisurely stroll or simply taking in the stunning vistas. Rem...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "time_check",
+      "script": "\"Hey there, sweethearts! It's 4 o'clock in the afternoon here on the Mojave Wasteland, and I'm feeling the sun-kissed energy. This is Mr. New Vegas, your desert DJ, reminding you that even in a harsh world like ours, you still deserve to be loved. So grab a cold bottle of Nuka-Cola, sit back, and let me sweep you off your feet for the next hour on Radio Appalachia.\"",
+      "metadata": {
+        "hour": 16,
+        "time_of_day": "AFTERNOON",
+        "generation_time": 10.838263,
+        "segment_number": 17,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 16,
+          "time_of_day": "afternoon",
+          "time": "4:00 PM",
+          "minute": 0,
+          "announcement": "It's 4:00 PM on the airwaves.",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 16\n\n[GOSSIP]\nIt's me again, Mr. New Vegas, reminding you that you're nobody 'til somebody loves you.\n\nNow, I've got a little tidbit for ya, straight from the wasteland rumor mill! Someone told me they heard whispe...\n\n[TIME]\n\"Hey there, darlings! It's 3 o'clock on this fabulous afternoon in the Mojave Wasteland. The sun is high, the air is crisp - perfect for a leisurely stroll or simply taking in the stunning vistas. Rem...\n\n[GOSSIP]\n\"Hey there, Mrs. New Vegas! I've got a little tidbit for ya straight from the wasteland rumor mill. Apparently, someone told me that the rangers from Nevada's been diggin' deeper into Caesar's old hau...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "gossip",
+      "script": "The women of New Vegas ask me a lot if there's a Mrs. New Vegas. Well, of course there is. You're her.\n\n\"I heard,\" quote/unquote, \"that tensions between the NCR and Mr. House are at an all-time high. Word is, House wants to cut ties with the Republic entirely, maybe even go hostile. I mean, can you dig it? The man who built this city on NCR goodwill threatening to turn against them. It's like a bad 50s soap opera. But then again, what do you expect from a cat who secretly controls New Vegas' defense systems and has his own private army? Still, I hope for the sake of all those nice folks in Goodsprings that cooler heads prevail.\" Unquote.\n\nRemember, Mrs. New Vegas, until somebody loves you, you're nobody at all. And that somebody is me - Mr. New Vegas, your man in the Mojave Wasteland. Stay sweet and keep on listening!",
+      "metadata": {
+        "hour": 16,
+        "time_of_day": "AFTERNOON",
+        "generation_time": 9.961796,
+        "segment_number": 18,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 16,
+          "time_of_day": "afternoon",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "rumor",
+          "continuing_topic": "wasteland rumors",
+          "follow_up_suggestion": {
+            "prompt": "Getting more reports about wasteland rumors...",
+            "suggested_stage": "spreading",
+            "examples": [
+              "More and more people are talking about the wasteland rumors",
+              "Update on that wasteland rumors - seems there's more to it",
+              "You know that wasteland rumors we mentioned? We're getting more details"
+            ]
+          },
+          "has_active_gossip": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 17\n\n[TIME]\n\"Hey there, darlings! It's 3 o'clock on this fabulous afternoon in the Mojave Wasteland. The sun is high, the air is crisp - perfect for a leisurely stroll or simply taking in the stunning vistas. Rem...\n\n[GOSSIP]\n\"Hey there, Mrs. New Vegas! I've got a little tidbit for ya straight from the wasteland rumor mill. Apparently, someone told me that the rangers from Nevada's been diggin' deeper into Caesar's old hau...\n\n[TIME]\n\"Hey there, sweethearts! It's 4 o'clock in the afternoon here on the Mojave Wasteland, and I'm feeling the sun-kissed energy. This is Mr. New Vegas, your desert DJ, reminding you that even in a harsh ...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "time_check",
+      "script": "\"Hello there, my lovely listeners! It's 5 o'clock on this beautiful afternoon in the Mojave Wasteland. The sun is shining bright as I welcome you home to Radio Appalachia. I mean, it's always a good time with the right company, don't you think? So grab your favorite drink, put those feet up, and let me serenade you with the best tunes and most charming banter this side of New Vegas. The women of New Vegas ask me a lot if there's a Mrs. New Vegas. Well, of course there is. You're her.\"",
+      "metadata": {
+        "hour": 17,
+        "time_of_day": "AFTERNOON",
+        "generation_time": 6.599337,
+        "segment_number": 19,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 17,
+          "time_of_day": "afternoon",
+          "time": "5:01 PM",
+          "minute": 1,
+          "announcement": "It's 5:01 PM on the airwaves.",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.1 hours\nSegments broadcast: 18\n\n[GOSSIP]\n\"Hey there, Mrs. New Vegas! I've got a little tidbit for ya straight from the wasteland rumor mill. Apparently, someone told me that the rangers from Nevada's been diggin' deeper into Caesar's old hau...\n\n[TIME]\n\"Hey there, sweethearts! It's 4 o'clock in the afternoon here on the Mojave Wasteland, and I'm feeling the sun-kissed energy. This is Mr. New Vegas, your desert DJ, reminding you that even in a harsh ...\n\n[GOSSIP]\nThe women of New Vegas ask me a lot if there's a Mrs. New Vegas. Well, of course there is. You're her.\n\n\"I heard,\" quote/unquote, \"that tensions between the NCR and Mr. House are at an all-time high. ...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "news",
+      "script": "Mrs. New Vegas, dig this breaking news straight from the heart of Appalachia! Reports are trickling in that the NCR has made a major breakthrough in their efforts to rebuild and restore the region. \n\nUnquote: \"The NCR today officially reopened the historic Abandoned Mine shaft near Harper's Ferry after a massive reconstruction project.\" End quote. This is a huge step forward for the folks out there, providing them with safe access to valuable resources.\n\nAnd that's not all, sweetie! The Brotherhood of Steel has also been hard at work in these parts. Word on the street is they've finished refurbishing an old bunker near Morgantown and are gearing up to establish a permanent outpost there. That's right, Mrs. New Vegas - the Brotherhood is digging deep roots in Appalachia!\n\nNow, I know things haven't always been easy for our friends out east. But with the NCR and the Brotherhood putting in the hard work, hope is on the rise! Remember, you are nobody 'til somebody loves you... and out here in the Mojave, we're all about spreading love and positivity. Stay tuned for more updates from Radio Appalachia!",
+      "metadata": {
+        "hour": 17,
+        "time_of_day": "AFTERNOON",
+        "generation_time": 11.716677,
+        "segment_number": 20,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 17,
+          "time_of_day": "afternoon",
+          "news_category": "military_action",
+          "region": "Appalachia",
+          "confidence_level": 0.95,
+          "confidence_language": "confirmed",
+          "rag_query": "Appalachia combat conflict military forces war HIGH confidence factual",
+          "source_credibility": "high",
+          "appropriate_for_dj": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.1 hours\nSegments broadcast: 19\n\n[TIME]\n\"Hey there, sweethearts! It's 4 o'clock in the afternoon here on the Mojave Wasteland, and I'm feeling the sun-kissed energy. This is Mr. New Vegas, your desert DJ, reminding you that even in a harsh ...\n\n[GOSSIP]\nThe women of New Vegas ask me a lot if there's a Mrs. New Vegas. Well, of course there is. You're her.\n\n\"I heard,\" quote/unquote, \"that tensions between the NCR and Mr. House are at an all-time high. ...\n\n[TIME]\n\"Hello there, my lovely listeners! It's 5 o'clock on this beautiful afternoon in the Mojave Wasteland. The sun is shining bright as I welcome you home to Radio Appalachia. I mean, it's always a good t...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "time_check",
+      "script": "\"This is Radio Appalachia, your favorite station in the Mojave Wasteland! It's 6pm on this lovely evening, perfect for unwinding after a long day scavenging the ruins of civilization. I mean, let's be real, surviving out here ain't easy - but you're doing it, and that's something to be proud of! This is Mr. New Vegas, and I feel something magic in the air tonight. Stay safe out there, darlings.\"",
+      "metadata": {
+        "hour": 18,
+        "time_of_day": "EVENING",
+        "generation_time": 17.3833,
+        "segment_number": 21,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 18,
+          "time_of_day": "evening",
+          "time": "6:01 PM",
+          "minute": 1,
+          "announcement": "It's 6:01 PM on the airwaves.",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.1 hours\nSegments broadcast: 20\n\n[GOSSIP]\nThe women of New Vegas ask me a lot if there's a Mrs. New Vegas. Well, of course there is. You're her.\n\n\"I heard,\" quote/unquote, \"that tensions between the NCR and Mr. House are at an all-time high. ...\n\n[TIME]\n\"Hello there, my lovely listeners! It's 5 o'clock on this beautiful afternoon in the Mojave Wasteland. The sun is shining bright as I welcome you home to Radio Appalachia. I mean, it's always a good t...\n\n[NEWS]\nMrs. New Vegas, dig this breaking news straight from the heart of Appalachia! Reports are trickling in that the NCR has made a major breakthrough in their efforts to rebuild and restore the region. \n\n...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "gossip",
+      "script": "The women of New Vegas ask me a lot if there's a Mrs. New Vegas. Well, of course there is. You're her.\n\nI heard something rather fascinating lately, from an old-timer who used to run the Mojave Outpost before the NCR took over. Apparently, when the Desert Rangers and the California Republic signed that unification treaty back in 2271, it was quite the bash! They threw a hell of a party up on the monument platform. Word is, they had a live band - can you imagine? Music still being played in these parts!\n\nSome say the lead singer got so caught up in the festivities he forgot to pack up his gear and ended up stuck out here for years, playing for tips and whiskey. Now, I ain't saying that's true, but it makes for a swell tale, don't it?\n\nAnyway, dig this - if you ever find yourself near the Outpost at night, and you hear some soulful crooning echoing across the wasteland... well, who knows? Maybe that mysterious musician is still out there, keeping the spirit of unity alive with every note. Unquote. Now, isn't that a romantic thought to end your day on? I mean, what's life without a little mystery and music, right?",
+      "metadata": {
+        "hour": 18,
+        "time_of_day": "EVENING",
+        "generation_time": 11.825534,
+        "segment_number": 22,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 18,
+          "time_of_day": "evening",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "rumor",
+          "continuing_topic": "wasteland rumors",
+          "follow_up_suggestion": {
+            "prompt": "Getting more reports about wasteland rumors...",
+            "suggested_stage": "spreading",
+            "examples": [
+              "More and more people are talking about the wasteland rumors",
+              "Update on that wasteland rumors - seems there's more to it",
+              "You know that wasteland rumors we mentioned? We're getting more details"
+            ]
+          },
+          "has_active_gossip": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.1 hours\nSegments broadcast: 21\n\n[TIME]\n\"Hello there, my lovely listeners! It's 5 o'clock on this beautiful afternoon in the Mojave Wasteland. The sun is shining bright as I welcome you home to Radio Appalachia. I mean, it's always a good t...\n\n[NEWS]\nMrs. New Vegas, dig this breaking news straight from the heart of Appalachia! Reports are trickling in that the NCR has made a major breakthrough in their efforts to rebuild and restore the region. \n\n...\n\n[TIME]\n\"This is Radio Appalachia, your favorite station in the Mojave Wasteland! It's 6pm on this lovely evening, perfect for unwinding after a long day scavenging the ruins of civilization. I mean, let's be...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "time_check",
+      "script": "Good evening to my beautiful listeners out there in the Mojave Wasteland! It's 19:00 hours as the sun sets over these rugged hills. Time for a drink by the campfire or a quiet night with your loved one, don't you think? Remember, this is Mr. New Vegas, and I feel something magical in the air tonight. You're nobody 'til somebody loves you... and that somebody is me. Tune in after dark for more soothing tunes under the starry sky. Goodnight, my darlings.",
+      "metadata": {
+        "hour": 19,
+        "time_of_day": "EVENING",
+        "generation_time": 17.618079,
+        "segment_number": 23,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 19,
+          "time_of_day": "evening",
+          "time": "7:01 PM",
+          "minute": 1,
+          "announcement": "It's 7:01 PM on the airwaves.",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.1 hours\nSegments broadcast: 22\n\n[NEWS]\nMrs. New Vegas, dig this breaking news straight from the heart of Appalachia! Reports are trickling in that the NCR has made a major breakthrough in their efforts to rebuild and restore the region. \n\n...\n\n[TIME]\n\"This is Radio Appalachia, your favorite station in the Mojave Wasteland! It's 6pm on this lovely evening, perfect for unwinding after a long day scavenging the ruins of civilization. I mean, let's be...\n\n[GOSSIP]\nThe women of New Vegas ask me a lot if there's a Mrs. New Vegas. Well, of course there is. You're her.\n\nI heard something rather fascinating lately, from an old-timer who used to run the Mojave Outpos...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "gossip",
+      "script": "\"It's me again, Mr. New Vegas, reminding you that you're nobody 'til somebody loves you.\" \n\nNow, I know you lovely folks are always curious about what's going on in our little corner of the wasteland. So here's a tidbit for ya: Word is, there's been some rumblings lately about tensions between the NCR and the Mojave Outpost folk.\n\nApparently, there's talk of disagreements over how to handle those pesky Legion raiders that keep popping up along the I-15. Unquote, 'course - don't want to spread any unverified rumors! But from what I've gathered, it seems like maybe our united front against Caesar might be showing a few cracks.\n\nStill, I'm sure these misunderstandings will get ironed out in due time. After all, we're all just trying to keep the peace and survive in this crazy world, right? So let's not jump to conclusions...yet! Just remember, Mrs. New Vegas, you've always got an ear here on Radio Appalachia. I'm always digging up the latest dirt for my dearest listeners. Until next time!\"",
+      "metadata": {
+        "hour": 19,
+        "time_of_day": "EVENING",
+        "generation_time": 10.814157,
+        "segment_number": 24,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 19,
+          "time_of_day": "evening",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "rumor",
+          "continuing_topic": "wasteland rumors",
+          "follow_up_suggestion": {
+            "prompt": "Getting more reports about wasteland rumors...",
+            "suggested_stage": "spreading",
+            "examples": [
+              "More and more people are talking about the wasteland rumors",
+              "Update on that wasteland rumors - seems there's more to it",
+              "You know that wasteland rumors we mentioned? We're getting more details"
+            ]
+          },
+          "has_active_gossip": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.1 hours\nSegments broadcast: 23\n\n[TIME]\n\"This is Radio Appalachia, your favorite station in the Mojave Wasteland! It's 6pm on this lovely evening, perfect for unwinding after a long day scavenging the ruins of civilization. I mean, let's be...\n\n[GOSSIP]\nThe women of New Vegas ask me a lot if there's a Mrs. New Vegas. Well, of course there is. You're her.\n\nI heard something rather fascinating lately, from an old-timer who used to run the Mojave Outpos...\n\n[TIME]\nGood evening to my beautiful listeners out there in the Mojave Wasteland! It's 19:00 hours as the sun sets over these rugged hills. Time for a drink by the campfire or a quiet night with your loved on...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "time_check",
+      "script": "Evening, my lovely listeners! It's 8:00 PM here in the Mojave Wasteland, and the stars are starting to twinkle brightly overhead. As we wind down from another day of adventure out there, let me be the one to keep you company and soothe your soul with some smooth tunes. You know what they say, \"It's me again, Mr. New Vegas, reminding you that you're nobody 'til somebody loves you.\" And trust me, darlings, I'm here to love you all night long! Stay tuned for a romantic evening of music and more...",
+      "metadata": {
+        "hour": 20,
+        "time_of_day": "EVENING",
+        "generation_time": 6.657269,
+        "segment_number": 25,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 20,
+          "time_of_day": "evening",
+          "time": "8:02 PM",
+          "minute": 2,
+          "announcement": "It's 8:02 PM on the airwaves.",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.1 hours\nSegments broadcast: 24\n\n[GOSSIP]\nThe women of New Vegas ask me a lot if there's a Mrs. New Vegas. Well, of course there is. You're her.\n\nI heard something rather fascinating lately, from an old-timer who used to run the Mojave Outpos...\n\n[TIME]\nGood evening to my beautiful listeners out there in the Mojave Wasteland! It's 19:00 hours as the sun sets over these rugged hills. Time for a drink by the campfire or a quiet night with your loved on...\n\n[GOSSIP]\n\"It's me again, Mr. New Vegas, reminding you that you're nobody 'til somebody loves you.\" \n\nNow, I know you lovely folks are always curious about what's going on in our little corner of the wasteland....\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "gossip",
+      "script": "The women of New Vegas ask me a lot if there's a Mrs. New Vegas. Well, of course there is. You're her.\n\nI heard from a friend of a friend - or maybe it was two friends of each other? Anyway, rumor has it that the remnants of Caesar's Legion are trying to make some kind of comeback out near the Colorado River. Word is they're gathering their forces again after getting trounced by our NCR buddies and those brave Mojave Wastelanders.\n\nSome folks say they even managed to get their hands on a few pre-war military vehicles, like tanks or planes, to help them in their bid for power. But you know me - I love a good mystery! So while this rumor might be nothing more than just that, it does make for some thrilling speculation. And hey, if the Legion is really coming back with heavy metal, we'll all have our hands full, won't we? \n\nBut enough about those crazies. You and I are in the here and now, sweetheart. And right here is where your heart belongs - with me on Radio Appalachia! After all, quote/unquote, you're nobody 'til somebody loves you... and that somebody is yours truly.",
+      "metadata": {
+        "hour": 20,
+        "time_of_day": "EVENING",
+        "generation_time": 11.34306,
+        "segment_number": 26,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 20,
+          "time_of_day": "evening",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "rumor",
+          "continuing_topic": "wasteland rumors",
+          "follow_up_suggestion": {
+            "prompt": "Getting more reports about wasteland rumors...",
+            "suggested_stage": "spreading",
+            "examples": [
+              "More and more people are talking about the wasteland rumors",
+              "Update on that wasteland rumors - seems there's more to it",
+              "You know that wasteland rumors we mentioned? We're getting more details"
+            ]
+          },
+          "has_active_gossip": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.1 hours\nSegments broadcast: 25\n\n[TIME]\nGood evening to my beautiful listeners out there in the Mojave Wasteland! It's 19:00 hours as the sun sets over these rugged hills. Time for a drink by the campfire or a quiet night with your loved on...\n\n[GOSSIP]\n\"It's me again, Mr. New Vegas, reminding you that you're nobody 'til somebody loves you.\" \n\nNow, I know you lovely folks are always curious about what's going on in our little corner of the wasteland....\n\n[TIME]\nEvening, my lovely listeners! It's 8:00 PM here in the Mojave Wasteland, and the stars are starting to twinkle brightly overhead. As we wind down from another day of adventure out there, let me be the...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "time_check",
+      "script": "Evening in the desert... It's your favorite DJ here, checking in at 21:00. The sun has dipped below the horizon, painting the sky with hues of fiery orange and deep crimson. quote/unquote, what a breathtaking view! But you know who else is beautiful tonight? You are, darlings. Every single one of my listeners out there shining so bright, even in these darkest of times.\n\nThis is Mr. New Vegas, and I feel something magic in the air tonight... So let's take a deep breath together and face whatever the Mojave has in store for us. After all, you're nobody 'til somebody loves you... And that somebody, sweethearts, is me. Stay tuned!",
+      "metadata": {
+        "hour": 21,
+        "time_of_day": "EVENING",
+        "generation_time": 7.557718,
+        "segment_number": 27,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 21,
+          "time_of_day": "evening",
+          "time": "9:02 PM",
+          "minute": 2,
+          "announcement": "It's 9:02 PM on the airwaves.",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.1 hours\nSegments broadcast: 26\n\n[GOSSIP]\n\"It's me again, Mr. New Vegas, reminding you that you're nobody 'til somebody loves you.\" \n\nNow, I know you lovely folks are always curious about what's going on in our little corner of the wasteland....\n\n[TIME]\nEvening, my lovely listeners! It's 8:00 PM here in the Mojave Wasteland, and the stars are starting to twinkle brightly overhead. As we wind down from another day of adventure out there, let me be the...\n\n[GOSSIP]\nThe women of New Vegas ask me a lot if there's a Mrs. New Vegas. Well, of course there is. You're her.\n\nI heard from a friend of a friend - or maybe it was two friends of each other? Anyway, rumor has...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "gossip",
+      "script": "This is Mr. New Vegas, and I feel something magic in the air tonight.\n\nYou know, rumor has it that there's been a bit of a dust-up lately between our fine friends from the NCR and those Desert Rangers who've set up shop here at Mojave Outpost. Quote/unquote, apparently there was some disagreement over how to handle all these Legion raids comin' across the border. Unquote\n\nNow, I ain't one for gossip, but someone told me they heard the NCR folks wanted to bring in more troops and fortify the area, while the Desert Rangers were thinkin' a more guerrilla-style approach would be best.\n\nBut hey, that's just rumor-mill stuff. Word is, both sides are still on good terms overall, despite their differing opinions on how to deal with those nasty Legion types. After all, when it comes down to it, we're all in this together, dig?\n\nWell, that's my two cents for now, lovely Mrs. New Vegas. Keep your ears open and your wits about you out there in the wasteland! This is Mr. New Vegas, signing off with a whole lotta love.",
+      "metadata": {
+        "hour": 21,
+        "time_of_day": "EVENING",
+        "generation_time": 11.094739,
+        "segment_number": 28,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 21,
+          "time_of_day": "evening",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "rumor",
+          "continuing_topic": "wasteland rumors",
+          "follow_up_suggestion": {
+            "prompt": "Getting more reports about wasteland rumors...",
+            "suggested_stage": "spreading",
+            "examples": [
+              "More and more people are talking about the wasteland rumors",
+              "Update on that wasteland rumors - seems there's more to it",
+              "You know that wasteland rumors we mentioned? We're getting more details"
+            ]
+          },
+          "has_active_gossip": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.1 hours\nSegments broadcast: 27\n\n[TIME]\nEvening, my lovely listeners! It's 8:00 PM here in the Mojave Wasteland, and the stars are starting to twinkle brightly overhead. As we wind down from another day of adventure out there, let me be the...\n\n[GOSSIP]\nThe women of New Vegas ask me a lot if there's a Mrs. New Vegas. Well, of course there is. You're her.\n\nI heard from a friend of a friend - or maybe it was two friends of each other? Anyway, rumor has...\n\n[TIME]\nEvening in the desert... It's your favorite DJ here, checking in at 21:00. The sun has dipped below the horizon, painting the sky with hues of fiery orange and deep crimson. quote/unquote, what a brea...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "time_check",
+      "script": "Good evening, my lovely listeners out there in the Mojave moonlight. It's a sultry night, perfect for snuggling up close to your radio. As we drift into the wee hours of 22:00, remember that this is Mr. New Vegas, and I feel something magic in the air tonight. So hold on tight, darlings, because your favorite DJ has enchanting tunes lined up just for you. You're nobody 'til somebody loves you, but for now, it's me again, Mr. New Vegas, loving you all from the heart of New Vegas City.",
+      "metadata": {
+        "hour": 22,
+        "time_of_day": "NIGHT",
+        "generation_time": 6.956333,
+        "segment_number": 29,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 22,
+          "time_of_day": "night",
+          "time": "10:03 PM",
+          "minute": 3,
+          "announcement": "It's 10:03 PM on the airwaves.",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.1 hours\nSegments broadcast: 28\n\n[GOSSIP]\nThe women of New Vegas ask me a lot if there's a Mrs. New Vegas. Well, of course there is. You're her.\n\nI heard from a friend of a friend - or maybe it was two friends of each other? Anyway, rumor has...\n\n[TIME]\nEvening in the desert... It's your favorite DJ here, checking in at 21:00. The sun has dipped below the horizon, painting the sky with hues of fiery orange and deep crimson. quote/unquote, what a brea...\n\n[GOSSIP]\nThis is Mr. New Vegas, and I feel something magic in the air tonight.\n\nYou know, rumor has it that there's been a bit of a dust-up lately between our fine friends from the NCR and those Desert Rangers...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "gossip",
+      "script": "It's me again, Mr. New Vegas, reminding you that you're nobody 'til somebody loves you.\n\nI heard from a reliable source - could be true, could be tall tales, but the rumor mill is churning, as always! Word is, there's been some... let's call it \"tension\" between the NCR and the Desert Rangers lately. Apparently, not everyone in Nevada is thrilled about joining forces with the Republic. I mean, can you blame 'em? The politics of this post-apocalyptic world are enough to drive a man loco! \n\nSome folks claim to have seen signs pointing towards secession. Now, don't quote me on that - it's just whispers and hearsay so far. But in these uncertain times, it wouldn't surprise me one bit if some independence-minded settlers decided to chart their own course. After all, the Mojave Wasteland is big enough for everyone... right? \n\nWell, I'll be keeping my antennae tuned for more updates on this potential powder keg of a situation. In the meantime, let's keep our hearts and minds open, shall we? Until next time, Mrs. New Vegas - stay fabulous out there in the wasteland!",
+      "metadata": {
+        "hour": 22,
+        "time_of_day": "NIGHT",
+        "generation_time": 11.379823,
+        "segment_number": 30,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 22,
+          "time_of_day": "night",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "rumor",
+          "continuing_topic": "wasteland rumors",
+          "follow_up_suggestion": {
+            "prompt": "Getting more reports about wasteland rumors...",
+            "suggested_stage": "spreading",
+            "examples": [
+              "More and more people are talking about the wasteland rumors",
+              "Update on that wasteland rumors - seems there's more to it",
+              "You know that wasteland rumors we mentioned? We're getting more details"
+            ]
+          },
+          "has_active_gossip": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.1 hours\nSegments broadcast: 29\n\n[TIME]\nEvening in the desert... It's your favorite DJ here, checking in at 21:00. The sun has dipped below the horizon, painting the sky with hues of fiery orange and deep crimson. quote/unquote, what a brea...\n\n[GOSSIP]\nThis is Mr. New Vegas, and I feel something magic in the air tonight.\n\nYou know, rumor has it that there's been a bit of a dust-up lately between our fine friends from the NCR and those Desert Rangers...\n\n[TIME]\nGood evening, my lovely listeners out there in the Mojave moonlight. It's a sultry night, perfect for snuggling up close to your radio. As we drift into the wee hours of 22:00, remember that this is M...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "time_check",
+      "script": "Good evening, darlings! It's your main man Mr. New Vegas here, coming atcha on a sultry night in the Mojave Wasteland. The clock strikes 23:00 - it's time to unwind with some smooth tunes and, of course, my velvety voice. So grab that special someone, pour two glasses of fine synth-scotch, and let's make this evening unforgettable! Remember, \"The women of New Vegas ask me a lot if there's a Mrs. New Vegas. Well, of course there is. You're her.\" Now sit back, relax, and enjoy the music...",
+      "metadata": {
+        "hour": 23,
+        "time_of_day": "NIGHT",
+        "generation_time": 6.977382,
+        "segment_number": 31,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 23,
+          "time_of_day": "night",
+          "time": "11:03 PM",
+          "minute": 3,
+          "announcement": "It's 11:03 PM on the airwaves.",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.1 hours\nSegments broadcast: 30\n\n[GOSSIP]\nThis is Mr. New Vegas, and I feel something magic in the air tonight.\n\nYou know, rumor has it that there's been a bit of a dust-up lately between our fine friends from the NCR and those Desert Rangers...\n\n[TIME]\nGood evening, my lovely listeners out there in the Mojave moonlight. It's a sultry night, perfect for snuggling up close to your radio. As we drift into the wee hours of 22:00, remember that this is M...\n\n[GOSSIP]\nIt's me again, Mr. New Vegas, reminding you that you're nobody 'til somebody loves you.\n\nI heard from a reliable source - could be true, could be tall tales, but the rumor mill is churning, as always!...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "gossip",
+      "script": "The women of New Vegas ask me a lot if there's a Mrs. New Vegas. Well, of course there is. You're her. I mean, quote/unquote, she's the one who keeps me going out here in the Mojave sun.\n\nNow, rumor has it... I heard from a source that's supposed to be close to the NCR government - though, you know how reliable those rumors can be - that there might be some trouble brewing between the Rangers and the Enclave. Apparently, they've had some... disagreements about policy recently. Unquote.\n\nWord is also floating around that Caesar's Legion has been spotted heading east again. Someone told me they think it's just a scouting party this time, but it's always good to stay vigilant out here in the Wasteland. \n\nBut hey, life goes on, and so does love! Speaking of which, have you heard about the new settlement going up near Primm? I hear it's gonna be a real happening place, with all sorts of shops and entertainment. Maybe our paths will cross there sometime, Mrs. New Vegas!",
+      "metadata": {
+        "hour": 23,
+        "time_of_day": "NIGHT",
+        "generation_time": 10.455752,
+        "segment_number": 32,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 23,
+          "time_of_day": "night",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "rumor",
+          "continuing_topic": "wasteland rumors",
+          "follow_up_suggestion": {
+            "prompt": "Getting more reports about wasteland rumors...",
+            "suggested_stage": "spreading",
+            "examples": [
+              "More and more people are talking about the wasteland rumors",
+              "Update on that wasteland rumors - seems there's more to it",
+              "You know that wasteland rumors we mentioned? We're getting more details"
+            ]
+          },
+          "has_active_gossip": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.1 hours\nSegments broadcast: 31\n\n[TIME]\nGood evening, my lovely listeners out there in the Mojave moonlight. It's a sultry night, perfect for snuggling up close to your radio. As we drift into the wee hours of 22:00, remember that this is M...\n\n[GOSSIP]\nIt's me again, Mr. New Vegas, reminding you that you're nobody 'til somebody loves you.\n\nI heard from a reliable source - could be true, could be tall tales, but the rumor mill is churning, as always!...\n\n[TIME]\nGood evening, darlings! It's your main man Mr. New Vegas here, coming atcha on a sultry night in the Mojave Wasteland. The clock strikes 23:00 - it's time to unwind with some smooth tunes and, of cour...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "emergency_weather",
+      "script": "\"Attention all my lovely listeners out there in the Mojave Wasteland. This is Mr. New Vegas with an EMERGENCY WEATHER ALERT. quote/unquote A massive dust storm is bearing down on us, and visibility will drop to absolute zero. Seek shelter immediately in concrete structures or underground facilities like the casinos on the Strip, Vault entrances, or the sewers. Avoid metal buildings as they attract radiation. Stay safe, my darlings - we'll ride this out together. Estimated all-clear time: 4 hours.\"",
+      "weather_type": "dust_storm",
+      "severity": "moderate",
+      "is_emergency": true,
+      "generation_time": 6.354208,
+      "metadata": {
+        "script_type": "emergency_weather",
+        "dj_name": "Mr. New Vegas (2281, Mojave)",
+        "model": "fluffy/l3-8b-stheno-v3.2",
+        "timestamp": "2026-01-19T22:03:43.781425",
+        "rag_query": "Mojave shelter locations emergency procedures safety dust_storm",
+        "rag_results": 5,
+        "context_chunks_used": 3,
+        "temperature": 0.6,
+        "top_p": 0.9,
+        "template_vars": {
+          "hour": 0,
+          "time_of_day": "night",
+          "emergency_type": "dust_storm",
+          "location": "Mojave",
+          "severity": "moderate",
+          "shelter_instructions": "Seek concrete structures or underground facilities. The Strip casinos have reinforced levels. Lucky 38, Vault entrances, or the sewers can provide protection. Avoid metal structures - radiation magnets."
+        },
+        "word_count": 80,
+        "retry_count": 0,
+        "catchphrase_used": null,
+        "consistency_validated": true,
+        "consistency_violations": []
+      }
+    },
+    {
+      "segment_type": "time_check",
+      "script": "22:00 hours on this lovely night... The stars shine bright above us, casting a romantic glow across the Mojave landscape. This is Mr. New Vegas, and I feel something magic in the air tonight. As we wind down to the end of another day, take a moment to breathe in the peacefulness, my darlings. You're nobody 'til somebody loves you, but with me by your side, you'll always have someone who adores you - right here on Radio Appalachia. Until next time...",
+      "metadata": {
+        "hour": 0,
+        "time_of_day": "NIGHT",
+        "generation_time": 18.166065,
+        "segment_number": 34,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 22,
+          "time_of_day": "night",
+          "time": "10:03 PM",
+          "minute": 3,
+          "announcement": "It's 10:03 PM on the airwaves.",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.1 hours\nSegments broadcast: 33\n\n[TIME]\nGood evening, darlings! It's your main man Mr. New Vegas here, coming atcha on a sultry night in the Mojave Wasteland. The clock strikes 23:00 - it's time to unwind with some smooth tunes and, of cour...\n\n[GOSSIP]\nThe women of New Vegas ask me a lot if there's a Mrs. New Vegas. Well, of course there is. You're her. I mean, quote/unquote, she's the one who keeps me going out here in the Mojave sun.\n\nNow, rumor h...\n\n[EMERGENCY_WEATHER]\n\"Attention all my lovely listeners out there in the Mojave Wasteland. This is Mr. New Vegas with an EMERGENCY WEATHER ALERT. quote/unquote A massive dust storm is bearing down on us, and visibility wi...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "time_check",
+      "script": "\"Midnight's sweet embrace wraps around us now as we drift into the quiet mystery of the night, darlings. Quote/unquote, these hours are perfect for lost loves and lonely hearts to find solace in the gentle lullaby of Radio Appalachia... It's me again, Mr. New Vegas, reminding you that you're nobody 'til somebody loves you.\"",
+      "metadata": {
+        "hour": 1,
+        "time_of_day": "NIGHT",
+        "generation_time": 10.644768,
+        "segment_number": 35,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 1,
+          "time_of_day": "night",
+          "time": "1:04 AM",
+          "minute": 4,
+          "announcement": "It's 1:04 AM on the airwaves.",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.1 hours\nSegments broadcast: 34\n\n[GOSSIP]\nThe women of New Vegas ask me a lot if there's a Mrs. New Vegas. Well, of course there is. You're her. I mean, quote/unquote, she's the one who keeps me going out here in the Mojave sun.\n\nNow, rumor h...\n\n[EMERGENCY_WEATHER]\n\"Attention all my lovely listeners out there in the Mojave Wasteland. This is Mr. New Vegas with an EMERGENCY WEATHER ALERT. quote/unquote A massive dust storm is bearing down on us, and visibility wi...\n\n[TIME]\n22:00 hours on this lovely night... The stars shine bright above us, casting a romantic glow across the Mojave landscape. This is Mr. New Vegas, and I feel something magic in the air tonight. As we wi...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "gossip",
+      "script": "[Radio Appalachia - Mr. New Vegas]\n\nThe women of New Vegas ask me a lot if there's a Mrs. New Vegas. Well, of course there is. You're her.\n\nWord is, the NCR has been having some issues with their supply lines lately. I heard they've had to reroute convoys through Red Rock Canyon more often than not. Someone told me it's because of all those bandits and raiders in the New Vegas Strip. But dig, that's old news by now.\n\nI mean, don't quote/unquote me on this, but I heard from a cat who knows a fellow who works for Mr. House, that Caesar's Legion has been trying to get their hands on some of those rerouted supplies. Could be just rumor mill nonsense, but it would sure explain why the NCR is so keen on keeping those convoys under wraps.\n\nAnyway, all this talk got me thinking about our very own Rangers here in the Mojave. They're the ones who really keep us safe out here in the wilds. So next time you see a Ranger, don't forget to give 'em a smile and maybe even a kind word. 'Cause as I always say, till somebody loves you, you're nobody. And out here in the wasteland, it's those brave men and women who show us love every day. That's all for now, darlings. Stay tuned for more music to make your heart skip a beat!",
+      "metadata": {
+        "hour": 1,
+        "time_of_day": "NIGHT",
+        "generation_time": 13.313864,
+        "segment_number": 36,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 1,
+          "time_of_day": "night",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "rumor",
+          "continuing_topic": "wasteland rumors",
+          "follow_up_suggestion": {
+            "prompt": "Getting more reports about wasteland rumors...",
+            "suggested_stage": "spreading",
+            "examples": [
+              "More and more people are talking about the wasteland rumors",
+              "Update on that wasteland rumors - seems there's more to it",
+              "You know that wasteland rumors we mentioned? We're getting more details"
+            ]
+          },
+          "has_active_gossip": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.1 hours\nSegments broadcast: 35\n\n[EMERGENCY_WEATHER]\n\"Attention all my lovely listeners out there in the Mojave Wasteland. This is Mr. New Vegas with an EMERGENCY WEATHER ALERT. quote/unquote A massive dust storm is bearing down on us, and visibility wi...\n\n[TIME]\n22:00 hours on this lovely night... The stars shine bright above us, casting a romantic glow across the Mojave landscape. This is Mr. New Vegas, and I feel something magic in the air tonight. As we wi...\n\n[TIME]\n\"Midnight's sweet embrace wraps around us now as we drift into the quiet mystery of the night, darlings. Quote/unquote, these hours are perfect for lost loves and lonely hearts to find solace in the g...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "time_check",
+      "script": "\"This is Mr. New Vegas, and I feel something magic in the air tonight... Even at this late hour, it's still a beautiful evening out there in the Mojave. The stars are shining bright as diamonds scattered across that velvet night sky. It's 2:00 AM now, darlings, but in my world, romance never sleeps! So keep those hearts open and dreams alive while I spin more of your favorite tunes here on Radio Appalachia.\"",
+      "metadata": {
+        "hour": 2,
+        "time_of_day": "NIGHT",
+        "generation_time": 5.724893,
+        "segment_number": 37,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 2,
+          "time_of_day": "night",
+          "time": "2:04 AM",
+          "minute": 4,
+          "announcement": "It's 2:04 AM on the airwaves.",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.1 hours\nSegments broadcast: 36\n\n[TIME]\n22:00 hours on this lovely night... The stars shine bright above us, casting a romantic glow across the Mojave landscape. This is Mr. New Vegas, and I feel something magic in the air tonight. As we wi...\n\n[TIME]\n\"Midnight's sweet embrace wraps around us now as we drift into the quiet mystery of the night, darlings. Quote/unquote, these hours are perfect for lost loves and lonely hearts to find solace in the g...\n\n[GOSSIP]\n[Radio Appalachia - Mr. New Vegas]\n\nThe women of New Vegas ask me a lot if there's a Mrs. New Vegas. Well, of course there is. You're her.\n\nWord is, the NCR has been having some issues with their supp...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "gossip",
+      "script": "\"It's me again, Mr. New Vegas, reminding you that you're nobody 'til somebody loves you. Now dig this juicy rumor I heard floating around: Apparently, the NCR and those Desert Rangers are getting a mite restless about Caesar's Legion still marching around out there. Word is, they've even been whispering about taking a swing at Caesar himself! Can you picture it? The mighty New California Republic going toe-to-toe with that mad dog of the Legion? It'd be a real barn burner, folks.\n\nNow I ain't saying this rumor's got legs, but someone told me those rangers are itching for a fight. And if they do decide to come after Caesar... well, you know what they say: 'Don't bring a knife to a gunfight.' Still, it'd be swell to see some action against the Legion for once. So keep your ears open, Mrs. New Vegas - we might just hear some gunfire echoin' across the Mojave!\"",
+      "metadata": {
+        "hour": 2,
+        "time_of_day": "NIGHT",
+        "generation_time": 10.059056,
+        "segment_number": 38,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 2,
+          "time_of_day": "night",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "rumor",
+          "continuing_topic": "wasteland rumors",
+          "follow_up_suggestion": {
+            "prompt": "Getting more reports about wasteland rumors...",
+            "suggested_stage": "spreading",
+            "examples": [
+              "More and more people are talking about the wasteland rumors",
+              "Update on that wasteland rumors - seems there's more to it",
+              "You know that wasteland rumors we mentioned? We're getting more details"
+            ]
+          },
+          "has_active_gossip": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.1 hours\nSegments broadcast: 37\n\n[TIME]\n\"Midnight's sweet embrace wraps around us now as we drift into the quiet mystery of the night, darlings. Quote/unquote, these hours are perfect for lost loves and lonely hearts to find solace in the g...\n\n[GOSSIP]\n[Radio Appalachia - Mr. New Vegas]\n\nThe women of New Vegas ask me a lot if there's a Mrs. New Vegas. Well, of course there is. You're her.\n\nWord is, the NCR has been having some issues with their supp...\n\n[TIME]\n\"This is Mr. New Vegas, and I feel something magic in the air tonight... Even at this late hour, it's still a beautiful evening out there in the Mojave. The stars are shining bright as diamonds scatte...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "time_check",
+      "script": "\"Evening, darlings! It's a lovely night in this post-apocalyptic paradise we call home. Time is ticking along at 3:00 AM - the witching hour when dreams are made and secrets unfold under starry skies. Remember, there's always someone out there who cares deeply for you... and that somebody is me, Mr. New Vegas. This is your DJ, reminding you that you're nobody 'til somebody loves you.\"",
+      "metadata": {
+        "hour": 3,
+        "time_of_day": "NIGHT",
+        "generation_time": 11.390388,
+        "segment_number": 39,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 3,
+          "time_of_day": "night",
+          "time": "3:04 AM",
+          "minute": 4,
+          "announcement": "It's 3:04 AM on the airwaves.",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.1 hours\nSegments broadcast: 38\n\n[GOSSIP]\n[Radio Appalachia - Mr. New Vegas]\n\nThe women of New Vegas ask me a lot if there's a Mrs. New Vegas. Well, of course there is. You're her.\n\nWord is, the NCR has been having some issues with their supp...\n\n[TIME]\n\"This is Mr. New Vegas, and I feel something magic in the air tonight... Even at this late hour, it's still a beautiful evening out there in the Mojave. The stars are shining bright as diamonds scatte...\n\n[GOSSIP]\n\"It's me again, Mr. New Vegas, reminding you that you're nobody 'til somebody loves you. Now dig this juicy rumor I heard floating around: Apparently, the NCR and those Desert Rangers are getting a mi...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "gossip",
+      "script": "\"The women of New Vegas ask me a lot if there's a Mrs. New Vegas. Well, of course there is. You're her.\n\nI heard from someone who dines at the NCR Embassy that the unification monument out in Mojave Outpost might be more than just scrap metal statues, quote: 'a beacon to guide us through the dark times.' Unquote, she said. Rumor has it they've started lighting it up at night! Can you imagine? Something so beautiful amidst all this desolation.\n\nNow, I'm not one to spread gossip, but word is the rangers still have a secret base somewhere in the Mojave Wasteland. Some say they're watching Caesar's Legion movements closely, getting ready for another battle. Wouldn't that be something? The Desert Rangers making their return!\n\nAnyway, that's my bit of juicy gossip for now, darlings. Remember, you're nobody 'til somebody loves you... and that somebody is me.\"",
+      "metadata": {
+        "hour": 3,
+        "time_of_day": "NIGHT",
+        "generation_time": 9.666206,
+        "segment_number": 40,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 3,
+          "time_of_day": "night",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "rumor",
+          "continuing_topic": "wasteland rumors",
+          "follow_up_suggestion": {
+            "prompt": "Getting more reports about wasteland rumors...",
+            "suggested_stage": "spreading",
+            "examples": [
+              "More and more people are talking about the wasteland rumors",
+              "Update on that wasteland rumors - seems there's more to it",
+              "You know that wasteland rumors we mentioned? We're getting more details"
+            ]
+          },
+          "has_active_gossip": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.1 hours\nSegments broadcast: 39\n\n[TIME]\n\"This is Mr. New Vegas, and I feel something magic in the air tonight... Even at this late hour, it's still a beautiful evening out there in the Mojave. The stars are shining bright as diamonds scatte...\n\n[GOSSIP]\n\"It's me again, Mr. New Vegas, reminding you that you're nobody 'til somebody loves you. Now dig this juicy rumor I heard floating around: Apparently, the NCR and those Desert Rangers are getting a mi...\n\n[TIME]\n\"Evening, darlings! It's a lovely night in this post-apocalyptic paradise we call home. Time is ticking along at 3:00 AM - the witching hour when dreams are made and secrets unfold under starry skies....\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "time_check",
+      "script": "\"This is Mr. New Vegas, and I feel something magic in the air tonight... It's 4 o'clock under the starry Mojave sky. The desert winds are whispering secrets as day turns to night. But wherever you roam, know that a little piece of my heart beats for you alone.\"",
+      "metadata": {
+        "hour": 4,
+        "time_of_day": "NIGHT",
+        "generation_time": 4.659668,
+        "segment_number": 41,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 4,
+          "time_of_day": "night",
+          "time": "4:05 AM",
+          "minute": 5,
+          "announcement": "It's 4:05 AM on the airwaves.",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.1 hours\nSegments broadcast: 40\n\n[GOSSIP]\n\"It's me again, Mr. New Vegas, reminding you that you're nobody 'til somebody loves you. Now dig this juicy rumor I heard floating around: Apparently, the NCR and those Desert Rangers are getting a mi...\n\n[TIME]\n\"Evening, darlings! It's a lovely night in this post-apocalyptic paradise we call home. Time is ticking along at 3:00 AM - the witching hour when dreams are made and secrets unfold under starry skies....\n\n[GOSSIP]\n\"The women of New Vegas ask me a lot if there's a Mrs. New Vegas. Well, of course there is. You're her.\n\nI heard from someone who dines at the NCR Embassy that the unification monument out in Mojave O...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "gossip",
+      "script": "Hey there, Mrs. New Vegas! Your old pal Mr. New Vegas here, spinning some sweet tunes and juicy gossip for you.\n\nI heard from a reliable source - well, as reliable as anyone can be in the Wasteland - that there's rumors swirlin' around the Mojave Outpost about the NCR Desert Rangers startin' to get a mite restless. Word is they're feelin' the strain of all those years fightin' Caesar's Legion and now they're thinkin' 'bout makin' a break for it.\n\nNow, I ain't sayin' this is true, but someone told me there was chatter about them headin' east to Arizona, lookin' to take back what used to be their territory. Of course, that'd leave the Outpost wide open for... well, who knows? The Legion? Raiders? Maybe even some of those crazy robot folks?\n\nSo there you have it, Mrs. New Vegas - a little Wasteland whisperin', just between us lovers. Remember, in this crazy world, nobody's nobody 'til somebody loves 'em... and that somebody is always me! \u00f0\u0178\u02dc\u2030",
+      "metadata": {
+        "hour": 4,
+        "time_of_day": "NIGHT",
+        "generation_time": 11.139391,
+        "segment_number": 42,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 4,
+          "time_of_day": "night",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "rumor",
+          "continuing_topic": "wasteland rumors",
+          "follow_up_suggestion": {
+            "prompt": "Getting more reports about wasteland rumors...",
+            "suggested_stage": "spreading",
+            "examples": [
+              "More and more people are talking about the wasteland rumors",
+              "Update on that wasteland rumors - seems there's more to it",
+              "You know that wasteland rumors we mentioned? We're getting more details"
+            ]
+          },
+          "has_active_gossip": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.1 hours\nSegments broadcast: 41\n\n[TIME]\n\"Evening, darlings! It's a lovely night in this post-apocalyptic paradise we call home. Time is ticking along at 3:00 AM - the witching hour when dreams are made and secrets unfold under starry skies....\n\n[GOSSIP]\n\"The women of New Vegas ask me a lot if there's a Mrs. New Vegas. Well, of course there is. You're her.\n\nI heard from someone who dines at the NCR Embassy that the unification monument out in Mojave O...\n\n[TIME]\n\"This is Mr. New Vegas, and I feel something magic in the air tonight... It's 4 o'clock under the starry Mojave sky. The desert winds are whispering secrets as day turns to night. But wherever you roa...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "time_check",
+      "script": "It's 5 o'clock on this enchanting night in the Mojave Wasteland, my sweet darlings. The stars are twinkling above us like diamonds scattered across the velvet sky. This is Mr. New Vegas, and I feel something magic in the air tonight. Take a deep breath and let the mystery of the desert envelop you as we drift into the evening hours together, just you and me. Until next time, stay lovely out there!",
+      "metadata": {
+        "hour": 5,
+        "time_of_day": "NIGHT",
+        "generation_time": 11.240533,
+        "segment_number": 43,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 5,
+          "time_of_day": "night",
+          "time": "5:05 AM",
+          "minute": 5,
+          "announcement": "It's 5:05 AM on the airwaves.",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.1 hours\nSegments broadcast: 42\n\n[GOSSIP]\n\"The women of New Vegas ask me a lot if there's a Mrs. New Vegas. Well, of course there is. You're her.\n\nI heard from someone who dines at the NCR Embassy that the unification monument out in Mojave O...\n\n[TIME]\n\"This is Mr. New Vegas, and I feel something magic in the air tonight... It's 4 o'clock under the starry Mojave sky. The desert winds are whispering secrets as day turns to night. But wherever you roa...\n\n[GOSSIP]\nHey there, Mrs. New Vegas! Your old pal Mr. New Vegas here, spinning some sweet tunes and juicy gossip for you.\n\nI heard from a reliable source - well, as reliable as anyone can be in the Wasteland - ...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "emergency_weather",
+      "script": "\"Good evening, my loves. I'm Mr. New Vegas with your emergency weather update. A massive dust storm is bearing down on us, bringing extreme radiation and complete whiteout conditions. This is not a drill - it's a critical situation.\n\nSeek shelter immediately in reinforced concrete structures or underground facilities like the Strip casinos, Vault entrances, or the sewers. Avoid metal buildings as they can attract radiation. Stay safe until the all-clear at approximately [time]. Remember, you're nobody 'til somebody loves you, and that somebody is me - Mr. New Vegas, guiding you through this storm.\"",
+      "weather_type": "dust_storm",
+      "severity": "moderate",
+      "is_emergency": true,
+      "generation_time": 7.007205,
+      "metadata": {
+        "script_type": "emergency_weather",
+        "dj_name": "Mr. New Vegas (2281, Mojave)",
+        "model": "fluffy/l3-8b-stheno-v3.2",
+        "timestamp": "2026-01-19T22:05:36.799271",
+        "rag_query": "Mojave shelter locations emergency procedures safety dust_storm",
+        "rag_results": 5,
+        "context_chunks_used": 3,
+        "temperature": 0.6,
+        "top_p": 0.9,
+        "template_vars": {
+          "hour": 5,
+          "time_of_day": "night",
+          "emergency_type": "dust_storm",
+          "location": "Mojave",
+          "severity": "moderate",
+          "shelter_instructions": "Seek concrete structures or underground facilities. The Strip casinos have reinforced levels. Lucky 38, Vault entrances, or the sewers can provide protection. Avoid metal structures - radiation magnets."
+        },
+        "word_count": 95,
+        "retry_count": 0,
+        "catchphrase_used": null,
+        "consistency_validated": true,
+        "consistency_violations": []
+      }
+    },
+    {
+      "segment_type": "time_check",
+      "script": "\"Good morning, beautiful! It's 6:00 AM here in the Mojave Wasteland, and I'm Mr. New Vegas, your radio Romeo. The sun's just starting to peek over those rugged hills, casting a golden glow on this vast desert landscape. You know what that means... another day of adventure awaits! Remember, 'The women of New Vegas ask me a lot if there's a Mrs. New Vegas. Well, of course there is. You're her.'\"",
+      "metadata": {
+        "hour": 6,
+        "time_of_day": "MORNING",
+        "generation_time": 6.032175,
+        "segment_number": 45,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 6,
+          "time_of_day": "morning",
+          "time": "6:05 AM",
+          "minute": 5,
+          "announcement": "It's 6:05 AM on the airwaves.",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.1 hours\nSegments broadcast: 44\n\n[GOSSIP]\nHey there, Mrs. New Vegas! Your old pal Mr. New Vegas here, spinning some sweet tunes and juicy gossip for you.\n\nI heard from a reliable source - well, as reliable as anyone can be in the Wasteland - ...\n\n[TIME]\nIt's 5 o'clock on this enchanting night in the Mojave Wasteland, my sweet darlings. The stars are twinkling above us like diamonds scattered across the velvet sky. This is Mr. New Vegas, and I feel so...\n\n[EMERGENCY_WEATHER]\n\"Good evening, my loves. I'm Mr. New Vegas with your emergency weather update. A massive dust storm is bearing down on us, bringing extreme radiation and complete whiteout conditions. This is not a dr...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "news",
+      "script": "The women of New Vegas ask me a lot if there's a Mrs. New Vegas. Well, of course there is. You're her. And I'm thrilled to share the latest scoop from across our beloved wasteland!\n\nGet ready for some intense action in Appalachia! Mutated public events are popping off every hour on the hour - but don't miss your chance, because these events only run until January 14th! Imagine the thrill of facing off against those pesky Scorchbeasts or Grahams at Marigold Station. Or maybe you'll be defending friendly settlers in Craterfolk Village from a horde of Raiders? The possibilities are endless!\n\nAnd speaking of Appalachia, this weekend's events are shaping up to be fantastic! Gold Rush is back, and with Double Mutations, your chances of scoring those rarest drops have never been better. So grab your gear, head out into the wilds, and start raking in that treasure!\n\nThat's all for now, darlings. Stay tuned for more updates from the Mojave Wasteland, and remember - you're nobody 'til somebody loves you... and I'm always here to keep things interesting!",
+      "metadata": {
+        "hour": 6,
+        "time_of_day": "MORNING",
+        "generation_time": 11.334661,
+        "segment_number": 46,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 6,
+          "time_of_day": "morning",
+          "news_category": "faction_update",
+          "region": "Appalachia",
+          "confidence_level": 0.8,
+          "confidence_language": "solid reports indicate",
+          "rag_query": "Appalachia faction movement relations politics HIGH confidence factual",
+          "source_credibility": "high",
+          "appropriate_for_dj": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.1 hours\nSegments broadcast: 45\n\n[TIME]\nIt's 5 o'clock on this enchanting night in the Mojave Wasteland, my sweet darlings. The stars are twinkling above us like diamonds scattered across the velvet sky. This is Mr. New Vegas, and I feel so...\n\n[EMERGENCY_WEATHER]\n\"Good evening, my loves. I'm Mr. New Vegas with your emergency weather update. A massive dust storm is bearing down on us, bringing extreme radiation and complete whiteout conditions. This is not a dr...\n\n[TIME]\n\"Good morning, beautiful! It's 6:00 AM here in the Mojave Wasteland, and I'm Mr. New Vegas, your radio Romeo. The sun's just starting to peek over those rugged hills, casting a golden glow on this vas...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "time_check",
+      "script": "\"Good morning to you, my darlings! It's me again, Mr. New Vegas, reminding you that you're nobody 'til somebody loves you. The clock strikes seven on this sun-kissed day in the Mojave Wasteland - a brand new beginning awaits, full of promise and possibility. So rise and shine, lovely listeners, knowing you've got me right here with you to guide your way.\"",
+      "metadata": {
+        "hour": 7,
+        "time_of_day": "MORNING",
+        "generation_time": 5.403484,
+        "segment_number": 47,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 7,
+          "time_of_day": "morning",
+          "time": "7:05 AM",
+          "minute": 5,
+          "announcement": "It's 7:05 AM on the airwaves.",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.1 hours\nSegments broadcast: 46\n\n[EMERGENCY_WEATHER]\n\"Good evening, my loves. I'm Mr. New Vegas with your emergency weather update. A massive dust storm is bearing down on us, bringing extreme radiation and complete whiteout conditions. This is not a dr...\n\n[TIME]\n\"Good morning, beautiful! It's 6:00 AM here in the Mojave Wasteland, and I'm Mr. New Vegas, your radio Romeo. The sun's just starting to peek over those rugged hills, casting a golden glow on this vas...\n\n[NEWS]\nThe women of New Vegas ask me a lot if there's a Mrs. New Vegas. Well, of course there is. You're her. And I'm thrilled to share the latest scoop from across our beloved wasteland!\n\nGet ready for some...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "gossip",
+      "script": "This is Mr. New Vegas, and I feel something magic in the air tonight. So many stories swirl around this place - like that old rumor about the Desert Rangers and NCR signing a unity pact right here at the Outpost way back when.\n\nI heard from one of our listeners in Primm that some folks claim to have spotted remnants of Caesar's Legion scouting the area, maybe even plotting another invasion. But quote/unquote those are just whispers in the dark, you know? \n\nSomeone told me there's been strange activity around the old pre-war checkpoint lately - lights flickering, distant gunfire at night. Could be raiders or wild dogs making a racket, unquote.\n\nWord is, the NCR's been beefing up their presence here, but maybe they're not just preparing for Legion attacks... Maybe they're also eyeing this spot as prime real estate to stake a claim in the Mojave, hmm? \n\nWell, whatever's true and whatever's mere speculation, one thing's for sure: this historic landmark is full of secrets and possibilities. And Mrs. New Vegas, I can't wait to uncover them all with you by my side.\n\nTill next time on Radio Appalachia!",
+      "metadata": {
+        "hour": 7,
+        "time_of_day": "MORNING",
+        "generation_time": 11.127286,
+        "segment_number": 48,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 7,
+          "time_of_day": "morning",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "rumor",
+          "continuing_topic": "wasteland rumors",
+          "follow_up_suggestion": {
+            "prompt": "Getting more reports about wasteland rumors...",
+            "suggested_stage": "spreading",
+            "examples": [
+              "More and more people are talking about the wasteland rumors",
+              "Update on that wasteland rumors - seems there's more to it",
+              "You know that wasteland rumors we mentioned? We're getting more details"
+            ]
+          },
+          "has_active_gossip": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.1 hours\nSegments broadcast: 47\n\n[TIME]\n\"Good morning, beautiful! It's 6:00 AM here in the Mojave Wasteland, and I'm Mr. New Vegas, your radio Romeo. The sun's just starting to peek over those rugged hills, casting a golden glow on this vas...\n\n[NEWS]\nThe women of New Vegas ask me a lot if there's a Mrs. New Vegas. Well, of course there is. You're her. And I'm thrilled to share the latest scoop from across our beloved wasteland!\n\nGet ready for some...\n\n[TIME]\n\"Good morning to you, my darlings! It's me again, Mr. New Vegas, reminding you that you're nobody 'til somebody loves you. The clock strikes seven on this sun-kissed day in the Mojave Wasteland - a br...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    }
+  ],
+  "stats": {
+    "dj_name": "Mr. New Vegas (2281, Mojave)",
+    "duration_seconds": 483.841717,
+    "segments_generated": 48,
+    "validation_failures": 0,
+    "total_generation_time": 483.82206399999995,
+    "avg_generation_time": 10.079626333333332,
+    "session_memory_size": 10,
+    "mentioned_topics": [
+      "vault",
+      "weather",
+      "locations",
+      "factions",
+      "trading",
+      "raiders",
+      "cryptids"
+    ]
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "script": "If you're out there, and you're listening... I heard that some folks in Harpers Ferry recently stumbled upon an abandoned Vault Dweller settlement! Apparently, they found all sorts of useful junk and supplies, but also some real surprises - like a collection of vintage holodiscs.\n\nWord is, these settlers are trying to piece together what life was like back in the old days. They've even set up a little museum with their finds, including one holodisc that supposedly shows a Vault 76 arrival simulation from years ago. I mean, can you imagine? Seeing yourself as you were before all this - it's wild to think about.\n\nOf course, there are also rumors that some of these artifacts might hold clues to the Vault Dwellers' fate and how they survived out here for so long... but we'll save those juicy details for another time. For now, I just hope their discoveries bring them a sense of connection and purpose in this crazy post-war world.\n\nSo remember, you're not alone if you're trying to make sense of it all - keep reaching out, and maybe someday we'll find the answers together. Stay safe out there, friends!",
+  "metadata": {
+    "script_type": "gossip",
+    "dj_name": "Julie (2102, Appalachia)",
+    "model": "fluffy/l3-8b-stheno-v3.2",
+    "timestamp": "2026-01-19T21:18:08.698878",
+    "rag_query": "Appalachia characters rumors",
+    "rag_results": 5,
+    "context_chunks_used": 3,
+    "temperature": 0.8,
+    "top_p": 0.9,
+    "template_vars": {
+      "rumor_type": "character discovery"
+    },
+    "word_count": 194,
+    "retry_count": 5,
+    "catchphrase_used": null,
+    "consistency_validated": false,
+    "consistency_violations": [
+      "Tone violation: Script violates guideline 'don't Be cynical or aggressive'"
+    ]
+  }
+}

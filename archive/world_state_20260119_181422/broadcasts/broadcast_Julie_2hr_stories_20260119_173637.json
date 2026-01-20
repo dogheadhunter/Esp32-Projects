@@ -1,0 +1,140 @@
+{
+  "metadata": {
+    "dj": "Julie (2102, Appalachia)",
+    "duration_hours": 2,
+    "segments_per_hour": 2,
+    "start_hour": 8,
+    "story_system_enabled": true,
+    "validation_enabled": false,
+    "validation_mode": null,
+    "generation_timestamp": "2026-01-19T17:36:37.421990",
+    "total_segments": 4
+  },
+  "segments": [
+    {
+      "segment_type": "gossip",
+      "script": "Welcome home, Appalachia! So, I heard from someone who heard from someone else that there's been some... unusual sightings around Vault 76 lately. Apparently, a few folks have seen glowing creatures lurking in the woods at night. Like, they're all translucent and stuff. \n\nNow, I don't know if this is just old wives' tales or what, but it does sound pretty spooky! Someone told me those beings might be connected to some kind of ancient technology hidden underground. Who knows, right? We've heard a lot of strange rumors in these parts.\n\nI mean, we're already dealing with the Scorched and Ghouls and all sorts of radiation nonsense. So maybe a little paranormal activity is just part of living in the wasteland now! Either way, it's sure given people something to talk about. I'll keep an ear out for more... interesting stories like this one. Thanks for listening, everyone! Stay brave, stay weird!",
+      "metadata": {
+        "hour": 8,
+        "time_of_day": "MORNING",
+        "generation_time": 20.120251,
+        "segment_number": 1,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 8,
+          "time_of_day": "morning",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "initial",
+          "continuing_topic": null,
+          "follow_up_suggestion": null,
+          "has_active_gossip": false
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "story",
+      "script": "\"If you're out there, and you're listening... you are not alone.\" I always like to start with that, just to make sure everyone knows they've got a friend here at the radio.\n\nSo, word is, there's this abandoned bunker deep in the wilderness. Supposedly it's filled with pre-war goodies - weapons, armor, even some caps! Now, I haven't seen it myself, but someone told me an old miner stumbled upon it and managed to snag a few decent items before raiders chased him off.\n\nApparently, there's rumors of more bunkers like that scattered around Appalachia. Just hidden away, waiting for brave explorers to find 'em. I mean, can you imagine? Tons of treasures just lying around after all these years! It's enough to make a person want to grab a pickaxe and start digging.\n\nBut hey, I'm just Julie the DJ, not some expert treasure hunter! My job is to keep the tunes flowing and the company warm. And if you do happen upon one of those secret bunkers... well, be sure to share your stories with me, okay? I'd love to hear 'em on the airwaves sometime soon. \"Take Me Home, Country Roads\" is playing now, so enjoy the ride!",
+      "metadata": {
+        "hour": 8,
+        "time_of_day": "MORNING",
+        "generation_time": 14.977337,
+        "segment_number": 2,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 8,
+          "time_of_day": "morning",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "rumor",
+          "continuing_topic": "wasteland rumors",
+          "follow_up_suggestion": {
+            "prompt": "Getting more reports about wasteland rumors...",
+            "suggested_stage": "spreading",
+            "examples": [
+              "More and more people are talking about the wasteland rumors",
+              "Update on that wasteland rumors - seems there's more to it",
+              "You know that wasteland rumors we mentioned? We're getting more details"
+            ]
+          },
+          "has_active_gossip": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 1\n\n[GOSSIP]\nWelcome home, Appalachia! So, I heard from someone who heard from someone else that there's been some... unusual sightings around Vault 76 lately. Apparently, a few folks have seen glowing creatures l...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)",
+          "story_context": "STORY BEATS FOR THIS BROADCAST:\n\n1. Story story_quest_beyond_the_beef (daily, Act 1)\n   Type: setup\n   Summary: Quest Stages\n   Tone: neutral, Conflict: 0.2/1.0\n\n\nDIRECTIONS:\n- Weave these stories naturally into your broadcast segments\n- Maintain your DJ personality while delivering the story content\n- Use callbacks to create continuity with previous broadcasts\n- Respect the emotional tone and conflict level of each beat"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "news",
+      "script": "Hey there, wastelanders! \n\nI mean, it's Julie here at Radio Appalachia, and I've got some good news for you today. You know how we've been hearing rumors about a new settlement popping up near Flatwoods? Well, I just got word from my sources that it's official - they're calling it Freedom's Landing!\n\nNow, I know what you're thinking: another bunch of folks trying to make a go of it in the wasteland. But hear me out. From what I've heard, these settlers are coming together from all over Appalachia - some from the old mining towns, others from the mountains. They're putting aside their differences and working as one.\n\nAnd get this - they're planning on building an actual farm there! Can you imagine? Fresh produce in the wilds of West Virginia... it's a dream, right?\n\nSo let's all send our best wishes to Freedom's Landing. May they find peace, prosperity, and plenty of fresh veggies out there!\n\nThat's all for now from your girl Julie. Keep on keeping on, Appalachia!",
+      "metadata": {
+        "hour": 9,
+        "time_of_day": "MORNING",
+        "generation_time": 10.640653,
+        "segment_number": 3,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 9,
+          "time_of_day": "morning",
+          "news_category": "faction_update",
+          "region": "Appalachia",
+          "confidence_level": 0.8,
+          "confidence_language": "solid reports indicate",
+          "rag_query": "Appalachia faction movement relations politics HIGH confidence factual",
+          "source_credibility": "high",
+          "appropriate_for_dj": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 2\n\n[GOSSIP]\nWelcome home, Appalachia! So, I heard from someone who heard from someone else that there's been some... unusual sightings around Vault 76 lately. Apparently, a few folks have seen glowing creatures l...\n\n[STORY]\n\"If you're out there, and you're listening... you are not alone.\" I always like to start with that, just to make sure everyone knows they've got a friend here at the radio.\n\nSo, word is, there's this ...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "story",
+      "script": "I'm just happy to be here, playing music for you guys.\n\nYou know, I heard some chatter about those Scorch Beasts. Word is, they're more aggressive lately, maybe because of the weather changes or something. Someone told me they even spotted one near Flatwoods, which is usually pretty quiet. So if you're out and about in that area, just be extra careful, okay?\n\nAlso, I got a message from a listener saying they saw a weird creature at the old campus building. Apparently it was like a mole rat but with spikes all over its back? I mean, I've heard of mutated creatures before, but that sounds new to me! Has anyone else seen anything like that?\n\nAnyway, enough about the spooky stuff for now. Let's focus on the good in Appalachia, like how our little community is growing stronger every day. And speaking of growth, have you heard the rumors about a hidden underground settlement somewhere in the woods? I don't know if it's true, but wouldn't that be something?\n\nWell, that's all for now. Stay safe out there and keep on listening!",
+      "metadata": {
+        "hour": 9,
+        "time_of_day": "MORNING",
+        "generation_time": 10.89785,
+        "segment_number": 4,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 9,
+          "time_of_day": "morning",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "rumor",
+          "continuing_topic": "wasteland rumors",
+          "follow_up_suggestion": {
+            "prompt": "Getting more reports about wasteland rumors...",
+            "suggested_stage": "spreading",
+            "examples": [
+              "More and more people are talking about the wasteland rumors",
+              "Update on that wasteland rumors - seems there's more to it",
+              "You know that wasteland rumors we mentioned? We're getting more details"
+            ]
+          },
+          "has_active_gossip": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 3\n\n[GOSSIP]\nWelcome home, Appalachia! So, I heard from someone who heard from someone else that there's been some... unusual sightings around Vault 76 lately. Apparently, a few folks have seen glowing creatures l...\n\n[STORY]\n\"If you're out there, and you're listening... you are not alone.\" I always like to start with that, just to make sure everyone knows they've got a friend here at the radio.\n\nSo, word is, there's this ...\n\n[NEWS]\nHey there, wastelanders! \n\nI mean, it's Julie here at Radio Appalachia, and I've got some good news for you today. You know how we've been hearing rumors about a new settlement popping up near Flatwoo...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)",
+          "story_context": "STORY BEATS FOR THIS BROADCAST:\n\n1. Story story_quest_beyond_the_beef (daily, Act 1)\n   Type: setup\n   Summary: Quest Stages\n   Tone: neutral, Conflict: 0.2/1.0\n\n\nDIRECTIONS:\n- Weave these stories naturally into your broadcast segments\n- Maintain your DJ personality while delivering the story content\n- Use callbacks to create continuity with previous broadcasts\n- Respect the emotional tone and conflict level of each beat"
+        },
+        "validation": null
+      }
+    }
+  ],
+  "stats": {
+    "dj_name": "Julie (2102, Appalachia)",
+    "duration_seconds": 56.63773,
+    "segments_generated": 4,
+    "validation_failures": 0,
+    "total_generation_time": 56.636091,
+    "avg_generation_time": 14.15902275,
+    "session_memory_size": 4,
+    "mentioned_topics": [
+      "vault",
+      "locations",
+      "weather",
+      "cryptids",
+      "raiders",
+      "trading",
+      "factions"
+    ]
+  }
+}

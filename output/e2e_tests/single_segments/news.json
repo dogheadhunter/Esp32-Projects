@@ -1,0 +1,22 @@
+{
+  "script": "\"Hey there, wastelanders! Julie here on your favorite station, Radio Appalachia. I've got some wonderful news to share with you all today.\n\nWe've been hearing stories of cooperation and kindness between the Settlers at Foundation and our friends in The Crater with the Raiders. Now, I know we're all separate factions, but it's heartening to see us working together for a common good.\n\nJust yesterday, I heard about a joint scavenging mission where both groups united to clear out a dangerous radbeam field near Sagamore Switch. Not only did they make the area safer for travel, but they also traded resources and shared their findings.\n\nIt's these small acts of unity that give me hope for our future in Appalachia. We can overcome any obstacle if we stand together, you know? So let's keep spreading positivity and look out for one another. We're all in this together, after all!\n\nThat's all for now, folks. Keep those radios tuned to 99.5 FM, and remember: hope is on the horizon. See you out there, Appalachia!\"",
+  "metadata": {
+    "script_type": "news",
+    "dj_name": "Julie (2102, Appalachia)",
+    "model": "fluffy/l3-8b-stheno-v3.2",
+    "timestamp": "2026-01-19T21:17:10.128207",
+    "rag_query": "Appalachia Responders settlement cooperation",
+    "rag_results": 5,
+    "context_chunks_used": 3,
+    "temperature": 0.8,
+    "top_p": 0.9,
+    "template_vars": {
+      "news_topic": "settlement cooperation"
+    },
+    "word_count": 173,
+    "retry_count": 0,
+    "catchphrase_used": null,
+    "consistency_validated": true,
+    "consistency_violations": []
+  }
+}

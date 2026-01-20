@@ -190,7 +190,13 @@ class BroadcastEngine:
         print(f"\n🎙️ BroadcastEngine initialized for {dj_name}")
         print(f"   Session memory: {max_session_memory} scripts")
         if enable_validation:
-            print(f"   Validation: enabled (mode: {self.validation_mode})")
+            validation_msg = f"   Validation: enabled (mode: {self.validation_mode}"
+            if isinstance(self.validator, LLMValidator):
+                validation_msg += f", model: {self.validator.model}"
+            elif isinstance(self.validator, HybridValidator) and self.validator.llm_validator:
+                validation_msg += f", model: {self.validator.llm_validator.model}"
+            validation_msg += ")"
+            print(validation_msg)
         else:
             print(f"   Validation: disabled")
         if WEATHER_SYSTEM_AVAILABLE and self.region:
@@ -488,12 +494,22 @@ class BroadcastEngine:
         rag_context = self._get_emergency_rag_context(weather_state)
         base_vars['rag_context'] = rag_context
         
-        # Generate emergency alert
+        # Generate emergency alert using proper API
+        # Emergency alerts need shelter/safety context
+        context_query = f"{self.region.value} shelter locations emergency procedures safety {weather_state.weather_type}"
+        
         result = self.generator.generate_script(
-            template_name='emergency_weather',
-            template_vars=base_vars,
+            script_type='emergency_weather',
+            dj_name=self.dj_name,
+            context_query=context_query,
             temperature=0.6,  # More focused for emergencies
-            max_words=75  # Keep it brief and urgent
+            # Pass emergency-specific vars as **kwargs
+            hour=current_hour,
+            time_of_day=time_of_day.name.lower(),
+            emergency_type=weather_state.weather_type,
+            location=self.region.value if self.region else 'the area',
+            severity=weather_state.intensity,
+            shelter_instructions=base_vars['shelter_instructions']
         )
         
         # Track in session memory
@@ -717,14 +733,25 @@ class BroadcastEngine:
                     character_card=personality,
                     context=validation_context
                 )
-                # Store summary only (not full ValidationResult)
+                # Store full validation result including feedback
                 validation_result = {
                     'is_valid': val_result.is_valid,
                     'score': val_result.overall_score,
                     'critical_count': len(val_result.get_critical_issues()),
                     'warnings_count': len(val_result.get_warnings()),
                     'suggestions_count': len(val_result.get_suggestions()),
-                    'mode': self.validation_mode
+                    'mode': self.validation_mode,
+                    'feedback': val_result.llm_feedback,
+                    'issues': [
+                        {
+                            'severity': issue.severity.value,
+                            'category': issue.category,
+                            'message': issue.message,
+                            'suggestion': issue.suggestion,
+                            'confidence': issue.confidence
+                        }
+                        for issue in val_result.issues
+                    ]
                 }
                 is_valid = val_result.is_valid
             else:

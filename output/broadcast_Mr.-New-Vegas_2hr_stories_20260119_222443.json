@@ -1,0 +1,145 @@
+{
+  "metadata": {
+    "dj": "Mr. New Vegas (2281, Mojave)",
+    "duration_hours": 2,
+    "segments_per_hour": 2,
+    "start_hour": 8,
+    "story_system_enabled": true,
+    "validation_enabled": true,
+    "validation_mode": "llm",
+    "generation_timestamp": "2026-01-19T22:24:43.407490",
+    "total_segments": 4
+  },
+  "segments": [
+    {
+      "segment_type": "emergency_weather",
+      "script": "\"Listen up, my darlings, this is an emergency broadcast from yours truly, Mr. New Vegas. A massive dust wall is bearing down on the Mojave with extreme radiation levels. Visibility will drop to zero. Seek shelter immediately in concrete structures or underground facilities like the Strip casinos, Vault entrances, or the sewers. Avoid metal buildings - they're radiation magnets. This storm will last approximately 4 hours. Stay safe and know that somebody loves you, even if it's just me.\"",
+      "weather_type": "dust_storm",
+      "severity": "moderate",
+      "is_emergency": true,
+      "generation_time": 18.833477,
+      "metadata": {
+        "script_type": "emergency_weather",
+        "dj_name": "Mr. New Vegas (2281, Mojave)",
+        "model": "fluffy/l3-8b-stheno-v3.2",
+        "timestamp": "2026-01-19T22:22:51.377151",
+        "rag_query": "Mojave shelter locations emergency procedures safety dust_storm",
+        "rag_results": 5,
+        "context_chunks_used": 3,
+        "temperature": 0.6,
+        "top_p": 0.9,
+        "template_vars": {
+          "hour": 8,
+          "time_of_day": "morning",
+          "emergency_type": "dust_storm",
+          "location": "Mojave",
+          "severity": "moderate",
+          "shelter_instructions": "Seek concrete structures or underground facilities. The Strip casinos have reinforced levels. Lucky 38, Vault entrances, or the sewers can provide protection. Avoid metal structures - radiation magnets."
+        },
+        "word_count": 79,
+        "retry_count": 0,
+        "catchphrase_used": null,
+        "consistency_validated": true,
+        "consistency_violations": []
+      }
+    },
+    {
+      "segment_type": "time_check",
+      "script": "\"Good morning to you, my lovely listeners! It's 8:00 on this bright Mojave morning. The sun is just starting to peek over the horizon, casting that golden glow across our desert landscape. You know what that means - a brand new day full of possibilities!\n\nIt's me again, Mr. New Vegas, reminding you that you're nobody 'til somebody loves you. And darlings, I am here to love you through it all. So buckle up, take a deep breath of that crisp morning air, and let's make today unforgettable!\"",
+      "metadata": {
+        "hour": 8,
+        "time_of_day": "MORNING",
+        "generation_time": 28.493356,
+        "segment_number": 2,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 8,
+          "time_of_day": "morning",
+          "time": "8:22 AM",
+          "minute": 22,
+          "announcement": "It's 8:22 AM on the airwaves.",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 1\n\n[EMERGENCY_WEATHER]\n\"Listen up, my darlings, this is an emergency broadcast from yours truly, Mr. New Vegas. A massive dust wall is bearing down on the Mojave with extreme radiation levels. Visibility will drop to zero. ...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": {
+          "is_valid": true,
+          "score": 0.95,
+          "critical_count": 0,
+          "warnings_count": 0,
+          "suggestions_count": 0,
+          "mode": "llm"
+        }
+      }
+    },
+    {
+      "segment_type": "time_check",
+      "script": "\"Good morning there, darlings! It's 9 o'clock right now, and the Mojave sun is shining bright. You know what that means - a brand new day full of possibilities! This is Mr. New Vegas, and I feel something magic in the air tonight... or should I say this morning? Take it from me, love is just around every dusty corner out here. So go ahead, embrace the adventure, and remember - you're nobody 'til somebody loves you.\"",
+      "metadata": {
+        "hour": 9,
+        "time_of_day": "MORNING",
+        "generation_time": 36.699747,
+        "segment_number": 3,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 9,
+          "time_of_day": "morning",
+          "time": "9:23 AM",
+          "minute": 23,
+          "announcement": "It's 9:23 AM on the airwaves.",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 2\n\n[EMERGENCY_WEATHER]\n\"Listen up, my darlings, this is an emergency broadcast from yours truly, Mr. New Vegas. A massive dust wall is bearing down on the Mojave with extreme radiation levels. Visibility will drop to zero. ...\n\n[TIME]\n\"Good morning to you, my lovely listeners! It's 8:00 on this bright Mojave morning. The sun is just starting to peek over the horizon, casting that golden glow across our desert landscape. You know wh...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": {
+          "is_valid": true,
+          "score": 0.95,
+          "critical_count": 0,
+          "warnings_count": 0,
+          "suggestions_count": 1,
+          "mode": "llm"
+        }
+      }
+    },
+    {
+      "segment_type": "gossip",
+      "script": "Hey there Mrs. New Vegas, how's your day going? Mine's been pretty swell, just spinning some tunes and keeping it groovy out here in the Mojave Wasteland.\n\nYou know, I heard from a cat who's friends with one of the NCR soldiers that there might be some trouble brewin' at Hoover Dam. Word is, those Legion fanatics have been causin' some ruckus on the other side, maybe even tryin' to infiltrate. But don't you worry, our boys and girls in blue are always ready for a scrap.\n\nOn another note, someone told me that a group of trappers out near Bitter Springs have come across some pretty rare caps stash. Now, I ain't one to spread rumors, but if it's true, those trappers might be sittin' on quite the fortune! Always nice to find some extra caps in this harsh wasteland life.\n\nWell, that's all for now, my dear. Just a couple tidbits of gossip to keep things interesting out here. Remember, until somebody loves you, you're nobody at all - and if you ever need any lovin' vibes, just tune into Radio Appalachia anytime! Your DJ, Mr. New Vegas, signing off.",
+      "metadata": {
+        "hour": 9,
+        "time_of_day": "MORNING",
+        "generation_time": 46.542522,
+        "segment_number": 4,
+        "template_vars": {
+          "dj_name": "Mr. New Vegas (2281, Mojave)",
+          "hour": 9,
+          "time_of_day": "morning",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "initial",
+          "continuing_topic": null,
+          "follow_up_suggestion": null,
+          "has_active_gossip": false,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 3\n\n[EMERGENCY_WEATHER]\n\"Listen up, my darlings, this is an emergency broadcast from yours truly, Mr. New Vegas. A massive dust wall is bearing down on the Mojave with extreme radiation levels. Visibility will drop to zero. ...\n\n[TIME]\n\"Good morning to you, my lovely listeners! It's 8:00 on this bright Mojave morning. The sun is just starting to peek over the horizon, casting that golden glow across our desert landscape. You know wh...\n\n[TIME]\n\"Good morning there, darlings! It's 9 o'clock right now, and the Mojave sun is shining bright. You know what that means - a brand new day full of possibilities! This is Mr. New Vegas, and I feel somet...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": {
+          "is_valid": true,
+          "score": 0.95,
+          "critical_count": 0,
+          "warnings_count": 0,
+          "suggestions_count": 1,
+          "mode": "llm"
+        }
+      }
+    }
+  ],
+  "stats": {
+    "dj_name": "Mr. New Vegas (2281, Mojave)",
+    "duration_seconds": 130.57601,
+    "segments_generated": 4,
+    "validation_failures": 0,
+    "total_generation_time": 130.569102,
+    "avg_generation_time": 32.6422755,
+    "session_memory_size": 4,
+    "mentioned_topics": [
+      "vault",
+      "weather",
+      "locations",
+      "trading"
+    ]
+  }
+}

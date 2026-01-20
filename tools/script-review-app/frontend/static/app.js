@@ -1048,12 +1048,8 @@ class ScriptReviewApp {
         try {
             const action = this.lastAction;
             
-            // Revert the API call
-            if (action.type === 'approve') {
-                await api.reviewScript(action.script.metadata.script_id, 'pending');
-            } else if (action.type === 'reject') {
-                await api.reviewScript(action.script.metadata.script_id, 'pending');
-            }
+            // Call undo endpoint
+            await api.undoReview(action.script.metadata.script_id);
             
             // Go back to previous script
             this.currentIndex = action.index;

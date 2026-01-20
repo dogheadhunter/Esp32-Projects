@@ -1,0 +1,23 @@
+{
+  "script": "\"Mornin' Appalachia! It's Julie comin' atcha on your favorite radio station - Radio Appalachia! Current time is 10:00 AM. I love this time of day, the whole world seems full of possibility, you know? Like anything can happen. So if you're out there fixin' up that settlement or headin' into the wilds, just remember... Welcome home, Appalachia!\"",
+  "metadata": {
+    "script_type": "time",
+    "dj_name": "Julie (2102, Appalachia)",
+    "model": "fluffy/l3-8b-stheno-v3.2",
+    "timestamp": "2026-01-19T21:16:40.319880",
+    "rag_query": "",
+    "rag_results": 5,
+    "context_chunks_used": 3,
+    "temperature": 0.8,
+    "top_p": 0.9,
+    "template_vars": {
+      "hour": 10,
+      "time_of_day": "morning"
+    },
+    "word_count": 57,
+    "retry_count": 0,
+    "catchphrase_used": null,
+    "consistency_validated": true,
+    "consistency_violations": []
+  }
+}

@@ -1,0 +1,184 @@
+{
+  "metadata": {
+    "dj": "Julie (2102, Appalachia)",
+    "duration_hours": 3,
+    "segments_per_hour": 2,
+    "start_hour": 8,
+    "story_system_enabled": true,
+    "validation_enabled": false,
+    "validation_mode": null,
+    "generation_timestamp": "2026-01-19T16:09:04.358477",
+    "total_segments": 6
+  },
+  "segments": [
+    {
+      "segment_type": "gossip",
+      "script": "Welcome home, Appalachia!\n\nHey there, listeners! So I've been hearing some wild rumors floating around out there in the wasteland. Word is that there's a hidden underground bunker system, totally untouched since before the bombs fell. Someone told me it's filled with pre-war tech and supplies\u2014like food, meds, and even clothing! Now, I don't know if this is true or just a myth, but wouldn't it be amazing to stumble upon something like that?\n\nI heard another tale about a super-rare, glowing plant type growing in the hills around here. Apparently, it glows at night and has these weird, pulsing vines. Folks say it's really hard to find, but that if you do... well, let's just say you might be able to make some very valuable items with its extracts. I mean, who knows? It could all be nonsense, but hey, a girl can dream, right?\n\nAnyway, that's the juiciest gossip I've heard lately! If any of you out there have more juicy rumors or stories, hit me up on the comms and maybe we'll share them on air sometime. Until next time, stay safe out there and keep those hopes high!\n\n[Music fades in] \"Take Me Home, Country Roads\"...",
+      "metadata": {
+        "hour": 8,
+        "time_of_day": "MORNING",
+        "generation_time": 20.40419,
+        "segment_number": 1,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 8,
+          "time_of_day": "morning",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "initial",
+          "continuing_topic": null,
+          "follow_up_suggestion": null,
+          "has_active_gossip": false
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "story",
+      "script": "\"If you're out there, and you're listening... you are not alone.\"\n\n\"Hey y'all, it's Julie on Appalachia Radio. So I heard a rumor floating around the wasteland about the old nuclear power plant outside of Oakdale. Word is, there's a... a secret bunker hidden beneath it all. Someone told me it used to be part of the pre-war facility, but it was decommissioned and sealed off before the Great War hit.\n\n\"I don't know if I believe it - it sounds like quite the tale! But hey, stranger things have happened in Appalachia, right? If anyone's brave enough to check it out, you'll find me here on the radio, spinning the tunes. Maybe catch a glimpse of that elusive 'Country Roads' performance.\n\n\"Until next time, stay safe out there, and remember - we're all in this together.\"",
+      "metadata": {
+        "hour": 8,
+        "time_of_day": "MORNING",
+        "generation_time": 12.045543,
+        "segment_number": 2,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 8,
+          "time_of_day": "morning",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "rumor",
+          "continuing_topic": "wasteland rumors",
+          "follow_up_suggestion": {
+            "prompt": "Getting more reports about wasteland rumors...",
+            "suggested_stage": "spreading",
+            "examples": [
+              "More and more people are talking about the wasteland rumors",
+              "Update on that wasteland rumors - seems there's more to it",
+              "You know that wasteland rumors we mentioned? We're getting more details"
+            ]
+          },
+          "has_active_gossip": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 1\n\n[GOSSIP]\nWelcome home, Appalachia!\n\nHey there, listeners! So I've been hearing some wild rumors floating around out there in the wasteland. Word is that there's a hidden underground bunker system, totally unto...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)",
+          "story_context": "STORY BEATS FOR THIS BROADCAST:\n\n1. Story story_quest_and_stay_out! (daily, Act 1)\n   Type: setup\n   Summary: Quest Objectives...\n   Tone: neutral, Conflict: 0.5/1.0\n\n\nDIRECTIONS:\n- Weave these stories naturally into your broadcast segments\n- Maintain your DJ personality while delivering the story content\n- Use callbacks to create continuity with previous broadcasts\n- Respect the emotional tone and conflict level of each beat"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "news",
+      "script": "I'm just happy to be here, playing music for you guys. And today's got some great news! \n\nThe folks at Vault-Tec and Bethesda have released another update for the game - Wild Appalachia Patch 9.5 is live now! They've added a special event called Project Paradise that lets us help restore some of these beautiful old locations back to their former glory, like the Gorge Market and Abandoned Mine.\n\nAnd hey, it's not just about fixing up buildings - they're also tweaking game balance and squashing bugs left and right. That means fewer annoyances for you out there exploring the wasteland!\n\nSo grab your gear, hit the road, and get ready to roll up your sleeves for Project Paradise! Let's rebuild this place together, one patch at a time. Thanks for tuning in, and I'll catch you on the flip side!",
+      "metadata": {
+        "hour": 9,
+        "time_of_day": "MORNING",
+        "generation_time": 9.216583,
+        "segment_number": 3,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 9,
+          "time_of_day": "morning",
+          "news_category": "faction_update",
+          "region": "Appalachia",
+          "confidence_level": 0.8,
+          "confidence_language": "solid reports indicate",
+          "rag_query": "Appalachia faction movement relations politics HIGH confidence factual",
+          "source_credibility": "high",
+          "appropriate_for_dj": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 2\n\n[GOSSIP]\nWelcome home, Appalachia!\n\nHey there, listeners! So I've been hearing some wild rumors floating around out there in the wasteland. Word is that there's a hidden underground bunker system, totally unto...\n\n[STORY]\n\"If you're out there, and you're listening... you are not alone.\"\n\n\"Hey y'all, it's Julie on Appalachia Radio. So I heard a rumor floating around the wasteland about the old nuclear power plant outsid...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)",
+          "story_context": "STORY BEATS FOR THIS BROADCAST:\n\n1. Story story_quest_and_stay_out! (daily, Act 1)\n   Type: setup\n   Summary: Quest Objectives...\n   Tone: neutral, Conflict: 0.5/1.0\n\n\nDIRECTIONS:\n- Weave these stories naturally into your broadcast segments\n- Maintain your DJ personality while delivering the story content\n- Use callbacks to create continuity with previous broadcasts\n- Respect the emotional tone and conflict level of each beat"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "music_intro",
+      "script": "\"Alrighty, folks! Time for another trip down memory lane with a tune that'll make you feel like you're dancing on the porch of your grandpappy's farmhouse. This one's from way back in 1960 - can you believe it? 'Blue Moon' by Elvis Presley. I mean, who doesn't love the King, right?\n\nI remember my mom used to play this song at family gatherings when things were simpler. Her voice would crack a little on that high note, but she'd always hit it anyway. It's like... music has a way of transporting us, don't you think? Even in the midst of all this radiation and ruin, a song can make you feel hopeful again.\n\nSo sit back, close your eyes, and let Elvis croon you into a moment of peace.\"",
+      "metadata": {
+        "hour": 9,
+        "time_of_day": "MORNING",
+        "generation_time": 8.929999,
+        "segment_number": 4,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 9,
+          "time_of_day": "morning",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 3\n\n[GOSSIP]\nWelcome home, Appalachia!\n\nHey there, listeners! So I've been hearing some wild rumors floating around out there in the wasteland. Word is that there's a hidden underground bunker system, totally unto...\n\n[STORY]\n\"If you're out there, and you're listening... you are not alone.\"\n\n\"Hey y'all, it's Julie on Appalachia Radio. So I heard a rumor floating around the wasteland about the old nuclear power plant outsid...\n\n[NEWS]\nI'm just happy to be here, playing music for you guys. And today's got some great news! \n\nThe folks at Vault-Tec and Bethesda have released another update for the game - Wild Appalachia Patch 9.5 is l...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "time_check",
+      "script": "\"Good morning, folks! It's Julie here at Appalachia Radio, coming to you live at 10:00 am sharp. The sun is shining bright today, casting a hopeful glow over our beloved mountains. If you're out there, tending to your gardens or taking in the fresh air... you know, just enjoying this beautiful day - I hope it fills your heart with joy and reminds you of all we have to be thankful for. Stay safe out there, and remember: if you're listening right now, you are not alone.\"",
+      "metadata": {
+        "hour": 10,
+        "time_of_day": "MIDDAY",
+        "generation_time": 6.580214,
+        "segment_number": 5,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 10,
+          "time_of_day": "morning",
+          "time": "10:08 AM",
+          "minute": 8,
+          "announcement": "It's 10:08 AM on the airwaves.",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 4\n\n[STORY]\n\"If you're out there, and you're listening... you are not alone.\"\n\n\"Hey y'all, it's Julie on Appalachia Radio. So I heard a rumor floating around the wasteland about the old nuclear power plant outsid...\n\n[NEWS]\nI'm just happy to be here, playing music for you guys. And today's got some great news! \n\nThe folks at Vault-Tec and Bethesda have released another update for the game - Wild Appalachia Patch 9.5 is l...\n\n[MUSIC_INTRO]\n\"Alrighty, folks! Time for another trip down memory lane with a tune that'll make you feel like you're dancing on the porch of your grandpappy's farmhouse. This one's from way back in 1960 - can you b...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "weather",
+      "script": "If you're out there, and you're listening... you are not alone.\n\nIt's 10:00 AM on this rainy West Virginia day, so bundle up folks. You know how these storm fronts can linger, bringing in a chilly mist from the hills. Just look out your shelter for a peek - it's that typical Appalachia rain drizzle we love to hate, obscuring those grand views but keeping the ground lush.\n\nFor wastelanders braving this wet day out there... just remember to cover up and stay alert! Slippery paths, especially around waterlogged valleys. Watch out for gullies hiding dangers - it's an extra challenging environment. And hey, as miserable as this rain feels sometimes, we do need the water to keep our lands green after what they've been through. Hang in there everyone; sunny skies will return.",
+      "metadata": {
+        "hour": 10,
+        "time_of_day": "MIDDAY",
+        "generation_time": 9.21217,
+        "segment_number": 6,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 10,
+          "time_of_day": 10,
+          "weather_type": "rainy",
+          "weather_description": "Precipitation",
+          "temperature": 28.739536789329993,
+          "intensity": "minor",
+          "is_emergency": false,
+          "notable_event": false,
+          "region": "Appalachia",
+          "location": "midday",
+          "weather_continuity": {
+            "weather_changed": false,
+            "last_weather_type": null,
+            "continuity_phrase": null,
+            "has_notable_history": true
+          },
+          "rad_level": "medium",
+          "radiation_warning": true,
+          "survival_tips": [
+            "Seek shelter - rain can carry radiation",
+            "Water collection opportunity, but test for contamination",
+            "Visibility is reduced - stay alert"
+          ],
+          "mood": "cautious",
+          "clothing_advice": "full protective gear recommended",
+          "rag_query": "midday radiation rain water contamination shelter",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 5\n\n[NEWS]\nI'm just happy to be here, playing music for you guys. And today's got some great news! \n\nThe folks at Vault-Tec and Bethesda have released another update for the game - Wild Appalachia Patch 9.5 is l...\n\n[MUSIC_INTRO]\n\"Alrighty, folks! Time for another trip down memory lane with a tune that'll make you feel like you're dancing on the porch of your grandpappy's farmhouse. This one's from way back in 1960 - can you b...\n\n[TIME]\n\"Good morning, folks! It's Julie here at Appalachia Radio, coming to you live at 10:00 am sharp. The sun is shining bright today, casting a hopeful glow over our beloved mountains. If you're out there...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    }
+  ],
+  "stats": {
+    "dj_name": "Julie (2102, Appalachia)",
+    "duration_seconds": 66.389705,
+    "segments_generated": 6,
+    "validation_failures": 0,
+    "total_generation_time": 66.388699,
+    "avg_generation_time": 11.064783166666667,
+    "session_memory_size": 6,
+    "mentioned_topics": [
+      "vault",
+      "locations",
+      "weather"
+    ]
+  }
+}

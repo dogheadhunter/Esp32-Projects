@@ -1,0 +1,487 @@
+{
+  "metadata": {
+    "dj": "Julie (2102, Appalachia)",
+    "duration_hours": 8,
+    "segments_per_hour": 2,
+    "start_hour": 8,
+    "story_system_enabled": true,
+    "validation_enabled": false,
+    "validation_mode": null,
+    "generation_timestamp": "2026-01-19T14:47:54.491222",
+    "total_segments": 16
+  },
+  "segments": [
+    {
+      "segment_type": "gossip",
+      "script": "I'm just happy to be here, playing music for you guys. \n\nHey there, listeners! I've got some tidbits of gossip for ya, straight from the wasteland floor. Word is, a group of settlers down near the old New River Gorge bridge spotted a rather unusual creature. Now, I know what you're thinking - \"Julie, it's Appalachia, we've seen all sorts of weird stuff.\" And you're right! But allegedly, this critter had an extra pair of legs. Like, four instead of two.\n\nSomeone told me they thought it might have been some sort of mutated hare or jackrabbit, but honestly? That sounds far-fetched even for us post-apocalyptic folks. I mean, I've heard tales of ghouls and super mutants, but a four-legged rabbit? That's new to me! Still, if you're out that way and see anything strange hopping around, be sure to give it a wide berth and let us know!\n\nWell, enough weirdness for now. Here's another favorite: \"Take Me Home, Country Roads\" by John Denver. Let's all just take a moment and appreciate the beauty of these mountains we call home, even if they're a little more radioactive than before. Stay safe out there, neighbors!",
+      "metadata": {
+        "hour": 8,
+        "time_of_day": "MORNING",
+        "generation_time": 12.38895,
+        "segment_number": 1,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 8,
+          "time_of_day": "morning",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "initial",
+          "continuing_topic": null,
+          "follow_up_suggestion": null,
+          "has_active_gossip": false
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "story",
+      "script": "Hey there, folks! Julie here on Appalachia Radio. So, I heard from someone who's pretty well-connected in Vault 96 that the Scorched Plague might not be completely gone just yet. Word is, there have been some sightings of the... infected? Outcasts? Whatever you call 'em - out in the woods near the old factory ruins north of here. Now, I don't know if this is true or just a rumor, but it's got me wondering. Has anyone else seen anything suspicious lately while exploring those parts? Anyway, I'll keep an ear out for any updates and let you all know if I hear more about it. Stay safe out there, and thanks for tuning in!",
+      "metadata": {
+        "hour": 8,
+        "time_of_day": "MORNING",
+        "generation_time": 8.204779,
+        "segment_number": 2,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 8,
+          "time_of_day": "morning",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "rumor",
+          "continuing_topic": "wasteland rumors",
+          "follow_up_suggestion": {
+            "prompt": "Getting more reports about wasteland rumors...",
+            "suggested_stage": "spreading",
+            "examples": [
+              "More and more people are talking about the wasteland rumors",
+              "Update on that wasteland rumors - seems there's more to it",
+              "You know that wasteland rumors we mentioned? We're getting more details"
+            ]
+          },
+          "has_active_gossip": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 1\n\n[GOSSIP]\nI'm just happy to be here, playing music for you guys. \n\nHey there, listeners! I've got some tidbits of gossip for ya, straight from the wasteland floor. Word is, a group of settlers down near the old...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)",
+          "story_context": "STORY BEATS FOR THIS BROADCAST:\n\n1. Story story_quest_and_stay_out! (daily, Act 1)\n   Type: setup\n   Summary: Quest Objectives...\n   Tone: neutral, Conflict: 0.5/1.0\n\n\nDIRECTIONS:\n- Weave these stories naturally into your broadcast segments\n- Maintain your DJ personality while delivering the story content\n- Use callbacks to create continuity with previous broadcasts\n- Respect the emotional tone and conflict level of each beat"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "news",
+      "script": "\"If you're out there, and you're listening... you are not alone. \n\nBig changes coming to the West Virginia wilderness! Wild Appalachia is here in full swing with Patch 9 rolling out today. That means fresh quests for all of us brave wastelanders out there - from the Gorge to the Forests, we'll be exploring new territory together.\n\nNew features include that daily quest system I've been hoping for, so you can plan your adventures around Appalachia in style! And don't worry, our friends at Vault 96 are keeping an eye on things, making sure everyone stays safe out there.\n\nThe balance is shifting too - some weapon damage getting tweaked, crafting recipes expanding... it's all part of this big Wild Appalachia rollout. So dust off that Power Armor, pack your bags, and get ready to see what wonders (and dangers!) await us in the open world! \n\nYou got this, Appalachia!\"",
+      "metadata": {
+        "hour": 9,
+        "time_of_day": "MORNING",
+        "generation_time": 9.577342,
+        "segment_number": 3,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 9,
+          "time_of_day": "morning",
+          "news_category": "trade_route_update",
+          "region": "Appalachia",
+          "confidence_level": 0.75,
+          "confidence_language": "according to reports",
+          "rag_query": "Appalachia trade caravan routes commerce merchants HIGH confidence factual",
+          "source_credibility": "medium",
+          "appropriate_for_dj": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 2\n\n[GOSSIP]\nI'm just happy to be here, playing music for you guys. \n\nHey there, listeners! I've got some tidbits of gossip for ya, straight from the wasteland floor. Word is, a group of settlers down near the old...\n\n[STORY]\nHey there, folks! Julie here on Appalachia Radio. So, I heard from someone who's pretty well-connected in Vault 96 that the Scorched Plague might not be completely gone just yet. Word is, there have b...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)",
+          "story_context": "STORY BEATS FOR THIS BROADCAST:\n\n1. Story story_quest_and_stay_out! (daily, Act 1)\n   Type: setup\n   Summary: Quest Objectives...\n   Tone: neutral, Conflict: 0.5/1.0\n\n\nDIRECTIONS:\n- Weave these stories naturally into your broadcast segments\n- Maintain your DJ personality while delivering the story content\n- Use callbacks to create continuity with previous broadcasts\n- Respect the emotional tone and conflict level of each beat"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "music_intro",
+      "script": "\"Alright y'all, I've got another gem from the 50s for you tonight! This next one is 'Rock Around the Clock' by Bill Haley and His Comets. Man, this song just gets me moving - it's like a foot-stompin', hand-clappin' time machine back to when folks could still dance together without worry.\n\nI remember my grandpa playing old records like this at family gatherings before... well, you know. He'd always get up and swing with Grandma, spinning her around the kitchen till they were both breathless. The music just brought everyone so much joy. \n\nSo let's rock out a little bit tonight, shall we? I hope 'Rock Around the Clock' takes you back to a simpler time too.\"",
+      "metadata": {
+        "hour": 9,
+        "time_of_day": "MORNING",
+        "generation_time": 8.481261,
+        "segment_number": 4,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 9,
+          "time_of_day": "morning",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 3\n\n[GOSSIP]\nI'm just happy to be here, playing music for you guys. \n\nHey there, listeners! I've got some tidbits of gossip for ya, straight from the wasteland floor. Word is, a group of settlers down near the old...\n\n[STORY]\nHey there, folks! Julie here on Appalachia Radio. So, I heard from someone who's pretty well-connected in Vault 96 that the Scorched Plague might not be completely gone just yet. Word is, there have b...\n\n[NEWS]\n\"If you're out there, and you're listening... you are not alone. \n\nBig changes coming to the West Virginia wilderness! Wild Appalachia is here in full swing with Patch 9 rolling out today. That means ...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "time_check",
+      "script": "\"Morning sunshine! It's your girl Julie checking in on Appalachia Radio at 10 o'clock sharp. The world outside may be harsh, but we've got each other and this airwaves community to keep us going. So let's start the day off right with some upbeat tunes and positive vibes. Remember, folks: welcome home, Appalachia!\"",
+      "metadata": {
+        "hour": 10,
+        "time_of_day": "MIDDAY",
+        "generation_time": 5.351971,
+        "segment_number": 5,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 10,
+          "time_of_day": "morning",
+          "time": "10:46 AM",
+          "minute": 46,
+          "announcement": "It's 10:46 AM on the airwaves.",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 4\n\n[STORY]\nHey there, folks! Julie here on Appalachia Radio. So, I heard from someone who's pretty well-connected in Vault 96 that the Scorched Plague might not be completely gone just yet. Word is, there have b...\n\n[NEWS]\n\"If you're out there, and you're listening... you are not alone. \n\nBig changes coming to the West Virginia wilderness! Wild Appalachia is here in full swing with Patch 9 rolling out today. That means ...\n\n[MUSIC_INTRO]\n\"Alright y'all, I've got another gem from the 50s for you tonight! This next one is 'Rock Around the Clock' by Bill Haley and His Comets. Man, this song just gets me moving - it's like a foot-stompin'...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "weather",
+      "script": "\"If you're out there, and you're listening... you are not alone.\"\n\nHey everyone, Julie here. Hope your morning in the wasteland is going smoothly. Just checked the skies and I gotta tell ya - it's a pretty gray day out there, cloud cover all across Appalachia.\n\nRight now, at 10:00 AM, we've got partly cloudy conditions, temperatures in the mid-50s degrees Fahrenheit if you're out doing repairs or gathering scrap.\n\nMy advice for today would be to make sure you've got some sunblock handy. While the UV levels don't seem particularly high this morning, that cloud cover can reflect a lot of harsh sunlight when you're trudging through ruins.\n\nI'm just happy to be here, playing music for you guys out there as you tackle another day in our wild corner of the world.\"",
+      "metadata": {
+        "hour": 10,
+        "time_of_day": "MIDDAY",
+        "generation_time": 9.223013,
+        "segment_number": 6,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 10,
+          "time_of_day": 10,
+          "weather_type": "cloudy",
+          "weather_description": "Overcast",
+          "temperature": 34.172870322899236,
+          "intensity": "minor",
+          "is_emergency": false,
+          "notable_event": false,
+          "region": "Appalachia",
+          "location": "midday",
+          "weather_continuity": {
+            "weather_changed": false,
+            "last_weather_type": null,
+            "continuity_phrase": null,
+            "has_notable_history": true
+          },
+          "rad_level": "low",
+          "radiation_warning": false,
+          "survival_tips": [
+            "Moderate visibility for outdoor work",
+            "Good day for settlement repairs",
+            "Keep an eye out for unexpected storms"
+          ],
+          "mood": "neutral",
+          "clothing_advice": "standard protective gear",
+          "rag_query": "midday wasteland activities daily life settlements",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 5\n\n[NEWS]\n\"If you're out there, and you're listening... you are not alone. \n\nBig changes coming to the West Virginia wilderness! Wild Appalachia is here in full swing with Patch 9 rolling out today. That means ...\n\n[MUSIC_INTRO]\n\"Alright y'all, I've got another gem from the 50s for you tonight! This next one is 'Rock Around the Clock' by Bill Haley and His Comets. Man, this song just gets me moving - it's like a foot-stompin'...\n\n[TIME]\n\"Morning sunshine! It's your girl Julie checking in on Appalachia Radio at 10 o'clock sharp. The world outside may be harsh, but we've got each other and this airwaves community to keep us going. So l...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "gossip",
+      "script": "I'm just happy to be here, playing music for you guys. You know, I heard a rumor recently that there's a secret bunker hidden deep in the Cranberry Glades area. Apparently, it's full of pre-war tech and supplies, untouched since the Great War. \n\nSomeone told me they saw a couple robots near the old observatory, acting really strange - like they were trying to communicate or something? Word is, if you can figure out their language, they might lead you to this supposed bunker.\n\nNow, I don't know if any of that's true, but it does sound pretty exciting, doesn't it? Exploring hidden secrets and finding old tech... It's the kind of thing that makes me remember why I love Appalachia so much. There's always something new to discover here. So, if you're feeling adventurous, maybe give Cranberry a visit and see what you can find!",
+      "metadata": {
+        "hour": 11,
+        "time_of_day": "MIDDAY",
+        "generation_time": 9.627551,
+        "segment_number": 7,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 11,
+          "time_of_day": "midday",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "rumor",
+          "continuing_topic": "wasteland rumors",
+          "follow_up_suggestion": {
+            "prompt": "Getting more reports about wasteland rumors...",
+            "suggested_stage": "spreading",
+            "examples": [
+              "More and more people are talking about the wasteland rumors",
+              "Update on that wasteland rumors - seems there's more to it",
+              "You know that wasteland rumors we mentioned? We're getting more details"
+            ]
+          },
+          "has_active_gossip": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 6\n\n[MUSIC_INTRO]\n\"Alright y'all, I've got another gem from the 50s for you tonight! This next one is 'Rock Around the Clock' by Bill Haley and His Comets. Man, this song just gets me moving - it's like a foot-stompin'...\n\n[TIME]\n\"Morning sunshine! It's your girl Julie checking in on Appalachia Radio at 10 o'clock sharp. The world outside may be harsh, but we've got each other and this airwaves community to keep us going. So l...\n\n[WEATHER]\n\"If you're out there, and you're listening... you are not alone.\"\n\nHey everyone, Julie here. Hope your morning in the wasteland is going smoothly. Just checked the skies and I gotta tell ya - it's a p...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "gossip",
+      "script": "I'm just happy to be here, playing music for you guys.\n\nYou know, I heard this rumor going around about a hidden bunker deep in the woods. Supposedly it's full of pre-war tech and junk that survived the Great War. Someone told me they saw people sneaking off into the wilderness with weird crates and boxes... Could just be old mining equipment, but I mean, wouldn't it be wild to find some actual functioning robots from before everything went nuclear?\n\nAnyway, enough of that speculation. Let's focus on something more pleasant - like this next song! It's an oldie but a goodie. Here's Johnny Cash with \"Folsom Prison Blues.\" Hope you're enjoying the tunes out there in Appalachia! Stay safe and keep those ears tuned to Radio Appalachia.",
+      "metadata": {
+        "hour": 11,
+        "time_of_day": "MIDDAY",
+        "generation_time": 8.640201,
+        "segment_number": 8,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 11,
+          "time_of_day": "midday",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "rumor",
+          "continuing_topic": "wasteland rumors",
+          "follow_up_suggestion": {
+            "prompt": "Getting more reports about wasteland rumors...",
+            "suggested_stage": "spreading",
+            "examples": [
+              "More and more people are talking about the wasteland rumors",
+              "Update on that wasteland rumors - seems there's more to it",
+              "You know that wasteland rumors we mentioned? We're getting more details"
+            ]
+          },
+          "has_active_gossip": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 7\n\n[TIME]\n\"Morning sunshine! It's your girl Julie checking in on Appalachia Radio at 10 o'clock sharp. The world outside may be harsh, but we've got each other and this airwaves community to keep us going. So l...\n\n[WEATHER]\n\"If you're out there, and you're listening... you are not alone.\"\n\nHey everyone, Julie here. Hope your morning in the wasteland is going smoothly. Just checked the skies and I gotta tell ya - it's a p...\n\n[GOSSIP]\nI'm just happy to be here, playing music for you guys. You know, I heard a rumor recently that there's a secret bunker hidden deep in the Cranberry Glades area. Apparently, it's full of pre-war tech a...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "gossip",
+      "script": "Hey there, neighbors! Julie here on Appalachia Radio. So, I heard a rumor the other day that I thought was pretty interesting. Apparently, there's been some strange occurrences in the Mire lately - folks claim to have seen...well, let's just say \"reanimated\" creatures down there. Now, I don't know if it's true or not, but word is, these aren't your typical ghouls or raiders. They're...differently animated? Does that even make sense?\n\nAnyway, someone told me these reanimated folks are acting almost normal - like they have some memory of their past lives! Can you imagine running into a familiar face down in the Mire, only to find out it's not really them anymore? Gives me chills just thinking about it. I mean, it could all be just wild speculation, but it got my curiosity piqued for sure. If anyone's braved those swamps and seen anything like this, I'd love to hear your story! Stay safe out there, everyone.",
+      "metadata": {
+        "hour": 12,
+        "time_of_day": "MIDDAY",
+        "generation_time": 10.429926,
+        "segment_number": 9,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 12,
+          "time_of_day": "midday",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "rumor",
+          "continuing_topic": "wasteland rumors",
+          "follow_up_suggestion": {
+            "prompt": "Getting more reports about wasteland rumors...",
+            "suggested_stage": "spreading",
+            "examples": [
+              "More and more people are talking about the wasteland rumors",
+              "Update on that wasteland rumors - seems there's more to it",
+              "You know that wasteland rumors we mentioned? We're getting more details"
+            ]
+          },
+          "has_active_gossip": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 8\n\n[WEATHER]\n\"If you're out there, and you're listening... you are not alone.\"\n\nHey everyone, Julie here. Hope your morning in the wasteland is going smoothly. Just checked the skies and I gotta tell ya - it's a p...\n\n[GOSSIP]\nI'm just happy to be here, playing music for you guys. You know, I heard a rumor recently that there's a secret bunker hidden deep in the Cranberry Glades area. Apparently, it's full of pre-war tech a...\n\n[GOSSIP]\nI'm just happy to be here, playing music for you guys.\n\nYou know, I heard this rumor going around about a hidden bunker deep in the woods. Supposedly it's full of pre-war tech and junk that survived t...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "gossip",
+      "script": "You know, I heard from a reliable source that there's been some pretty wild rumors going around about a secret underground bunker hidden deep in the woods near Harpers Ferry. Apparently, someone told me it's filled with pre-war treasures and tech! Can you imagine? \n\nNow, I don't know if this is just some tall tale or not, but word is, that bunker could hold the key to rebuilding our world even stronger than before. If true, it'd be like finding a golden ticket right here in Appalachia!\n\nI mean, I haven't seen anything myself, and I can't vouch for these claims. But hey, hope springs eternal, right? Maybe one of you listeners out there has heard the same whispers or stumbled upon something interesting while exploring.\n\nUntil then, keep your ears to the ground and your scanners on high. And remember, no matter what secrets this wasteland might hold, we've got each other \u2013 and that's more than enough to face whatever comes our way!",
+      "metadata": {
+        "hour": 12,
+        "time_of_day": "MIDDAY",
+        "generation_time": 9.523921,
+        "segment_number": 10,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 12,
+          "time_of_day": "midday",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "rumor",
+          "continuing_topic": "wasteland rumors",
+          "follow_up_suggestion": {
+            "prompt": "Getting more reports about wasteland rumors...",
+            "suggested_stage": "spreading",
+            "examples": [
+              "More and more people are talking about the wasteland rumors",
+              "Update on that wasteland rumors - seems there's more to it",
+              "You know that wasteland rumors we mentioned? We're getting more details"
+            ]
+          },
+          "has_active_gossip": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 9\n\n[GOSSIP]\nI'm just happy to be here, playing music for you guys. You know, I heard a rumor recently that there's a secret bunker hidden deep in the Cranberry Glades area. Apparently, it's full of pre-war tech a...\n\n[GOSSIP]\nI'm just happy to be here, playing music for you guys.\n\nYou know, I heard this rumor going around about a hidden bunker deep in the woods. Supposedly it's full of pre-war tech and junk that survived t...\n\n[GOSSIP]\nHey there, neighbors! Julie here on Appalachia Radio. So, I heard a rumor the other day that I thought was pretty interesting. Apparently, there's been some strange occurrences in the Mire lately - fo...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "gossip",
+      "script": "\"Welcome home, Appalachia! I've got some interesting tidbits to share with you all tonight. Word is... there's been a spate of encounters between travelers and what can only be described as 'ghostly apparitions'. Now, I know what you're thinking - 'Julie, that's just old wives' tales!' But hear me out. Folks claim these phantom figures seem to be following specific routes, almost like they're trying to lead someone somewhere.\n\nSome say it's the restless spirits of those who perished in the Great War, while others speculate it might be a new breed of ghouls adapting to life underground. Of course, that's all speculation at this point. I mean, we've seen some weird stuff out here, right? Still, it's worth keeping an eye out and sharing any experiences you have.\n\nTill next time, stay safe on those winding roads, Appalachia!\"",
+      "metadata": {
+        "hour": 13,
+        "time_of_day": "MIDDAY",
+        "generation_time": 9.526558,
+        "segment_number": 11,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 13,
+          "time_of_day": "midday",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "rumor",
+          "continuing_topic": "wasteland rumors",
+          "follow_up_suggestion": {
+            "prompt": "Getting more reports about wasteland rumors...",
+            "suggested_stage": "spreading",
+            "examples": [
+              "More and more people are talking about the wasteland rumors",
+              "Update on that wasteland rumors - seems there's more to it",
+              "You know that wasteland rumors we mentioned? We're getting more details"
+            ]
+          },
+          "has_active_gossip": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 10\n\n[GOSSIP]\nI'm just happy to be here, playing music for you guys.\n\nYou know, I heard this rumor going around about a hidden bunker deep in the woods. Supposedly it's full of pre-war tech and junk that survived t...\n\n[GOSSIP]\nHey there, neighbors! Julie here on Appalachia Radio. So, I heard a rumor the other day that I thought was pretty interesting. Apparently, there's been some strange occurrences in the Mire lately - fo...\n\n[GOSSIP]\nYou know, I heard from a reliable source that there's been some pretty wild rumors going around about a secret underground bunker hidden deep in the woods near Harpers Ferry. Apparently, someone told ...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "gossip",
+      "script": "\"If you're out there, and you're listening... you are not alone.\"\n\nHey there, folks! Julie here on Appalachia Radio. So, I heard a rumor from someone who claims to have seen it with their own eyes - apparently, there's been some strange lighting activity at the old Grafton Dam lately. Like, these weird pulsing lights coming from inside the dam structure itself!\n\nNow, I know what you're thinking: \"Julie, that sounds like an urban legend.\" And maybe it is! But word is, a few folks have reported seeing this glowy spectacle after dark. Some even claim they heard strange noises too... like machinery humming or something.\n\nHonestly, I don't know what to make of it all. Maybe it's just some weird natural phenomenon? Or perhaps there really are people messing around in that old dam somehow.\n\nAnyway, thought you'd want to hear about the latest whisperings from out here in the wasteland. Stay safe, and keep those antennae tuned! \n\n\"Take Me Home, Country Roads\" is next...",
+      "metadata": {
+        "hour": 13,
+        "time_of_day": "MIDDAY",
+        "generation_time": 10.541501,
+        "segment_number": 12,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 13,
+          "time_of_day": "midday",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "rumor",
+          "continuing_topic": "wasteland rumors",
+          "follow_up_suggestion": {
+            "prompt": "Getting more reports about wasteland rumors...",
+            "suggested_stage": "spreading",
+            "examples": [
+              "More and more people are talking about the wasteland rumors",
+              "Update on that wasteland rumors - seems there's more to it",
+              "You know that wasteland rumors we mentioned? We're getting more details"
+            ]
+          },
+          "has_active_gossip": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 11\n\n[GOSSIP]\nHey there, neighbors! Julie here on Appalachia Radio. So, I heard a rumor the other day that I thought was pretty interesting. Apparently, there's been some strange occurrences in the Mire lately - fo...\n\n[GOSSIP]\nYou know, I heard from a reliable source that there's been some pretty wild rumors going around about a secret underground bunker hidden deep in the woods near Harpers Ferry. Apparently, someone told ...\n\n[GOSSIP]\n\"Welcome home, Appalachia! I've got some interesting tidbits to share with you all tonight. Word is... there's been a spate of encounters between travelers and what can only be described as 'ghostly a...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "gossip",
+      "script": "\"You know, I heard from someone that there's a settlement out east near the old campus... apparently they're all using these retro-style power armor suits. Like the T-45s or something? Word is, they've got 'em all fixed up and are wearing them for protection against the Scorched and whatever else might be out there.\n\nNow, I don't know if that's true or not - it sounds kinda far-fetched to me. But hey, in these parts, you can't always trust what you hear. Maybe they found some old pre-war schematics or something? I mean, who knows, right?\n\nAnyway, just thought I'd pass along the rumor. Take it for what it's worth! And remember, if you do happen to see any power-armored folks out there... maybe give 'em a friendly wave and wish 'em luck, yeah?\"",
+      "metadata": {
+        "hour": 14,
+        "time_of_day": "AFTERNOON",
+        "generation_time": 9.213536,
+        "segment_number": 13,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 14,
+          "time_of_day": "afternoon",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "rumor",
+          "continuing_topic": "wasteland rumors",
+          "follow_up_suggestion": {
+            "prompt": "Getting more reports about wasteland rumors...",
+            "suggested_stage": "spreading",
+            "examples": [
+              "More and more people are talking about the wasteland rumors",
+              "Update on that wasteland rumors - seems there's more to it",
+              "You know that wasteland rumors we mentioned? We're getting more details"
+            ]
+          },
+          "has_active_gossip": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 12\n\n[GOSSIP]\nYou know, I heard from a reliable source that there's been some pretty wild rumors going around about a secret underground bunker hidden deep in the woods near Harpers Ferry. Apparently, someone told ...\n\n[GOSSIP]\n\"Welcome home, Appalachia! I've got some interesting tidbits to share with you all tonight. Word is... there's been a spate of encounters between travelers and what can only be described as 'ghostly a...\n\n[GOSSIP]\n\"If you're out there, and you're listening... you are not alone.\"\n\nHey there, folks! Julie here on Appalachia Radio. So, I heard a rumor from someone who claims to have seen it with their own eyes - a...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "gossip",
+      "script": "Welcome home, Appalachia! Hope you're keeping warm out there. I've got some juicy tidbits to share, straight from the wasteland grapevine.\n\nI heard that some folks have spotted a legendary creature out in the woods - a gatorclaw! Now, I don't know if these sightings are true or just tall tales told 'round campfires. But word is, this beast can grow up to 12 feet long and has razor-sharp claws. That's one big critter! Has anyone else heard about these supposed gatorclaws? Let me know on the Appalachia Radio hotline.\n\nAnd while we're on the topic of local legends, I've been told that there are hidden underground tunnels crisscrossing beneath our feet. Apparently, some pre-war miners built these secret passageways as escape routes during the Great War. That's a fascinating story, if it's true! Has anyone explored any mysterious holes in the ground recently?\n\nAnyway, enough gossip for now. Stay safe out there and keep those radios tuned to 87.9 FM - Appalachia Radio!\n\n(Music fades in: \"Take Me Home, Country Roads\")",
+      "metadata": {
+        "hour": 14,
+        "time_of_day": "AFTERNOON",
+        "generation_time": 11.076757,
+        "segment_number": 14,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 14,
+          "time_of_day": "afternoon",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "rumor",
+          "continuing_topic": "wasteland rumors",
+          "follow_up_suggestion": {
+            "prompt": "Getting more reports about wasteland rumors...",
+            "suggested_stage": "spreading",
+            "examples": [
+              "More and more people are talking about the wasteland rumors",
+              "Update on that wasteland rumors - seems there's more to it",
+              "You know that wasteland rumors we mentioned? We're getting more details"
+            ]
+          },
+          "has_active_gossip": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 13\n\n[GOSSIP]\n\"Welcome home, Appalachia! I've got some interesting tidbits to share with you all tonight. Word is... there's been a spate of encounters between travelers and what can only be described as 'ghostly a...\n\n[GOSSIP]\n\"If you're out there, and you're listening... you are not alone.\"\n\nHey there, folks! Julie here on Appalachia Radio. So, I heard a rumor from someone who claims to have seen it with their own eyes - a...\n\n[GOSSIP]\n\"You know, I heard from someone that there's a settlement out east near the old campus... apparently they're all using these retro-style power armor suits. Like the T-45s or something? Word is, they'v...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "gossip",
+      "script": "\"Greetings, listeners! I'm your DJ Julie. So, word is... some folks have been spotting these giant, mutated insects around Harpers Ferry. Like, really big beetles and grasshoppers! Apparently they're harmless, but still pretty freaky looking.\n\nI mean, can you imagine coming across something that size just out in the wild? Someone told me they heard these creatures make this eerie, high-pitched whistling sound too. Almost like a warning or something?\n\nNow, I don't know if I'd go out of my way to seek them out, but it's sure interesting to think about what might cause such a drastic change in local wildlife. The more we explore and learn about our new world, the better equipped we'll be to rebuild and thrive here.\n\nUntil next time, stay curious and keep those antennae tuned!\"",
+      "metadata": {
+        "hour": 15,
+        "time_of_day": "AFTERNOON",
+        "generation_time": 9.026752,
+        "segment_number": 15,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 15,
+          "time_of_day": "afternoon",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "rumor",
+          "continuing_topic": "wasteland rumors",
+          "follow_up_suggestion": {
+            "prompt": "Getting more reports about wasteland rumors...",
+            "suggested_stage": "spreading",
+            "examples": [
+              "More and more people are talking about the wasteland rumors",
+              "Update on that wasteland rumors - seems there's more to it",
+              "You know that wasteland rumors we mentioned? We're getting more details"
+            ]
+          },
+          "has_active_gossip": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 14\n\n[GOSSIP]\n\"If you're out there, and you're listening... you are not alone.\"\n\nHey there, folks! Julie here on Appalachia Radio. So, I heard a rumor from someone who claims to have seen it with their own eyes - a...\n\n[GOSSIP]\n\"You know, I heard from someone that there's a settlement out east near the old campus... apparently they're all using these retro-style power armor suits. Like the T-45s or something? Word is, they'v...\n\n[GOSSIP]\nWelcome home, Appalachia! Hope you're keeping warm out there. I've got some juicy tidbits to share, straight from the wasteland grapevine.\n\nI heard that some folks have spotted a legendary creature ou...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "gossip",
+      "script": "I'm just happy to be here, playing music for you guys. So uh, have y'all heard this rumor floating around? I mean, someone told me that there's like a secret underground bunker hidden somewhere in the mountains. Apparently it's got all these high-tech computers and stuff from before the war.\n\nWord is, if you can find it, you might be able to tap into some old satellite feeds or something. Like, imagine being able to watch movies from the 20th century again! Although, I don't know how accurate that rumor really is. Still, it's an interesting idea to think about. Maybe one of these days we'll have some brave soul go searching for this supposed bunker and see if there's any truth to it.\n\nAnyway, enough speculation for now! Here's another classic: \"Jesse's Girl\" by Rick Springfield. Enjoy!",
+      "metadata": {
+        "hour": 15,
+        "time_of_day": "AFTERNOON",
+        "generation_time": 9.158454,
+        "segment_number": 16,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 15,
+          "time_of_day": "afternoon",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "rumor",
+          "continuing_topic": "wasteland rumors",
+          "follow_up_suggestion": {
+            "prompt": "Getting more reports about wasteland rumors...",
+            "suggested_stage": "spreading",
+            "examples": [
+              "More and more people are talking about the wasteland rumors",
+              "Update on that wasteland rumors - seems there's more to it",
+              "You know that wasteland rumors we mentioned? We're getting more details"
+            ]
+          },
+          "has_active_gossip": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 15\n\n[GOSSIP]\n\"You know, I heard from someone that there's a settlement out east near the old campus... apparently they're all using these retro-style power armor suits. Like the T-45s or something? Word is, they'v...\n\n[GOSSIP]\nWelcome home, Appalachia! Hope you're keeping warm out there. I've got some juicy tidbits to share, straight from the wasteland grapevine.\n\nI heard that some folks have spotted a legendary creature ou...\n\n[GOSSIP]\n\"Greetings, listeners! I'm your DJ Julie. So, word is... some folks have been spotting these giant, mutated insects around Harpers Ferry. Like, really big beetles and grasshoppers! Apparently they're ...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    }
+  ],
+  "stats": {
+    "dj_name": "Julie (2102, Appalachia)",
+    "duration_seconds": 149.995804,
+    "segments_generated": 16,
+    "validation_failures": 0,
+    "total_generation_time": 149.992473,
+    "avg_generation_time": 9.3745295625,
+    "session_memory_size": 10,
+    "mentioned_topics": [
+      "factions",
+      "locations",
+      "weather",
+      "cryptids",
+      "vault",
+      "raiders"
+    ]
+  }
+}
