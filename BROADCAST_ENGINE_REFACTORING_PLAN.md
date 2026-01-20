@@ -656,6 +656,506 @@ story_constraints = {
 
 ---
 
+## Scheduling System Architecture
+
+The refactored scheduler coordinates all content types with priority-based, time-aware scheduling. This section details how weather, time checks, and story arcs are scheduled alongside news and gossip.
+
+### Scheduling Overview
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│              BroadcastScheduler                             │
+│         (Priority-Based Time Scheduler)                     │
+└─────────────────────────────────────────────────────────────┘
+                          │
+        ┌─────────────────┼─────────────────┐
+        │                 │                 │
+        ▼                 ▼                 ▼
+┌───────────────┐  ┌──────────────┐  ┌─────────────┐
+│   Emergency   │  │   Required   │  │   Filler    │
+│   Priority    │  │   Segments   │  │   Content   │
+│  (Immediate)  │  │  (Scheduled) │  │ (When free) │
+└───────────────┘  └──────────────┘  └─────────────┘
+        │                 │                 │
+   Weather Alert      Time Check         Gossip
+                      Weather             Story
+                      News
+```
+
+### Priority Levels
+
+| Priority | Content Types | Trigger | Frequency |
+|----------|--------------|---------|-----------|
+| **CRITICAL** | Emergency weather alerts | Real-time detection | As needed |
+| **REQUIRED** | Time checks | Every hour (:00) | Hourly |
+| **REQUIRED** | Weather reports | Fixed schedule | 3x daily (6am, 12pm, 5pm) |
+| **REQUIRED** | News broadcasts | Fixed schedule | 3x daily (6am, 12pm, 5pm) |
+| **FILLER** | Story segments | Story beats available | When no required |
+| **FILLER** | Gossip segments | Default | Fill remaining slots |
+
+---
+
+### 1. **Time Check Scheduling**
+
+**Schedule**: Every hour on the hour (first segment of each hour)
+
+**Implementation**:
+```python
+class BroadcastScheduler:
+    def __init__(self):
+        self.time_check_done_hours = set()  # Track completed hours
+    
+    def get_next_segment_plan(self, hour: int, context: Dict) -> SegmentPlan:
+        """Determine next segment with priority ordering"""
+        
+        # PRIORITY 1: Emergency weather (if active)
+        if context.get('emergency_weather'):
+            return SegmentPlan(
+                type='emergency_weather',
+                priority=Priority.CRITICAL,
+                constraints=self.get_emergency_constraints()
+            )
+        
+        # PRIORITY 2: Time check (every hour, first segment)
+        if hour not in self.time_check_done_hours:
+            self.time_check_done_hours.add(hour)
+            return SegmentPlan(
+                type='time_check',
+                priority=Priority.REQUIRED,
+                constraints=self.get_time_constraints(hour)
+            )
+        
+        # Continue to other priorities...
+```
+
+**Time Check Rules**:
+- Always first segment of each hour
+- Cannot be skipped (required)
+- Quick generation (~2s, no ChromaDB)
+- Template-driven with hour/time variables
+
+**Example Schedule**:
+```
+Hour 0:  [Time Check] → [Gossip] → [Gossip]
+Hour 1:  [Time Check] → [Story] → [Gossip]
+Hour 6:  [Time Check] → [Weather] → [News]
+Hour 7:  [Time Check] → [Gossip] → [Story]
+```
+
+---
+
+### 2. **Weather Report Scheduling**
+
+**Schedule**: Fixed times - 6:00am, 12:00pm (noon), 5:00pm
+
+**Implementation**:
+```python
+class BroadcastScheduler:
+    def __init__(self):
+        self.WEATHER_HOURS = {6, 12, 17}  # 6am, 12pm, 5pm
+        self.weather_done_hours = set()
+    
+    def get_next_segment_plan(self, hour: int, context: Dict) -> SegmentPlan:
+        # ... time check logic above ...
+        
+        # PRIORITY 3: Weather reports (at scheduled hours)
+        if hour in self.WEATHER_HOURS and hour not in self.weather_done_hours:
+            self.weather_done_hours.add(hour)
+            
+            # Get weather from simulator/calendar
+            weather_state = self.get_weather_for_hour(hour, context['region'])
+            
+            return SegmentPlan(
+                type='weather',
+                priority=Priority.REQUIRED,
+                constraints=self.get_weather_constraints(weather_state),
+                metadata={
+                    'weather_type': weather_state.type,
+                    'temperature': weather_state.temp,
+                    'time_of_day': self.get_weather_time_of_day(hour)
+                }
+            )
+        
+        # Continue to news...
+```
+
+**Weather Time-of-Day Context**:
+- **6:00am**: "Day forecast" - Full day ahead
+- **12:00pm**: "Afternoon update" - Current conditions + evening
+- **5:00pm**: "Evening report" - Tonight + tomorrow preview
+
+**Weather Calendar Integration**:
+```python
+def get_weather_for_hour(self, hour: int, region: str) -> WeatherState:
+    """Get weather from pre-generated calendar"""
+    
+    # 1. Check for manual override (testing/special events)
+    override = world_state.get_weather_override(region)
+    if override:
+        return WeatherState.from_dict(override)
+    
+    # 2. Get from yearly calendar (generated at start)
+    calendar = world_state.get_weather_calendar(region)
+    current_date = datetime.now().date()
+    
+    # 3. Determine time slot (morning, afternoon, evening)
+    if hour < 12:
+        slot = 'morning'
+    elif hour < 17:
+        slot = 'afternoon'
+    else:
+        slot = 'evening'
+    
+    # 4. Return weather for this date/slot
+    return calendar[str(current_date)][slot]
+```
+
+**Emergency Weather Detection**:
+```python
+def check_emergency_weather(self, hour: int, region: str) -> Optional[WeatherState]:
+    """Check if current weather requires emergency alert"""
+    
+    weather = self.get_weather_for_hour(hour, region)
+    
+    # Emergency conditions: rad storms, severe dust storms, glowing fog
+    if weather.is_emergency and not self.already_alerted(weather):
+        return weather
+    
+    return None
+```
+
+**Example Weather Schedule**:
+```
+Day 1:
+  6:00am:  [Time Check] → [Weather: Sunny, 72°F] → [News: Morning]
+  12:00pm: [Time Check] → [Weather: Clouds moving in, 78°F] → [News: Midday]
+  5:00pm:  [Time Check] → [Weather: Evening clear, 68°F, Tomorrow: Rad storm] → [News: Evening]
+
+Day 2:
+  6:00am:  [Time Check] → [EMERGENCY: Rad Storm Alert!] → [Weather: Severe conditions]
+  ...
+```
+
+---
+
+### 3. **News Broadcasting Scheduling**
+
+**Schedule**: Fixed times - 6:00am, 12:00pm (noon), 5:00pm (same as weather)
+
+**Implementation**:
+```python
+class BroadcastScheduler:
+    def __init__(self):
+        self.NEWS_HOURS = {6, 12, 17}  # Same as weather
+        self.news_done_hours = set()
+    
+    def get_next_segment_plan(self, hour: int, context: Dict) -> SegmentPlan:
+        # ... time check and weather logic above ...
+        
+        # PRIORITY 4: News broadcasts (at scheduled hours)
+        if hour in self.NEWS_HOURS and hour not in self.news_done_hours:
+            self.news_done_hours.add(hour)
+            
+            # Select news category based on time
+            category = self.select_news_category(hour, context)
+            
+            return SegmentPlan(
+                type='news',
+                priority=Priority.REQUIRED,
+                constraints=self.get_news_constraints(category, context),
+                metadata={
+                    'category': category,
+                    'time_of_day': self.get_time_of_day(hour)
+                }
+            )
+        
+        # Continue to filler content...
+```
+
+**News Category Selection**:
+```python
+def select_news_category(self, hour: int, context: Dict) -> str:
+    """Select news category based on time and recent history"""
+    
+    categories = ['combat', 'trade', 'settlements', 'factions', 'technology']
+    recent_categories = context.get('recent_news_categories', [])
+    
+    # Avoid repeating same category
+    available = [c for c in categories if c not in recent_categories[-2:]]
+    
+    # Time-based preferences
+    if hour == 6:  # Morning - settlement news, trade
+        weights = {'settlements': 0.4, 'trade': 0.3, 'factions': 0.2, 'combat': 0.1}
+    elif hour == 12:  # Midday - general mix
+        weights = {c: 0.2 for c in available}
+    else:  # Evening - combat, faction updates
+        weights = {'combat': 0.4, 'factions': 0.3, 'settlements': 0.2, 'trade': 0.1}
+    
+    return random.choices(available, weights=[weights.get(c, 0.1) for c in available])[0]
+```
+
+---
+
+### 4. **Story Arc Scheduling**
+
+**Schedule**: Dynamic - when story beats are available and no required segments
+
+**Story System Integration**:
+```python
+class BroadcastScheduler:
+    def __init__(self):
+        self.story_scheduler = None  # Set during init if story system enabled
+    
+    def get_next_segment_plan(self, hour: int, context: Dict) -> SegmentPlan:
+        # ... required segments above ...
+        
+        # PRIORITY 5: Story segments (when available, no required conflicts)
+        if self.story_scheduler and context.get('enable_stories'):
+            story_beats = self.story_scheduler.get_story_beats_for_broadcast()
+            
+            if story_beats:  # Story content available
+                active_story = context['story_state'].get_active_story()
+                
+                return SegmentPlan(
+                    type='story',
+                    priority=Priority.FILLER,
+                    constraints=self.get_story_constraints(active_story, story_beats),
+                    metadata={
+                        'story_id': active_story.id,
+                        'act_number': story_beats[0].act_number,
+                        'act_type': story_beats[0].act_type,
+                        'beats': story_beats
+                    }
+                )
+        
+        # PRIORITY 6: Gossip (default filler)
+        return SegmentPlan(
+            type='gossip',
+            priority=Priority.FILLER,
+            constraints=self.get_gossip_constraints(context)
+        )
+```
+
+**Story Beat Scheduling Logic**:
+```python
+class StoryScheduler:
+    def get_story_beats_for_broadcast(self) -> List[StoryBeat]:
+        """Determine if story content should be broadcast now"""
+        
+        # 1. Check if any active stories exist
+        active_stories = self.story_state.get_active_stories()
+        if not active_stories:
+            return []
+        
+        # 2. Select highest priority story
+        story = self.select_priority_story(active_stories)
+        
+        # 3. Check story timeline (daily, weekly, monthly)
+        if not self.is_time_for_story(story):
+            return []
+        
+        # 4. Get next beats to broadcast
+        beats = self.get_next_beats(story)
+        
+        return beats
+    
+    def is_time_for_story(self, story: Story) -> bool:
+        """Check if enough time has passed for next story segment"""
+        
+        last_broadcast = self.story_state.get_last_broadcast_time(story.id)
+        
+        if story.timeline == StoryTimeline.DAILY:
+            # Daily stories: At least 4 hours between segments
+            return (datetime.now() - last_broadcast).total_seconds() >= 4 * 3600
+        
+        elif story.timeline == StoryTimeline.WEEKLY:
+            # Weekly stories: At least 24 hours between segments
+            return (datetime.now() - last_broadcast).total_seconds() >= 24 * 3600
+        
+        elif story.timeline == StoryTimeline.MONTHLY:
+            # Monthly stories: At least 7 days between segments
+            return (datetime.now() - last_broadcast).total_seconds() >= 7 * 24 * 3600
+        
+        return False
+```
+
+**Story Arc Progression Example**:
+```
+Story: "The Vault 76 Mystery" (WEEKLY timeline, 5 acts)
+
+Day 1:
+  Hour 8: [Time Check] → [Story: Act 1, Setup - Strange signals] → [Gossip]
+  
+Day 2:
+  Hour 14: [Time Check] → [Gossip] → [Story: Act 2, Rising - Investigation begins]
+  
+Day 4:
+  Hour 10: [Time Check] → [Story: Act 3, Climax - Discovery in vault] → [Gossip]
+  
+Day 6:
+  Hour 16: [Time Check] → [Gossip] → [Story: Act 4, Falling - Consequences]
+  
+Day 8:
+  Hour 12: [Time Check] → [Weather] → [Story: Act 5, Resolution - Mystery solved]
+```
+
+---
+
+### 5. **Gossip Filler Scheduling**
+
+**Schedule**: Fills any remaining slots (lowest priority)
+
+**Implementation**:
+```python
+def get_next_segment_plan(self, hour: int, context: Dict) -> SegmentPlan:
+    # ... all higher priority logic above ...
+    
+    # DEFAULT: Gossip fills remaining slots
+    return SegmentPlan(
+        type='gossip',
+        priority=Priority.FILLER,
+        constraints=self.get_gossip_constraints(context),
+        metadata={
+            'is_filler': True,
+            'time_of_day': self.get_time_of_day(hour)
+        }
+    )
+```
+
+---
+
+### Complete Scheduling Algorithm
+
+**Full Priority Flow**:
+```python
+def get_next_segment_plan(self, hour: int, context: Dict) -> SegmentPlan:
+    """
+    Complete scheduling algorithm with full priority ordering.
+    
+    Priority Order:
+    1. Emergency weather alerts (CRITICAL)
+    2. Time checks (REQUIRED - hourly)
+    3. Weather reports (REQUIRED - 6am, 12pm, 5pm)
+    4. News broadcasts (REQUIRED - 6am, 12pm, 5pm)
+    5. Story segments (FILLER - when available)
+    6. Gossip segments (FILLER - default)
+    """
+    
+    # CRITICAL: Emergency weather
+    if context.get('emergency_weather'):
+        emergency = self.check_emergency_weather(hour, context['region'])
+        if emergency:
+            return SegmentPlan('emergency_weather', Priority.CRITICAL, ...)
+    
+    # REQUIRED: Time check (hourly)
+    if hour not in self.time_check_done_hours:
+        self.time_check_done_hours.add(hour)
+        return SegmentPlan('time_check', Priority.REQUIRED, ...)
+    
+    # REQUIRED: Weather (scheduled hours)
+    if hour in self.WEATHER_HOURS and hour not in self.weather_done_hours:
+        self.weather_done_hours.add(hour)
+        weather_state = self.get_weather_for_hour(hour, context['region'])
+        return SegmentPlan('weather', Priority.REQUIRED, ..., weather_state)
+    
+    # REQUIRED: News (scheduled hours)
+    if hour in self.NEWS_HOURS and hour not in self.news_done_hours:
+        self.news_done_hours.add(hour)
+        category = self.select_news_category(hour, context)
+        return SegmentPlan('news', Priority.REQUIRED, ..., category)
+    
+    # FILLER: Story (when available)
+    if self.story_scheduler and context.get('enable_stories'):
+        story_beats = self.story_scheduler.get_story_beats_for_broadcast()
+        if story_beats:
+            return SegmentPlan('story', Priority.FILLER, ..., story_beats)
+    
+    # FILLER: Gossip (default)
+    return SegmentPlan('gossip', Priority.FILLER, ...)
+```
+
+---
+
+### Broadcast Session Example
+
+**24-Hour Broadcast Schedule** (3 segments per hour = 72 total segments):
+
+```
+Hour 0 (Midnight):
+  00:00:00 - [Time Check] "It's midnight in the wasteland..."
+  00:20:00 - [Gossip] "Heard about the new trader in town..."
+  00:40:00 - [Gossip] "They say Crater's been quiet lately..."
+
+Hour 6 (Morning):
+  06:00:00 - [Time Check] "Good morning! It's 6am..."
+  06:20:00 - [Weather] "Today's forecast: Sunny, high of 72..."
+  06:40:00 - [News: Settlements] "Breaking: New settlement spotted..."
+
+Hour 7:
+  07:00:00 - [Time Check] "7 o'clock in the Appalachian morning..."
+  07:20:00 - [Story: Act 1] "Strange signals detected near Vault 76..."
+  07:40:00 - [Gossip] "Speaking of vaults, anyone seen Rose lately?"
+
+Hour 12 (Noon):
+  12:00:00 - [Time Check] "High noon, wastelanders..."
+  12:20:00 - [Weather] "Afternoon update: Clouds rolling in, 78 degrees..."
+  12:40:00 - [News: Trade] "Caravan reports successful run to Foundation..."
+
+Hour 17 (5pm):
+  17:00:00 - [Time Check] "5pm, the day's winding down..."
+  17:20:00 - [Weather] "Evening forecast: Clear skies, low 60s. Tomorrow: Watch for rad storm..."
+  17:40:00 - [News: Combat] "Raiders spotted near Route 65..."
+
+Hour 20:
+  20:00:00 - [Time Check] "8pm, another wasteland night..."
+  20:20:00 - [Story: Act 2] "Investigation reveals Vault 76 secrets..."
+  20:40:00 - [Gossip] "That Vault 76 business has everyone talking..."
+```
+
+**Scheduling Statistics**:
+- **Time Checks**: 24 segments (1 per hour, first segment)
+- **Weather**: 3 segments (6am, 12pm, 5pm)
+- **News**: 3 segments (6am, 12pm, 5pm)
+- **Stories**: ~8 segments (when available, spread throughout day)
+- **Gossip**: ~34 segments (fills remaining slots)
+
+---
+
+### Scheduling State Management
+
+**Session State Tracking**:
+```python
+class BroadcastScheduler:
+    def __init__(self):
+        # Hour tracking (reset each hour)
+        self.time_check_done_hours = set()
+        self.weather_done_hours = set()
+        self.news_done_hours = set()
+        
+        # Fixed schedules
+        self.WEATHER_HOURS = {6, 12, 17}
+        self.NEWS_HOURS = {6, 12, 17}
+        
+        # Story system integration
+        self.story_scheduler = None
+        
+    def reset(self):
+        """Reset for new broadcast session"""
+        self.time_check_done_hours.clear()
+        self.weather_done_hours.clear()
+        self.news_done_hours.clear()
+    
+    def get_scheduling_stats(self) -> Dict:
+        """Get statistics for debugging"""
+        return {
+            'time_checks_done': len(self.time_check_done_hours),
+            'weather_done': len(self.weather_done_hours),
+            'news_done': len(self.news_done_hours)
+        }
+```
+
+---
+
 ## Implementation Plan
 
 ### **Phase 1: RAG Cache Implementation** (Week 1)
