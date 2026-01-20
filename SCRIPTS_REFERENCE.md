@@ -1650,32 +1650,6 @@ Comprehensive project documentation.
 
 ---
 
-#### `TESTING_RESULTS_2026-01-18.md`
-**Purpose**: Test results report  
-**Contents**: Comprehensive test results from January 18, 2026
-
----
-
-#### `TEST_REPORT_POST_REFACTORING.md`
-**Purpose**: Post-refactoring test report  
-**Contents**: Test results after codebase refactoring
-
----
-
-### Weather System Documentation
-
-Series of phase completion reports:
-
-- `WEATHER_SYSTEM_PHASE1_COMPLETE.md` - Phase 1 completion
-- `WEATHER_SYSTEM_PHASE2_COMPLETE.md` - Phase 2 completion
-- `WEATHER_SYSTEM_PHASE3_COMPLETE.md` - Phase 3 completion
-- `WEATHER_SYSTEM_PHASE4_COMPLETE.md` - Phase 4 completion
-- `WEATHER_SYSTEM_PHASE5_COMPLETE.md` - Phase 5 completion
-
-**Purpose**: Track weather system implementation progress across 5 phases
-
----
-
 ### `docs/` Directory
 
 Comprehensive technical documentation.
@@ -1726,12 +1700,6 @@ Comprehensive technical documentation.
 
 ---
 
-#### `docs/PHASE5_MOBILE_TEST_RESULTS.md`
-**Purpose**: Phase 5 mobile testing results  
-**Contents**: Mobile UI test results
-
----
-
 #### `docs/PHASE7_COMPLETE.md`
 **Purpose**: Phase 7 completion report  
 **Contents**: Multi-temporal story system completion
@@ -1744,21 +1712,6 @@ Comprehensive technical documentation.
 - Multi-temporal story arcs
 - Cross-era story coordination
 - Implementation details
-
----
-
-#### `docs/PHASE7_PROGRESS_WEEK3.md`
-**Purpose**: Phase 7 progress tracking  
-**Contents**: Week 3 progress update for Phase 7
-
----
-
-#### `docs/WEATHER_SYSTEM_IMPLEMENTATION_ROADMAP.md`
-**Purpose**: Weather system roadmap  
-**Contents**: 
-- Implementation phases
-- Feature timeline
-- Completion criteria
 
 ---
 
@@ -1976,9 +1929,12 @@ output/
 5. Various `.env.template` files
 
 ### Documentation (20+ files)
-- Root: `README.md`, multiple phase reports
+- Root: `README.md`, `SCRIPTS_REFERENCE.md` (comprehensive reference)
 - `docs/`: `ARCHITECTURE.md`, `DJ_KNOWLEDGE_SYSTEM.md`, `SYSTEM_SPECS.md`, etc.
 - Tool-specific READMEs in each tool directory
+- `archive/documentation/`: Historical phase completion reports, test results, and implementation plans
+
+**Note**: Many phase completion reports and historical test results have been moved to `archive/documentation/` to reduce clutter. See `archive/INDEX.md` for details.
 
 ---
 

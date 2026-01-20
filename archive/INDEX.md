@@ -134,3 +134,21 @@ As part of the codebase reorganization:
 - **Output Structure**: Created `output/` directory for generated content
 - **Experimental Research**: Archived experiments moved to `research/archived-experiments/`
 - **Archive Policy**: `pipeline_reset_20260112` marked as historical preservation for development reference
+
+---
+
+## 2026-01-20: Documentation Cleanup & Consolidation
+
+- **Original Location**: Various (root, tools/, docs/, research/)
+- **Archived To**: `archive/documentation/`
+- **Reason**: Completed phase documentation and historical reports cluttering active workspace
+- **Contents**: 
+  - **Weather System Phases 1-5** (5 completion reports) - All phases complete, consolidated info in current docs
+  - **Test Reports** (2 files) - Historical test results from 2026-01-18 and post-refactoring
+  - **Script Generator Phases 5-6** (7 files) - Phase implementation plans, completion reports, and migration guides
+  - **Script Review App** (2 files) - Implementation and validation plans (app is complete)
+  - **Research Summaries** (3 files) - Weather simulation plan, implementation summary, Phase 7 progress
+  - **Project Progress** (2 files) - Historical progress tracking and quality checklists
+- **Safe to Delete?**: No - **Preserved for Historical Reference**
+- **Note**: These documents chronicle the development history and should be retained for understanding project evolution
+- **New Reference**: See `SCRIPTS_REFERENCE.md` for current comprehensive documentation
