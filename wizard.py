@@ -67,22 +67,22 @@ def print_section(text: str):
 
 def print_success(text: str):
     """Print success message"""
-    print(f"{Colors.GREEN}✓ {text}{Colors.ENDC}")
+    print(f"{Colors.GREEN}[OK] {text}{Colors.ENDC}")
 
 
 def print_error(text: str):
     """Print error message"""
-    print(f"{Colors.RED}✗ {text}{Colors.ENDC}")
+    print(f"{Colors.RED}[ERROR] {text}{Colors.ENDC}")
 
 
 def print_warning(text: str):
     """Print warning message"""
-    print(f"{Colors.YELLOW}⚠ {text}{Colors.ENDC}")
+    print(f"{Colors.YELLOW}[WARNING] {text}{Colors.ENDC}")
 
 
 def print_info(text: str):
     """Print info message"""
-    print(f"{Colors.CYAN}ℹ {text}{Colors.ENDC}")
+    print(f"{Colors.CYAN}[INFO] {text}{Colors.ENDC}")
 
 
 def clear_screen():
@@ -522,6 +522,231 @@ def development_menu():
         wait_for_key()
 
 
+def advanced_menu():
+    """Advanced tools and configuration menu for power users"""
+    while True:
+        clear_screen()
+        print_header("Advanced Tools & Configuration")
+        
+        choice = get_choice("Advanced operations:", [
+            ('1', 'Custom Test Command (specify pytest args)'),
+            ('2', 'Database Query Tool (interactive ChromaDB queries)'),
+            ('3', 'Batch Script Generation (multiple DJs/durations)'),
+            ('4', 'Configuration Editor (edit project settings)'),
+            ('5', 'Log Analysis (parse and analyze test logs)'),
+            ('6', 'Performance Profiling (profile code execution)'),
+            ('7', 'Cache Management (clear/rebuild caches)'),
+            ('8', 'Git Operations (status, diff, log)'),
+            ('9', 'Environment Variables (view/set)'),
+            ('10', 'Custom Command (run any Python script)'),
+        ])
+        
+        if choice is None:
+            break
+        
+        if choice == '1':
+            print_section("Custom Test Command")
+            print_info("Examples:")
+            print("  -k test_name         # Run specific test")
+            print("  --lf                 # Run last failed")
+            print("  --maxfail=1          # Stop after first failure")
+            print("  -x                   # Stop on first error")
+            
+            args = input(f"\n{Colors.CYAN}Enter pytest arguments: {Colors.ENDC}").strip()
+            if args:
+                run_command(['python', '-m', 'pytest'] + args.split(), f"Running pytest {args}")
+        
+        elif choice == '2':
+            print_section("Database Query Tool")
+            print_info("ChromaDB interactive query interface")
+            
+            query_type = get_choice("Query type:", [
+                ('1', 'Search by text'),
+                ('2', 'Filter by metadata'),
+                ('3', 'Collection statistics'),
+                ('4', 'Export results to JSON')
+            ], allow_back=True)
+            
+            if query_type == '1':
+                query_text = input(f"{Colors.CYAN}Enter search text: {Colors.ENDC}").strip()
+                if query_text:
+                    cmd = ['python', '-c', f"""
+import sys
+sys.path.insert(0, 'tools/wiki_to_chromadb')
+from chromadb_ingest import ChromaDBIngestor
+ingestor = ChromaDBIngestor()
+results = ingestor.collection.query(query_texts=['{query_text}'], n_results=5)
+for i, (doc, meta) in enumerate(zip(results['documents'][0], results['metadatas'][0]), 1):
+    print(f'{{i}}. {{meta.get("wiki_title", "Unknown")}}')
+    print(f'   {{doc[:200]}}...')
+"""]
+                    run_command(cmd, "Querying ChromaDB")
+            
+            elif query_type == '3':
+                cmd = ['python', '-c', """
+import sys
+sys.path.insert(0, 'tools/wiki_to_chromadb')
+from chromadb_ingest import ChromaDBIngestor
+ingestor = ChromaDBIngestor()
+count = ingestor.collection.count()
+print(f'Total documents: {count}')
+"""]
+                run_command(cmd, "Getting database statistics")
+        
+        elif choice == '3':
+            print_section("Batch Script Generation")
+            print_info("Generate multiple broadcasts in one go")
+            
+            djs_input = input(f"{Colors.CYAN}Enter DJ names (comma-separated): {Colors.ENDC}").strip()
+            hours_input = input(f"{Colors.CYAN}Enter hours per broadcast: {Colors.ENDC}").strip()
+            
+            if djs_input and hours_input:
+                djs = [dj.strip() for dj in djs_input.split(',')]
+                for dj in djs:
+                    run_command(['python', 'broadcast.py', '--dj', dj, '--hours', hours_input], 
+                               f"Generating {hours_input}h for {dj}")
+        
+        elif choice == '4':
+            print_section("Configuration Editor")
+            config_file = Path('tools/shared/project_config.py')
+            if config_file.exists():
+                print_info(f"Config file: {config_file}")
+                print_info("Opening in default editor...")
+                if platform.system() == 'Windows':
+                    os.system(f'notepad {config_file}')
+                else:
+                    editor = os.environ.get('EDITOR', 'nano')
+                    os.system(f'{editor} {config_file}')
+            else:
+                print_error("Config file not found")
+        
+        elif choice == '5':
+            print_section("Log Analysis")
+            log_dir = Path('logs/archive')
+            
+            if log_dir.exists():
+                # Find logs
+                log_files = sorted(log_dir.rglob('*.llm.md'), key=lambda p: p.stat().st_mtime, reverse=True)
+                
+                if log_files:
+                    print_info(f"Found {len(log_files)} log files")
+                    print("\nMost recent 5:")
+                    for i, log in enumerate(log_files[:5], 1):
+                        print(f"  {i}. {log.name} ({log.stat().st_size} bytes)")
+                    
+                    choice_num = input(f"\n{Colors.CYAN}Enter number to analyze (1-5): {Colors.ENDC}").strip()
+                    if choice_num.isdigit() and 1 <= int(choice_num) <= 5:
+                        log_file = log_files[int(choice_num) - 1]
+                        with open(log_file) as f:
+                            content = f.read()
+                        
+                        # Parse log
+                        lines = content.split('\n')
+                        print_section(f"Analysis of {log_file.name}")
+                        
+                        # Count test results
+                        for line in lines:
+                            if 'Passed:' in line or 'Failed:' in line or 'Coverage:' in line:
+                                print(f"  {line.strip()}")
+                else:
+                    print_warning("No log files found")
+            else:
+                print_error("Log directory not found")
+        
+        elif choice == '6':
+            print_section("Performance Profiling")
+            print_info("Profile Python script execution")
+            
+            script_path = input(f"{Colors.CYAN}Enter script path to profile: {Colors.ENDC}").strip()
+            if script_path:
+                cmd = ['python', '-m', 'cProfile', '-s', 'cumulative', script_path]
+                run_command(cmd, f"Profiling {script_path}")
+        
+        elif choice == '7':
+            print_section("Cache Management")
+            
+            cache_choice = get_choice("Cache operation:", [
+                ('1', 'Clear pytest cache'),
+                ('2', 'Clear Python bytecode (__pycache__)'),
+                ('3', 'Clear all caches'),
+            ], allow_back=True)
+            
+            if cache_choice == '1':
+                run_command(['rm', '-rf', '.pytest_cache'], "Clearing pytest cache")
+            elif cache_choice == '2':
+                run_command(['find', '.', '-type', 'd', '-name', '__pycache__', '-exec', 'rm', '-rf', '{}', '+'], 
+                           "Clearing Python bytecode")
+            elif cache_choice == '3':
+                run_command(['rm', '-rf', '.pytest_cache'], "Clearing pytest cache")
+                run_command(['find', '.', '-type', 'd', '-name', '__pycache__', '-exec', 'rm', '-rf', '{}', '+'], 
+                           "Clearing Python bytecode")
+        
+        elif choice == '8':
+            print_section("Git Operations")
+            
+            git_choice = get_choice("Git operation:", [
+                ('1', 'Status'),
+                ('2', 'Diff'),
+                ('3', 'Log (last 10 commits)'),
+                ('4', 'Branch info'),
+                ('5', 'Show unstaged changes'),
+            ], allow_back=True)
+            
+            if git_choice == '1':
+                run_command(['git', 'status'], "Git status")
+            elif git_choice == '2':
+                run_command(['git', 'diff'], "Git diff")
+            elif git_choice == '3':
+                run_command(['git', 'log', '--oneline', '-10'], "Git log")
+            elif git_choice == '4':
+                run_command(['git', 'branch', '-v'], "Branch info")
+            elif git_choice == '5':
+                run_command(['git', 'diff', 'HEAD'], "Unstaged changes")
+        
+        elif choice == '9':
+            print_section("Environment Variables")
+            
+            env_choice = get_choice("Environment operation:", [
+                ('1', 'Show all environment variables'),
+                ('2', 'Show specific variable'),
+                ('3', 'Set variable (current session)'),
+            ], allow_back=True)
+            
+            if env_choice == '1':
+                print("\nEnvironment Variables:")
+                for key, value in sorted(os.environ.items()):
+                    if any(term in key.upper() for term in ['PYTHON', 'PATH', 'HOME', 'USER']):
+                        print(f"  {key} = {value[:100]}")
+            elif env_choice == '2':
+                var_name = input(f"{Colors.CYAN}Enter variable name: {Colors.ENDC}").strip()
+                if var_name:
+                    value = os.environ.get(var_name)
+                    if value:
+                        print(f"\n{var_name} = {value}")
+                    else:
+                        print_warning(f"{var_name} not set")
+            elif env_choice == '3':
+                print_warning("Note: Changes only affect current session")
+                var_name = input(f"{Colors.CYAN}Variable name: {Colors.ENDC}").strip()
+                var_value = input(f"{Colors.CYAN}Variable value: {Colors.ENDC}").strip()
+                if var_name and var_value:
+                    os.environ[var_name] = var_value
+                    print_success(f"Set {var_name} = {var_value}")
+        
+        elif choice == '10':
+            print_section("Custom Command")
+            print_warning("Run any Python script or command")
+            
+            cmd_input = input(f"{Colors.CYAN}Enter command: {Colors.ENDC}").strip()
+            if cmd_input:
+                if cmd_input.endswith('.py'):
+                    run_command(['python', cmd_input], f"Running {cmd_input}")
+                else:
+                    run_command(cmd_input.split(), f"Running {cmd_input}")
+        
+        wait_for_key()
+
+
 def main_menu():
     """Main menu - entry point for the wizard"""
     while True:
@@ -537,8 +762,9 @@ def main_menu():
             ('3', 'Database Management (ChromaDB)'),
             ('4', 'Generate Broadcast Content'),
             ('5', 'Development Tools'),
-            ('6', 'View Documentation'),
-            ('7', 'System Information'),
+            ('6', 'Advanced Tools & Configuration'),
+            ('7', 'View Documentation'),
+            ('8', 'System Information'),
         ])
         
         if choice is None:
@@ -556,13 +782,15 @@ def main_menu():
         elif choice == '5':
             development_menu()
         elif choice == '6':
+            advanced_menu()
+        elif choice == '7':
             print_section("Documentation")
             print_info("README.md - Project overview and quick start")
             print_info("REPOSITORY_STRUCTURE.md - Detailed structure guide")
             print_info("SCRIPTS_REFERENCE.md - All available scripts")
             print_info("docs/ - Architecture and detailed documentation")
             wait_for_key()
-        elif choice == '7':
+        elif choice == '8':
             print_section("System Information")
             print(f"Python: {sys.version}")
             print(f"Platform: {platform.system()} {platform.release()}")
@@ -570,7 +798,7 @@ def main_menu():
             deps = check_dependencies()
             print("\nDependencies:")
             for pkg, installed in deps.items():
-                status = f"{Colors.GREEN}✓{Colors.ENDC}" if installed else f"{Colors.RED}✗{Colors.ENDC}"
+                status = f"{Colors.GREEN}[+]{Colors.ENDC}" if installed else f"{Colors.RED}[-]{Colors.ENDC}"
                 print(f"  {status} {pkg}")
             wait_for_key()
 
@@ -582,6 +810,7 @@ def main():
     parser = argparse.ArgumentParser(description='ESP32 AI Radio Interactive Wizard')
     parser.add_argument('--quick-test', action='store_true', help='Run quick tests and exit')
     parser.add_argument('--setup', action='store_true', help='Run setup wizard and exit')
+    parser.add_argument('--advanced', action='store_true', help='Go directly to advanced menu')
     parser.add_argument('--no-color', action='store_true', help='Disable colored output')
     
     args = parser.parse_args()
@@ -597,11 +826,15 @@ def main():
         setup_wizard()
         return
     
+    if args.advanced:
+        advanced_menu()
+        return
+    
     # Default: show interactive menu
     try:
         main_menu()
     except KeyboardInterrupt:
-        print(f"\n\n{Colors.YELLOW}Interrupted by user{Colors.ENDC}")
+        print(f"\n\n{Colors.YELLOW}[WARNING] Interrupted by user{Colors.ENDC}")
         sys.exit(0)
 
 

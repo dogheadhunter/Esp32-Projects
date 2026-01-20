@@ -1,6 +1,6 @@
 # ESP32 AI Radio - Quick Start with Wizard
 
-## 🎯 Interactive Wizard (Easiest Way!)
+## Quick Start - Interactive Wizard (Easiest Way!)
 
 The quickest way to get started is using the interactive wizard:
 
@@ -9,12 +9,13 @@ python wizard.py
 ```
 
 The wizard provides a user-friendly menu interface for:
-- ✅ Initial setup and dependency installation
-- ✅ Running tests (quick, unit, integration, coverage)
-- ✅ Database management (ingest, backup, restore)
-- ✅ Generating broadcast content
-- ✅ Development tools (formatting, linting, type checking)
-- ✅ System information and status checks
+- [OK] Initial setup and dependency installation
+- [OK] Running tests (quick, unit, integration, coverage)
+- [OK] Database management (ingest, backup, restore)
+- [OK] Generating broadcast content
+- [OK] Development tools (formatting, linting, type checking)
+- [OK] **NEW: Advanced Tools & Configuration** (power users)
+- [OK] System information and status checks
 
 ### Quick Actions
 
@@ -25,11 +26,14 @@ python wizard.py --setup
 # Quick test run (bypass menu)
 python wizard.py --quick-test
 
+# Advanced mode (power users)
+python wizard.py --advanced
+
 # Disable colors (for older terminals)
 python wizard.py --no-color
 ```
 
-## 📋 Menu Structure
+## Menu Structure
 
 ### 1. Initial Setup & Installation
 - Check Python version (requires 3.10+)
@@ -68,24 +72,37 @@ python wizard.py --no-color
 - Run All Quality Checks
 - View Test Logs
 
-### 6. View Documentation
+### 6. **NEW: Advanced Tools & Configuration** (Power Users)
+- **Custom Test Command** - Run pytest with custom arguments
+- **Database Query Tool** - Interactive ChromaDB queries and exports
+- **Batch Script Generation** - Generate for multiple DJs at once
+- **Configuration Editor** - Edit project settings directly
+- **Log Analysis** - Parse and analyze test logs
+- **Performance Profiling** - Profile Python code execution
+- **Cache Management** - Clear pytest and Python caches
+- **Git Operations** - Status, diff, log, branch info
+- **Environment Variables** - View and set env vars
+- **Custom Command** - Run any Python script or command
+
+### 7. View Documentation
 - Quick links to all project documentation
 
-### 7. System Information
+### 8. System Information
 - Python version and platform
 - Dependency status
 - Project paths
 
-## 🎨 Features
+## Features
 
 - **Color-coded output** for better readability (auto-disables on older terminals)
 - **Error handling** with helpful messages
 - **Confirmation prompts** for destructive operations
-- **Status indicators** (✓ success, ✗ error, ⚠ warning, ℹ info)
+- **Status indicators** ([OK] success, [ERROR] error, [WARNING] warning, [INFO] info)
 - **Navigation** with 'b' for back, 'q' for quit
 - **Quick actions** via command-line flags
+- **Advanced mode** for power users and repository modification
 
-## 🚀 Common Workflows
+## Common Workflows
 
 ### First Time Setup
 ```bash
@@ -108,10 +125,31 @@ python wizard.py
 ### Before Committing Code
 ```bash
 python wizard.py
-# Select: 5 (Development Tools) → 5 (Run All Quality Checks)
+# Select: 5 (Development Tools) -> 5 (Run All Quality Checks)
 ```
 
-## 📝 Notes
+### Advanced Users - Custom Testing
+```bash
+python wizard.py --advanced
+# Select: 1 (Custom Test Command)
+# Enter: -k test_broadcast --maxfail=1
+```
+
+### Advanced Users - Database Queries
+```bash
+python wizard.py --advanced
+# Select: 2 (Database Query Tool)
+# Explore ChromaDB interactively
+```
+
+### Advanced Users - Batch Generation
+```bash
+python wizard.py --advanced
+# Select: 3 (Batch Script Generation)
+# Generate for multiple DJs in one session
+```
+
+## Notes
 
 - The wizard works on Windows, Linux, and macOS
 - Colors automatically disable on Windows (unless using Windows Terminal)
