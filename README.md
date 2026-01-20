@@ -60,6 +60,16 @@ Fully refactored codebase with proper Python packaging, centralized configuratio
 - ✅ Portable batch scripts with project root navigation
 - ✅ Renamed `dj personality/` → `dj_personalities/`
 
+### 📚 Complete Scripts Reference
+
+**NEW**: See [SCRIPTS_REFERENCE.md](SCRIPTS_REFERENCE.md) for a comprehensive catalog of all 150+ scripts, tools, and utilities in this codebase, including:
+- Detailed descriptions of what each script does
+- Usage examples and dependencies
+- Quick reference guide by task
+- Organized by category for easy navigation
+
+This reference document is essential for understanding the codebase when refactoring or maintaining the project.
+
 ---
 
 ## 📂 Project Structure & Organization
