@@ -1,0 +1,35 @@
+
+================================================================================
+SESSION LOG
+================================================================================
+Session Name: all
+Session ID: 20260120_121421
+Start Time: 2026-01-20 12:14:21
+Command: run_tests.py all
+Working Directory: C:\esp32-project
+Python Version: 3.10.11
+================================================================================
+
+🚀 Starting session: all
+📋 Logging to: C:\esp32-project\logs\session_20260120_121421_all.log
+📊 LLM log: C:\esp32-project\logs\session_20260120_121421_all.llm.md
+
+Running: pytest -v
+================================================================================
+================================================================================
+
+📝 Logs saved:
+   Human-readable: C:\esp32-project\logs\session_20260120_121421_all.log
+   Structured JSON: C:\esp32-project\logs\session_20260120_121421_all.json
+   LLM-optimized: C:\esp32-project\logs\session_20260120_121421_all.llm.md
+
+================================================================================
+SESSION ENDED
+End Time: 2026-01-20 12:14:45
+Duration: 23.70 seconds
+Status: completed
+================================================================================
+
+Log saved to: C:\esp32-project\logs\session_20260120_121421_all.log
+Metadata saved to: C:\esp32-project\logs\session_20260120_121421_all.json
+LLM log saved to: C:\esp32-project\logs\session_20260120_121421_all.llm.md

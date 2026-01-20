@@ -1,0 +1,29 @@
+{
+  "session_name": "logging",
+  "session_id": "20260120_123751",
+  "start_time": "2026-01-20T12:37:51.640454",
+  "command": "run_tests.py logging",
+  "working_directory": "C:\\esp32-project",
+  "python_version": "3.10.11 (tags/v3.10.11:7d4cc5a, Apr  5 2023, 00:38:17) [MSC v.1929 64 bit (AMD64)]",
+  "events": [
+    {
+      "timestamp": "2026-01-20T12:37:51.645805",
+      "type": "TEST_COMMAND",
+      "data": {
+        "command": "pytest tests/unit/test_logging_config.py -v",
+        "test_type": "logging"
+      }
+    },
+    {
+      "timestamp": "2026-01-20T12:37:55.376947",
+      "type": "TEST_COMPLETED",
+      "data": {
+        "exit_code": 0,
+        "status": "passed"
+      }
+    }
+  ],
+  "status": "completed",
+  "end_time": "2026-01-20T12:37:55.380957",
+  "duration_seconds": 3.740503
+}

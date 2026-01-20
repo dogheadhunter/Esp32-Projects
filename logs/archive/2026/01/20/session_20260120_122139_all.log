@@ -1,0 +1,52 @@
+
+================================================================================
+SESSION LOG
+================================================================================
+Session Name: all
+Session ID: 20260120_122139
+Start Time: 2026-01-20 12:21:39
+Command: run_tests.py all
+Working Directory: C:\esp32-project
+Python Version: 3.10.11
+================================================================================
+
+🚀 Starting session: all
+📋 Logging to: C:\esp32-project\logs\session_20260120_122139_all.log
+📊 LLM log: C:\esp32-project\logs\session_20260120_122139_all.llm.md
+
+Running: pytest -v
+================================================================================
+
+❌ Error running tests: 'charmap' codec can't decode byte 0x8f in position 116160: character maps to <undefined>
+
+================================================================================
+EXCEPTION OCCURRED
+Time: 2026-01-20 12:24:30
+Type: UnicodeDecodeError
+Message: 'charmap' codec can't decode byte 0x8f in position 116160: character maps to <undefined>
+================================================================================
+Traceback (most recent call last):
+  File "C:\esp32-project\tools\shared\logging_config.py", line 490, in capture_output
+    yield session
+  File "C:\esp32-project\run_tests.py", line 69, in run_command_with_logging
+    result = subprocess.run(
+  File "C:\Users\doghe\AppData\Local\Programs\Python\Python310\lib\subprocess.py", line 505, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+  File "C:\Users\doghe\AppData\Local\Programs\Python\Python310\lib\subprocess.py", line 1141, in communicate
+    stdout = self.stdout.read()
+  File "C:\Users\doghe\AppData\Local\Programs\Python\Python310\lib\encodings\cp1252.py", line 23, in decode
+    return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+UnicodeDecodeError: 'charmap' codec can't decode byte 0x8f in position 116160: character maps to <undefined>
+================================================================================
+
+
+================================================================================
+SESSION ENDED
+End Time: 2026-01-20 12:24:30
+Duration: 171.23 seconds
+Status: failed
+================================================================================
+
+Log saved to: C:\esp32-project\logs\session_20260120_122139_all.log
+Metadata saved to: C:\esp32-project\logs\session_20260120_122139_all.json
+LLM log saved to: C:\esp32-project\logs\session_20260120_122139_all.llm.md

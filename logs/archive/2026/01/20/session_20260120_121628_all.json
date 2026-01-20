@@ -1,0 +1,29 @@
+{
+  "session_name": "all",
+  "session_id": "20260120_121628",
+  "start_time": "2026-01-20T12:16:28.768818",
+  "command": "run_tests.py all",
+  "working_directory": "C:\\esp32-project",
+  "python_version": "3.10.11 (tags/v3.10.11:7d4cc5a, Apr  5 2023, 00:38:17) [MSC v.1929 64 bit (AMD64)]",
+  "events": [
+    {
+      "timestamp": "2026-01-20T12:16:28.772819",
+      "type": "TEST_COMMAND",
+      "data": {
+        "command": "pytest -v",
+        "test_type": "all"
+      }
+    },
+    {
+      "timestamp": "2026-01-20T12:16:52.098248",
+      "type": "TEST_COMPLETED",
+      "data": {
+        "exit_code": 2,
+        "status": "failed"
+      }
+    }
+  ],
+  "status": "completed",
+  "end_time": "2026-01-20T12:16:52.101249",
+  "duration_seconds": 23.332431
+}
