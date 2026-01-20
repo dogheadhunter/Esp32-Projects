@@ -54,7 +54,7 @@ packages = ["tools"]
 tools = ["**/*.json", "**/*.md", "**/*.j2"]
 
 [tool.pytest.ini_options]
-testpaths = ["tools/wiki_to_chromadb/tests", "tools/script-generator/tests"]
+testpaths = ["tests", "tools/wiki_to_chromadb/tests", "tools/script-generator/tests"]
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
@@ -63,6 +63,7 @@ markers = [
     "mock: tests using mock clients",
     "integration: tests requiring real dependencies (Ollama/ChromaDB)",
     "slow: slow running tests",
+    "e2e: end-to-end workflow tests",
 ]
 
 [tool.black]
