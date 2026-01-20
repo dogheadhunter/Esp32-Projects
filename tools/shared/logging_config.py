@@ -130,22 +130,26 @@ Python Version: {sys.version.split()[0]}
     def _handle_cancellation(self, signum, frame):
         """Handle user cancellation (Ctrl+C)"""
         self.cancelled = True
-        self.log_event("USER_CANCELLATION", {
+        
+        cancellation_info = {
             "signal": signum,
             "timestamp": datetime.now().isoformat(),
             "message": "User cancelled script execution"
-        })
+        }
         
-        # Write to log file immediately
-        with open(self.log_file, 'a', encoding='utf-8') as f:
-            f.write(f"\n{'='*80}\n")
-            f.write(f"USER CANCELLATION DETECTED\n")
-            f.write(f"Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
-            f.write(f"Signal: {signum}\n")
-            f.write(f"{'='*80}\n\n")
+        # Write to log file immediately (atomic operation)
+        try:
+            with open(self.log_file, 'a', encoding='utf-8') as f:
+                f.write(f"\n{'='*80}\n")
+                f.write(f"USER CANCELLATION DETECTED\n")
+                f.write(f"Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+                f.write(f"Signal: {signum}\n")
+                f.write(f"{'='*80}\n\n")
+        except Exception:
+            pass  # Don't fail on logging during cancellation
         
-        # Save metadata
-        self.close(status="cancelled")
+        # Log event (will be saved in close())
+        self.log_event("USER_CANCELLATION", cancellation_info)
         
         # Re-raise to allow normal cancellation behavior
         raise KeyboardInterrupt()
@@ -197,13 +201,21 @@ Python Version: {sys.version.split()[0]}
             f.write(f"Duration: {duration:.2f} seconds\n")
             f.write(f"Status: {status}\n")
             f.write(f"{'='*80}\n")
+            # Add log file path to log itself
+            f.write(f"\nLog saved to: {self.log_file}\n")
+            f.write(f"Metadata saved to: {self.metadata_file}\n")
         
-        # Save metadata as JSON
-        with open(self.metadata_file, 'w', encoding='utf-8') as f:
-            json.dump(self.metadata, f, indent=2)
-        
-        print(f"\n📋 Session log saved to: {self.log_file}")
-        print(f"📋 Session metadata saved to: {self.metadata_file}")
+        # Save metadata as JSON (atomic write)
+        temp_metadata_file = self.metadata_file.with_suffix('.json.tmp')
+        try:
+            with open(temp_metadata_file, 'w', encoding='utf-8') as f:
+                json.dump(self.metadata, f, indent=2)
+            # Atomic rename
+            temp_metadata_file.replace(self.metadata_file)
+        except Exception:
+            # Clean up temp file if it exists
+            if temp_metadata_file.exists():
+                temp_metadata_file.unlink()
 
 
 class StructuredFormatter(logging.Formatter):

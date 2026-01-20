@@ -170,18 +170,9 @@ class MockOllamaClient:
             return False
         
         if model:
-            # Simulate a quick test
-            try:
-                self.generate(
-                    model=model,
-                    prompt="Reply with just 'OK'",
-                    options={"temperature": 0},
-                    max_retries=1,
-                    timeout=30
-                )
-                return True
-            except Exception:
-                return False
+            # Simulate a connection test without calling generate
+            # to avoid potential recursion issues
+            return not self.connection_error
         
         return True
     
