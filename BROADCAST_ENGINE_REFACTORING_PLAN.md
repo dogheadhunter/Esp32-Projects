@@ -16,6 +16,20 @@ The current broadcast system has grown organically through multiple phases, lead
 
 This refactoring will streamline the architecture to create a more efficient, maintainable system with clear separation of concerns.
 
+### Key Innovation: Hybrid Validation (Rules + LLM)
+
+The refactored system uses a **three-phase hybrid validation approach** that combines the speed of rule-based checks with the intelligence of LLM validation:
+
+1. **Pre-Generation**: Embed rule constraints in LLM prompts (prevents issues upfront)
+2. **Post-Generation Rules**: Fast <100ms checks for critical errors (dates, forbidden topics, factions)
+3. **LLM Quality Check**: Deep validation only when rules pass (tone, coherence, character)
+
+**Benefits**:
+- **80% of issues** caught by fast rules (<100ms) without LLM call
+- **20% of scripts** reach LLM validation (only when rules pass)
+- **50% fewer LLM calls** for validation overall
+- **Best of both worlds**: Deterministic rules + intelligent quality checks
+
 ---
 
 ## Current Architecture Issues
@@ -151,31 +165,109 @@ def validate_during_generation(
 - Faster failure detection
 - Better quality through constraint-guided generation
 
-#### 4. **ValidationEngine** (Refactored)
-**Purpose**: Pre-generation constraints + post-generation quality check  
+#### 4. **ValidationEngine** (Refactored - Hybrid LLM + Rules)
+**Purpose**: Hybrid validation combining rules for quick catches and LLM for quality  
 **Responsibilities**:
-- Define validation constraints upfront (dates, factions, tone)
-- Provide constraints to LLM prompt
-- Final quality check on completed script
+- **Rules-based validation**: Fast checks for hard constraints (dates, forbidden topics)
+- **LLM-based validation**: Deep quality checks (tone, coherence, character consistency)
+- Define validation constraints upfront and embed in prompts
+- Final hybrid quality check on completed script
 - Issue reporting with severity levels
 
-**Two-Phase Validation**:
+**Hybrid Validation Architecture**:
 
-**Phase 1: Pre-Generation Constraints** (embedded in prompt)
+```
+┌─────────────────────────────────────────────────┐
+│         ValidationEngine (Hybrid)               │
+└─────────────────────────────────────────────────┘
+                    │
+        ┌───────────┴───────────┐
+        │                       │
+        ▼                       ▼
+┌───────────────┐     ┌─────────────────┐
+│ Rules-Based   │     │  LLM-Based      │
+│ Quick Checks  │     │  Deep Quality   │
+│ (<100ms)      │     │  (<2s)          │
+└───────────────┘     └─────────────────┘
+        │                       │
+        │  ✓ Dates/Years        │  ✓ Tone/Voice
+        │  ✓ Forbidden topics   │  ✓ Coherence
+        │  ✓ Location validity  │  ✓ Character
+        │  ✓ Faction existence  │  ✓ Engagement
+        │  ✓ Format checks      │  ✓ Naturalness
+        └───────────┬───────────┘
+                    ▼
+            Combined Result
+```
+
+**Three-Phase Validation Strategy**:
+
+**Phase 1: Pre-Generation Rule Constraints** (embedded in prompt)
 ```python
+# Fast rule-based constraints embedded in LLM prompt
 constraints = {
     'temporal': {'max_year': 2102, 'era': 'Post-War'},
     'spatial': {'allowed_locations': ['Appalachia', 'Vault 76']},
     'tone': {'personality': 'Julie', 'mood': 'optimistic'},
     'forbidden': ['NCR', 'Institute', 'Minutemen']  # DJ-specific
 }
+# These prevent LLM from generating invalid content upfront
 ```
 
-**Phase 2: Post-Generation Quality Check** (LLM-based)
+**Phase 2: Post-Generation Rule Checks** (fast fail-fast validation)
 ```python
-def validate_quality(script: str, dj_context: Dict) -> ValidationResult:
-    """Fast LLM check for quality, not hard constraints"""
+def quick_rule_validation(script: str, constraints: Dict) -> List[RuleViolation]:
+    """Fast <100ms rule checks for critical errors"""
+    violations = []
+    
+    # Check forbidden topics (regex/keyword matching)
+    if any(topic in script for topic in constraints['forbidden']):
+        violations.append(RuleViolation('forbidden_topic', ...))
+    
+    # Check year mentions (regex: \b(19\d{2}|20\d{2}|21\d{2})\b)
+    years = extract_years(script)
+    if any(year > constraints['temporal']['max_year'] for year in years):
+        violations.append(RuleViolation('anachronism', ...))
+    
+    # Check faction validity for DJ knowledge
+    invalid_factions = check_faction_knowledge(script, dj_context)
+    if invalid_factions:
+        violations.append(RuleViolation('unknown_faction', ...))
+    
+    return violations
 ```
+
+**Phase 3: LLM Quality Validation** (only if rules pass)
+```python
+def llm_quality_validation(script: str, dj_context: Dict) -> ValidationResult:
+    """Deep LLM check for quality, tone, and character consistency"""
+    
+    # Only runs if quick rule checks pass
+    # Focuses on subjective quality, not hard constraints
+    
+    llm_prompt = f"""
+    Validate this radio script for DJ {dj_name}.
+    
+    Check for:
+    1. Voice consistency with personality
+    2. Natural, engaging tone
+    3. Coherent narrative flow
+    4. Appropriate emotional tone
+    5. In-character dialogue
+    
+    Script: {script}
+    
+    Rate 1-10 and explain issues.
+    """
+    
+    return parse_llm_validation_response(llm_response)
+```
+
+**Benefits of Hybrid Approach**:
+- **Speed**: Rules catch 80% of issues in <100ms (no LLM call needed)
+- **Quality**: LLM validates subjective aspects rules can't catch
+- **Cost**: Only call LLM for quality when rules pass (50% fewer LLM calls)
+- **Reliability**: Rules provide deterministic checks, LLM adds intelligence
 
 ---
 
@@ -408,75 +500,188 @@ assert all(seg['validation']['is_valid'] for seg in segments)
 
 ---
 
-### **Phase 4: Enhanced Validation Engine** (Week 3)
+### **Phase 4: Hybrid Validation Engine (Rules + LLM)** (Week 3)
 
-#### Checkpoint 4.1: Two-Phase Validation System
+#### Checkpoint 4.1: Hybrid Validation System
 **Tasks**:
-- Refactor `llm_validator.py` for pre/post validation
+- Refactor `llm_validator.py` for hybrid validation
+- Implement fast rule-based checks (<100ms)
+- Create LLM quality validator (only runs if rules pass)
 - Create `ValidationConstraints` builder
 - Implement constraint-to-prompt converter
-- Fast post-generation quality check
 
 **Success Criteria**:
+- ✅ Rule-based checks catch 80% of issues in <100ms
+- ✅ LLM validation only runs when rules pass (50% fewer LLM calls)
 - ✅ Pre-generation constraints embedded in prompts
-- ✅ Post-generation validation focuses on quality
-- ✅ 80% reduction in validation failures
-- ✅ Faster validation (<2s per segment)
+- ✅ 80% reduction in validation failures overall
+- ✅ Total validation time <2s per segment (rules + LLM)
 
-**Two-Phase Flow**:
+**Hybrid Validation Flow**:
 ```python
-# Phase 1: Pre-Generation (constraint embedding)
-constraints = validator.build_constraints(dj_context, segment_type)
-prompt = validator.embed_constraints_in_prompt(base_prompt, constraints)
+# Three-phase validation
+class HybridValidator:
+    def validate(self, script: str, constraints: Dict, dj_context: Dict):
+        # Phase 1: Already embedded in generation prompt (prevents issues)
+        
+        # Phase 2: Fast rule checks (fail-fast for critical errors)
+        rule_violations = self.quick_rule_validation(script, constraints)
+        if rule_violations:
+            return ValidationResult(
+                is_valid=False,
+                issues=rule_violations,
+                source='rules',
+                time_ms=50  # Very fast
+            )
+        
+        # Phase 3: LLM quality check (only if rules pass)
+        llm_result = self.llm_quality_validation(script, dj_context)
+        return llm_result  # 2s but only 20% of scripts reach this
 
-# Phase 2: Post-Generation (quality check)
-quality_result = validator.validate_quality(script, dj_context)
-if not quality_result.is_valid:
-    # Only check quality issues, not hard constraints
+def quick_rule_validation(script: str, constraints: Dict):
+    """Fast <100ms checks for hard constraints"""
+    violations = []
+    
+    # Forbidden topics (keyword matching)
+    if any(topic.lower() in script.lower() for topic in constraints['forbidden']):
+        violations.append(RuleViolation('forbidden_topic', 'critical'))
+    
+    # Year anachronisms (regex)
+    years = re.findall(r'\b(19\d{2}|20\d{2}|21\d{2})\b', script)
+    invalid_years = [y for y in map(int, years) if y > constraints['temporal']['max_year']]
+    if invalid_years:
+        violations.append(RuleViolation('anachronism', 'critical'))
+    
+    # Invalid factions for DJ knowledge
+    mentioned_factions = extract_factions(script)
+    invalid = [f for f in mentioned_factions if f not in constraints['known_factions']]
+    if invalid:
+        violations.append(RuleViolation('unknown_faction', 'warning'))
+    
+    return violations
+
+def llm_quality_validation(script: str, dj_context: Dict):
+    """Deep LLM validation for quality aspects"""
+    prompt = f"""
+    You are validating a radio script for {dj_context['name']}.
+    
+    PERSONALITY TRAITS:
+    {dj_context['personality_summary']}
+    
+    SCRIPT TO VALIDATE:
+    {script}
+    
+    Check ONLY for:
+    1. Voice/tone consistency with DJ personality (1-10)
+    2. Natural, engaging delivery (1-10)
+    3. Coherent narrative flow (1-10)
+    4. Appropriate emotional tone for content (1-10)
+    5. In-character dialogue and mannerisms (1-10)
+    
+    DO NOT check: dates, locations, factions (already validated by rules)
+    
+    Format: JSON with scores and brief explanations
+    """
+    
+    response = ollama.generate(prompt)
+    return parse_quality_scores(response)
 ```
 
 **Testing**:
 ```python
-# Test constraint prevention
-validator = ValidationEngine()
-constraints = validator.build_constraints({
-    'dj_name': 'Julie',
-    'year': 2102
-})
-prompt = validator.embed_constraints_in_prompt("Generate news", constraints)
-assert '2102' in prompt
-assert 'Do NOT mention events after 2102' in prompt
+# Test rule-based quick catch
+validator = HybridValidator()
+script_with_forbidden = "The Institute is working on synths..."
+result = validator.validate(script_with_forbidden, constraints, dj_context)
+assert not result.is_valid
+assert result.source == 'rules'  # Caught by rules, not LLM
+assert result.time_ms < 100  # Very fast
+
+# Test LLM quality check (only runs if rules pass)
+script_valid_content = "The weather today is sunny with a chance of rad storms..."
+result = validator.validate(script_valid_content, constraints, dj_context)
+assert result.source in ['rules', 'llm']  # May reach LLM if rules pass
+if result.source == 'llm':
+    assert result.time_ms < 2000  # LLM check under 2s
 ```
 
 **Deliverables**:
-- Refactored `llm_validator.py` (+150 lines)
+- Refactored `llm_validator.py` with HybridValidator (+200 lines)
 - `ValidationConstraints` builder utilities
-- `tests/test_validation_engine.py` (200 lines)
+- Rule-based validation patterns library
+- `tests/test_hybrid_validation.py` (250 lines)
 
 ---
 
 #### Checkpoint 4.2: Validation Metrics & Reporting
 **Tasks**:
-- Add comprehensive validation metrics
+- Add comprehensive validation metrics (rules vs LLM)
 - Create validation report generator
-- Track constraint violation types
+- Track constraint violation types and sources
 - Quality score distribution
+- Rule effectiveness tracking
 
 **Success Criteria**:
-- ✅ Detailed metrics per validation type
+- ✅ Detailed metrics per validation type (rules/LLM)
 - ✅ Reports show improvement over baseline
+- ✅ Rule catch rate >80% (most issues caught without LLM)
 - ✅ Constraint violations logged and categorized
 - ✅ Quality scores tracked over time
 
 **Metrics Tracked**:
-- Pre-generation constraint effectiveness
-- Post-generation quality scores
-- Validation failure rate by type
-- Time saved vs old validation approach
+- **Rule-based validation**:
+  - Issues caught by rules (by type: date, faction, topic)
+  - Rule validation time (should be <100ms)
+  - Rule effectiveness rate (% of total issues caught)
+  
+- **LLM-based validation**:
+  - Scripts that reach LLM validation (should be ~20%)
+  - Quality scores distribution (1-10)
+  - LLM validation time (should be <2s)
+  - LLM-only issues (tone, coherence, character)
+  
+- **Overall**:
+  - Total validation time (rules + LLM when needed)
+  - Validation failure rate by type
+  - Time/cost saved vs old validation approach
+  - False positive/negative rates
+
+**Validation Report Example**:
+```
+Broadcast Validation Report - Julie - 2026-01-20
+================================================================
+
+Total Segments: 24
+Valid Scripts: 23 (95.8%)
+Failed Validation: 1 (4.2%)
+
+Validation Performance:
+  Average Time: 0.3s per segment (rules: 0.05s, LLM: 2.1s when used)
+  Rule Checks: 24/24 segments (100%)
+  LLM Checks: 5/24 segments (20.8%) - only when rules passed
+  
+Rule-Based Catches (80% of all issues):
+  - Forbidden topics: 0 violations
+  - Year anachronisms: 1 violation (caught and regenerated)
+  - Invalid factions: 0 violations
+  - Format errors: 0 violations
+  
+LLM Quality Checks (20% reaching this phase):
+  - Average quality score: 8.7/10
+  - Tone consistency: 9.2/10
+  - Character voice: 8.5/10
+  - Engagement: 8.4/10
+  
+Cost Savings:
+  Old approach: 48 LLM calls (24 gen + 24 validation)
+  New approach: 29 LLM calls (24 gen + 5 validation)
+  Savings: 40% fewer LLM validation calls
+```
 
 **Deliverables**:
 - Validation metrics dashboard in broadcast summary
 - Validation report generator utility
+- Rule effectiveness analyzer
 
 ---
 
