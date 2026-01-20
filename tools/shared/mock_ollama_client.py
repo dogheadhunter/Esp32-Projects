@@ -245,6 +245,10 @@ class MockOllamaClient:
         self.call_history = []
         self.unloaded_models = []
     
+    def get_call_log(self) -> List[Dict[str, Any]]:
+        """Get full call history log"""
+        return self.call_history
+    
     def get_last_call(self) -> Optional[Dict[str, Any]]:
         """Get information about the last call"""
         if self.call_history:

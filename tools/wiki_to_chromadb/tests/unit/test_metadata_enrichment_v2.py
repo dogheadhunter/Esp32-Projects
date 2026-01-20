@@ -284,7 +284,7 @@ class TestEnrichChunk:
         
         enriched = self.enricher.enrich_chunk(chunk)
         
-        assert enriched.location == "appalachia"
+        assert enriched.location == "Appalachia"
         assert enriched.location_confidence > 0
     
     def test_knowledge_tier_assignment(self):

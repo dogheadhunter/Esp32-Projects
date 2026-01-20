@@ -313,9 +313,9 @@ class TestBroadcastScheduler:
         """Test BroadcastScheduler initialization."""
         scheduler = BroadcastScheduler()
         
-        assert scheduler.last_segment_times is not None
-        assert "weather" in scheduler.segment_intervals
-        assert scheduler.segment_intervals["weather"] == 30
+        assert scheduler.time_check_done_hours is not None
+        assert scheduler.weather_done_hours is not None
+        assert scheduler.WEATHER_HOURS == {6, 12, 17, 21}
     
     def test_time_of_day_detection_morning(self):
         """Test time of day detection for morning."""
@@ -354,27 +354,34 @@ class TestBroadcastScheduler:
         assert scheduler.is_time_for_segment("gossip") == True
     
     def test_segment_interval_enforcement(self):
-        """Test that intervals are enforced."""
+        """Test that hour-based scheduling is enforced."""
         scheduler = BroadcastScheduler()
+        current_hour = 12  # Noon - a weather hour
         
-        # Record weather generation
-        scheduler.record_segment_generated("weather")
+        # Mark weather as done for this hour
+        scheduler.mark_segment_done("weather", current_hour)
         
-        # Should not be ready immediately
-        assert scheduler.is_time_for_segment("weather") == False
+        # Weather should be marked as done for hour 12
+        assert current_hour in scheduler.weather_done_hours
         
-        # Other segments should still be ready
-        assert scheduler.is_time_for_segment("news") == True
+        # Time check should still be available for this hour
+        assert current_hour not in scheduler.time_check_done_hours
     
     def test_next_priority_segment(self):
-        """Test getting next priority segment."""
+        """Test getting required segment for current hour."""
         scheduler = BroadcastScheduler()
+        current_hour = 12  # Noon - a weather hour
         
-        next_seg = scheduler.get_next_priority_segment()
+        # Get required segment for this hour
+        required_seg = scheduler.get_required_segment_for_hour(current_hour)
         
-        # Should get something (all are ready initially)
-        assert next_seg is not None
-        assert next_seg in scheduler.segment_intervals.keys()
+        # Should get time_check first (since nothing is done yet)
+        assert required_seg == "time_check"
+        
+        # After marking time check as done, should get weather
+        scheduler.mark_segment_done("time_check", current_hour)
+        required_seg = scheduler.get_required_segment_for_hour(current_hour)
+        assert required_seg == "weather"
     
     def test_segments_status(self):
         """Test getting segments status."""
@@ -382,35 +389,36 @@ class TestBroadcastScheduler:
         
         status = scheduler.get_segments_status()
         
-        assert "weather" in status
-        assert "news" in status
-        assert status["weather"]["interval_minutes"] == 30
-        assert status["weather"]["is_ready"] == True
-        assert "never" in status["weather"]["last_generated"]
+        assert "weather_done" in status
+        assert "news_done" in status
+        assert "weather_hours" in status
+        assert status["weather_hours"] == [6, 12, 17, 21]
+        assert status["weather_done"] == []  # Nothing done initially
     
     def test_scheduler_reset(self):
         """Test resetting scheduler."""
         scheduler = BroadcastScheduler()
+        current_hour = 12
         
-        scheduler.record_segment_generated("weather")
-        assert scheduler.is_time_for_segment("weather") == False
+        scheduler.mark_segment_done("weather", current_hour)
+        assert current_hour in scheduler.weather_done_hours
         
         scheduler.reset()
-        assert scheduler.is_time_for_segment("weather") == True
+        assert current_hour not in scheduler.weather_done_hours
+        assert len(scheduler.weather_done_hours) == 0
     
     def test_time_priority_variation(self):
-        """Test that priorities vary by time of day."""
+        """Test that weather scheduling varies by hour."""
         scheduler = BroadcastScheduler()
         
-        morning_priorities = scheduler.time_of_day_priorities[TimeOfDay.MORNING]
-        evening_priorities = scheduler.time_of_day_priorities[TimeOfDay.EVENING]
+        # Weather is scheduled at specific hours
+        assert 6 in scheduler.WEATHER_HOURS  # Morning
+        assert 12 in scheduler.WEATHER_HOURS  # Noon
+        assert 17 in scheduler.WEATHER_HOURS  # Evening
         
-        # Weather should be higher priority in evening
-        assert evening_priorities["weather"] > morning_priorities["weather"]
-        
-        # Gossip should be higher priority in night
-        night_priorities = scheduler.time_of_day_priorities[TimeOfDay.NIGHT]
-        assert night_priorities["gossip"] > morning_priorities["gossip"]
+        # Non-weather hours
+        assert 10 not in scheduler.WEATHER_HOURS
+        assert 15 not in scheduler.WEATHER_HOURS
 
 
 # ========== Integration Tests ==========
