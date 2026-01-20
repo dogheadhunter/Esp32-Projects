@@ -36,6 +36,7 @@ from world_state import WorldState
 from broadcast_scheduler import BroadcastScheduler
 from consistency_validator import ConsistencyValidator
 from llm_validator import LLMValidator, HybridValidator, ValidationSeverity
+from rag_cache import RAGCache
 
 
 class ScriptGenerator:
@@ -80,6 +81,10 @@ class ScriptGenerator:
         
         self.rag = ChromaDBIngestor(persist_directory=chroma_db_dir)
         self.ollama = OllamaClient(base_url=ollama_url)
+        
+        # PHASE 1 CHECKPOINT 1.2: Initialize RAG Cache
+        self.rag_cache = RAGCache(self.rag)
+        print(f"[OK] RAG Cache initialized (max_size={self.rag_cache.max_cache_size}, ttl={self.rag_cache.default_ttl}s)")
         
         # Check Ollama connection
         if not self.ollama.check_connection():
@@ -259,6 +264,31 @@ class ScriptGenerator:
             return random.choice(['opening', 'closing'])
         
         return placement
+    
+    def _get_topic_for_content_type(self, script_type: str) -> Optional[str]:
+        """
+        Map content type to cache topic for targeted caching.
+        
+        Phase 1 Checkpoint 1.2: Cache topic mapping
+        - Enables topic-based cache invalidation
+        - Groups similar queries together
+        
+        Args:
+            script_type: Type of script being generated
+        
+        Returns:
+            Topic string for cache indexing, or None
+        """
+        topic_mapping = {
+            'weather': 'regional_climate',
+            'news': 'current_events',
+            'gossip': 'character_relationships',
+            'story': 'story_arc',
+            'time': None,  # Time checks don't need caching
+            'music_intro': 'music_knowledge'
+        }
+        
+        return topic_mapping.get(script_type)
     
     def get_natural_voice_elements(self,
                                    personality: Dict,
@@ -446,19 +476,36 @@ class ScriptGenerator:
                     if voice_elements.get('spontaneous_element'):
                         print(f"[OK] Spontaneous element: {voice_elements['spontaneous_element']}")
                 
-                # Step 2: RAG query for lore context
+                # Step 2: RAG query for lore context (with caching - Phase 1 Checkpoint 1.2)
                 print(f"\n[2/5] Querying RAG database...")
                 print(f"  Query: {context_query}")
                 
-                rag_results = query_for_dj(
-                    self.rag,
-                    dj_name=dj_name,
+                # Build DJ context for cache filtering
+                dj_context = {
+                    'name': dj_name,
+                    'year': personality.get('year', 2102),
+                    'region': personality.get('region', 'Unknown')
+                }
+                
+                # Determine topic for cache indexing
+                topic = self._get_topic_for_content_type(script_type)
+                
+                # Query with cache (Phase 1)
+                rag_results = self.rag_cache.query_with_cache(
                     query_text=context_query,
-                    n_results=n_results
+                    dj_context=dj_context,
+                    num_chunks=n_results,
+                    topic=topic
                 )
                 
                 results_count = len(rag_results['documents'][0])
-                print(f"[OK] Retrieved {results_count} results")
+                
+                # Log cache statistics (Phase 1)
+                cache_stats = self.rag_cache.get_statistics()
+                cache_info = "(cached)" if cache_stats['cache_hits'] > 0 else "(fresh)"
+                print(f"[OK] Retrieved {results_count} results {cache_info}")
+                print(f"      Cache: {cache_stats['hit_rate']:.1f}% hit rate, "
+                      f"{cache_stats['cache_hits']} hits, {cache_stats['cache_misses']} misses")
                 
                 # Format context from top chunks
                 context_chunks_actual = min(context_chunks, results_count)
@@ -978,6 +1025,57 @@ class ScriptGenerator:
         self.broadcast_scheduler.reset() if self.broadcast_scheduler else None
         
         return stats
+    
+    # ========== Phase 1: RAG Cache Management Methods ==========
+    
+    def get_cache_statistics(self) -> Dict[str, Any]:
+        """
+        Get RAG cache statistics.
+        
+        Phase 1 Checkpoint 1.2: Cache statistics reporting
+        
+        Returns:
+            Dictionary with cache performance metrics
+        """
+        return self.rag_cache.get_statistics()
+    
+    def invalidate_cache(self, topic: Optional[str] = None):
+        """
+        Invalidate RAG cache entries.
+        
+        Phase 1 Checkpoint 1.2: Cache invalidation
+        
+        Args:
+            topic: Optional topic to invalidate (None = invalidate all)
+        """
+        self.rag_cache.invalidate_cache(topic=topic)
+        if topic:
+            print(f"[OK] Invalidated cache for topic: {topic}")
+        else:
+            print(f"[OK] Invalidated entire RAG cache")
+    
+    def print_cache_report(self):
+        """
+        Print detailed cache performance report.
+        
+        Phase 1 Checkpoint 1.2: Cache reporting
+        """
+        stats = self.rag_cache.get_statistics()
+        
+        print("\n" + "="*60)
+        print("RAG CACHE PERFORMANCE REPORT")
+        print("="*60)
+        print(f"Cache Size:        {stats['cache_size']} / {stats['max_cache_size']} entries")
+        print(f"Hit Rate:          {stats['hit_rate']:.1f}%")
+        print(f"Total Queries:     {stats['total_queries']}")
+        print(f"  - Cache Hits:    {stats['cache_hits']}")
+        print(f"  - Cache Misses:  {stats['cache_misses']}")
+        print(f"Evictions:         {stats['evictions']}")
+        print(f"Expired Entries:   {stats['expired_entries']}")
+        print(f"Topics Cached:     {len(stats['topics_cached'])}")
+        if stats['topics_cached']:
+            print(f"  Topics: {', '.join(stats['topics_cached'])}")
+        print("="*60)
 
 
 if __name__ == "__main__":
