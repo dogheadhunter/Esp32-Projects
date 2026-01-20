@@ -1072,9 +1072,7 @@ class ScriptGenerator:
         print(f"  - Cache Misses:  {stats['cache_misses']}")
         print(f"Evictions:         {stats['evictions']}")
         print(f"Expired Entries:   {stats['expired_entries']}")
-        print(f"Topics Cached:     {len(stats['topics_cached'])}")
-        if stats['topics_cached']:
-            print(f"  Topics: {', '.join(stats['topics_cached'])}")
+        print(f"Topics Indexed:    {stats.get('topics_indexed', 0)}")
         print("="*60)
 
 

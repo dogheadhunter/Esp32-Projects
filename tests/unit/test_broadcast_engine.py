@@ -110,6 +110,18 @@ class TestBroadcastEngineSegmentGeneration:
         mock_world_instance.get_calendar_for_region.return_value = None
         mock_world_instance.weather_calendars = {}
         mock_world_instance.calendar_metadata = {}
+        # Mock get_current_weather to return proper WeatherState dict
+        mock_world_instance.get_current_weather.return_value = {
+            'weather_type': 'sunny',
+            'started_at': '2102-01-01T08:00:00',
+            'duration_hours': 4.0,
+            'intensity': 'minor',
+            'transition_state': 'stable',
+            'is_emergency': False,
+            'temperature': 72.0,
+            'region': 'Appalachia',
+            'notable_event': False
+        }
         mock_world.return_value = mock_world_instance
         
         # Create engine
