@@ -38,6 +38,32 @@ class ValidationRules:
             'social media', 'twitter', 'facebook', 'youtube',
             'computer', 'laptop', 'tablet', 'iphone', 'android'
         ]
+        
+        # Regional/location-specific knowledge bases
+        self.regional_knowledge = {
+            'Commonwealth': {
+                'locations': ['Diamond City', 'Goodneighbor', 'Sanctuary Hills', 'The Institute', 
+                             'Railroad', 'Bunker Hill', 'Cambridge', 'Boston'],
+                'factions': ['Minutemen', 'Railroad', 'Institute', 'Brotherhood of Steel'],
+                'forbidden_in_other_regions': ['NCR', 'Mr. House', 'Caesar\'s Legion', 'Mojave', 
+                                               'New Vegas', 'Appalachia', 'Vault 76']
+            },
+            'Mojave': {
+                'locations': ['New Vegas', 'Freeside', 'The Strip', 'Hoover Dam', 'Camp McCarran',
+                             'Boulder City', 'Primm', 'Goodsprings'],
+                'factions': ['NCR', 'Caesar\'s Legion', 'Mr. House', 'Boomers', 'Great Khans'],
+                'forbidden_in_other_regions': ['Institute', 'Railroad', 'Minutemen', 'Diamond City',
+                                               'Commonwealth', 'Appalachia']
+            },
+            'Appalachia': {
+                'locations': ['Vault 76', 'Flatwoods', 'Charleston', 'Morgantown', 'Watoga',
+                             'The Wayward', 'Foundation', 'Crater'],
+                'factions': ['Responders', 'Free States', 'Brotherhood of Steel (early)', 'Raiders',
+                            'Settlers'],
+                'forbidden_in_other_regions': ['NCR', 'Institute', 'Railroad', 'Minutemen', 
+                                               'New Vegas', 'Mojave', 'Commonwealth']
+            }
+        }
     
     def validate_temporal(
         self,
@@ -87,10 +113,13 @@ class ValidationRules:
         
         # Check for anachronistic terms
         script_lower = script.lower()
-        found_anachronisms = [
-            term for term in self.anachronism_keywords
-            if term in script_lower
-        ]
+        found_anachronisms = []
+        
+        for term in self.anachronism_keywords:
+            # Use word boundaries to avoid false positives (e.g., "app" in "Appalachia")
+            pattern = r'\b' + re.escape(term) + r'\b'
+            if re.search(pattern, script_lower):
+                found_anachronisms.append(term)
         if found_anachronisms:
             issues.append(
                 f"Anachronistic terms detected: {', '.join(found_anachronisms)}"
@@ -210,6 +239,138 @@ class ValidationRules:
             'length': len(script)
         }
     
+    def validate_regional_consistency(
+        self,
+        script: str,
+        dj_region: str,
+        dj_name: str = "DJ"
+    ) -> Dict[str, Any]:
+        """
+        Validate regional consistency - ensure DJ only references their region's locations/factions.
+        
+        Args:
+            script: Script text to validate
+            dj_region: DJ's home region (Commonwealth, Mojave, Appalachia)
+            dj_name: DJ name for error messages
+        
+        Returns:
+            Dict with validation results
+        """
+        issues = []
+        
+        if dj_region not in self.regional_knowledge:
+            # Unknown region, skip validation
+            return {'is_valid': True, 'issues': [], 'warnings': [f"Unknown region: {dj_region}"]}
+        
+        region_data = self.regional_knowledge[dj_region]
+        script_lower = script.lower()
+        
+        # Check for forbidden locations/factions from other regions
+        forbidden_items = region_data.get('forbidden_in_other_regions', [])
+        found_forbidden = []
+        
+        for item in forbidden_items:
+            # Use word boundary regex to avoid partial matches
+            pattern = r'\b' + re.escape(item.lower()) + r'\b'
+            if re.search(pattern, script_lower):
+                found_forbidden.append(item)
+        
+        if found_forbidden:
+            issues.append(
+                f"Regional violation: {dj_name} in {dj_region} shouldn't know about "
+                f"{', '.join(found_forbidden)} (from other regions)"
+            )
+        
+        return {
+            'is_valid': len(issues) == 0,
+            'issues': issues,
+            'region': dj_region
+        }
+    
+    def validate_character_voice_consistency(
+        self,
+        script: str,
+        character_card: Dict[str, Any]
+    ) -> Dict[str, Any]:
+        """
+        Validate DJ character voice consistency using character card guidelines.
+        
+        Args:
+            script: Script text to validate
+            character_card: Character card with personality traits and guidelines
+        
+        Returns:
+            Dict with validation results
+        """
+        issues = []
+        warnings = []
+        
+        dj_name = character_card.get('name', 'DJ')
+        tone = character_card.get('tone', '')
+        do_guidelines = character_card.get('do', [])
+        dont_guidelines = character_card.get('dont', [])
+        catchphrases = character_card.get('catchphrases', [])
+        
+        script_lower = script.lower()
+        
+        # Check for violations of "don't" guidelines
+        dont_violations = {
+            'polished or slick': ['meticulously', 'perfectly', 'pristine', 'flawlessly'],
+            'cynical': ['hopeless', 'useless', 'pointless', 'never work'],
+            'aggressive': ['destroy them', 'kill them all', 'crush them'],
+            'formal': ['furthermore', 'henceforth', 'thus', 'whereas', 'hereby']
+        }
+        
+        for guideline in dont_guidelines:
+            guideline_lower = guideline.lower()
+            for key, markers in dont_violations.items():
+                if key in guideline_lower:
+                    found_violations = [m for m in markers if m in script_lower]
+                    if found_violations:
+                        issues.append(
+                            f"Character violation: {dj_name} guideline 'don't {guideline}' "
+                            f"violated by using: {', '.join(found_violations)}"
+                        )
+        
+        # Check tone consistency markers
+        if tone:
+            tone_markers = {
+                'hopeful': ['hope', 'believe', 'together', 'can do', 'will'],
+                'earnest': ['sincere', 'honest', 'true', 'real', 'important'],
+                'conversational': ['you know', 'like', 'um', 'i mean', 'think'],
+                'friendly': ['friend', 'folks', 'buddy', 'pal', 'hey'],
+                'protective': ['safe', 'careful', 'watch out', 'protect']
+            }
+            
+            tone_found = False
+            for tone_word in tone.lower().split(','):
+                tone_word = tone_word.strip()
+                if tone_word in tone_markers:
+                    markers = tone_markers[tone_word]
+                    if any(marker in script_lower for marker in markers):
+                        tone_found = True
+                        break
+            
+            if not tone_found and len(script.split()) > 30:
+                warnings.append(
+                    f"Voice warning: Script may lack expected tone characteristics "
+                    f"(expected tone: {tone})"
+                )
+        
+        # Check for expected catchphrases (warning if completely missing in longer scripts)
+        if catchphrases and len(script.split()) > 50:
+            has_catchphrase = any(phrase.lower() in script_lower for phrase in catchphrases)
+            if not has_catchphrase:
+                warnings.append(
+                    f"Voice warning: No catchphrases found. Expected one of: {', '.join(catchphrases[:3])}"
+                )
+        
+        return {
+            'is_valid': len(issues) == 0,
+            'issues': issues,
+            'warnings': warnings
+        }
+    
     def validate_all(
         self,
         script: str,
@@ -219,7 +380,9 @@ class ValidationRules:
         forbidden_factions: List[str] = None,
         max_length: Optional[int] = None,
         required_elements: List[str] = None,
-        dj_name: str = "DJ"
+        dj_name: str = "DJ",
+        dj_region: Optional[str] = None,
+        character_card: Optional[Dict[str, Any]] = None
     ) -> Dict[str, Any]:
         """
         Run all validation rules.
@@ -233,11 +396,14 @@ class ValidationRules:
             max_length: Maximum length
             required_elements: Required elements
             dj_name: DJ name
+            dj_region: DJ's home region for regional consistency check
+            character_card: Character card for voice consistency check
         
         Returns:
             Dict with combined validation results
         """
         all_issues = []
+        all_warnings = []
         results = {}
         
         # Temporal validation
@@ -258,9 +424,24 @@ class ValidationRules:
             results['format'] = format_check
             all_issues.extend(format_check['issues'])
         
+        # Regional consistency validation
+        if dj_region:
+            regional = self.validate_regional_consistency(script, dj_region, dj_name)
+            results['regional'] = regional
+            all_issues.extend(regional['issues'])
+            all_warnings.extend(regional.get('warnings', []))
+        
+        # Character voice consistency validation
+        if character_card:
+            voice = self.validate_character_voice_consistency(script, character_card)
+            results['voice'] = voice
+            all_issues.extend(voice['issues'])
+            all_warnings.extend(voice.get('warnings', []))
+        
         return {
             'is_valid': len(all_issues) == 0,
             'issues': all_issues,
+            'warnings': all_warnings,
             'detailed_results': results
         }
 
