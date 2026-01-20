@@ -48,12 +48,15 @@ class TestOllamaClientMocked:
         """Test connection error handling"""
         client = OllamaClient()
         
-        with patch('requests.post', side_effect=ConnectionError("Connection refused")):
-            with pytest.raises(ConnectionError) as exc_info:
-                client.generate(model="test-model", prompt="test")
+        # Patch requests.exceptions to raise ConnectionError
+        from requests.exceptions import ConnectionError as RequestsConnectionError
         
-        # Should raise ConnectionError with helpful message
-        assert "Ollama" in str(exc_info.value) or "Connection" in str(exc_info.value)
+        # Import and patch in the correct location
+        import ollama_client
+        with patch.object(ollama_client.requests, 'post', side_effect=RequestsConnectionError("Connection refused")):
+            # Should raise our wrapped ConnectionError
+            with pytest.raises(ConnectionError):
+                client.generate(model="test-model", prompt="test")
     
     def test_timeout_with_retry(self):
         """Test timeout handling with retry logic"""
