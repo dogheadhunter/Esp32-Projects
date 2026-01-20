@@ -182,27 +182,36 @@ class ComprehensiveLogger:
         """Flush all log handlers immediately"""
         for handler in logging.getLogger().handlers:
             if hasattr(handler, 'flush'):
-                handler.flush()
+                try:
+                    handler.flush()
+                except (ValueError, OSError):
+                    # Stream may be closed, that's OK
+                    pass
         
         for handle in self.log_handles:
             if hasattr(handle, 'flush'):
-                handle.flush()
+                try:
+                    handle.flush()
+                except (ValueError, OSError):
+                    # Stream may be closed, that's OK
+                    pass
     
     def _cleanup(self) -> None:
         """Cleanup on exit"""
-        logger = logging.getLogger(__name__)
-        logger.info("="*80)
-        logger.info("LOGGING SYSTEM SHUTDOWN")
-        logger.info(f"Log saved to: {self.main_log_file}")
-        logger.info("="*80)
-        
-        # Flush everything
-        self._flush_all()
+        # Don't try to log - streams may be closed
+        # Just flush and close what we can
+        try:
+            self._flush_all()
+        except:
+            pass
         
         # Close file handlers
         for handle in self.log_handles:
             if hasattr(handle, 'close'):
-                handle.close()
+                try:
+                    handle.close()
+                except:
+                    pass
         
         # Move to history if not latest
         if self.main_log_file != self.latest_log_file and self.main_log_file.exists():
@@ -212,8 +221,8 @@ class ComprehensiveLogger:
                     self.main_log_file,
                     self.history_dir / self.main_log_file.name
                 )
-            except Exception as e:
-                print(f"Warning: Could not copy log to history: {e}", file=self.original_stderr)
+            except:
+                pass
     
     @contextmanager
     def capture_output(self, module_name: str):

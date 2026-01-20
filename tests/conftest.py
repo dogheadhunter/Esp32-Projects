@@ -254,11 +254,9 @@ def cleanup_test_artifacts(request, tmp_path):
 
 def pytest_sessionfinish(session, exitstatus):
     """Hook called after whole test run finished"""
-    logger = get_test_logger("test_session")
-    logger.info("="*80)
-    logger.info("TEST SESSION COMPLETE")
-    logger.info(f"Exit status: {exitstatus}")
-    logger.info("="*80)
+    # Note: Logging may be closed at this point, so we skip final logging
+    # All important logging is done during test execution
+    pass
 
 
 # ============================================================================
