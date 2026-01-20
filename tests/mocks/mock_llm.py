@@ -134,7 +134,8 @@ class MockLLMClient:
     def generate(self,
                 model: str,
                 prompt: str,
-                options: Optional[Dict[str, Any]] = None) -> str:
+                options: Optional[Dict[str, Any]] = None,
+                timeout: Optional[int] = None) -> str:
         """
         Generate a response based on prompt keywords.
         
@@ -142,6 +143,7 @@ class MockLLMClient:
             model: Model name (e.g., "fluffy/l3-8b-stheno-v3.2")
             prompt: Prompt text
             options: Optional generation options (temperature, top_p, etc.)
+            timeout: Optional timeout in seconds
         
         Returns:
             Generated text response
@@ -151,6 +153,7 @@ class MockLLMClient:
             'model': model,
             'prompt': prompt,
             'options': options or {},
+            'timeout': timeout,
             'timestamp': datetime.now().isoformat(),
             'response_length': None  # Will be filled below
         })
@@ -162,6 +165,44 @@ class MockLLMClient:
         self.call_log[-1]['response_length'] = len(response)
         
         return response
+    
+    def chat(self,
+             messages: List[Dict[str, str]],
+             model: str = "llama3.2:latest",
+             temperature: float = 0.8,
+             max_tokens: int = 500) -> Dict[str, Any]:
+        """
+        Chat completion method (for llm_pipeline compatibility).
+        
+        Args:
+            messages: List of message dicts with 'role' and 'content'
+            model: Model name
+            temperature: Generation temperature
+            max_tokens: Maximum tokens to generate
+        
+        Returns:
+            Response dict with 'message' containing 'content'
+        """
+        # Extract the last user message
+        user_message = ""
+        for msg in reversed(messages):
+            if msg.get('role') == 'user':
+                user_message = msg.get('content', '')
+                break
+        
+        # Generate response using existing logic
+        response = self.generate(
+            model=model,
+            prompt=user_message,
+            options={'temperature': temperature, 'num_predict': max_tokens}
+        )
+        
+        return {
+            'message': {
+                'role': 'assistant',
+                'content': response
+            }
+        }
     
     def _generate_response(self, prompt: str, model: str) -> str:
         """
@@ -268,7 +309,8 @@ class MockLLMClientWithFailure(MockLLMClient):
     def generate(self,
                 model: str,
                 prompt: str,
-                options: Optional[Dict[str, Any]] = None) -> str:
+                options: Optional[Dict[str, Any]] = None,
+                timeout: Optional[int] = None) -> str:
         """Generate, but fail if configured to do so"""
         
         # Check if should fail
@@ -277,10 +319,11 @@ class MockLLMClientWithFailure(MockLLMClient):
                 'model': model,
                 'prompt': prompt,
                 'options': options or {},
+                'timeout': timeout,
                 'timestamp': datetime.now().isoformat(),
                 'failed': True
             })
             raise RuntimeError("Mock LLM configured to fail")
         
         # Otherwise, use parent behavior
-        return super().generate(model, prompt, options)
+        return super().generate(model, prompt, options, timeout)
