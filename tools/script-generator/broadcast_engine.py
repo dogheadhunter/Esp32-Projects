@@ -278,7 +278,7 @@ class BroadcastEngine:
         
         # Extract stories for each timeline (without timeline filter initially to see what we get)
         print("[Story System] DEBUG: Extracting stories without timeline filter...")
-        all_stories = extractor.extract_stories(max_stories=50, timeline=None, min_chunks=1, max_chunks=10)
+        all_stories = extractor.extract_stories(max_stories=100, timeline=None, min_chunks=2, max_chunks=15)
         print(f"[Story System] DEBUG: Extracted {len(all_stories)} total stories")
         
         # Group by timeline
@@ -782,7 +782,7 @@ class BroadcastEngine:
         )
         
         # Update scheduler - mark required segments as done
-        if segment_type in ['time_check', 'news', 'weather']:
+        if segment_type in ['time_check', 'news', 'weather', 'gossip']:
             self.scheduler.mark_segment_done(segment_type, current_hour)
         else:
             self.scheduler.record_segment_generated(segment_type)

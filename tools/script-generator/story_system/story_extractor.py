@@ -323,7 +323,7 @@ Generate acts now:"""
 
         try:
             response = self.ollama.generate(
-                model=project_config.MODEL,
+                model=project_config.LLM_MODEL,
                 prompt=prompt,
                 options={"temperature": 0.7, "top_p": 0.9, "num_predict": 1000},
                 timeout=30,
@@ -443,16 +443,35 @@ Generate acts now:"""
     def _determine_timeline(self, chunks: List[Dict], content_type: str) -> StoryTimeline:
         """Determine appropriate timeline scale for story."""
         num_chunks = len(chunks)
+        
+        # Check metadata for timeline hints
+        metadata = chunks[0].get("metadata", {}) if chunks else {}
+        content_type_meta = metadata.get("content_type", "")
+        
+        # Major events and quests tend to be longer arcs
+        if "quest" in content_type.lower() or "questline" in content_type_meta.lower():
+            if num_chunks >= 5:
+                return StoryTimeline.MONTHLY
+            if num_chunks >= 3:
+                return StoryTimeline.WEEKLY
+            # Even small quests can be weekly arcs
+            return StoryTimeline.WEEKLY if num_chunks >= 2 else StoryTimeline.DAILY
+        
         if content_type == "event":
             if num_chunks >= 5:
                 return StoryTimeline.MONTHLY
             if num_chunks >= 3:
                 return StoryTimeline.WEEKLY
-            return StoryTimeline.DAILY
+            # Events are typically weekly unless very small
+            return StoryTimeline.WEEKLY if num_chunks >= 2 else StoryTimeline.DAILY
+        
+        # Default progression based on chunks
         if num_chunks >= 7:
             return StoryTimeline.MONTHLY
         if num_chunks >= 4:
             return StoryTimeline.WEEKLY
+        if num_chunks >= 2:
+            return StoryTimeline.WEEKLY  # Favor weekly over daily
         return StoryTimeline.DAILY
 
     def _generate_summary(self, chunks: List[Dict]) -> str:

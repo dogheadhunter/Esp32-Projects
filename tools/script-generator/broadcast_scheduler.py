@@ -42,10 +42,12 @@ class BroadcastScheduler:
         self.time_check_done_hours = set()
         self.news_done_hours = set()
         self.weather_done_hours = set()
+        self.gossip_done_hours = set()
         
         # Fixed schedule for specific segment types
-        self.NEWS_HOURS = {6, 12, 17}
-        self.WEATHER_HOURS = {6, 12, 17}
+        self.NEWS_HOURS = set()  # No news for stress test
+        self.WEATHER_HOURS = {6, 12, 17, 21}  # 6am, 12pm, 5pm, 9pm
+        self.GOSSIP_REQUIRED = True  # Gossip every hour
     
     def get_current_time_of_day(self) -> TimeOfDay:
         """Determine current time of day from system time."""
@@ -64,17 +66,17 @@ class BroadcastScheduler:
     
     def get_required_segment_for_hour(self, current_hour: int) -> Optional[str]:
         """Get required segment type for this hour."""
-        # Time check first
+        # Time check first (every hour)
         if current_hour not in self.time_check_done_hours:
             return "time_check"
         
-        # News at specific hours
-        if current_hour in self.NEWS_HOURS and current_hour not in self.news_done_hours:
-            return "news"
-        
-        # Weather at specific hours
+        # Weather at specific hours (6am, 12pm, 5pm, 9pm)
         if current_hour in self.WEATHER_HOURS and current_hour not in self.weather_done_hours:
             return "weather"
+        
+        # Gossip required every hour (after time check and weather)
+        if self.GOSSIP_REQUIRED and current_hour not in self.gossip_done_hours:
+            return "gossip"
         
         return None
     
@@ -86,6 +88,8 @@ class BroadcastScheduler:
             self.news_done_hours.add(current_hour)
         elif segment_type == "weather":
             self.weather_done_hours.add(current_hour)
+        elif segment_type == "gossip":
+            self.gossip_done_hours.add(current_hour)
     
     def is_story_ready(self) -> bool:
         """Check if story should be considered."""

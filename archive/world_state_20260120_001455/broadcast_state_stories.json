@@ -1,118 +1,13 @@
 {
   "schema_version": "1.0",
-  "created_at": "2026-01-20T00:23:34.075060",
-  "last_modified": "2026-01-20T00:23:48.525563",
+  "created_at": "2026-01-19T21:18:29.708585",
+  "last_modified": "2026-01-19T21:21:26.545247",
   "story_pools": {
-    "daily": [],
-    "weekly": [
-      {
-        "story_id": "story_quest_beyond_the_beef",
-        "title": "Beyond the Beef",
-        "timeline": "weekly",
-        "acts": [
-          {
-            "act_number": 1,
-            "act_type": "setup",
-            "title": "Act 1",
-            "summary": "The protagonist, a weary wanderer named Cody, stumbles into the small settlement of Dry Rock Cave after weeks on the road. He meets the enigmatic leader, Raven, and learns about her quest to find a rare plant, the Desert Rose.",
-            "source_chunks": [
-              "Beyond the Beef_Quest Stages_8_399"
-            ],
-            "entities": [],
-            "themes": [],
-            "conflict_level": 0.2,
-            "emotional_tone": "neutral",
-            "broadcast_count": 0,
-            "last_broadcast": null
-          },
-          {
-            "act_number": 2,
-            "act_type": "rising",
-            "title": "The Plant Hunter's Dilemma",
-            "summary": "Cody agrees to help Raven locate the elusive Desert Rose, but they soon discover they're not alone in their search. A ruthless trader named Marcus is also after the plant for his own gain.",
-            "source_chunks": [
-              "Beyond the Beef_Quest Stages_10_401"
-            ],
-            "entities": [],
-            "themes": [],
-            "conflict_level": 0.6,
-            "emotional_tone": "neutral",
-            "broadcast_count": 0,
-            "last_broadcast": null
-          },
-          {
-            "act_number": 3,
-            "act_type": "climax",
-            "title": "Showdown at the Oasis",
-            "summary": "Raven and Cody track Marcus to an abandoned oasis, where a tense standoff ensues. They must use all their wits and skills to outmaneuver Marcus and claim the Desert Rose before he does.",
-            "source_chunks": [
-              "Beyond the Beef_Quest Stages_14_405"
-            ],
-            "entities": [],
-            "themes": [],
-            "conflict_level": 0.9,
-            "emotional_tone": "neutral",
-            "broadcast_count": 0,
-            "last_broadcast": null
-          },
-          {
-            "act_number": 4,
-            "act_type": "falling",
-            "title": "The Price of Victory",
-            "summary": "With the Desert Rose in hand, Raven reveals its extraordinary healing properties. However, the oasis's harsh environment exacts a toll on Cody's companions, forcing them to make difficult choices about their future together.",
-            "source_chunks": [],
-            "entities": [],
-            "themes": [],
-            "conflict_level": 0.5,
-            "emotional_tone": "neutral",
-            "broadcast_count": 0,
-            "last_broadcast": null
-          },
-          {
-            "act_number": 5,
-            "act_type": "resolution",
-            "title": "A Home in the Wastes",
-            "summary": "As the group prepares to leave Dry Rock Cave, Raven offers Cody a place among her people if he chooses to stay and help rebuild the settlement. He must decide between his nomadic life and the promise of community and purpose.",
-            "source_chunks": [],
-            "entities": [],
-            "themes": [],
-            "conflict_level": 0.1,
-            "emotional_tone": "neutral",
-            "broadcast_count": 0,
-            "last_broadcast": null
-          }
-        ],
-        "summary": "Quest Stages",
-        "content_type": "quest",
-        "themes": [],
-        "factions": [],
-        "locations": [
-          "general"
-        ],
-        "characters": [],
-        "era": null,
-        "region": null,
-        "year_min": null,
-        "year_max": null,
-        "dj_compatible": [
-          "julie",
-          "three_dog",
-          "mr_new_vegas",
-          "travis_miles_confident"
-        ],
-        "knowledge_tier": "common",
-        "suggested_framing": "direct",
-        "source_wiki_titles": [
-          "Beyond the Beef"
-        ],
-        "extraction_date": "2026-01-20T00:23:48.139827",
-        "estimated_broadcasts": 10,
-        "priority": 0.5
-      },
+    "daily": [
       {
         "story_id": "story_quest_fallout_3_perks",
         "title": "Fallout 3 Perks",
-        "timeline": "weekly",
+        "timeline": "daily",
         "acts": [
           {
             "act_number": 1,
@@ -216,14 +111,14 @@
         "source_wiki_titles": [
           "Fallout 3 Perks"
         ],
-        "extraction_date": "2026-01-20T00:23:48.139827",
+        "extraction_date": "2026-01-19T21:18:30.242607",
         "estimated_broadcasts": 10,
         "priority": 0.5
       },
       {
         "story_id": "story_quest_bounty:_butcher",
         "title": "Bounty: Butcher",
-        "timeline": "weekly",
+        "timeline": "daily",
         "acts": [
           {
             "act_number": 1,
@@ -324,22 +219,22 @@
         "source_wiki_titles": [
           "Bounty: Butcher"
         ],
-        "extraction_date": "2026-01-20T00:23:48.140351",
+        "extraction_date": "2026-01-19T21:18:30.242607",
         "estimated_broadcasts": 10,
         "priority": 0.5
       },
       {
-        "story_id": "story_event_revolutionary_war",
-        "title": "Revolutionary War",
-        "timeline": "weekly",
+        "story_id": "story_quest_and_stay_out!",
+        "title": "And Stay Out!",
+        "timeline": "daily",
         "acts": [
           {
             "act_number": 1,
             "act_type": "setup",
             "title": "Setup",
-            "summary": "References\n\n \n\nCategory:Wars and Battles\nCategory:Great Britain Conflicts\nCategory:United States Armed Forces conflicts",
+            "summary": "Quest Objectives",
             "source_chunks": [
-              "Revolutionary War_References_6_378"
+              "And Stay Out!_Quest Objectives_0_439"
             ],
             "entities": [],
             "themes": [],
@@ -352,13 +247,13 @@
             "act_number": 2,
             "act_type": "rising",
             "title": "Rising Action",
-            "summary": "References\n\n \n\nCategory:Wars and Battles\nCategory:Great Britain Conflicts\nCategory:United States Armed Forces conflicts",
+            "summary": "Quest Objectives",
             "source_chunks": [
-              "Revolutionary War_References_6_378"
+              "And Stay Out!_Quest Objectives_0_439"
             ],
             "entities": [],
             "themes": [],
-            "conflict_level": 0.7,
+            "conflict_level": 0.5,
             "emotional_tone": "neutral",
             "broadcast_count": 0,
             "last_broadcast": null
@@ -367,13 +262,13 @@
             "act_number": 3,
             "act_type": "climax",
             "title": "Climax",
-            "summary": "Events\n Battle of Bunker Hill\n Battles of Lexington and Concord\n Boston Massacre\n Boston Tea Party",
+            "summary": "Quest Objectives",
             "source_chunks": [
-              "Revolutionary War_Events_2_374"
+              "And Stay Out!_Quest Objectives_0_439"
             ],
             "entities": [],
             "themes": [],
-            "conflict_level": 1.0,
+            "conflict_level": 0.8,
             "emotional_tone": "neutral",
             "broadcast_count": 0,
             "last_broadcast": null
@@ -382,9 +277,9 @@
             "act_number": 4,
             "act_type": "falling",
             "title": "Falling Action",
-            "summary": "Events\n Battle of Bunker Hill\n Battles of Lexington and Concord\n Boston Massacre\n Boston Tea Party",
+            "summary": "Quest Objectives",
             "source_chunks": [
-              "Revolutionary War_Events_2_374"
+              "And Stay Out!_Quest Objectives_0_439"
             ],
             "entities": [],
             "themes": [],
@@ -397,9 +292,9 @@
             "act_number": 5,
             "act_type": "resolution",
             "title": "Resolution",
-            "summary": "Events\n Battle of Bunker Hill\n Battles of Lexington and Concord\n Boston Massacre\n Boston Tea Party",
+            "summary": "Quest Objectives",
             "source_chunks": [
-              "Revolutionary War_Events_2_374"
+              "And Stay Out!_Quest Objectives_0_439"
             ],
             "entities": [],
             "themes": [],
@@ -409,235 +304,9 @@
             "last_broadcast": null
           }
         ],
-        "summary": "References\n\n \n\nCategory:Wars and Battles\nCategory:Great Britain Conflicts\nCategory:United States Armed Forces conflicts",
-        "content_type": "event",
-        "themes": [
-          "0",
-          "1",
-          "2"
-        ],
-        "factions": [],
-        "locations": [
-          "general",
-          "Commonwealth"
-        ],
-        "characters": [],
-        "era": null,
-        "region": null,
-        "year_min": null,
-        "year_max": null,
-        "dj_compatible": [
-          "julie",
-          "three_dog",
-          "mr_new_vegas",
-          "travis_miles_confident"
-        ],
-        "knowledge_tier": "common",
-        "suggested_framing": "direct",
-        "source_wiki_titles": [
-          "Revolutionary War"
-        ],
-        "extraction_date": "2026-01-20T00:23:48.524585",
-        "estimated_broadcasts": 10,
-        "priority": 0.5
-      },
-      {
-        "story_id": "story_event_citadel_terminal_entries",
-        "title": "Citadel Terminal Entries",
-        "timeline": "weekly",
-        "acts": [
-          {
-            "act_number": 1,
-            "act_type": "setup",
-            "title": "Setup",
-            "summary": "G.N.R. Battle After-Action Report",
-            "source_chunks": [
-              "Citadel Terminal Entries_G.N.R. Battle After-Action Report_20_47"
-            ],
-            "entities": [],
-            "themes": [],
-            "conflict_level": 0.2,
-            "emotional_tone": "neutral",
-            "broadcast_count": 0,
-            "last_broadcast": null
-          },
-          {
-            "act_number": 2,
-            "act_type": "rising",
-            "title": "Rising Action",
-            "summary": "G.N.R. Battle After-Action Report",
-            "source_chunks": [
-              "Citadel Terminal Entries_G.N.R. Battle After-Action Report_20_47"
-            ],
-            "entities": [],
-            "themes": [],
-            "conflict_level": 0.7,
-            "emotional_tone": "neutral",
-            "broadcast_count": 0,
-            "last_broadcast": null
-          },
-          {
-            "act_number": 3,
-            "act_type": "climax",
-            "title": "Climax",
-            "summary": "G.N.R. Battle After-Action Report",
-            "source_chunks": [
-              "Citadel Terminal Entries_G.N.R. Battle After-Action Report_105_132"
-            ],
-            "entities": [],
-            "themes": [],
-            "conflict_level": 1.0,
-            "emotional_tone": "neutral",
-            "broadcast_count": 0,
-            "last_broadcast": null
-          },
-          {
-            "act_number": 4,
-            "act_type": "falling",
-            "title": "Falling Action",
-            "summary": "G.N.R. Battle After-Action Report",
-            "source_chunks": [
-              "Citadel Terminal Entries_G.N.R. Battle After-Action Report_105_132"
-            ],
-            "entities": [],
-            "themes": [],
-            "conflict_level": 0.5,
-            "emotional_tone": "neutral",
-            "broadcast_count": 0,
-            "last_broadcast": null
-          },
-          {
-            "act_number": 5,
-            "act_type": "resolution",
-            "title": "Resolution",
-            "summary": "G.N.R. Battle After-Action Report",
-            "source_chunks": [
-              "Citadel Terminal Entries_G.N.R. Battle After-Action Report_105_132"
-            ],
-            "entities": [],
-            "themes": [],
-            "conflict_level": 0.3,
-            "emotional_tone": "neutral",
-            "broadcast_count": 0,
-            "last_broadcast": null
-          }
-        ],
-        "summary": "G.N.R. Battle After-Action Report",
-        "content_type": "event",
-        "themes": [
-          "0"
-        ],
-        "factions": [],
-        "locations": [
-          "Capital Wasteland"
-        ],
-        "characters": [],
-        "era": null,
-        "region": null,
-        "year_min": null,
-        "year_max": null,
-        "dj_compatible": [
-          "julie",
-          "three_dog",
-          "mr_new_vegas",
-          "travis_miles_confident"
-        ],
-        "knowledge_tier": "common",
-        "suggested_framing": "direct",
-        "source_wiki_titles": [
-          "Citadel Terminal Entries"
-        ],
-        "extraction_date": "2026-01-20T00:23:48.524585",
-        "estimated_broadcasts": 10,
-        "priority": 0.5
-      },
-      {
-        "story_id": "story_event_battle_of_rockland",
-        "title": "Battle of Rockland",
-        "timeline": "weekly",
-        "acts": [
-          {
-            "act_number": 1,
-            "act_type": "setup",
-            "title": "Setup",
-            "summary": "Appearances\nThe Battle of Rockland occurs",
-            "source_chunks": [
-              "Battle of Rockland_Appearances_2_457"
-            ],
-            "entities": [],
-            "themes": [],
-            "conflict_level": 0.2,
-            "emotional_tone": "neutral",
-            "broadcast_count": 0,
-            "last_broadcast": null
-          },
-          {
-            "act_number": 2,
-            "act_type": "rising",
-            "title": "Rising Action",
-            "summary": "Appearances\nThe Battle of Rockland occurs",
-            "source_chunks": [
-              "Battle of Rockland_Appearances_2_457"
-            ],
-            "entities": [],
-            "themes": [],
-            "conflict_level": 0.7,
-            "emotional_tone": "neutral",
-            "broadcast_count": 0,
-            "last_broadcast": null
-          },
-          {
-            "act_number": 3,
-            "act_type": "climax",
-            "title": "Climax",
-            "summary": "References\n\nCategory:Brotherhood of Steel conflicts\nCategory:Brotherhood of Steel events\nCategory:Wars and Battles\nCategory:Enclave events and initiatives",
-            "source_chunks": [
-              "Battle of Rockland_References_4_459"
-            ],
-            "entities": [],
-            "themes": [],
-            "conflict_level": 1.0,
-            "emotional_tone": "neutral",
-            "broadcast_count": 0,
-            "last_broadcast": null
-          },
-          {
-            "act_number": 4,
-            "act_type": "falling",
-            "title": "Falling Action",
-            "summary": "References\n\nCategory:Brotherhood of Steel conflicts\nCategory:Brotherhood of Steel events\nCategory:Wars and Battles\nCategory:Enclave events and initiatives",
-            "source_chunks": [
-              "Battle of Rockland_References_4_459"
-            ],
-            "entities": [],
-            "themes": [],
-            "conflict_level": 0.5,
-            "emotional_tone": "neutral",
-            "broadcast_count": 0,
-            "last_broadcast": null
-          },
-          {
-            "act_number": 5,
-            "act_type": "resolution",
-            "title": "Resolution",
-            "summary": "References\n\nCategory:Brotherhood of Steel conflicts\nCategory:Brotherhood of Steel events\nCategory:Wars and Battles\nCategory:Enclave events and initiatives",
-            "source_chunks": [
-              "Battle of Rockland_References_4_459"
-            ],
-            "entities": [],
-            "themes": [],
-            "conflict_level": 0.3,
-            "emotional_tone": "neutral",
-            "broadcast_count": 0,
-            "last_broadcast": null
-          }
-        ],
-        "summary": "Appearances\nThe Battle of Rockland occurs",
-        "content_type": "event",
-        "themes": [
-          "0",
-          "1"
-        ],
+        "summary": "Quest Objectives",
+        "content_type": "quest",
+        "themes": [],
         "factions": [],
         "locations": [
           "general"
@@ -656,24 +325,24 @@
         "knowledge_tier": "common",
         "suggested_framing": "direct",
         "source_wiki_titles": [
-          "Battle of Rockland"
+          "And Stay Out!"
         ],
-        "extraction_date": "2026-01-20T00:23:48.524585",
+        "extraction_date": "2026-01-19T21:18:30.242607",
         "estimated_broadcasts": 10,
         "priority": 0.5
       },
       {
-        "story_id": "story_event_french_and_indian_war",
-        "title": "French and Indian War",
-        "timeline": "weekly",
+        "story_id": "story_quest_beat_it",
+        "title": "Beat It",
+        "timeline": "daily",
         "acts": [
           {
             "act_number": 1,
             "act_type": "setup",
             "title": "Setup",
-            "summary": "Behind the Scenes\nThe French and Indian War is a real world event.",
+            "summary": "Quest Objectives",
             "source_chunks": [
-              "French and Indian War_Behind the Scenes_2_484"
+              "Beat It_Quest Objectives_1_455"
             ],
             "entities": [],
             "themes": [],
@@ -686,13 +355,13 @@
             "act_number": 2,
             "act_type": "rising",
             "title": "Rising Action",
-            "summary": "Behind the Scenes\nThe French and Indian War is a real world event.",
+            "summary": "Quest Objectives",
             "source_chunks": [
-              "French and Indian War_Behind the Scenes_2_484"
+              "Beat It_Quest Objectives_1_455"
             ],
             "entities": [],
             "themes": [],
-            "conflict_level": 0.7,
+            "conflict_level": 0.5,
             "emotional_tone": "neutral",
             "broadcast_count": 0,
             "last_broadcast": null
@@ -701,13 +370,13 @@
             "act_number": 3,
             "act_type": "climax",
             "title": "Climax",
-            "summary": "Appearances\nThe French and Indian War is mentioned",
+            "summary": "Quest Objectives",
             "source_chunks": [
-              "French and Indian War_Appearances_1_483"
+              "Beat It_Quest Objectives_1_455"
             ],
             "entities": [],
             "themes": [],
-            "conflict_level": 1.0,
+            "conflict_level": 0.8,
             "emotional_tone": "neutral",
             "broadcast_count": 0,
             "last_broadcast": null
@@ -716,9 +385,9 @@
             "act_number": 4,
             "act_type": "falling",
             "title": "Falling Action",
-            "summary": "Appearances\nThe French and Indian War is mentioned",
+            "summary": "Quest Objectives",
             "source_chunks": [
-              "French and Indian War_Appearances_1_483"
+              "Beat It_Quest Objectives_1_455"
             ],
             "entities": [],
             "themes": [],
@@ -731,9 +400,9 @@
             "act_number": 5,
             "act_type": "resolution",
             "title": "Resolution",
-            "summary": "Appearances\nThe French and Indian War is mentioned",
+            "summary": "Quest Objectives",
             "source_chunks": [
-              "French and Indian War_Appearances_1_483"
+              "Beat It_Quest Objectives_1_455"
             ],
             "entities": [],
             "themes": [],
@@ -743,11 +412,9 @@
             "last_broadcast": null
           }
         ],
-        "summary": "Behind the Scenes\nThe French and Indian War is a real world event.",
-        "content_type": "event",
-        "themes": [
-          "0"
-        ],
+        "summary": "Quest Objectives",
+        "content_type": "quest",
+        "themes": [],
         "factions": [],
         "locations": [
           "general"
@@ -766,18 +433,680 @@
         "knowledge_tier": "common",
         "suggested_framing": "direct",
         "source_wiki_titles": [
-          "French and Indian War"
+          "Beat It"
         ],
-        "extraction_date": "2026-01-20T00:23:48.525563",
+        "extraction_date": "2026-01-19T21:18:30.242607",
+        "estimated_broadcasts": 10,
+        "priority": 0.5
+      },
+      {
+        "story_id": "story_quest_higher_learning",
+        "title": "Higher Learning",
+        "timeline": "daily",
+        "acts": [
+          {
+            "act_number": 1,
+            "act_type": "setup",
+            "title": "Setup",
+            "summary": "Quest Objectives",
+            "source_chunks": [
+              "Higher Learning_Quest Objectives_1_408"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.2,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          },
+          {
+            "act_number": 2,
+            "act_type": "rising",
+            "title": "Rising Action",
+            "summary": "Quest Objectives",
+            "source_chunks": [
+              "Higher Learning_Quest Objectives_1_408"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.5,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          },
+          {
+            "act_number": 3,
+            "act_type": "climax",
+            "title": "Climax",
+            "summary": "Quest Objectives",
+            "source_chunks": [
+              "Higher Learning_Quest Objectives_1_408"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.8,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          },
+          {
+            "act_number": 4,
+            "act_type": "falling",
+            "title": "Falling Action",
+            "summary": "Quest Objectives",
+            "source_chunks": [
+              "Higher Learning_Quest Objectives_1_408"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.5,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          },
+          {
+            "act_number": 5,
+            "act_type": "resolution",
+            "title": "Resolution",
+            "summary": "Quest Objectives",
+            "source_chunks": [
+              "Higher Learning_Quest Objectives_1_408"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.3,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          }
+        ],
+        "summary": "Quest Objectives",
+        "content_type": "quest",
+        "themes": [],
+        "factions": [],
+        "locations": [
+          "general"
+        ],
+        "characters": [],
+        "era": null,
+        "region": null,
+        "year_min": null,
+        "year_max": null,
+        "dj_compatible": [
+          "julie",
+          "three_dog",
+          "mr_new_vegas",
+          "travis_miles_confident"
+        ],
+        "knowledge_tier": "common",
+        "suggested_framing": "direct",
+        "source_wiki_titles": [
+          "Higher Learning"
+        ],
+        "extraction_date": "2026-01-19T21:18:30.242607",
+        "estimated_broadcasts": 10,
+        "priority": 0.5
+      },
+      {
+        "story_id": "story_quest_a_dividing_detonation",
+        "title": "A Dividing Detonation",
+        "timeline": "daily",
+        "acts": [
+          {
+            "act_number": 1,
+            "act_type": "setup",
+            "title": "Setup",
+            "summary": "Quest Objectives",
+            "source_chunks": [
+              "A Dividing Detonation_Quest Objectives_1_479"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.2,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          },
+          {
+            "act_number": 2,
+            "act_type": "rising",
+            "title": "Rising Action",
+            "summary": "Quest Objectives",
+            "source_chunks": [
+              "A Dividing Detonation_Quest Objectives_1_479"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.5,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          },
+          {
+            "act_number": 3,
+            "act_type": "climax",
+            "title": "Climax",
+            "summary": "Quest Objectives",
+            "source_chunks": [
+              "A Dividing Detonation_Quest Objectives_1_479"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.8,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          },
+          {
+            "act_number": 4,
+            "act_type": "falling",
+            "title": "Falling Action",
+            "summary": "Quest Objectives",
+            "source_chunks": [
+              "A Dividing Detonation_Quest Objectives_1_479"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.5,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          },
+          {
+            "act_number": 5,
+            "act_type": "resolution",
+            "title": "Resolution",
+            "summary": "Quest Objectives",
+            "source_chunks": [
+              "A Dividing Detonation_Quest Objectives_1_479"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.3,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          }
+        ],
+        "summary": "Quest Objectives",
+        "content_type": "quest",
+        "themes": [],
+        "factions": [],
+        "locations": [
+          "general"
+        ],
+        "characters": [],
+        "era": null,
+        "region": null,
+        "year_min": null,
+        "year_max": null,
+        "dj_compatible": [
+          "julie",
+          "three_dog",
+          "mr_new_vegas",
+          "travis_miles_confident"
+        ],
+        "knowledge_tier": "common",
+        "suggested_framing": "direct",
+        "source_wiki_titles": [
+          "A Dividing Detonation"
+        ],
+        "extraction_date": "2026-01-19T21:18:30.242607",
+        "estimated_broadcasts": 10,
+        "priority": 0.5
+      },
+      {
+        "story_id": "story_quest_forged_in_the_dark",
+        "title": "Forged In The Dark",
+        "timeline": "daily",
+        "acts": [
+          {
+            "act_number": 1,
+            "act_type": "setup",
+            "title": "Setup",
+            "summary": "Quest Objectives",
+            "source_chunks": [
+              "Forged In The Dark_Quest Objectives_1_122"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.2,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          },
+          {
+            "act_number": 2,
+            "act_type": "rising",
+            "title": "Rising Action",
+            "summary": "Quest Objectives",
+            "source_chunks": [
+              "Forged In The Dark_Quest Objectives_1_122"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.5,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          },
+          {
+            "act_number": 3,
+            "act_type": "climax",
+            "title": "Climax",
+            "summary": "Quest Objectives",
+            "source_chunks": [
+              "Forged In The Dark_Quest Objectives_1_122"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.8,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          },
+          {
+            "act_number": 4,
+            "act_type": "falling",
+            "title": "Falling Action",
+            "summary": "Quest Objectives",
+            "source_chunks": [
+              "Forged In The Dark_Quest Objectives_1_122"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.5,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          },
+          {
+            "act_number": 5,
+            "act_type": "resolution",
+            "title": "Resolution",
+            "summary": "Quest Objectives",
+            "source_chunks": [
+              "Forged In The Dark_Quest Objectives_1_122"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.3,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          }
+        ],
+        "summary": "Quest Objectives",
+        "content_type": "quest",
+        "themes": [],
+        "factions": [],
+        "locations": [
+          "general"
+        ],
+        "characters": [],
+        "era": null,
+        "region": null,
+        "year_min": null,
+        "year_max": null,
+        "dj_compatible": [
+          "julie",
+          "three_dog",
+          "mr_new_vegas",
+          "travis_miles_confident"
+        ],
+        "knowledge_tier": "common",
+        "suggested_framing": "direct",
+        "source_wiki_titles": [
+          "Forged In The Dark"
+        ],
+        "extraction_date": "2026-01-19T21:18:30.242607",
+        "estimated_broadcasts": 10,
+        "priority": 0.5
+      },
+      {
+        "story_id": "story_quest_a_favor_for_the_king",
+        "title": "A Favor for the King",
+        "timeline": "daily",
+        "acts": [
+          {
+            "act_number": 1,
+            "act_type": "setup",
+            "title": "Setup",
+            "summary": "Quest Objectives",
+            "source_chunks": [
+              "A Favor for the King_Quest Objectives_0_0"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.2,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          },
+          {
+            "act_number": 2,
+            "act_type": "rising",
+            "title": "Rising Action",
+            "summary": "Quest Objectives",
+            "source_chunks": [
+              "A Favor for the King_Quest Objectives_0_0"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.5,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          },
+          {
+            "act_number": 3,
+            "act_type": "climax",
+            "title": "Climax",
+            "summary": "Quest Objectives",
+            "source_chunks": [
+              "A Favor for the King_Quest Objectives_0_0"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.8,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          },
+          {
+            "act_number": 4,
+            "act_type": "falling",
+            "title": "Falling Action",
+            "summary": "Quest Objectives",
+            "source_chunks": [
+              "A Favor for the King_Quest Objectives_0_0"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.5,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          },
+          {
+            "act_number": 5,
+            "act_type": "resolution",
+            "title": "Resolution",
+            "summary": "Quest Objectives",
+            "source_chunks": [
+              "A Favor for the King_Quest Objectives_0_0"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.3,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          }
+        ],
+        "summary": "Quest Objectives",
+        "content_type": "quest",
+        "themes": [],
+        "factions": [],
+        "locations": [
+          "general"
+        ],
+        "characters": [],
+        "era": null,
+        "region": null,
+        "year_min": null,
+        "year_max": null,
+        "dj_compatible": [
+          "julie",
+          "three_dog",
+          "mr_new_vegas",
+          "travis_miles_confident"
+        ],
+        "knowledge_tier": "common",
+        "suggested_framing": "direct",
+        "source_wiki_titles": [
+          "A Favor for the King"
+        ],
+        "extraction_date": "2026-01-19T21:18:30.242607",
+        "estimated_broadcasts": 10,
+        "priority": 0.5
+      },
+      {
+        "story_id": "story_quest_a_gun_in_every_hand,_for_now",
+        "title": "A Gun in Every Hand, For Now",
+        "timeline": "daily",
+        "acts": [
+          {
+            "act_number": 1,
+            "act_type": "setup",
+            "title": "Setup",
+            "summary": "Quest Objectives",
+            "source_chunks": [
+              "A Gun in Every Hand, For Now_Quest Objectives_0_43"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.2,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          },
+          {
+            "act_number": 2,
+            "act_type": "rising",
+            "title": "Rising Action",
+            "summary": "Quest Objectives",
+            "source_chunks": [
+              "A Gun in Every Hand, For Now_Quest Objectives_0_43"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.5,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          },
+          {
+            "act_number": 3,
+            "act_type": "climax",
+            "title": "Climax",
+            "summary": "Quest Objectives",
+            "source_chunks": [
+              "A Gun in Every Hand, For Now_Quest Objectives_0_43"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.8,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          },
+          {
+            "act_number": 4,
+            "act_type": "falling",
+            "title": "Falling Action",
+            "summary": "Quest Objectives",
+            "source_chunks": [
+              "A Gun in Every Hand, For Now_Quest Objectives_0_43"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.5,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          },
+          {
+            "act_number": 5,
+            "act_type": "resolution",
+            "title": "Resolution",
+            "summary": "Quest Objectives",
+            "source_chunks": [
+              "A Gun in Every Hand, For Now_Quest Objectives_0_43"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.3,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          }
+        ],
+        "summary": "Quest Objectives",
+        "content_type": "quest",
+        "themes": [],
+        "factions": [],
+        "locations": [
+          "general"
+        ],
+        "characters": [],
+        "era": null,
+        "region": null,
+        "year_min": null,
+        "year_max": null,
+        "dj_compatible": [
+          "julie",
+          "three_dog",
+          "mr_new_vegas",
+          "travis_miles_confident"
+        ],
+        "knowledge_tier": "common",
+        "suggested_framing": "direct",
+        "source_wiki_titles": [
+          "A Gun in Every Hand, For Now"
+        ],
+        "extraction_date": "2026-01-19T21:18:30.242607",
         "estimated_broadcasts": 10,
         "priority": 0.5
       }
     ],
+    "weekly": [],
     "monthly": [],
     "yearly": []
   },
   "active_stories": {
-    "daily": null,
+    "daily": {
+      "story": {
+        "story_id": "story_quest_beyond_the_beef",
+        "title": "Beyond the Beef",
+        "timeline": "daily",
+        "acts": [
+          {
+            "act_number": 1,
+            "act_type": "setup",
+            "title": "Setup",
+            "summary": "Quest Stages",
+            "source_chunks": [
+              "Beyond the Beef_Quest Stages_8_399"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.2,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          },
+          {
+            "act_number": 2,
+            "act_type": "rising",
+            "title": "Rising Action",
+            "summary": "Quest Stages",
+            "source_chunks": [
+              "Beyond the Beef_Quest Stages_10_401"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.5,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          },
+          {
+            "act_number": 3,
+            "act_type": "climax",
+            "title": "Climax",
+            "summary": "Quest Stages",
+            "source_chunks": [
+              "Beyond the Beef_Quest Stages_10_401"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.8,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          },
+          {
+            "act_number": 4,
+            "act_type": "falling",
+            "title": "Falling Action",
+            "summary": "Quest Stages",
+            "source_chunks": [
+              "Beyond the Beef_Quest Stages_14_405"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.5,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          },
+          {
+            "act_number": 5,
+            "act_type": "resolution",
+            "title": "Resolution",
+            "summary": "Quest Stages",
+            "source_chunks": [
+              "Beyond the Beef_Quest Stages_14_405"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.3,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          }
+        ],
+        "summary": "Quest Stages",
+        "content_type": "quest",
+        "themes": [],
+        "factions": [],
+        "locations": [
+          "general"
+        ],
+        "characters": [],
+        "era": null,
+        "region": null,
+        "year_min": null,
+        "year_max": null,
+        "dj_compatible": [
+          "julie",
+          "three_dog",
+          "mr_new_vegas",
+          "travis_miles_confident"
+        ],
+        "knowledge_tier": "common",
+        "suggested_framing": "direct",
+        "source_wiki_titles": [
+          "Beyond the Beef"
+        ],
+        "extraction_date": "2026-01-19T21:18:30.242607",
+        "estimated_broadcasts": 10,
+        "priority": 0.5
+      },
+      "status": "resolution",
+      "current_act_index": 5,
+      "total_broadcasts": 11,
+      "broadcasts_in_current_act": 0,
+      "started_at": "2026-01-19T21:21:26.545247",
+      "last_broadcast_at": "2026-01-19T21:26:42.064458",
+      "expected_completion": null,
+      "engagement_score": 0.35,
+      "novelty_factor": 0.5,
+      "escalated_from": null,
+      "escalation_count": 0,
+      "can_escalate": true
+    },
     "weekly": null,
     "monthly": null,
     "yearly": null
@@ -786,13 +1115,13 @@
   "archived_stories": [],
   "escalation_history": [],
   "last_activation": {
-    "daily": null,
+    "daily": "2026-01-19T21:21:26.545247",
     "weekly": null,
     "monthly": null,
     "yearly": null
   },
   "total_broadcasts_by_timeline": {
-    "daily": 0,
+    "daily": 133,
     "weekly": 0,
     "monthly": 0,
     "yearly": 0
