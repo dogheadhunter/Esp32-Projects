@@ -3,14 +3,17 @@ Test enhanced generator with catchphrase rotation and validation.
 """
 
 import sys
+import pytest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from generator import ScriptGenerator
 
+@pytest.mark.integration
+@pytest.mark.requires_chromadb
 def test_enhanced_generator():
-    """Test Phase 2.6 enhancements"""
+    """Test Phase 2.6 enhancements - REQUIRES CHROMADB WITH WIKI DATA"""
     print("="*80)
     print("Testing Enhanced Generator (Phase 2.6)")
     print("="*80)

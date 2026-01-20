@@ -64,6 +64,8 @@ markers = [
     "integration: tests requiring real dependencies (Ollama/ChromaDB)",
     "slow: slow running tests",
     "e2e: end-to-end workflow tests",
+    "requires_ollama: tests requiring Ollama server",
+    "requires_chromadb: tests requiring ChromaDB database",
 ]
 
 [tool.black]
