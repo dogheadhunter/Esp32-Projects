@@ -271,6 +271,391 @@ def llm_quality_validation(script: str, dj_context: Dict) -> ValidationResult:
 
 ---
 
+## Content Type Integration
+
+The refactored system maintains support for all five core content types while optimizing their generation through the new pipeline. Each content type receives customized handling:
+
+### Content Type Overview
+
+| Content Type | Priority | Scheduling | RAG Strategy | Validation Focus |
+|--------------|----------|------------|--------------|------------------|
+| **Time Check** | Required (hourly) | Every hour on the hour | Minimal (current time facts) | Format, timezone consistency |
+| **Weather** | Required (daily) | 6am, 12pm, 5pm | Regional climate data, historical weather | Temporal consistency, region validity |
+| **News** | Required (daily) | 6am, 12pm, 5pm | Recent events, faction updates | Date accuracy, faction knowledge |
+| **Gossip** | Filler | When no required segments | Character relationships, rumors | Character knowledge, continuity |
+| **Story** | Priority filler | When story beats available | Multi-act narrative chunks | Story coherence, act progression |
+
+---
+
+### 1. **Time Check** Segments
+
+**Purpose**: Hourly time announcements with DJ flavor
+
+**Refactoring Changes**:
+- **Minimal RAG**: Time checks rarely need lore context (cache reuse: low priority)
+- **Template-driven**: Simple Jinja2 template with time variables
+- **Fast validation**: Rule-based only (check format, no LLM needed)
+
+**Generation Flow**:
+```python
+# Time check - fastest segment type
+def generate_time_check(hour: int, dj_name: str):
+    # 1. No ChromaDB query needed (or minimal cache lookup)
+    template_vars = {
+        'hour': hour,
+        'time_of_day': get_time_of_day(hour),
+        'dj_personality_flair': get_cached_personality_quirk(dj_name)
+    }
+    
+    # 2. Simple template rendering
+    script = render_template('time_check.jinja2', template_vars)
+    
+    # 3. Rule-based validation only (no LLM)
+    if validate_format(script):
+        return script
+```
+
+**Validation Constraints**:
+```python
+time_check_constraints = {
+    'format': 'Must mention hour/time',
+    'timezone': 'Wasteland time (post-war)',
+    'forbidden': []  # Very permissive
+}
+```
+
+**Performance Target**: <2s per segment (no ChromaDB, no LLM validation)
+
+---
+
+### 2. **Weather** Segments
+
+**Purpose**: Regional weather reports with post-apocalyptic conditions
+
+**Refactoring Changes**:
+- **Cached regional data**: Climate profiles cached per region (high reuse)
+- **Weather simulator integration**: Pre-generated calendars (no query needed)
+- **Hybrid validation**: Rules for dates/region, LLM for tone
+
+**Generation Flow**:
+```python
+def generate_weather(hour: int, region: str, dj_name: str):
+    # 1. Get weather from simulator (no ChromaDB query)
+    weather_state = get_weather_from_calendar(date, hour, region)
+    
+    # 2. Cache hit: Regional climate data (reused across weather segments)
+    climate_chunks = rag_cache.get_cached('regional_climate', region)
+    
+    # 3. Generate with weather-specific constraints
+    constraints = {
+        'temporal': {'current_date': date},
+        'spatial': {'region': region},
+        'required': {
+            'weather_type': weather_state.type,
+            'temperature': weather_state.temp
+        }
+    }
+    
+    script = llm_pipeline.generate(
+        template='weather',
+        lore_chunks=climate_chunks,
+        constraints=constraints
+    )
+    
+    # 4. Hybrid validation
+    #    - Rules: Check date, region mentions
+    #    - LLM: Verify tone matches weather severity
+    return validate_hybrid(script, constraints)
+```
+
+**RAG Caching Benefit**: 
+- First weather segment: Query ChromaDB for regional data
+- Subsequent weather: Cache hit (70% faster)
+- Cache key: `f"regional_climate_{region}"`
+
+**Validation Constraints**:
+```python
+weather_constraints = {
+    'temporal': {'current_date': date, 'no_future': True},
+    'spatial': {'region': region, 'forbidden_regions': other_regions},
+    'tone': {'match_weather_severity': True},
+    'required': ['weather_type', 'temperature']
+}
+```
+
+**Performance Target**: 
+- First segment: ~8s (ChromaDB query + LLM)
+- Cached segments: ~5s (cache hit + LLM)
+
+---
+
+### 3. **News** Segments
+
+**Purpose**: Wasteland news and faction updates
+
+**Refactoring Changes**:
+- **Category-based caching**: News chunks cached by category (combat, trade, etc.)
+- **Recent events filter**: Prioritize recent/dynamic events
+- **Enhanced validation**: Rules check dates/factions, LLM checks relevance
+
+**Generation Flow**:
+```python
+def generate_news(hour: int, dj_context: Dict):
+    # 1. Select news category (combat, trade, settlements, factions)
+    category = select_news_category(hour, recent_history)
+    
+    # 2. Cache-optimized RAG query
+    cache_key = f"news_{category}_{dj_context['region']}"
+    news_chunks = rag_cache.query_with_cache(
+        query=f"{category} events in {dj_context['region']}",
+        cache_key=cache_key,
+        dj_context=dj_context
+    )
+    
+    # 3. Filter to recent/relevant events
+    filtered_chunks = filter_by_recency(news_chunks, max_age_days=7)
+    
+    # 4. Generate with news-specific constraints
+    constraints = {
+        'temporal': {
+            'max_year': dj_context['year'],
+            'recency': 'last_week'
+        },
+        'spatial': {'allowed_regions': dj_context['known_regions']},
+        'content': {
+            'category': category,
+            'avoid_duplicate': recent_news_topics
+        },
+        'forbidden': dj_context['unknown_factions']
+    }
+    
+    script = llm_pipeline.generate('news', filtered_chunks, constraints)
+    
+    # 5. Hybrid validation
+    #    - Rules: Date anachronisms, forbidden factions
+    #    - LLM: News relevance, urgency tone
+    return validate_hybrid(script, constraints)
+```
+
+**RAG Caching Benefit**:
+- Cache by category: Multiple news segments reuse faction/region data
+- Cache hit rate: ~60% (categories repeat across broadcast)
+- Deduplicate topics: Session memory prevents repeating same stories
+
+**Validation Constraints**:
+```python
+news_constraints = {
+    'temporal': {
+        'max_year': dj_year,
+        'recency': 'last_week',
+        'no_future': True
+    },
+    'spatial': {
+        'allowed_regions': known_regions,
+        'focus_region': dj_region
+    },
+    'content': {
+        'category': selected_category,
+        'avoid_duplicate': recent_topics  # From session memory
+    },
+    'forbidden': unknown_factions + anachronistic_tech,
+    'tone': {'urgency': news_urgency_level}
+}
+```
+
+**Performance Target**:
+- First news: ~10s (ChromaDB query + LLM)
+- Cached category: ~6s (cache hit + LLM)
+
+---
+
+### 4. **Gossip** Segments
+
+**Purpose**: Character relationships, rumors, wasteland chatter
+
+**Refactoring Changes**:
+- **Character-based caching**: Character data cached across segments
+- **Relationship tracking**: Session memory tracks mentioned characters
+- **Continuity validation**: Rules check character continuity, LLM checks tone
+
+**Generation Flow**:
+```python
+def generate_gossip(hour: int, dj_context: Dict):
+    # 1. Select gossip topic (character, location, rumor)
+    topic, characters = gossip_tracker.select_topic(session_memory)
+    
+    # 2. Cache-optimized character data
+    character_chunks = []
+    for char in characters:
+        cache_key = f"character_{char}_{dj_context['era']}"
+        chunks = rag_cache.query_with_cache(
+            query=f"{char} background relationships",
+            cache_key=cache_key,
+            dj_context=dj_context
+        )
+        character_chunks.extend(chunks)
+    
+    # 3. Add session context for continuity
+    previous_mentions = session_memory.get_character_mentions(characters)
+    
+    # 4. Generate with gossip-specific constraints
+    constraints = {
+        'temporal': {'max_year': dj_context['year']},
+        'spatial': {'region': dj_context['region']},
+        'characters': {
+            'mentioned': characters,
+            'previous_context': previous_mentions
+        },
+        'tone': {'casual': True, 'conversational': True}
+    }
+    
+    script = llm_pipeline.generate('gossip', character_chunks, constraints)
+    
+    # 5. Track for future continuity
+    gossip_tracker.record_gossip(characters, script)
+    
+    # 6. Hybrid validation
+    #    - Rules: Character knowledge for DJ, timeline consistency
+    #    - LLM: Tone appropriateness, engagement
+    return validate_hybrid(script, constraints)
+```
+
+**RAG Caching Benefit**:
+- Character data heavily reused (same characters appear in multiple gossip)
+- Cache hit rate: ~75% (character pool is limited per region)
+- Session memory prevents exact repetition
+
+**Validation Constraints**:
+```python
+gossip_constraints = {
+    'temporal': {'max_year': dj_year, 'era': dj_era},
+    'spatial': {'region': dj_region},
+    'characters': {
+        'valid_for_dj': known_characters,
+        'continuity': previous_mentions
+    },
+    'tone': {
+        'casual': True,
+        'engaging': True,
+        'personality': dj_personality
+    },
+    'forbidden': unknown_characters + future_characters
+}
+```
+
+**Performance Target**:
+- First gossip: ~9s (ChromaDB query + LLM)
+- Cached characters: ~5s (cache hit + LLM)
+
+---
+
+### 5. **Story** Segments
+
+**Purpose**: Multi-act narrative arcs (Phase 7 story system)
+
+**Refactoring Changes**:
+- **Story-specific caching**: Complete story arcs cached (highest reuse)
+- **Act progression tracking**: Story state manages narrative flow
+- **Enhanced coherence validation**: LLM validates narrative consistency
+
+**Generation Flow**:
+```python
+def generate_story(hour: int, dj_context: Dict, story_beats: List):
+    # 1. Get story context from story system
+    active_story = story_state.get_active_story()
+    story_context = story_weaver.weave_beats(story_beats)
+    
+    # 2. Cache entire story arc data (reused across acts)
+    cache_key = f"story_{active_story.id}"
+    story_chunks = rag_cache.query_with_cache(
+        query=story_context['query'],
+        cache_key=cache_key,
+        dj_context=dj_context,
+        ttl=3600  # Longer TTL for story arcs
+    )
+    
+    # 3. Generate with story-specific constraints
+    constraints = {
+        'temporal': {'max_year': dj_context['year']},
+        'spatial': {'region': dj_context['region']},
+        'story': {
+            'act_type': story_beats[0].act_type,
+            'current_act': story_beats[0].act_number,
+            'total_acts': len(active_story.acts),
+            'previous_context': story_state.get_broadcast_history()
+        },
+        'tone': {
+            'narrative': True,
+            'emotional_tone': story_beats[0].emotional_tone,
+            'conflict_level': story_beats[0].conflict_level
+        }
+    }
+    
+    script = llm_pipeline.generate(
+        template='gossip',  # Use gossip template with story context
+        lore_chunks=story_chunks,
+        constraints=constraints,
+        story_context=story_context['context_for_llm']
+    )
+    
+    # 4. Update story progression
+    story_state.record_broadcast(active_story.id, story_beats, script)
+    
+    # 5. Enhanced validation
+    #    - Rules: Timeline, character consistency
+    #    - LLM: Narrative coherence, act progression, emotional arc
+    return validate_hybrid(script, constraints, validate_story_coherence=True)
+```
+
+**RAG Caching Benefit**:
+- Story arcs span multiple segments (same lore reused)
+- Cache hit rate: ~90% (story chunks reused across acts)
+- Longest TTL (1 hour) since story context doesn't change
+
+**Validation Constraints**:
+```python
+story_constraints = {
+    'temporal': {'max_year': dj_year, 'era': dj_era},
+    'spatial': {'region': dj_region},
+    'story': {
+        'coherence': 'Must follow from previous acts',
+        'act_type': current_act_type,
+        'emotional_arc': 'Must match conflict level',
+        'character_continuity': True
+    },
+    'tone': {
+        'narrative': True,
+        'emotional_tone': story_emotional_tone,
+        'engagement': 'high'
+    },
+    'forbidden': timeline_violations + character_inconsistencies
+}
+```
+
+**Performance Target**:
+- First story segment: ~12s (ChromaDB query + LLM)
+- Subsequent acts: ~4s (cache hit + LLM, highest cache benefit)
+
+---
+
+### Content Type Performance Summary
+
+| Content Type | ChromaDB Query | Cache Hit Rate | Avg Generation Time | Validation Type |
+|--------------|----------------|----------------|---------------------|-----------------|
+| **Time Check** | Rare/None | N/A | ~2s | Rules only |
+| **Weather** | First only | 70% | 5-8s | Hybrid (rules + LLM) |
+| **News** | Per category | 60% | 6-10s | Hybrid (rules + LLM) |
+| **Gossip** | Per character | 75% | 5-9s | Hybrid (rules + LLM) |
+| **Story** | Per arc | 90% | 4-12s | Hybrid + narrative LLM |
+
+**Overall Impact**:
+- **Average cache hit rate**: 72% across content types
+- **Average generation time**: 6s (vs 12s current)
+- **ChromaDB query reduction**: 72% (from cache hits)
+- **LLM validation calls**: 50% reduction (hybrid approach)
+
+---
+
 ## Implementation Plan
 
 ### **Phase 1: RAG Cache Implementation** (Week 1)
