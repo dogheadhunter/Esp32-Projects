@@ -21,15 +21,16 @@ class ConsistencyValidator:
     - Character consistency violations
     """
     
-    def __init__(self, character_card: Dict[str, Any]):
+    def __init__(self, character_card: Optional[Dict[str, Any]] = None):
         """
         Initialize validator with character constraints.
         
         Args:
-            character_card: Character card dict with personality and constraints
+            character_card: Optional character card dict with personality and constraints.
+                          If None, creates a minimal default card.
         """
-        self.character_card = character_card
-        self.name = character_card.get("name", "Unknown")
+        self.character_card = character_card or {"name": "Unknown"}
+        self.name = self.character_card.get("name", "Unknown")
         self.violations: List[str] = []
         self.warnings: List[str] = []
     
