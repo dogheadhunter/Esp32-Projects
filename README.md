@@ -4,7 +4,26 @@ A sophisticated, AI-driven radio station project running on ESP32 hardware. This
 
 ---
 
-## 🚀 Quick Start
+## 🎯 Quick Start - Interactive Wizard
+
+**New!** The easiest way to get started:
+
+```bash
+python wizard.py
+```
+
+The interactive wizard guides you through:
+- ✅ Initial setup and installation  
+- ✅ Running tests
+- ✅ Database management
+- ✅ Content generation
+- ✅ Development tools
+
+See [WIZARD_GUIDE.md](WIZARD_GUIDE.md) for complete wizard documentation.
+
+---
+
+## 🚀 Manual Quick Start
 
 ### Prerequisites
 
