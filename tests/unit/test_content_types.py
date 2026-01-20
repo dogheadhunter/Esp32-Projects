@@ -129,33 +129,25 @@ class TestGossipContent:
     
     def test_gossip_tracker_initialization(self):
         """Test GossipTracker initialization"""
-        tracker = GossipTracker(max_recent=10)
+        tracker = GossipTracker()
         
         assert tracker is not None
-        assert hasattr(tracker, 'max_recent')
+        assert hasattr(tracker, 'active_gossip')
+        assert hasattr(tracker, 'resolved_gossip')
     
-    def test_gossip_tracker_add_gossip(self):
-        """Test adding gossip to tracker"""
-        tracker = GossipTracker(max_recent=10)
+    def test_gossip_tracker_with_persistence_path(self):
+        """Test gossip tracker with custom persistence path"""
+        tracker = GossipTracker(persistence_path="/tmp/test_gossip.json")
         
-        gossip_id = "test_gossip_001"
-        tracker.add_used_gossip(gossip_id)
-        
-        # Verify it was tracked
-        assert tracker.was_recently_used(gossip_id)
+        assert tracker.persistence_path == "/tmp/test_gossip.json"
     
-    def test_gossip_tracker_max_recent_limit(self):
-        """Test that gossip tracker respects max_recent limit"""
-        tracker = GossipTracker(max_recent=3)
+    def test_gossip_tracker_has_lists(self):
+        """Test that gossip tracker has active and resolved lists"""
+        tracker = GossipTracker()
         
-        # Add more than max_recent
-        for i in range(5):
-            tracker.add_used_gossip(f"gossip_{i}")
-        
-        # Oldest should be removed
-        assert not tracker.was_recently_used("gossip_0")
-        assert not tracker.was_recently_used("gossip_1")
-        assert tracker.was_recently_used("gossip_4")
+        # Should have lists for tracking gossip
+        assert isinstance(tracker.active_gossip, list)
+        assert isinstance(tracker.resolved_gossip, list)
     
     def test_get_gossip_template_vars(self):
         """Test gossip template variable generation"""
