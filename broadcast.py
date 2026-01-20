@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Broadcast Generator CLI
+Broadcast Generator CLI with 3-Format Logging
 
 Generate Fallout-themed radio broadcasts with full control over:
 - DJ personalities
@@ -8,6 +8,11 @@ Generate Fallout-themed radio broadcasts with full control over:
 - Validation modes
 - Duration and scheduling
 - Output format
+
+All operations are logged to 3 formats:
+- .log: Human-readable with complete terminal output
+- .json: Structured metadata for programmatic analysis
+- .llm.md: LLM-optimized markdown (50-60% smaller)
 
 Usage:
     python broadcast.py --dj Julie --days 7 --enable-stories
@@ -29,10 +34,12 @@ import json
 from pathlib import Path
 from datetime import datetime
 
-# Add script-generator to path
+# Add script-generator and shared tools to path
 sys.path.insert(0, 'tools/script-generator')
+sys.path.insert(0, 'tools/shared')
 
 from broadcast_engine import BroadcastEngine
+from logging_config import capture_output
 
 
 # Available DJs
@@ -297,7 +304,7 @@ def print_summary(segments, stats, output_file, quiet=False):
 
 
 def main():
-    """Main CLI entry point."""
+    """Main CLI entry point with 3-format logging."""
     args = parse_args()
     
     # Resolve DJ name
@@ -318,89 +325,127 @@ def main():
     # Determine state saving
     save_state = args.save_state and not args.no_save_state
     
-    # Print header
-    print_header(args, dj_name, duration_hours, enable_validation)
+    # Create logging context
+    context = f"Generating {duration_hours}hr broadcast for {dj_name} (stories: {enable_stories}, validation: {enable_validation})"
     
-    try:
-        # Initialize broadcast engine
-        if not args.quiet:
-            print('Initializing broadcast engine...\n')
+    # Wrap entire operation with 3-format logging
+    with capture_output("broadcast", context) as session:
+        # Log configuration
+        session.log_event("BROADCAST_START", {
+            "dj": dj_name,
+            "duration_hours": duration_hours,
+            "segments_per_hour": args.segments_per_hour,
+            "story_system_enabled": enable_stories,
+            "validation_enabled": enable_validation,
+            "validation_mode": args.validation_mode if enable_validation else None
+        })
         
-        # Build LLM validation config if validation enabled
-        llm_validation_config = None
-        if enable_validation and args.validation_mode in ['llm', 'hybrid']:
-            llm_validation_config = {
-                'model': args.validation_model
+        # Print header
+        print_header(args, dj_name, duration_hours, enable_validation)
+        
+        try:
+            # Initialize broadcast engine
+            if not args.quiet:
+                print('Initializing broadcast engine...\n')
+            
+            # Build LLM validation config if validation enabled
+            llm_validation_config = None
+            if enable_validation and args.validation_mode in ['llm', 'hybrid']:
+                llm_validation_config = {
+                    'model': args.validation_model
+                }
+            
+            engine = BroadcastEngine(
+                dj_name=dj_name,
+                enable_validation=enable_validation,
+                validation_mode=args.validation_mode if enable_validation else 'rules',
+                llm_validation_config=llm_validation_config,
+                enable_story_system=enable_stories
+            )
+            
+            # Start broadcast
+            engine.start_broadcast()
+            
+            # Generate segments
+            if not args.quiet:
+                print(f'\nGenerating {duration_hours * args.segments_per_hour} segments...\n')
+            
+            segments = engine.generate_broadcast_sequence(
+                start_hour=args.start_hour,
+                duration_hours=duration_hours,
+                segments_per_hour=args.segments_per_hour
+            )
+            
+            # End broadcast
+            stats = engine.end_broadcast(save_state=save_state)
+            
+            # Determine output file
+            if args.output:
+                output_file = Path(args.output)
+            else:
+                filename = generate_output_filename(dj_name, duration_hours, enable_stories)
+                output_file = Path('output') / filename
+            
+            # Create output directory
+            output_file.parent.mkdir(parents=True, exist_ok=True)
+            
+            # Save output
+            output_data = {
+                'metadata': {
+                    'dj': dj_name,
+                    'duration_hours': duration_hours,
+                    'segments_per_hour': args.segments_per_hour,
+                    'start_hour': args.start_hour,
+                    'story_system_enabled': enable_stories,
+                    'validation_enabled': args.enable_validation,
+                    'validation_mode': args.validation_mode if args.enable_validation else None,
+                    'generation_timestamp': datetime.now().isoformat(),
+                    'total_segments': len(segments)
+                }
+
+,
+                'segments': segments,
+                'stats': stats
             }
-        
-        engine = BroadcastEngine(
-            dj_name=dj_name,
-            enable_validation=enable_validation,
-            validation_mode=args.validation_mode if enable_validation else 'rules',
-            llm_validation_config=llm_validation_config,
-            enable_story_system=enable_stories
-        )
-        
-        # Start broadcast
-        engine.start_broadcast()
-        
-        # Generate segments
-        if not args.quiet:
-            print(f'\nGenerating {duration_hours * args.segments_per_hour} segments...\n')
-        
-        segments = engine.generate_broadcast_sequence(
-            start_hour=args.start_hour,
-            duration_hours=duration_hours,
-            segments_per_hour=args.segments_per_hour
-        )
-        
-        # End broadcast
-        stats = engine.end_broadcast(save_state=save_state)
-        
-        # Determine output file
-        if args.output:
-            output_file = Path(args.output)
-        else:
-            filename = generate_output_filename(dj_name, duration_hours, enable_stories)
-            output_file = Path('output') / filename
-        
-        # Create output directory
-        output_file.parent.mkdir(parents=True, exist_ok=True)
-        
-        # Save output
-        output_data = {
-            'metadata': {
-                'dj': dj_name,
-                'duration_hours': duration_hours,
-                'segments_per_hour': args.segments_per_hour,
-                'start_hour': args.start_hour,
-                'story_system_enabled': enable_stories,
-                'validation_enabled': args.enable_validation,
-                'validation_mode': args.validation_mode if args.enable_validation else None,
-                'generation_timestamp': datetime.now().isoformat(),
-                'total_segments': len(segments)
-            },
-            'segments': segments,
-            'stats': stats
-        }
-        
-        with open(output_file, 'w', encoding='utf-8') as f:
-            json.dump(output_data, f, indent=2)
-        
-        # Print summary
-        print_summary(segments, stats, output_file, args.quiet)
-        
-        return 0
-        
-    except KeyboardInterrupt:
-        print('\n\nGeneration cancelled by user.')
-        return 130
-    except Exception as e:
-        print(f'\nError: {e}')
-        if args.verbose:
-            import traceback
-            traceback.print_exc()
-        return 1
+            
+            with open(output_file, 'w', encoding='utf-8') as f:
+                json.dump(output_data, f, indent=2)
+            
+            # Log completion
+            session.log_event("BROADCAST_COMPLETE", {
+                "total_segments": len(segments),
+                "output_file": str(output_file),
+                "stats": stats
+            })
+            
+            # Print summary
+            print_summary(segments, stats, output_file, args.quiet)
+            
+            # Print log locations
+            if not args.quiet:
+                print(f"\n📝 Logs saved:")
+                print(f"   Human-readable: {session.log_file}")
+                print(f"   Structured JSON: {session.metadata_file}")
+                print(f"   LLM-optimized: {session.llm_file}")
+            
+            return 0
+            
+        except KeyboardInterrupt:
+            session.log_event("USER_CANCELLED", {
+                "message": "Broadcast generation cancelled by user (Ctrl+C)"
+            })
+            print('\n\nGeneration cancelled by user.')
+            return 130
+        except Exception as e:
+            session.log_event("BROADCAST_ERROR", {
+                "error": str(e),
+                "error_type": type(e).__name__
+            })
+            print(f'\nError: {e}')
+            if args.verbose:
+                import traceback
+                traceback.print_exc()
+            return 1
 
 
 if __name__ == '__main__':

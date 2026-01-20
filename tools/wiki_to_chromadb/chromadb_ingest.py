@@ -1,16 +1,27 @@
 """
-Phase 5: ChromaDB Ingestion
+Phase 5: ChromaDB Ingestion with 3-Format Logging
 
 Batch ingestion of chunks into ChromaDB with metadata filtering support.
 Supports both dict-based chunks (legacy) and Pydantic Chunk models (new).
+
+All ingestion operations are logged to 3 formats:
+- .log: Human-readable with complete terminal output
+- .json: Structured metadata for programmatic analysis
+- .llm.md: LLM-optimized markdown (50-60% smaller)
 """
 
 from typing import List, Dict, Optional, Any, Union, cast
+import sys
+from pathlib import Path
 import chromadb
 from chromadb.utils import embedding_functions
 from chromadb.api.types import Documents, EmbeddingFunction, Embeddings
 from sentence_transformers import SentenceTransformer
 from tqdm import tqdm
+
+# Add shared tools to path for logging
+sys.path.insert(0, str(Path(__file__).parent.parent / "shared"))
+from logging_config import capture_output
 
 # Try importing new models (optional for backward compatibility)
 try:
@@ -349,55 +360,71 @@ def query_for_dj(ingestor: ChromaDBIngestor, dj_name: str,
 
 
 if __name__ == "__main__":
-    # Quick test
-    test_chunks = [
-        {
-            'text': "Vault 101 was constructed in 2063 as part of Project Safehouse.",
-            'wiki_title': 'Vault 101',
-            'section': 'History',
-            'chunk_index': 0,
-            'time_period': 'pre-war',
-            'year_min': 2063,
-            'year_max': 2063,
-            'is_pre_war': True,
-            'is_post_war': False,
-            'location': 'Capital Wasteland',
-            'region_type': 'East Coast',
-            'content_type': 'location',
-            'knowledge_tier': 'common',
-            'info_source': 'vault-tec'
-        },
-        {
-            'text': "The Lone Wanderer left Vault 101 in 2277.",
-            'wiki_title': 'Vault 101',
-            'section': 'History',
-            'chunk_index': 1,
-            'time_period': '2241-2287',
-            'year_min': 2277,
-            'year_max': 2277,
-            'is_pre_war': False,
-            'is_post_war': True,
-            'location': 'Capital Wasteland',
-            'region_type': 'East Coast',
-            'content_type': 'event',
-            'knowledge_tier': 'regional',
-            'info_source': 'public'
-        }
-    ]
-    
-    print("Testing ChromaDB Ingestion")
-    print("=" * 60)
-    
-    # Create test ingestor
-    ingestor = ChromaDBIngestor(
-        persist_directory="./test_chroma_db",
-        collection_name="test_fallout_wiki"
-    )
-    
-    # Ingest test chunks
-    print("\nIngesting test chunks...")
-    count = ingestor.ingest_chunks(test_chunks, show_progress=False)
-    print(f"Ingested {count} chunks")
+    # Quick test with 3-format logging
+    with capture_output("chroma_ingest_test", "Testing ChromaDB ingestion") as session:
+        # Quick test
+        test_chunks = [
+            {
+                'text': "Vault 101 was constructed in 2063 as part of Project Safehouse.",
+                'wiki_title': 'Vault 101',
+                'section': 'History',
+                'chunk_index': 0,
+                'time_period': 'pre-war',
+                'year_min': 2063,
+                'year_max': 2063,
+                'is_pre_war': True,
+                'is_post_war': False,
+                'location': 'Capital Wasteland',
+                'region_type': 'East Coast',
+                'content_type': 'location',
+                'knowledge_tier': 'common',
+                'info_source': 'vault-tec'
+            },
+            {
+                'text': "The Lone Wanderer left Vault 101 in 2277.",
+                'wiki_title': 'Vault 101',
+                'section': 'History',
+                'chunk_index': 1,
+                'time_period': '2241-2287',
+                'year_min': 2277,
+                'year_max': 2277,
+                'is_pre_war': False,
+                'is_post_war': True,
+                'location': 'Capital Wasteland',
+                'region_type': 'East Coast',
+                'content_type': 'event',
+                'knowledge_tier': 'regional',
+                'info_source': 'public'
+            }
+        ]
+        
+        print("Testing ChromaDB Ingestion")
+        print("=" * 60)
+        
+        session.log_event("INGEST_TEST_START", {
+            "test_chunks": len(test_chunks),
+            "collection": "test_fallout_wiki"
+        })
+        
+        # Create test ingestor
+        ingestor = ChromaDBIngestor(
+            persist_directory="./test_chroma_db",
+            collection_name="test_fallout_wiki"
+        )
+        
+        # Ingest test chunks
+        print("\nIngesting test chunks...")
+        count = ingestor.ingest_chunks(test_chunks, show_progress=False)
+        print(f"Ingested {count} chunks")
+        
+        session.log_event("INGEST_TEST_COMPLETE", {
+            "chunks_ingested": count
+        })
+        
+        print(f"\n📝 Test logs saved:")
+        print(f"   {session.log_file}")
+        print(f"   {session.metadata_file}")
+        print(f"   {session.llm_file}")
     
     # Get stats
     stats = ingestor.get_collection_stats()

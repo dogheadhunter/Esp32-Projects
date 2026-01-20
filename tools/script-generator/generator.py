@@ -1,5 +1,5 @@
 """
-Script Generator
+Script Generator with 3-Format Logging
 
 RAG-powered script generation system using ChromaDB + Ollama + Jinja2 templates.
 
@@ -7,6 +7,11 @@ ENHANCED (Phase 2.6):
 - Catchphrase rotation with contextual selection
 - Natural voice enhancement (filler words, spontaneous elements)
 - Post-generation validation with retry
+
+All script generation operations are logged to 3 formats:
+- .log: Human-readable with complete terminal output
+- .json: Structured metadata for programmatic analysis
+- .llm.md: LLM-optimized markdown (50-60% smaller)
 """
 
 import sys
@@ -20,6 +25,10 @@ import re
 # Add project root to path
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root))
+
+# Add shared tools to path for logging
+sys.path.insert(0, str(project_root / "tools" / "shared"))
+from logging_config import capture_output
 
 from jinja2 import Environment, FileSystemLoader, TemplateNotFound
 
@@ -1077,45 +1086,74 @@ class ScriptGenerator:
 
 
 if __name__ == "__main__":
-    # Example usage
-    print("Script Generator Example\n")
-    
-    # Initialize generator
-    try:
-        generator = ScriptGenerator()
-    except Exception as e:
-        print(f"❌ Initialization failed: {e}")
-        exit(1)
-    
-    # Generate a weather report
-    print("\n" + "="*80)
-    print("EXAMPLE: Weather Report")
-    print("="*80)
-    
-    try:
-        result = generator.generate_script(
-            script_type="weather",
-            dj_name="Julie (2102, Appalachia)",
-            context_query="Appalachia weather sunny conditions flora fauna",
-            weather_type="sunny",
-            time_of_day="morning",
-            hour=8,
-            temperature=72
-        )
+    # Example usage with 3-format logging
+    with capture_output("script_generation_example", "Example script generation for Julie") as session:
+        print("Script Generator Example\n")
         
+        # Initialize generator
+        try:
+            generator = ScriptGenerator()
+            session.log_event("GENERATOR_INITIALIZED", {
+                "dj": "Julie (2102, Appalachia)"
+            })
+        except Exception as e:
+            session.log_event("GENERATOR_INIT_ERROR", {
+                "error": str(e),
+                "error_type": type(e).__name__
+            })
+            print(f"❌ Initialization failed: {e}")
+            exit(1)
+        
+        # Generate a weather report
         print("\n" + "="*80)
-        print("GENERATED SCRIPT:")
+        print("EXAMPLE: Weather Report")
         print("="*80)
-        print(result['script'])
-        print("\n" + "="*80)
         
-        # Save it
-        filepath = generator.save_script(result)
-        
-        # Unload model
-        generator.unload_model()
-        
-    except Exception as e:
-        print(f"\n❌ Error: {e}")
-        import traceback
-        traceback.print_exc()
+        try:
+            session.log_event("SCRIPT_GENERATION_START", {
+                "script_type": "weather",
+                "dj": "Julie (2102, Appalachia)",
+                "weather_type": "sunny",
+                "time_of_day": "morning"
+            })
+            
+            result = generator.generate_script(
+                script_type="weather",
+                dj_name="Julie (2102, Appalachia)",
+                context_query="Appalachia weather sunny conditions flora fauna",
+                weather_type="sunny",
+                time_of_day="morning",
+                hour=8,
+                temperature=72
+            )
+            
+            print("\n" + "="*80)
+            print("GENERATED SCRIPT:")
+            print("="*80)
+            print(result['script'])
+            print("\n" + "="*80)
+            
+            # Save it
+            filepath = generator.save_script(result)
+            
+            session.log_event("SCRIPT_GENERATION_COMPLETE", {
+                "output_file": str(filepath),
+                "script_length": len(result['script'])
+            })
+            
+            # Unload model
+            generator.unload_model()
+            
+            print(f"\n📝 Generation logs saved:")
+            print(f"   {session.log_file}")
+            print(f"   {session.metadata_file}")
+            print(f"   {session.llm_file}")
+            
+        except Exception as e:
+            session.log_event("SCRIPT_GENERATION_ERROR", {
+                "error": str(e),
+                "error_type": type(e).__name__
+            })
+            print(f"\n❌ Error: {e}")
+            import traceback
+            traceback.print_exc()

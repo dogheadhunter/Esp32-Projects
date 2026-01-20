@@ -1,5 +1,5 @@
 """
-Main Pipeline Orchestrator
+Main Pipeline Orchestrator with 3-Format Logging
 
 Processes complete Fallout Wiki XML dump through all phases:
 1. XML Parsing & Wikitext Cleaning
@@ -14,14 +14,24 @@ Refactored to use:
 - chunker_v2 for chunking
 - metadata_enrichment (refactored) for enrichment
 - Type-safe Pydantic models throughout
+
+Additionally logs to 3 formats:
+- .log: Human-readable with complete terminal output
+- .json: Structured metadata for programmatic analysis
+- .llm.md: LLM-optimized markdown (50-60% smaller)
 """
 
 import argparse
 import time
 import json
+import sys
 from pathlib import Path
 from typing import Optional, Dict, List
 from tqdm import tqdm
+
+# Add shared tools to path for logging
+sys.path.insert(0, str(Path(__file__).parent.parent / "shared"))
+from logging_config import capture_output
 
 # New infrastructure imports
 from tools.wiki_to_chromadb.config import PipelineConfig
@@ -453,4 +463,27 @@ def main():
 
 
 if __name__ == "__main__":
-    exit(main())
+    # Wrap entire wiki processing with 3-format logging
+    with capture_output("wiki_processing", "Complete wiki XML dump processing pipeline") as session:
+        session.log_event("WIKI_PROCESSING_START", {
+            "pipeline": "complete"
+        })
+        
+        try:
+            exit_code = main()
+            session.log_event("WIKI_PROCESSING_COMPLETE", {
+                "exit_code": exit_code
+            })
+            
+            print(f"\n📝 Pipeline logs (3 formats):")
+            print(f"   {session.log_file}")
+            print(f"   {session.metadata_file}")
+            print(f"   {session.llm_file}")
+            
+            exit(exit_code)
+        except Exception as e:
+            session.log_event("WIKI_PROCESSING_ERROR", {
+                "error": str(e),
+                "error_type": type(e).__name__
+            })
+            raise

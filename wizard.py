@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-ESP32 AI Radio - Interactive Setup and Management Wizard
+ESP32 AI Radio - Interactive Setup and Management Wizard with 3-Format Logging
 
 A user-friendly command-line wizard that guides you through:
 - Initial setup and installation
@@ -8,6 +8,11 @@ A user-friendly command-line wizard that guides you through:
 - Managing the ChromaDB database
 - Generating broadcast content
 - Development tools and utilities
+
+All wizard sessions are logged to 3 formats:
+- .log: Human-readable with complete terminal output
+- .json: Structured metadata for programmatic analysis
+- .llm.md: LLM-optimized markdown (50-60% smaller)
 
 Usage:
     python wizard.py              # Interactive menu
@@ -21,6 +26,10 @@ import subprocess
 import platform
 from pathlib import Path
 from typing import Optional, List, Tuple
+
+# Add shared tools to path for logging
+sys.path.insert(0, str(Path(__file__).parent / "tools" / "shared"))
+from logging_config import capture_output
 
 # Color codes for terminal output
 class Colors:
@@ -804,7 +813,7 @@ def main_menu():
 
 
 def main():
-    """Main entry point"""
+    """Main entry point with 3-format logging"""
     import argparse
     
     parser = argparse.ArgumentParser(description='ESP32 AI Radio Interactive Wizard')
@@ -818,24 +827,65 @@ def main():
     if args.no_color:
         Colors.disable()
     
-    # Quick actions (bypass menu)
+    # Determine wizard mode for logging context
     if args.quick_test:
-        return run_command(['python', 'run_tests.py', 'quick'], "Running quick tests")
+        context = "Running quick tests via wizard"
+        session_name = "wizard_quick_test"
+    elif args.setup:
+        context = "Running setup wizard"
+        session_name = "wizard_setup"
+    elif args.advanced:
+        context = "Running advanced wizard menu"
+        session_name = "wizard_advanced"
+    else:
+        context = "Interactive wizard session"
+        session_name = "wizard"
     
-    if args.setup:
-        setup_wizard()
-        return
-    
-    if args.advanced:
-        advanced_menu()
-        return
-    
-    # Default: show interactive menu
-    try:
-        main_menu()
-    except KeyboardInterrupt:
-        print(f"\n\n{Colors.YELLOW}[WARNING] Interrupted by user{Colors.ENDC}")
-        sys.exit(0)
+    # Wrap entire wizard operation with 3-format logging
+    with capture_output(session_name, context) as session:
+        session.log_event("WIZARD_START", {
+            "mode": "quick_test" if args.quick_test else "setup" if args.setup else "advanced" if args.advanced else "interactive",
+            "no_color": args.no_color
+        })
+        
+        try:
+            # Quick actions (bypass menu)
+            if args.quick_test:
+                result = run_command(['python', 'run_tests.py', 'quick'], "Running quick tests")
+                session.log_event("WIZARD_COMPLETE", {"action": "quick_test", "success": result})
+                return result
+            
+            if args.setup:
+                setup_wizard()
+                session.log_event("WIZARD_COMPLETE", {"action": "setup"})
+                return
+            
+            if args.advanced:
+                advanced_menu()
+                session.log_event("WIZARD_COMPLETE", {"action": "advanced"})
+                return
+            
+            # Default: show interactive menu
+            main_menu()
+            session.log_event("WIZARD_COMPLETE", {"action": "interactive"})
+            
+        except KeyboardInterrupt:
+            session.log_event("USER_CANCELLED", {
+                "message": "Wizard interrupted by user (Ctrl+C)"
+            })
+            print(f"\n\n{Colors.YELLOW}[WARNING] Interrupted by user{Colors.ENDC}")
+            print(f"\n📝 Wizard session logs:")
+            print(f"   {session.log_file}")
+            print(f"   {session.metadata_file}")
+            print(f"   {session.llm_file}")
+            sys.exit(0)
+        except Exception as e:
+            session.log_event("WIZARD_ERROR", {
+                "error": str(e),
+                "error_type": type(e).__name__
+            })
+            print(f"\n{Colors.RED}[ERROR] Wizard error: {e}{Colors.ENDC}")
+            raise
 
 
 if __name__ == '__main__':
