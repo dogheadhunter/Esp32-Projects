@@ -17,6 +17,13 @@ from typing import Dict, Any, Optional, List
 from dataclasses import dataclass
 from datetime import datetime
 import time
+import sys
+from pathlib import Path
+
+# Add shared tools to path
+project_root = Path(__file__).resolve().parent.parent.parent
+sys.path.insert(0, str(project_root / "tools" / "shared"))
+from project_config import LLM_MODEL
 
 # Integration with Phase 1 (RAG Cache) and Phase 2 (Scheduler)
 from rag_cache import RAGCache
@@ -152,7 +159,7 @@ class LLMPipeline:
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": user_prompt}
                 ],
-                model="llama3.2:latest",
+                model=LLM_MODEL,
                 temperature=0.8,
                 max_tokens=500
             )

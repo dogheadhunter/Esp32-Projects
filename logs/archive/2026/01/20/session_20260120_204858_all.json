@@ -1,0 +1,75 @@
+{
+  "session_name": "all",
+  "session_id": "20260120_204858",
+  "start_time": "2026-01-20T20:48:58.760327",
+  "command": "run_tests.py",
+  "working_directory": "C:\\esp32-project",
+  "python_version": "3.10.11 (tags/v3.10.11:7d4cc5a, Apr  5 2023, 00:38:17) [MSC v.1929 64 bit (AMD64)]",
+  "events": [
+    {
+      "timestamp": "2026-01-20T20:48:58.763257",
+      "type": "TEST_COMMAND",
+      "data": {
+        "command": "pytest -v",
+        "test_type": "all"
+      }
+    },
+    {
+      "timestamp": "2026-01-20T20:53:40.234848",
+      "type": "TEST_COMPLETED",
+      "data": {
+        "exit_code": 1,
+        "status": "failed",
+        "passed": 0,
+        "failed": 0,
+        "skipped": 0,
+        "errors": 0,
+        "warnings": 0,
+        "total": 0,
+        "duration_seconds": 0.0,
+        "failed_tests": [
+          {
+            "name": "tools/script-generator/tests/test_broadcast_engine.py::TestWeatherSystemIntegration::test_weather_calendar_persistence",
+            "error": "assert None is not None"
+          },
+          {
+            "name": "tools/script-generator/tests/test_broadcast_engine.py::TestSegmentGeneration::test_get_next_segment_type",
+            "error": "AssertionError: assert None in [<SegmentType.WEATHER: 'weather'>, <SegmentType.NEWS: 'news'>, <SegmentType.GOSSIP: 'gossip'>, <SegmentType.TIME_CHECK: 'time_check'>, <SegmentType.MUSIC_INTRO: 'music_intro'>, <SegmentType.STORY: 'story'>]"
+          },
+          {
+            "name": "tools/script-generator/tests/test_broadcast_engine.py::TestSessionMemoryIntegration::test_session_memory_tracks_scripts",
+            "error": "TypeError: SessionMemory.add_script() got an unexpected keyword argument 'script_text'"
+          },
+          {
+            "name": "tools/script-generator/tests/test_broadcast_engine.py::TestGossipTracking::test_gossip_lifecycle",
+            "error": "TypeError: GossipTracker.add_gossip() got an unexpected keyword argument 'location'"
+          },
+          {
+            "name": "tools/script-generator/tests/test_broadcast_engine.py::TestWorldStatePersistence::test_world_state_saves_and_loads",
+            "error": "TypeError: WorldState.add_storyline() got an unexpected keyword argument 'title'"
+          },
+          {
+            "name": "tools/script-generator/tests/test_broadcast_engine.py::TestValidationModes::test_rules_validation_mode",
+            "error": "ValueError: Unknown DJ name: 'Julie'"
+          },
+          {
+            "name": "tools/script-generator/tests/test_broadcast_engine.py::TestErrorHandling::test_missing_world_state_path",
+            "error": "AssertionError: assert WindowsPath('broadcast_state.json') == './broadcast_state.json'"
+          },
+          {
+            "name": "tools/script-generator/tests/test_broadcast_engine.py::TestErrorHandling::test_invalid_validation_mode_fallback",
+            "error": "ValueError: Unknown DJ name: 'Julie'"
+          },
+          {
+            "name": "tools/script-generator/tests/test_broadcast_engine.py::TestSchedulerIntegration::test_scheduler_segment_ready",
+            "error": "AttributeError: 'BroadcastScheduler' object has no attribute 'is_segment_ready'"
+          }
+        ],
+        "coverage_percent": 67
+      }
+    }
+  ],
+  "status": "completed",
+  "end_time": "2026-01-20T20:53:40.239420",
+  "duration_seconds": 281.479093
+}

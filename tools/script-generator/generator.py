@@ -562,7 +562,7 @@ class ScriptGenerator:
                 print(f"\n[4/5] Generating with Ollama...")
                 
                 if model is None:
-                    model = "fluffy/l3-8b-stheno-v3.2"
+                    model = project_config.LLM_MODEL
                 
                 print(f"  Model: {model}")
                 print(f"  Temperature: {temperature}, Top-P: {top_p}")

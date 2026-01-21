@@ -1,0 +1,47 @@
+{
+  "session_name": "all",
+  "session_id": "20260120_194228",
+  "start_time": "2026-01-20T19:42:28.261731",
+  "command": "run_tests.py",
+  "working_directory": "C:\\esp32-project",
+  "python_version": "3.10.11 (tags/v3.10.11:7d4cc5a, Apr  5 2023, 00:38:17) [MSC v.1929 64 bit (AMD64)]",
+  "events": [
+    {
+      "timestamp": "2026-01-20T19:42:28.267723",
+      "type": "TEST_COMMAND",
+      "data": {
+        "command": "pytest -v",
+        "test_type": "all"
+      }
+    },
+    {
+      "timestamp": "2026-01-20T19:46:55.226268",
+      "type": "TEST_COMPLETED",
+      "data": {
+        "exit_code": 1,
+        "status": "failed",
+        "passed": 0,
+        "failed": 0,
+        "skipped": 0,
+        "errors": 0,
+        "warnings": 0,
+        "total": 0,
+        "duration_seconds": 0.0,
+        "failed_tests": [
+          {
+            "name": "tools/script-generator/tests/test_phase6_validation.py::TestPhase6Validator::test_query_performance",
+            "error": "AssertionError: 'overhead_ms' not found in {'total_queries': 10, 'query_times': [], 'baseline_times': [0.0, 0.0, 0.0, 0.0, 0.0], 'enhanced_times': [0.0, 0.0, 0.0, 0.0, 0.0], 'baseline_avg': 0.0, 'baseline_min': 0.0, 'baseline_max': 0.0, 'enhanced_avg': 0.0, 'enhanced_min': 0.0, 'enhanced_max': 0.0}"
+          },
+          {
+            "name": "tools/script-generator/tests/test_rag_cache_comprehensive.py::TestCachedQuery::test_is_expired_edge_case",
+            "error": "AssertionError: assert False"
+          }
+        ],
+        "coverage_percent": 58
+      }
+    }
+  ],
+  "status": "completed",
+  "end_time": "2026-01-20T19:46:55.228928",
+  "duration_seconds": 266.967197
+}

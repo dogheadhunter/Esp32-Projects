@@ -109,7 +109,7 @@ class LLMValidator:
     def __init__(
         self, 
         ollama_client: Optional[OllamaClient] = None,
-        model: str = "fluffy/l3-8b-stheno-v3.2",
+        model: str = "dolphin-llama3",  # Validation model
         temperature: float = 0.1,  # Low temp for consistent validation
         templates_dir: Optional[Path] = None,
         validate_connection: bool = True

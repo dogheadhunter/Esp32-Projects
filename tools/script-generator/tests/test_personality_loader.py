@@ -349,3 +349,127 @@ class TestLoadPersonalityEdgeCases:
             # All should be the same cached object
             for r in results[1:]:
                 assert r is results[0]
+
+
+class TestPersonalityLoaderValidation:
+    """Advanced validation and error handling tests"""
+    
+    def setup_method(self):
+        """Clear cache before each test"""
+        clear_cache()
+    
+    def test_load_with_extra_fields(self):
+        """Test loading personality with unexpected extra fields"""
+        personality = {
+            "name": "Julie",
+            "system_prompt": "Test",
+            "unexpected_field": "should be ignored",
+            "another_extra": 12345
+        }
+        
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmpdir_path = Path(tmpdir)
+            dj_folder = tmpdir_path / "dj_personalities" / "Julie"
+            dj_folder.mkdir(parents=True)
+            card_path = dj_folder / "character_card.json"
+            
+            with open(card_path, 'w') as f:
+                json.dump(personality, f)
+            
+            # Should load successfully, extra fields present
+            result = load_personality("Julie (2102, Appalachia)", project_root=tmpdir_path)
+            assert result["name"] == "Julie"
+            assert result["unexpected_field"] == "should be ignored"
+    
+    def test_load_with_empty_system_prompt(self):
+        """Test loading with empty but present system_prompt"""
+        personality = {
+            "name": "Julie",
+            "system_prompt": ""  # Empty string
+        }
+        
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmpdir_path = Path(tmpdir)
+            dj_folder = tmpdir_path / "dj_personalities" / "Julie"
+            dj_folder.mkdir(parents=True)
+            card_path = dj_folder / "character_card.json"
+            
+            with open(card_path, 'w') as f:
+                json.dump(personality, f)
+            
+            # Current implementation only checks presence, not emptiness
+            # So this should load successfully
+            result = load_personality("Julie (2102, Appalachia)", project_root=tmpdir_path)
+            assert result["system_prompt"] == ""
+    
+    def test_load_with_null_values(self):
+        """Test loading with null values in required fields"""
+        personality = {
+            "name": None,
+            "system_prompt": "Test"
+        }
+        
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmpdir_path = Path(tmpdir)
+            dj_folder = tmpdir_path / "dj_personalities" / "Julie"
+            dj_folder.mkdir(parents=True)
+            card_path = dj_folder / "character_card.json"
+            
+            with open(card_path, 'w') as f:
+                json.dump(personality, f)
+            
+            # Current implementation only checks 'in', so null is allowed
+            result = load_personality("Julie (2102, Appalachia)", project_root=tmpdir_path)
+            assert result["name"] is None
+    
+
+    def test_load_with_unicode_characters(self):
+        """Test loading personality with Unicode characters"""
+        personality = {
+            "name": "Julie™",
+            "system_prompt": "You are Julie 😊 from Appalachia",
+            "catchphrases": ["¡Hola!", "Café☕"]
+        }
+        
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmpdir_path = Path(tmpdir)
+            dj_folder = tmpdir_path / "dj_personalities" / "Julie"
+            dj_folder.mkdir(parents=True)
+            card_path = dj_folder / "character_card.json"
+            
+            with open(card_path, 'w', encoding='utf-8') as f:
+                json.dump(personality, f, ensure_ascii=False)
+            
+            # Should load successfully
+            result = load_personality("Julie (2102, Appalachia)", project_root=tmpdir_path)
+            assert result["name"] == "Julie™"
+            assert "😊" in result["system_prompt"]
+    
+    def test_cache_isolation_between_djs(self):
+        """Test that cache properly isolates different DJ personalities"""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmpdir_path = Path(tmpdir)
+            
+            # Create Julie
+            julie_folder = tmpdir_path / "dj_personalities" / "Julie"
+            julie_folder.mkdir(parents=True)
+            with open(julie_folder / "character_card.json", 'w') as f:
+                json.dump({"name": "Julie", "system_prompt": "Julie prompt"}, f)
+            
+            # Create Mr. New Vegas
+            nv_folder = tmpdir_path / "dj_personalities" / "Mr. New Vegas"
+            nv_folder.mkdir(parents=True)
+            with open(nv_folder / "character_card.json", 'w') as f:
+                json.dump({"name": "Mr. New Vegas", "system_prompt": "NV prompt"}, f)
+            
+            # Load both
+            clear_cache()
+            julie = load_personality("Julie (2102, Appalachia)", project_root=tmpdir_path)
+            mr_nv = load_personality("Mr. New Vegas (2281, Mojave)", project_root=tmpdir_path)
+            
+            # Verify they're different
+            assert julie["name"] != mr_nv["name"]
+            assert julie["system_prompt"] != mr_nv["system_prompt"]
+            
+            # Verify both are cached
+            assert len(_personality_cache) == 2

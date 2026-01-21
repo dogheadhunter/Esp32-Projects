@@ -3,7 +3,15 @@ Tests for Phase 6 Task 4: Broadcast Freshness Tracking System
 """
 
 import pytest
+import sys
 import time
+from pathlib import Path
+
+# Add project root to path
+project_root = Path(__file__).resolve().parent.parent.parent.parent
+sys.path.insert(0, str(project_root))
+sys.path.insert(0, str(project_root / "tools" / "script-generator"))
+
 from broadcast_freshness import BroadcastFreshnessTracker
 
 
@@ -292,3 +300,88 @@ class TestFreshnessFiltering:
         
         # Should be approximately 0.3
         assert 0.28 < freshness < 0.32
+
+
+class TestBroadcastFreshnessAdvanced:
+    """Advanced tests for broadcast freshness tracking"""
+    
+    def setup_method(self):
+        self.tracker = BroadcastFreshnessTracker("test_db")
+    
+    def test_decay_all_chunks_without_db(self):
+        """Test decay_freshness_scores handles missing DB gracefully"""
+        result = self.tracker.decay_freshness_scores()
+        # Should return 0 when no DB connection
+        assert result == 0
+    
+    def test_decay_with_future_time(self):
+        """Test decay calculation with future timestamp"""
+        future_time = time.time() + (48 * 3600)  # 2 days in future
+        result = self.tracker.decay_freshness_scores(current_time=future_time)
+        # Should not error, returns 0 without DB
+        assert result >= 0
+    
+    def test_decay_with_past_time(self):
+        """Test decay calculation with past timestamp"""
+        past_time = time.time() - (72 * 3600)  # 3 days in past
+        result = self.tracker.decay_freshness_scores(current_time=past_time)
+        # Should not error
+        assert result >= 0
+    
+    def test_get_freshness_stats_structure(self):
+        """Test that stats return expected structure"""
+        stats = self.tracker.get_freshness_stats()
+        
+        # Should have either error info or stats structure
+        assert isinstance(stats, dict)
+        
+        # Without DB, should have total_chunks = 0 or error key
+        if 'error' not in stats:
+            assert 'total_chunks' in stats
+            assert stats['total_chunks'] == 0
+    
+    def test_get_freshness_stats_returns_stats_structure(self):
+        """Test stats return expected structure without DB"""
+        stats = self.tracker.get_freshness_stats()
+        
+        assert isinstance(stats, dict)
+        # Without DB, should have error info or total_chunks
+        assert 'error' in stats or 'total_chunks' in stats or 'total_chunks_sampled' in stats
+    
+    def test_mark_broadcast_with_empty_ids(self):
+        """Test marking broadcast with empty chunk IDs list"""
+        current = time.time()
+        result = self.tracker.mark_broadcast([], current)
+        
+        # Should handle empty list gracefully (returns 0 without DB)
+        assert result == 0
+    
+    def test_mark_broadcast_with_large_batch(self):
+        """Test marking broadcast with large chunk ID batch"""
+        # Simulate 5000 chunk IDs (larger than typical 1000 batch size)
+        chunk_ids = [f"chunk_{i}" for i in range(5000)]
+        current = time.time()
+        
+        result = self.tracker.mark_broadcast(chunk_ids, current)
+        
+        # Should process all (returns 0 without DB connection)
+        assert result >= 0
+    
+    def test_freshness_score_boundary_conditions(self):
+        """Test freshness calculation at exact boundary times"""
+        current = time.time()
+        
+        # Exactly at FULL_DECAY_HOURS (168 hours)
+        exactly_recovered = current - (168 * 3600)
+        freshness = self.tracker.calculate_freshness_score(exactly_recovered, current)
+        assert freshness == 1.0
+        
+        # Just before full recovery (167.9 hours)
+        almost_recovered = current - (167.9 * 3600)
+        freshness = self.tracker.calculate_freshness_score(almost_recovered, current)
+        assert 0.99 < freshness < 1.0
+        
+        # Just after use (0.1 hours)
+        just_used = current - (0.1 * 3600)
+        freshness = self.tracker.calculate_freshness_score(just_used, current)
+        assert 0.0 < freshness < 0.01

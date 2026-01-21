@@ -54,11 +54,11 @@ packages = ["tools"]
 tools = ["**/*.json", "**/*.md", "**/*.j2"]
 
 [tool.pytest.ini_options]
-testpaths = ["tests", "tools/wiki_to_chromadb/tests", "tools/script-generator/tests"]
+testpaths = ["tests", "tools/wiki_to_chromadb/tests", "tools/script-generator/tests", "tools/script-generator/story_system/tests"]
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
-addopts = "-v --cov=tools --cov-report=term-missing --ignore=tools/script-generator/tests/test_phase4_mocks_and_integration.py --ignore=tools/script-generator/tests/test_phase5_integration.py"
+addopts = "-v --cov=tools --cov=tools/script-generator --cov-report=term-missing --ignore=tools/script-generator/tests/test_phase4_mocks_and_integration.py --ignore=tools/script-generator/tests/test_phase5_integration.py"
 markers = [
     "mock: tests using mock clients",
     "integration: tests requiring real dependencies (Ollama/ChromaDB)",

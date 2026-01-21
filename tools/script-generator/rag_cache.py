@@ -38,7 +38,7 @@ class CachedQuery:
     def is_expired(self) -> bool:
         """Check if cache entry has expired"""
         age = (datetime.now() - self.timestamp).total_seconds()
-        return age > self.ttl_seconds
+        return age >= self.ttl_seconds
     
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary for serialization"""

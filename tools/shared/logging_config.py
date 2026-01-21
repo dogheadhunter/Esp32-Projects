@@ -250,21 +250,21 @@ Python Version: {sys.version.split()[0]}
                 # Test results summary
                 if 'total' in event_data and event_data['total'] > 0:
                     f.write(f"**Test Results:**\n")
-                    f.write(f"- ✅ Passed: {event_data.get('passed', 0)}\n")
+                    f.write(f"- Passed: {event_data.get('passed', 0)}\n")
                     if event_data.get('failed', 0) > 0:
-                        f.write(f"- ❌ Failed: {event_data.get('failed', 0)}\n")
+                        f.write(f"- Failed: {event_data.get('failed', 0)}\n")
                     if event_data.get('skipped', 0) > 0:
-                        f.write(f"- ⏭️  Skipped: {event_data.get('skipped', 0)}\n")
+                        f.write(f"- Skipped: {event_data.get('skipped', 0)}\n")
                     if event_data.get('errors', 0) > 0:
-                        f.write(f"- 🔥 Errors: {event_data.get('errors', 0)}\n")
+                        f.write(f"- Errors: {event_data.get('errors', 0)}\n")
                     if event_data.get('warnings', 0) > 0:
-                        f.write(f"- ⚠️  Warnings: {event_data.get('warnings', 0)}\n")
-                    f.write(f"- 📊 Total: {event_data.get('total', 0)}\n")
-                    f.write(f"- ⏱️  Duration: {event_data.get('duration_seconds', 0):.1f}s\n")
+                        f.write(f"- Warnings: {event_data.get('warnings', 0)}\n")
+                    f.write(f"- Total: {event_data.get('total', 0)}\n")
+                    f.write(f"- Duration: {event_data.get('duration_seconds', 0):.1f}s\n")
                     
                     # Coverage if available
                     if event_data.get('coverage_percent') is not None:
-                        f.write(f"- 📈 Coverage: {event_data['coverage_percent']}%\n")
+                        f.write(f"- Coverage: {event_data['coverage_percent']}%\n")
                     
                     f.write("\n")
                     
@@ -529,9 +529,9 @@ def capture_output(session_name: str = "script", context: Optional[str] = None, 
         sys.stdout = stdout_capture
         sys.stderr = stderr_capture
         
-        print(f"🚀 Starting session: {session_name}")
-        print(f"📋 Logging to: {session.log_file}")
-        print(f"📊 LLM log: {session.llm_file}")
+        print(f"Starting session: {session_name}")
+        print(f"Logging to: {session.log_file}")
+        print(f"LLM log: {session.llm_file}")
         print()
         
         yield session
@@ -583,7 +583,7 @@ def cleanup_old_logs(days: int = 30):
             removed_count += 1
     
     if removed_count > 0:
-        print(f"🧹 Cleaned up {removed_count} old log files")
+        print(f"Cleaned up {removed_count} old log files")
 
 
 if __name__ == "__main__":
@@ -618,5 +618,5 @@ if __name__ == "__main__":
     except ValueError:
         print("Exception was logged and re-raised as expected")
     
-    print("\n✅ All logging tests completed!")
-    print(f"📁 Check logs in: {LOG_DIR}")
+    print("\nAll logging tests completed!")
+    print(f"Check logs in: {LOG_DIR}")

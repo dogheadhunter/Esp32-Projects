@@ -1,0 +1,22 @@
+{
+  "session_name": "all",
+  "session_id": "20260120_201337",
+  "start_time": "2026-01-20T20:13:37.049067",
+  "command": "run_tests.py",
+  "working_directory": "C:\\esp32-project",
+  "python_version": "3.10.11 (tags/v3.10.11:7d4cc5a, Apr  5 2023, 00:38:17) [MSC v.1929 64 bit (AMD64)]",
+  "events": [
+    {
+      "timestamp": "2026-01-20T20:13:37.051404",
+      "type": "EXCEPTION",
+      "data": {
+        "type": "UnicodeEncodeError",
+        "message": "'charmap' codec can't encode character '\\U0001f680' in position 0: character maps to <undefined>",
+        "traceback": "Traceback (most recent call last):\n  File \"C:\\esp32-project\\tools\\shared\\logging_config.py\", line 532, in capture_output\n    print(f\"\ud83d\ude80 Starting session: {session_name}\")\n  File \"C:\\esp32-project\\tools\\shared\\logging_config.py\", line 61, in write\n    self.original_stream.write(text)\n  File \"C:\\Users\\doghe\\AppData\\Local\\Programs\\Python\\Python310\\lib\\encodings\\cp1252.py\", line 19, in encode\n    return codecs.charmap_encode(input,self.errors,encoding_table)[0]\nUnicodeEncodeError: 'charmap' codec can't encode character '\\U0001f680' in position 0: character maps to <undefined>\n"
+      }
+    }
+  ],
+  "status": "failed",
+  "end_time": "2026-01-20T20:13:37.052404",
+  "duration_seconds": 0.003337
+}

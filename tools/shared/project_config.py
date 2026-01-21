@@ -11,8 +11,9 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 
 # LLM Configuration
-LLM_MODEL = "fluffy/l3-8b-stheno-v3.2"  # Primary model for roleplay
-LLM_BACKUP_MODEL = "dolphin-llama3"     # Backup uncensored model
+LLM_MODEL = "fluffy/l3-8b-stheno-v3.2"  # Script generation model
+LLM_VALIDATOR_MODEL = "dolphin-llama3"  # Validation model
+LLM_BACKUP_MODEL = "hermes3"  # Backup model if primary unavailable
 OLLAMA_URL = "http://localhost:11434/api/generate"
 
 # Database Paths

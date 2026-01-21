@@ -458,9 +458,15 @@ class Phase6Validator:
                 results['enhanced_max'] = max(results['enhanced_times'])
             
             # Calculate overhead
-            if results.get('baseline_avg') and results.get('enhanced_avg'):
-                results['overhead_ms'] = (results['enhanced_avg'] - results['baseline_avg']) * 1000
-                results['overhead_pct'] = ((results['enhanced_avg'] / results['baseline_avg']) - 1) * 100
+            baseline_avg = results.get('baseline_avg', 0)
+            enhanced_avg = results.get('enhanced_avg', 0)
+            
+            if baseline_avg is not None and enhanced_avg is not None:
+                results['overhead_ms'] = (enhanced_avg - baseline_avg) * 1000
+                if baseline_avg > 0:
+                    results['overhead_pct'] = ((enhanced_avg / baseline_avg) - 1) * 100
+                else:
+                    results['overhead_pct'] = 0.0
             
             print(f"✅ Performance benchmark complete")
             print(f"   Baseline avg: {results.get('baseline_avg', 0)*1000:.2f}ms")

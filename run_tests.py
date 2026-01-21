@@ -180,7 +180,7 @@ def run_command_with_logging(cmd, test_type):
             print("=" * 80)
             
             # Print log file locations
-            print(f"\n📝 Logs saved:")
+            print(f"\nLogs saved:")
             print(f"   Human-readable: {session.log_file}")
             print(f"   Structured JSON: {session.metadata_file}")
             print(f"   LLM-optimized: {session.llm_file}")
@@ -191,8 +191,8 @@ def run_command_with_logging(cmd, test_type):
             session.log_event("USER_CANCELLED", {
                 "message": "Test run cancelled by user (Ctrl+C)"
             })
-            print("\n\n⚠️ Test run cancelled by user")
-            print(f"📝 Logs saved (partial results):")
+            print("\n\nTest run cancelled by user")
+            print(f"Logs saved (partial results):")
             print(f"   {session.log_file}")
             raise
         except Exception as e:
@@ -200,7 +200,7 @@ def run_command_with_logging(cmd, test_type):
                 "error": str(e),
                 "error_type": type(e).__name__
             })
-            print(f"\n❌ Error running tests: {e}")
+            print(f"\nError running tests: {e}")
             raise
 
 
@@ -212,55 +212,55 @@ def main():
     test_type = sys.argv[1] if len(sys.argv) > 1 else "all"
     
     if test_type == "all":
-        print("📋 Running all tests...")
+        print("Running all tests...")
         cmd = ["pytest", "-v"]
     
     elif test_type == "unit":
-        print("📋 Running unit tests...")
+        print("Running unit tests...")
         cmd = ["pytest", "tests/unit/", "-v"]
     
     elif test_type == "integration":
-        print("📋 Running integration tests...")
+        print("Running integration tests...")
         cmd = ["pytest", "tests/integration/", "-v", "-m", "integration"]
     
     elif test_type == "coverage":
-        print("📋 Running tests with coverage report...")
+        print("Running tests with coverage report...")
         cmd = ["pytest", "--cov=tools", "--cov-report=term-missing", "--cov-report=html"]
     
     elif test_type == "quick":
-        print("📋 Running quick mock tests...")
+        print("Running quick mock tests...")
         cmd = ["pytest", "-v", "-m", "mock"]
     
     elif test_type == "logging":
-        print("📋 Running logging infrastructure tests...")
+        print("Running logging infrastructure tests...")
         cmd = ["pytest", "tests/unit/test_logging_config.py", "-v"]
     
     elif test_type == "ollama":
-        print("📋 Running Ollama client tests...")
+        print("Running Ollama client tests...")
         cmd = ["pytest", "tests/unit/test_ollama_client.py", "-v"]
     
     elif test_type == "content":
-        print("📋 Running content types tests...")
+        print("Running content types tests...")
         cmd = ["pytest", "tests/unit/test_content_types.py", "-v"]
     
     elif test_type == "generator":
-        print("📋 Running generator tests...")
+        print("Running generator tests...")
         cmd = ["pytest", "tests/unit/test_generator.py", "-v"]
     
     elif test_type == "broadcast":
-        print("📋 Running broadcast engine tests...")
+        print("Running broadcast engine tests...")
         cmd = ["pytest", "tests/unit/test_broadcast_engine.py", "-v"]
     
     elif test_type == "e2e":
-        print("📋 Running ALL E2E tests (requires Ollama + ChromaDB)...")
+        print("Running ALL E2E tests (requires Ollama + ChromaDB)...")
         cmd = ["pytest", "tests/e2e/", "--run-e2e", "-v"]
     
     elif test_type == "e2e-ollama":
-        print("📋 Running Ollama E2E tests...")
+        print("Running Ollama E2E tests...")
         cmd = ["pytest", "tests/e2e/test_ollama_e2e.py", "--run-ollama", "-v"]
     
     elif test_type == "e2e-chromadb":
-        print("📋 Running ChromaDB E2E tests...")
+        print("Running ChromaDB E2E tests...")
         cmd = ["pytest", "tests/e2e/test_chromadb_e2e.py", "--run-chromadb", "-v"]
     
     elif test_type == "help" or test_type == "-h" or test_type == "--help":
@@ -268,7 +268,7 @@ def main():
         return 0
     
     else:
-        print(f"❌ Unknown test type: {test_type}")
+        print(f"Unknown test type: {test_type}")
         print(__doc__)
         return 1
     
@@ -276,9 +276,9 @@ def main():
     exit_code = run_command_with_logging(cmd, test_type)
     
     if exit_code == 0:
-        print("\n✅ All tests passed!")
+        print("\nAll tests passed!")
     else:
-        print(f"\n❌ Some tests failed (exit code: {exit_code})")
+        print(f"\nSome tests failed (exit code: {exit_code})")
     
     return exit_code
 
