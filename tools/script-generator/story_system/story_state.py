@@ -62,6 +62,10 @@ class StoryState:
         # Escalation tracking
         self.escalation_history: List[Dict[str, Any]] = []
         
+        # Per-story beat tracking (Phase 2C)
+        # Maps story_id -> list of beat dictionaries with timestamps
+        self.beat_history: Dict[str, List[Dict[str, Any]]] = {}
+        
         # Scheduler metadata
         self.last_activation: Dict[StoryTimeline, Optional[datetime]] = {
             timeline: None for timeline in StoryTimeline
@@ -211,6 +215,129 @@ class StoryState:
         self.escalation_history.append(escalation_entry)
         self.last_modified = datetime.now().isoformat()
     
+    def record_story_beat(self, story_id: str, beat_summary: str, entities: List[str], 
+                          act_number: int = 1, conflict_level: float = 0.5):
+        """
+        Record a story beat in per-story history (Phase 2C).
+        
+        Args:
+            story_id: Story identifier
+            beat_summary: What happened in this beat
+            entities: Characters/locations/factions mentioned
+            act_number: Current act number (default 1)
+            conflict_level: Tension/conflict intensity 0.0-1.0
+        """
+        if story_id not in self.beat_history:
+            self.beat_history[story_id] = []
+        
+        beat_entry = {
+            "timestamp": datetime.now().isoformat(),
+            "act_number": act_number,
+            "beat_summary": beat_summary,
+            "entities": entities,
+            "conflict_level": conflict_level,
+            "token_count": len(beat_summary.split())  # Rough word count
+        }
+        
+        self.beat_history[story_id].append(beat_entry)
+        self.last_modified = datetime.now().isoformat()
+    
+    def get_story_beats(self, story_id: str, recent_count: int = 5) -> List[Dict[str, Any]]:
+        """
+        Get recent beats for a story with summarization of older beats (Phase 2C).
+        
+        Returns recent beats in full detail and summarized older beats.
+        This reduces token count for LLM context.
+        
+        Args:
+            story_id: Story identifier
+            recent_count: Number of recent beats to keep in full detail (default 5)
+            
+        Returns:
+            List of beat dictionaries (recent in full, older summarized)
+        """
+        if story_id not in self.beat_history:
+            return []
+        
+        all_beats = self.beat_history[story_id]
+        
+        # If we have fewer beats than threshold, return all in full detail
+        if len(all_beats) <= recent_count:
+            return all_beats
+        
+        # Split into recent (keep full) and old (summarize)
+        recent_beats = all_beats[-recent_count:]
+        old_beats = all_beats[:-recent_count]
+        
+        # Summarize old beats
+        summarized_old = self._summarize_beats(old_beats)
+        
+        # Return: [summarized_entry] + recent_full_beats
+        return [summarized_old] + recent_beats
+    
+    def _summarize_beats(self, beats: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """
+        Summarize multiple beats into single condensed entry.
+        
+        Reduces token count by ≥50% while preserving key information.
+        
+        Args:
+            beats: List of beat dictionaries to summarize
+            
+        Returns:
+            Single summarized beat dictionary
+        """
+        if not beats:
+            return {
+                "timestamp": datetime.now().isoformat(),
+                "beat_summary": "(No prior beats)",
+                "entities": [],
+                "conflict_level": 0.0,
+                "token_count": 3,
+                "summarized_count": 0
+            }
+        
+        # Collect all entities mentioned
+        all_entities = set()
+        for beat in beats:
+            all_entities.update(beat.get("entities", []))
+        
+        # Calculate average conflict level
+        conflict_levels = [b.get("conflict_level", 0.5) for b in beats]
+        avg_conflict = sum(conflict_levels) / len(conflict_levels) if conflict_levels else 0.5
+        
+        # Create condensed summary (count of beats + entity list)
+        beat_count = len(beats)
+        entity_list = ", ".join(sorted(all_entities)[:10])  # Limit to 10 entities
+        
+        if entity_list:
+            summary = f"Previous {beat_count} beats involved: {entity_list}"
+        else:
+            summary = f"Previous {beat_count} beats covered early story development"
+        
+        return {
+            "timestamp": beats[-1].get("timestamp", datetime.now().isoformat()),
+            "beat_summary": summary,
+            "entities": list(all_entities),
+            "conflict_level": avg_conflict,
+            "token_count": len(summary.split()),
+            "summarized_count": beat_count,
+            "is_summary": True
+        }
+    
+    def get_beat_token_count(self, story_id: str) -> int:
+        """
+        Calculate total token count for story beats (with summarization applied).
+        
+        Args:
+            story_id: Story identifier
+            
+        Returns:
+            Approximate token count for beats
+        """
+        beats = self.get_story_beats(story_id)
+        return sum(beat.get("token_count", 0) for beat in beats)
+    
     def get_pool_size(self, timeline: StoryTimeline) -> int:
         """Get number of stories in pool for timeline."""
         return len(self.story_pools[timeline])
@@ -248,6 +375,7 @@ class StoryState:
                 "completed_stories": self.completed_stories,
                 "archived_stories": self.archived_stories,
                 "escalation_history": self.escalation_history,
+                "beat_history": self.beat_history,  # Phase 2C
                 
                 "last_activation": {
                     get_value(timeline): timestamp.isoformat() if timestamp else None
@@ -301,6 +429,7 @@ class StoryState:
             self.completed_stories = state_dict.get("completed_stories", [])
             self.archived_stories = state_dict.get("archived_stories", [])
             self.escalation_history = state_dict.get("escalation_history", [])
+            self.beat_history = state_dict.get("beat_history", {})  # Phase 2C
             
             # Load last activation times
             for timeline_str, timestamp_str in state_dict.get("last_activation", {}).items():
@@ -363,6 +492,7 @@ class StoryState:
             "completed_stories": self.completed_stories,
             "archived_stories": self.archived_stories,
             "escalation_history": self.escalation_history,
+            "beat_history": self.beat_history,  # Phase 2C
             
             "last_activation": {
                 get_value(timeline): timestamp.isoformat() if timestamp else None
@@ -404,6 +534,7 @@ class StoryState:
         self.completed_stories = data.get("completed_stories", [])
         self.archived_stories = data.get("archived_stories", [])
         self.escalation_history = data.get("escalation_history", [])
+        self.beat_history = data.get("beat_history", {})  # Phase 2C
         
         # Load last activation times
         for timeline_str, timestamp_str in data.get("last_activation", {}).items():

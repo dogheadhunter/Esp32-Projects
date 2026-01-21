@@ -38,6 +38,9 @@ class EscalationEngine:
     Escalation is based on engagement scores and story characteristics.
     """
     
+    # Maximum escalations per story (Phase 2C)
+    MAX_ESCALATION_COUNT = 2
+    
     # Minimum engagement score to consider escalation
     MIN_ENGAGEMENT_FOR_ESCALATION = 0.75
     
@@ -108,6 +111,10 @@ class EscalationEngine:
         
         # Cannot escalate if not allowed
         if not active_story.can_escalate:
+            return False
+        
+        # Phase 2C: Enforce MAX_ESCALATION_COUNT
+        if active_story.escalation_count >= self.MAX_ESCALATION_COUNT:
             return False
         
         # Check minimum broadcasts
