@@ -105,6 +105,71 @@ def audit_quest_pool(dj_name: str, chroma_db_path: str = "chroma_db") -> Dict[st
         print(f"  Temporal violations: {temporal_violations}")
         print(f"  Regional violations: {regional_violations}")
         
+        # Calculate narrative weight distribution
+        print(f"\n  Analyzing narrative weights...")
+        from story_system.narrative_weight import NarrativeWeightScorer
+        from story_system.story_extractor import StoryExtractor
+        
+        scorer = NarrativeWeightScorer()
+        weight_distribution = {
+            "trivial": 0,      # 1.0-3.0 (unsuitable for weekly/monthly)
+            "minor": 0,        # 3.1-6.0 (suitable for daily/weekly)
+            "significant": 0,  # 6.1-9.0 (suitable for weekly/monthly)
+            "epic": 0          # 9.1-10.0 (suitable for monthly/yearly)
+        }
+        timeline_suitability = {
+            "daily": 0,
+            "weekly": 0,
+            "monthly": 0,
+            "yearly": 0
+        }
+        
+        # Extract sample stories to analyze weights
+        try:
+            stories = extractor._extract_quest_stories(
+                max_stories=50,
+                min_chunks=3,
+                max_chunks=10,
+                dj_name=dj_name
+            )
+            
+            for story in stories:
+                weight = scorer.score_story(story)
+                category = scorer.categorize_score(weight)
+                weight_distribution[category] += 1
+                
+                # Determine timeline suitability
+                if weight >= 9.0:
+                    timeline_suitability["yearly"] += 1
+                    timeline_suitability["monthly"] += 1
+                    timeline_suitability["weekly"] += 1
+                    timeline_suitability["daily"] += 1
+                elif weight >= 7.0:
+                    timeline_suitability["monthly"] += 1
+                    timeline_suitability["weekly"] += 1
+                    timeline_suitability["daily"] += 1
+                elif weight >= 5.0:
+                    timeline_suitability["weekly"] += 1
+                    timeline_suitability["daily"] += 1
+                else:
+                    timeline_suitability["daily"] += 1
+            
+            print(f"  Sample size: {len(stories)} quests analyzed")
+            print(f"  Weight distribution:")
+            print(f"    Trivial (1.0-3.0):     {weight_distribution['trivial']}")
+            print(f"    Minor (3.1-6.0):       {weight_distribution['minor']}")
+            print(f"    Significant (6.1-9.0): {weight_distribution['significant']}")
+            print(f"    Epic (9.1-10.0):       {weight_distribution['epic']}")
+            print(f"  Timeline suitability:")
+            print(f"    Daily stories:   {timeline_suitability['daily']}")
+            print(f"    Weekly stories:  {timeline_suitability['weekly']}")
+            print(f"    Monthly stories: {timeline_suitability['monthly']}")
+            print(f"    Yearly stories:  {timeline_suitability['yearly']}")
+        except Exception as e:
+            print(f"  ⚠ Could not analyze narrative weights: {e}")
+            weight_distribution = None
+            timeline_suitability = None
+        
     except Exception as e:
         print(f"✗ Quest extraction failed: {e}")
         import traceback
@@ -159,6 +224,8 @@ def audit_quest_pool(dj_name: str, chroma_db_path: str = "chroma_db") -> Dict[st
         "sufficient": total_stories >= min_required,
         "temporal_violations": temporal_violations,
         "regional_violations": regional_violations,
+        "weight_distribution": weight_distribution,
+        "timeline_suitability": timeline_suitability,
     }
     
     print(f"Unique Quests:        {unique_quests}")

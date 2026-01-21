@@ -53,6 +53,7 @@ from .story_models import (
     StoryTimeline,
     StoryActType,
 )
+from .narrative_weight import NarrativeWeightScorer
 
 
 class StoryExtractor:
@@ -117,6 +118,7 @@ class StoryExtractor:
         """
         self.collection = chroma_collection
         self.ollama = ollama_client
+        self.narrative_scorer = NarrativeWeightScorer()
 
         if self.ollama is None:
             try:
@@ -373,6 +375,13 @@ class StoryExtractor:
                 source_wiki_titles=[title],
                 estimated_broadcasts=len(acts) * 2,
             )
+            
+            # Calculate narrative weight and validate timeline appropriateness
+            narrative_weight = self.narrative_scorer.score_story(story)
+            if not self._is_story_appropriate_for_timeline(story, narrative_weight):
+                print(f"  [FILTER] Story '{title}' (weight {narrative_weight:.1f}) filtered out - inappropriate for {timeline.value} timeline")
+                return None
+            
             return story
         except Exception as exc:
             print(f"Error converting chunks to story: {exc}")
@@ -575,6 +584,36 @@ Generate acts now:"""
         if num_chunks >= 2:
             return StoryTimeline.WEEKLY  # Favor weekly over daily
         return StoryTimeline.DAILY
+    
+    def _is_story_appropriate_for_timeline(self, story: Story, narrative_weight: float) -> bool:
+        """
+        Check if a story's narrative weight is appropriate for its assigned timeline.
+        
+        Minimum narrative weight thresholds:
+        - Daily: 1.0 (any quest can be daily content)
+        - Weekly: 5.0 (moderate complexity required)
+        - Monthly: 7.0 (significant stories only)
+        - Yearly: 9.0 (epic narratives only)
+        
+        Simple fetch quests (weight < 5.0) should not be featured in weekly/monthly/yearly pools.
+        
+        Args:
+            story: Story object with assigned timeline
+            narrative_weight: Calculated narrative weight (1.0-10.0)
+        
+        Returns:
+            True if story meets minimum weight for timeline, False otherwise
+        """
+        # Minimum narrative weight requirements per timeline
+        TIMELINE_MIN_WEIGHT = {
+            StoryTimeline.DAILY: 1.0,    # Allow any quest for daily content
+            StoryTimeline.WEEKLY: 5.0,   # Moderate complexity - no simple fetch quests
+            StoryTimeline.MONTHLY: 7.0,  # Significant stories - substantial arcs only
+            StoryTimeline.YEARLY: 9.0,   # Epic narratives - game-defining moments
+        }
+        
+        min_weight = TIMELINE_MIN_WEIGHT.get(story.timeline, 1.0)
+        return narrative_weight >= min_weight
 
     def _generate_summary(self, chunks: List[Dict]) -> str:
         """Generate story summary from chunks."""
