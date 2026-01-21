@@ -60,6 +60,13 @@ try:
 except ImportError:
     CHECKPOINT_AVAILABLE = False
 
+# Retry manager (Phase 1C)
+try:
+    from retry_manager import RetryManager, MAX_RETRIES, should_skip_segment, create_skip_segment_metadata
+    RETRY_MANAGER_AVAILABLE = True
+except ImportError:
+    RETRY_MANAGER_AVAILABLE = False
+
 
 class BroadcastEngine:
     """
@@ -636,11 +643,124 @@ class BroadcastEngine:
                              force_type: Optional[str] = None,
                              **kwargs) -> Dict[str, Any]:
         """
-        Generate the next appropriate broadcast segment.
+        Generate the next appropriate broadcast segment with retry logic.
+        
+        Implements Phase 1C retry mechanism:
+        - Retries up to MAX_RETRIES times on validation failure
+        - Feeds validation errors back into retry prompts
+        - Skips segment if all retries fail
+        - Tracks retry metadata in result
         
         Args:
             current_hour: Current hour (0-23)
             force_type: Force specific segment type (optional)
+            **kwargs: Additional template variables
+        
+        Returns:
+            Generated segment result with metadata (or skip metadata if all retries failed)
+        """
+        if not RETRY_MANAGER_AVAILABLE or not self.enable_validation:
+            # Fallback: no retry logic if retry_manager not available or validation disabled
+            return self._generate_segment_once(current_hour, force_type, **kwargs)
+        
+        # Initialize retry manager for this segment
+        retry_manager = RetryManager()
+        attempt = 1
+        
+        while attempt <= MAX_RETRIES:
+            print(f"\n🔄 Generation attempt #{attempt}/{MAX_RETRIES} (Hour: {current_hour})")
+            
+            # Generate segment
+            result = self._generate_segment_once(
+                current_hour, 
+                force_type, 
+                retry_manager=retry_manager,
+                attempt_number=attempt,
+                **kwargs
+            )
+            
+            # Check if validation passed
+            validation_result = result.get('metadata', {}).get('validation')
+            is_valid = True
+            
+            if validation_result:
+                is_valid = validation_result.get('is_valid', True)
+            
+            # Extract validation errors
+            validation_errors = []
+            if not is_valid and validation_result:
+                # Get errors from validation result
+                if 'violations' in validation_result:
+                    validation_errors = validation_result['violations']
+                elif 'issues' in validation_result:
+                    # LLM validator format
+                    validation_errors = [
+                        issue['message'] for issue in validation_result['issues']
+                        if issue.get('severity') in ['critical', 'error']
+                    ]
+            
+            # Record attempt
+            retry_manager.record_attempt(
+                attempt_number=attempt,
+                success=is_valid,
+                errors=validation_errors,
+                segment_data=result if is_valid else None
+            )
+            
+            if is_valid:
+                # Success! Add retry metadata and return
+                result['metadata']['retry'] = retry_manager.get_retry_metadata()
+                if attempt > 1:
+                    print(f"✅ Validation passed on retry attempt #{attempt}")
+                return result
+            
+            # Validation failed
+            print(f"❌ Validation failed (attempt #{attempt})")
+            for error in validation_errors[:3]:  # Show first 3 errors
+                print(f"   - {error}")
+            
+            # Check if should retry
+            if not retry_manager.should_retry(attempt):
+                # Max retries exceeded - skip this segment
+                print(f"⚠️  Max retries ({MAX_RETRIES}) exceeded. Skipping segment.")
+                
+                skip_metadata = create_skip_segment_metadata(
+                    segment_type=result.get('segment_type', 'unknown'),
+                    hour=current_hour,
+                    retry_manager=retry_manager
+                )
+                
+                # Note: segments_generated already incremented by each _generate_segment_once call
+                # Don't increment again here
+                
+                return {
+                    'segment_type': result.get('segment_type', 'unknown'),
+                    'script': '',  # Empty script for skipped segment
+                    'metadata': skip_metadata
+                }
+            
+            attempt += 1
+        
+        # Should never reach here, but safety fallback
+        return self._generate_segment_once(current_hour, force_type, **kwargs)
+    
+    def _generate_segment_once(self,
+                              current_hour: int,
+                              force_type: Optional[str] = None,
+                              retry_manager: Optional[RetryManager] = None,
+                              attempt_number: int = 1,
+                              **kwargs) -> Dict[str, Any]:
+        """
+        Generate a single broadcast segment (single attempt, no retry logic).
+        
+        This is the core generation logic extracted from generate_next_segment
+        to enable retry wrapping.
+        
+        Args:
+            current_hour: Current hour (0-23)
+            force_type: Force specific segment type (optional)
+            retry_manager: Optional retry manager for error feedback
+            attempt_number: Current attempt number (for retry prompts)
             **kwargs: Additional template variables
         
         Returns:
@@ -728,6 +848,18 @@ class BroadcastEngine:
         # Add story context to template vars
         if story_context:
             template_vars['story_context'] = story_context
+        
+        # Add retry feedback if this is a retry attempt (Phase 1C)
+        if retry_manager and attempt_number > 1:
+            last_errors = retry_manager.get_last_errors()
+            if last_errors:
+                # Build retry feedback to inject into prompt
+                retry_feedback = retry_manager._format_error_feedback(
+                    errors=last_errors,
+                    attempt_number=attempt_number
+                )
+                template_vars['retry_feedback'] = retry_feedback
+                print(f"🔄 Adding validation error feedback to prompt ({len(last_errors)} errors)")
         
         # Generate script (avoid duplicate dj_name in template vars)
         safe_template_vars = {k: v for k, v in template_vars.items() if k != 'dj_name'}
