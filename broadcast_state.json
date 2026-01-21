@@ -1,8 +1,8 @@
 {
   "creation_date": "2026-01-20T09:19:20.221868",
-  "last_broadcast": "2026-01-21T12:25:15.911927",
-  "broadcast_count": 11,
-  "total_runtime_hours": 2.040851217222223,
+  "last_broadcast": "2026-01-21T13:25:46.533381",
+  "broadcast_count": 12,
+  "total_runtime_hours": 2.2373197097222226,
   "ongoing_storylines": [],
   "resolved_gossip": [],
   "major_events": [],
@@ -16883,6 +16883,17 @@
           "temperature": 10.0,
           "region": "Appalachia",
           "notable_event": true
+        },
+        "06:00": {
+          "weather_type": "foggy",
+          "started_at": "2026-01-21T06:00:00",
+          "duration_hours": 5.6682492180773885,
+          "intensity": "minor",
+          "transition_state": "stable",
+          "is_emergency": false,
+          "temperature": 34.14629710036992,
+          "region": "Appalachia",
+          "notable_event": false
         }
       }
     }

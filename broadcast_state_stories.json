@@ -798,6 +798,7 @@
   "completed_stories": [],
   "archived_stories": [],
   "escalation_history": [],
+  "beat_history": {},
   "last_activation": {
     "daily": null,
     "weekly": "2026-01-20T09:19:35.294030",
@@ -806,7 +807,7 @@
   },
   "total_broadcasts_by_timeline": {
     "daily": 0,
-    "weekly": 513,
+    "weekly": 577,
     "monthly": 0,
     "yearly": 0
   }

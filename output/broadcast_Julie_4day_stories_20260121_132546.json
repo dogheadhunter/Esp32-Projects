@@ -1,0 +1,36 @@
+{
+  "metadata": {
+    "dj": "Julie (2102, Appalachia)",
+    "duration_hours": 32,
+    "segments_per_hour": 2,
+    "start_hour": 8,
+    "story_system_enabled": true,
+    "validation_enabled": true,
+    "validation_mode": "rules",
+    "generation_timestamp": "2026-01-21T13:25:46.640085",
+    "total_segments": 64,
+    "resumed_from_checkpoint": false
+  },
+  "segments": [
+    {
+      "segment_type": "time_check",
+      "script": "Morning to ya, folks! It's Julie on your favorite station, Radio Appalachia. Eight o'clock already? The morning's flyin' by like a swift bird glidin' over the hills out there. I'm just happy to be here, playin' tunes for ya while you start your day. If you're out there, and you're listenin', know this: you are not alone in these wild times. Let's keep lookin' out for one another! Stay safe out there, Appalachia.",
+      "metadata": {
+        "hour": 8,
+        "time_of_day": "MORNING",
+        "generation_time": 17.432258,
+        "segment_number": 1,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 8,
+          "time_of_day": "morning",
+          "time": "8:13 AM",
+          "minute": 13,
+          "announcement": "It's 8:13 AM on the airwaves."
+        },
+        "validation": {
+          "is_valid": true,
+          "violations": [
+            {
+              "message": "Voice pattern: No catchphrases found (expected at least one)",
+              "severity": 
