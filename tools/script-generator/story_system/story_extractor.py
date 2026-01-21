@@ -20,8 +20,32 @@ for path in (BASE_DIR, TOOLS_DIR):
     if path not in sys.path:
         sys.path.insert(0, path)
 
+# Add wiki_to_chromadb to path for DJ_QUERY_FILTERS
+WIKI_DIR = os.path.abspath(os.path.join(TOOLS_DIR, "wiki_to_chromadb"))
+if WIKI_DIR not in sys.path:
+    sys.path.insert(0, WIKI_DIR)
+
 from ollama_client import OllamaClient
 from shared import project_config
+
+try:
+    from chromadb_ingest import DJ_QUERY_FILTERS
+except ImportError:
+    # Fallback if import fails
+    DJ_QUERY_FILTERS = {
+        "Julie (2102, Appalachia)": {
+            "$and": [
+                {"year_max": {"$lte": 2102}},
+                {
+                    "$or": [
+                        {"location": "Appalachia"},
+                        {"info_source": "vault-tec"},
+                        {"knowledge_tier": "common"}
+                    ]
+                }
+            ]
+        }
+    }
 
 from .story_models import (
     Story,
@@ -108,6 +132,7 @@ class StoryExtractor:
         timeline: Optional[StoryTimeline] = None,
         min_chunks: int = 3,
         max_chunks: int = 10,
+        dj_name: Optional[str] = None,
     ) -> List[Story]:
         """
         Extract stories from ChromaDB.
@@ -117,16 +142,21 @@ class StoryExtractor:
             timeline: Specific timeline to extract for (optional)
             min_chunks: Minimum chunks required for a story (phase1: raised to 5)
             max_chunks: Maximum chunks to use per story
+            dj_name: DJ name for filtering (e.g., "Julie (2102, Appalachia)")
         """
         if not self.collection:
             return []
 
         stories: List[Story] = []
 
-        quest_stories = self._extract_quest_stories(max_stories // 2, min_chunks, max_chunks)
+        quest_stories = self._extract_quest_stories(
+            max_stories // 2, min_chunks, max_chunks, dj_name=dj_name
+        )
         stories.extend(quest_stories)
 
-        event_stories = self._extract_event_stories(max_stories // 2, min_chunks, max_chunks)
+        event_stories = self._extract_event_stories(
+            max_stories // 2, min_chunks, max_chunks, dj_name=dj_name
+        )
         stories.extend(event_stories)
 
         if timeline:
@@ -139,12 +169,17 @@ class StoryExtractor:
         max_stories: int,
         min_chunks: int,
         max_chunks: int,
+        dj_name: Optional[str] = None,
     ) -> List[Story]:
-        """Extract stories from quest content."""
+        """Extract stories from quest content with optional DJ filtering."""
         try:
+            # Build where filter for quests
+            where_filter = self._build_quest_filter(dj_name)
+            
             results = self.collection.query(
                 query_texts=["quest objective reward walkthrough"],
                 n_results=300,
+                where=where_filter,
             )
             if not results or not results.get("ids"):
                 return []
@@ -173,12 +208,17 @@ class StoryExtractor:
         max_stories: int,
         min_chunks: int,
         max_chunks: int,
+        dj_name: Optional[str] = None,
     ) -> List[Story]:
-        """Extract stories from event content."""
+        """Extract stories from event content with optional DJ filtering."""
         try:
+            # Build where filter for events
+            where_filter = self._build_event_filter(dj_name)
+            
             results = self.collection.query(
                 query_texts=["battle conflict war event major incident"],
                 n_results=300,
+                where=where_filter,
             )
             if not results or not results.get("ids"):
                 return []
@@ -220,6 +260,68 @@ class StoryExtractor:
             chunks_by_title[title].append(chunk)
         return dict(chunks_by_title)
 
+    def _build_quest_filter(self, dj_name: Optional[str]) -> Optional[Dict[str, Any]]:
+        """
+        Build ChromaDB where filter for quest extraction.
+        
+        Combines:
+        - Quest content type identification
+        - DJ-specific temporal/spatial constraints
+        - Multi-layer discovery (infobox + content_type)
+        
+        Args:
+            dj_name: DJ name (e.g., "Julie (2102, Appalachia)")
+        
+        Returns:
+            ChromaDB where filter dict or None
+        """
+        # Base quest filter - multi-layer discovery
+        quest_filter = {
+            "$or": [
+                {"infobox_type": "infobox quest"},
+                {"content_type": "quest"},
+                {"content_type": "questline"}
+            ]
+        }
+        
+        # If no DJ specified, return just quest filter
+        if not dj_name or dj_name not in DJ_QUERY_FILTERS:
+            return quest_filter
+        
+        # Combine with DJ filter using $and
+        dj_filter = DJ_QUERY_FILTERS[dj_name]
+        return {"$and": [quest_filter, dj_filter]}
+
+    def _build_event_filter(self, dj_name: Optional[str]) -> Optional[Dict[str, Any]]:
+        """
+        Build ChromaDB where filter for event extraction.
+        
+        Combines:
+        - Event content type identification
+        - DJ-specific temporal/spatial constraints
+        
+        Args:
+            dj_name: DJ name (e.g., "Julie (2102, Appalachia)")
+        
+        Returns:
+            ChromaDB where filter dict or None
+        """
+        # Base event filter
+        event_filter = {
+            "$or": [
+                {"content_type": "event"},
+                {"content_type": "battle"},
+                {"content_type": "war"}
+            ]
+        }
+        
+        # If no DJ specified, return just event filter
+        if not dj_name or dj_name not in DJ_QUERY_FILTERS:
+            return event_filter
+        
+        # Combine with DJ filter using $and
+        dj_filter = DJ_QUERY_FILTERS[dj_name]
+        return {"$and": [event_filter, dj_filter]}
     def _chunks_to_story(
         self,
         title: str,
