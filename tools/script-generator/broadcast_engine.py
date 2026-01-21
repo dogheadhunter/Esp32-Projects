@@ -74,6 +74,13 @@ try:
 except ImportError:
     QUALITY_GATE_AVAILABLE = False
 
+# Variety manager (Phase 2B)
+try:
+    from variety_manager import VarietyManager
+    VARIETY_MANAGER_AVAILABLE = True
+except ImportError:
+    VARIETY_MANAGER_AVAILABLE = False
+
 class BroadcastEngine:
     """
     Complete broadcast orchestration engine.
@@ -200,6 +207,11 @@ class BroadcastEngine:
                 quality_threshold=0.05,    # Max 5% quality issues
                 warning_threshold=None     # Warnings don't block
             )
+        
+        # Variety manager (Phase 2B)
+        self.variety_manager: Optional[VarietyManager] = None
+        if VARIETY_MANAGER_AVAILABLE:
+            self.variety_manager = VarietyManager()
         
         # Weather simulation system (Phase 2 integration)
         self.weather_simulator: Optional[WeatherSimulator] = None
@@ -864,6 +876,13 @@ class BroadcastEngine:
         if story_context:
             template_vars['story_context'] = story_context
         
+        # Add variety hints if variety manager is available (Phase 2B)
+        if self.variety_manager:
+            variety_hints = self.variety_manager.get_variety_hints()
+            if variety_hints:
+                template_vars['variety_hints'] = "\n".join(variety_hints)
+                print(f"📊 Variety hints: {len(variety_hints)} active")
+        
         # Add retry feedback if this is a retry attempt (Phase 1C)
         if retry_manager and attempt_number > 1:
             last_errors = retry_manager.get_last_errors()
@@ -999,6 +1018,31 @@ class BroadcastEngine:
         self.segments_generated += 1
         self.total_generation_time += generation_time
         
+        # Record variety usage if variety manager is available (Phase 2B)
+        variety_metadata = None
+        if self.variety_manager:
+            # Extract content elements for tracking
+            phrase = template_vars.get('opening_line')  # May be None
+            topic = template_vars.get('rumor_type') or template_vars.get('news_category')
+            weather_type = template_vars.get('weather_type')
+            
+            # Record usage
+            self.variety_manager.record_usage(
+                phrase=phrase,
+                topic=topic,
+                weather_type=weather_type,
+                segment_type=segment_type
+            )
+            
+            # Get statistics for metadata
+            variety_metadata = {
+                'segment_index': self.variety_manager.current_segment_index - 1,
+                'phrase_used': phrase,
+                'topic_used': topic,
+                'weather_used': weather_type,
+                'structure_used': segment_type
+            }
+        
         # Compile result
         segment_result = {
             'segment_type': segment_type,
@@ -1009,7 +1053,8 @@ class BroadcastEngine:
                 'generation_time': generation_time,
                 'segment_number': self.segments_generated,
                 'template_vars': template_vars,
-                'validation': validation_result
+                'validation': validation_result,
+                'variety': variety_metadata
             }
         }
         
