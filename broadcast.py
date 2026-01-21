@@ -176,6 +176,25 @@ Available DJs:
         help='Do not save broadcast state'
     )
     
+    # Checkpoint options
+    parser.add_argument(
+        '--resume',
+        action='store_true',
+        help='Resume from last checkpoint'
+    )
+    parser.add_argument(
+        '--checkpoint-dir',
+        type=str,
+        default='./checkpoints',
+        help='Directory for checkpoint files (default: ./checkpoints)'
+    )
+    parser.add_argument(
+        '--checkpoint-interval',
+        type=int,
+        default=1,
+        help='Save checkpoint every N hours (default: 1)'
+    )
+    
     # Display options
     parser.add_argument(
         '--quiet',
@@ -327,6 +346,8 @@ def main():
     
     # Create logging context
     context = f"Generating {duration_hours}hr broadcast for {dj_name} (stories: {enable_stories}, validation: {enable_validation})"
+    if args.resume:
+        context = f"RESUMING: {context}"
     
     # Wrap entire operation with 3-format logging
     with capture_output("broadcast", context) as session:
@@ -337,11 +358,14 @@ def main():
             "segments_per_hour": args.segments_per_hour,
             "story_system_enabled": enable_stories,
             "validation_enabled": enable_validation,
-            "validation_mode": args.validation_mode if enable_validation else None
+            "validation_mode": args.validation_mode if enable_validation else None,
+            "resume_mode": args.resume
         })
         
         # Print header
         print_header(args, dj_name, duration_hours, enable_validation)
+        if args.resume:
+            print("🔄 RESUME MODE: Will attempt to continue from last checkpoint\n")
         
         try:
             # Initialize broadcast engine
@@ -360,19 +384,45 @@ def main():
                 enable_validation=enable_validation,
                 validation_mode=args.validation_mode if enable_validation else 'rules',
                 llm_validation_config=llm_validation_config,
-                enable_story_system=enable_stories
+                enable_story_system=enable_stories,
+                checkpoint_dir=args.checkpoint_dir,
+                checkpoint_interval=args.checkpoint_interval
             )
             
-            # Start broadcast
-            engine.start_broadcast()
+            # Handle resume mode
+            start_from_hour = args.start_hour
+            already_completed_hours = 0
+            resumed = False
+            
+            if args.resume:
+                resumed = engine.resume_from_checkpoint(dj_name=dj_name)
+                if resumed:
+                    # Calculate how many hours were already completed
+                    already_completed_hours = engine.checkpoint_segments_completed // args.segments_per_hour
+                    # Start from the next hour
+                    start_from_hour = (engine.checkpoint_resume_hour + 1) % 24
+                    print(f"✅ Resumed from checkpoint: {engine.checkpoint_segments_completed} segments completed")
+                    print(f"   Continuing from hour {start_from_hour}\n")
+                else:
+                    print("⚠️  No valid checkpoint found, starting fresh\n")
+            
+            # Start broadcast (or continue)
+            if not resumed:
+                engine.start_broadcast()
+            
+            # Calculate remaining hours to generate
+            remaining_hours = duration_hours - already_completed_hours
             
             # Generate segments
             if not args.quiet:
-                print(f'\nGenerating {duration_hours * args.segments_per_hour} segments...\n')
+                if resumed:
+                    print(f'\nGenerating remaining {remaining_hours} hours ({remaining_hours * args.segments_per_hour} segments)...\n')
+                else:
+                    print(f'\nGenerating {duration_hours} hours ({duration_hours * args.segments_per_hour} segments)...\n')
             
             segments = engine.generate_broadcast_sequence(
-                start_hour=args.start_hour,
-                duration_hours=duration_hours,
+                start_hour=start_from_hour,
+                duration_hours=remaining_hours,
                 segments_per_hour=args.segments_per_hour
             )
             
@@ -400,10 +450,9 @@ def main():
                     'validation_enabled': args.enable_validation,
                     'validation_mode': args.validation_mode if args.enable_validation else None,
                     'generation_timestamp': datetime.now().isoformat(),
-                    'total_segments': len(segments)
-                }
-
-,
+                    'total_segments': len(segments),
+                    'resumed_from_checkpoint': args.resume
+                },
                 'segments': segments,
                 'stats': stats
             }

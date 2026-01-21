@@ -53,6 +53,13 @@ try:
 except ImportError:
     STORY_SYSTEM_AVAILABLE = False
 
+# Checkpoint manager (Phase 1A)
+try:
+    from checkpoint_manager import CheckpointManager, CheckpointMetadata
+    CHECKPOINT_AVAILABLE = True
+except ImportError:
+    CHECKPOINT_AVAILABLE = False
+
 
 class BroadcastEngine:
     """
@@ -78,7 +85,9 @@ class BroadcastEngine:
                  validation_mode: str = 'rules',
                  llm_validation_config: Optional[Dict[str, Any]] = None,
                  max_session_memory: int = 10,
-                 enable_story_system: bool = True):
+                 enable_story_system: bool = True,
+                 checkpoint_dir: str = './checkpoints',
+                 checkpoint_interval: int = 1):
         """
         Initialize broadcast engine.
         
@@ -92,11 +101,22 @@ class BroadcastEngine:
             llm_validation_config: Optional LLM validator configuration dict
             max_session_memory: Maximum scripts to remember
             enable_story_system: Enable multi-temporal story system (Phase 7)
+            checkpoint_dir: Directory for checkpoint files (Phase 1A)
+            checkpoint_interval: Save checkpoint every N hours (Phase 1A)
         """
         self.dj_name = dj_name
         self.enable_validation = enable_validation
         self.validation_mode = validation_mode
         self.enable_story_system = enable_story_system
+        
+        # Checkpoint system (Phase 1A)
+        self.checkpoint_manager: Optional[CheckpointManager] = None
+        self.checkpoint_interval = checkpoint_interval
+        self.checkpoint_resume_hour = 0
+        self.checkpoint_segments_completed = 0
+        self.last_checkpoint_hour = -1
+        if CHECKPOINT_AVAILABLE:
+            self.checkpoint_manager = CheckpointManager(checkpoint_dir=checkpoint_dir)
         
         # Initialize script generator
         self.generator = ScriptGenerator(
@@ -187,7 +207,7 @@ class BroadcastEngine:
         self.total_generation_time = 0.0
         
         # Print initialization summary
-        print(f"\n🎙️ BroadcastEngine initialized for {dj_name}")
+        print(f"\n🎙️  BroadcastEngine initialized for {dj_name}")
         print(f"   Session memory: {max_session_memory} scripts")
         if enable_validation:
             validation_msg = f"   Validation: enabled (mode: {self.validation_mode}"
@@ -207,6 +227,10 @@ class BroadcastEngine:
             print(f"   Story System: enabled")
         else:
             print(f"   Story System: disabled")
+        if CHECKPOINT_AVAILABLE and self.checkpoint_manager:
+            print(f"   Checkpointing: enabled (interval: {checkpoint_interval}h)")
+        else:
+            print(f"   Checkpointing: disabled")
     
     def _initialize_weather_calendar(self) -> None:
         """
@@ -895,13 +919,26 @@ class BroadcastEngine:
         for hour_offset in range(duration_hours):
             current_hour = (start_hour + hour_offset) % 24
             
-            print(f"\n⏰ Hour {current_hour}:00")
+            # Save checkpoint at interval (Phase 1A)
+            if (self.checkpoint_manager and 
+                hour_offset > 0 and 
+                hour_offset % self.checkpoint_interval == 0 and
+                hour_offset != self.last_checkpoint_hour):
+                self.save_checkpoint(current_hour, total_hours=duration_hours)
+                self.last_checkpoint_hour = hour_offset
+            
+            print(f"\n⏰ Hour {current_hour}:00 (offset: {hour_offset}/{duration_hours})")
             
             for segment_num in range(segments_per_hour):
                 # Generate story beats fresh for each segment
                 # This ensures proper story state tracking
                 segment = self.generate_next_segment(current_hour)
                 segments.append(segment)
+        
+        # Save final checkpoint
+        if self.checkpoint_manager:
+            final_hour = (start_hour + duration_hours - 1) % 24
+            self.save_checkpoint(final_hour, total_hours=duration_hours)
         
         print(f"\n✅ Broadcast sequence complete: {len(segments)} segments")
         
@@ -1126,6 +1163,131 @@ class BroadcastEngine:
             'uptime_seconds': (datetime.now() - self.broadcast_start).total_seconds(),
             'scheduler_status': self.scheduler.get_segments_status()
         }
+    
+    # ==================== CHECKPOINT METHODS (Phase 1A) ====================
+    
+    def save_checkpoint(self, current_hour: int, total_hours: int = 0) -> Optional[Path]:
+        """
+        Save current broadcast state to checkpoint.
+        
+        Args:
+            current_hour: Current hour in broadcast sequence
+            total_hours: Total hours in broadcast plan
+        
+        Returns:
+            Path to checkpoint file, or None if checkpointing disabled
+        """
+        if not self.checkpoint_manager:
+            return None
+        
+        try:
+            # Build checkpoint metadata
+            metadata = CheckpointMetadata(
+                checkpoint_id=self.checkpoint_manager.generate_checkpoint_id(),
+                created_at=datetime.now().isoformat(),
+                dj_name=self.dj_name,
+                current_hour=current_hour,
+                segments_generated=self.segments_generated,
+                total_hours=total_hours
+            )
+            
+            # Gather session context
+            session_context = {
+                'session_memory': self.session_memory.to_dict(),
+                'gossip_tracker': {
+                    'active_gossip': self.gossip_tracker.active_gossip,
+                    'resolved_gossip': self.gossip_tracker.resolved_gossip
+                }
+            }
+            
+            # Add weather calendar if available
+            if self.weather_simulator and self.region:
+                session_context['weather_calendar'] = {
+                    'region': self.region.value,
+                    'current_weather': self.world_state.current_weather_by_region.get(self.region.value, {})
+                }
+            
+            # Save checkpoint
+            checkpoint_path = self.checkpoint_manager.save_checkpoint(
+                broadcast_state=self.world_state.to_dict(),
+                story_state=self.story_state.to_dict() if self.story_state else {},
+                session_context=session_context,
+                metadata=metadata
+            )
+            
+            print(f"💾 Checkpoint saved: {checkpoint_path.name}")
+            return checkpoint_path
+            
+        except Exception as e:
+            print(f"⚠️  Failed to save checkpoint: {e}")
+            import traceback
+            traceback.print_exc()
+            return None
+    
+    def resume_from_checkpoint(self, dj_name: Optional[str] = None) -> bool:
+        """
+        Resume broadcast from latest checkpoint.
+        
+        Args:
+            dj_name: Optional DJ name filter
+        
+        Returns:
+            True if successfully resumed, False otherwise
+        """
+        if not self.checkpoint_manager:
+            print("⚠️  Checkpoint system not available")
+            return False
+        
+        checkpoint_data = self.checkpoint_manager.load_latest_checkpoint(dj_name=dj_name)
+        
+        if not checkpoint_data:
+            return False
+        
+        try:
+            metadata = checkpoint_data['metadata']
+            
+            # Verify DJ name matches
+            if metadata['dj_name'] != self.dj_name:
+                print(f"⚠️  Checkpoint DJ mismatch: {metadata['dj_name']} != {self.dj_name}")
+                return False
+            
+            # Restore world state
+            world_state_dict = checkpoint_data['broadcast_state']
+            for key, value in world_state_dict.items():
+                if hasattr(self.world_state, key):
+                    setattr(self.world_state, key, value)
+            
+            # Restore story state if available
+            if self.story_state and checkpoint_data['story_state']:
+                self.story_state.from_dict(checkpoint_data['story_state'])
+            
+            # Restore session context
+            session_context = checkpoint_data['session_context']
+            if 'session_memory' in session_context:
+                self.session_memory.from_dict(session_context['session_memory'])
+            
+            if 'gossip_tracker' in session_context:
+                gt = session_context['gossip_tracker']
+                self.gossip_tracker.active_gossip = gt.get('active_gossip', [])
+                self.gossip_tracker.resolved_gossip = gt.get('resolved_gossip', [])
+            
+            # Set resume point
+            # Store the LAST completed hour from checkpoint
+            self.checkpoint_resume_hour = metadata['current_hour']
+            self.checkpoint_segments_completed = metadata['segments_generated']
+            self.segments_generated = metadata['segments_generated']
+            
+            # Mark that we've started the broadcast (restored from checkpoint)
+            self.broadcast_start = datetime.now()
+            
+            print(f"✅ Checkpoint restored successfully")
+            return True
+            
+        except Exception as e:
+            print(f"⚠️  Failed to restore checkpoint: {e}")
+            import traceback
+            traceback.print_exc()
+            return False
 
 
 # Example usage

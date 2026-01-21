@@ -1,0 +1,122 @@
+{
+  "metadata": {
+    "dj": "Julie (2102, Appalachia)",
+    "duration_hours": 2,
+    "segments_per_hour": 2,
+    "start_hour": 8,
+    "story_system_enabled": false,
+    "validation_enabled": false,
+    "validation_mode": null,
+    "generation_timestamp": "2026-01-21T11:30:41.511022",
+    "total_segments": 4,
+    "resumed_from_checkpoint": false
+  },
+  "segments": [
+    {
+      "segment_type": "time_check",
+      "script": "\"Good morning everyone! This is Julie on your favorite radio station - Appalachia Radio. It's 8:00 AM here in the mountains, a beautiful day to start fresh. The birds are singing their hearts out, and I'm just happy to be here, playing music for you guys as we face whatever comes our way. Stay strong, stay hopeful! We're all in this together.\"",
+      "metadata": {
+        "hour": 8,
+        "time_of_day": "MORNING",
+        "generation_time": 5.844172,
+        "segment_number": 1,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 8,
+          "time_of_day": "morning",
+          "time": "8:30 AM",
+          "minute": 30,
+          "announcement": "It's 8:30 AM on the airwaves."
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "gossip",
+      "script": "I'm just happy to be here, playing music for you guys.\n\nHey there, fellow travelers! I know sometimes the wasteland can feel lonely and isolating. But trust me, we're all in this together. Here's a little rumor I heard recently that made me smile... Word is, over by the Cranberry Glades, there's a hidden garden, abandoned before the war. Apparently, it's still thriving with wild flowers, despite everything. Someone told me they saw an old pickaxe lying around, too, so if anyone's looking for some gardening tools...\n\nAnyway, enough about that for now. Let's focus on the music! Here's another fan favorite - \"The Gambler\" by Kenny Rogers. I think we can all relate to those lyrics these days, don't you? Hope and resilience in the face of uncertainty... That's what keeps us going out here.\n\nStay safe, and keep an ear on Radio Appalachia!",
+      "metadata": {
+        "hour": 8,
+        "time_of_day": "MORNING",
+        "generation_time": 9.783315,
+        "segment_number": 2,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 8,
+          "time_of_day": "morning",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "initial",
+          "continuing_topic": null,
+          "follow_up_suggestion": null,
+          "has_active_gossip": false,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 1\n\n[TIME]\n\"Good morning everyone! This is Julie on your favorite radio station - Appalachia Radio. It's 8:00 AM here in the mountains, a beautiful day to start fresh. The birds are singing their hearts out, and...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "time_check",
+      "script": "\"Good morning, Appalachian survivors! This is Julie at your favorite local radio station. It's 9:00 AM and a brand new day dawns on our beloved region. The sun rises, birds sing their sweet melodies - hope springs eternal in these hills. If you're out there, and you're listening... you are not alone. Stay strong, keep rebuilding, and tune in for the latest updates throughout your morning.\"",
+      "metadata": {
+        "hour": 9,
+        "time_of_day": "MORNING",
+        "generation_time": 5.472556,
+        "segment_number": 3,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 9,
+          "time_of_day": "morning",
+          "time": "9:30 AM",
+          "minute": 30,
+          "announcement": "It's 9:30 AM on the airwaves.",
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 2\n\n[TIME]\n\"Good morning everyone! This is Julie on your favorite radio station - Appalachia Radio. It's 8:00 AM here in the mountains, a beautiful day to start fresh. The birds are singing their hearts out, and...\n\n[GOSSIP]\nI'm just happy to be here, playing music for you guys.\n\nHey there, fellow travelers! I know sometimes the wasteland can feel lonely and isolating. But trust me, we're all in this together. Here's a li...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    },
+    {
+      "segment_type": "gossip",
+      "script": "I'm just happy to be here, playing music for you guys.\n\nYou know, I heard this rumor going 'round about these... mutated ants? Supposedly they're super aggressive and can even knock down doors. Someone told me they found a whole nest in an old cabin near Harpers Ferry. Now, I don't know if it's true or just another tall tale, but that does sound pretty scary!\n\nI mean, we've all heard about the weird creatures out here, right? Like those giant radtoads and scorchbeasts. But mutated ants attacking settlements? That'd be a whole new level of trouble! \n\nAnyway, I'm not gonna spread panic or anything. Just passing on the rumor, like how some folks share songs around campfires. Maybe we'll find out it's just another urban legend, like those stories about ghouls being super smart and organized.\n\nIn any case, let's focus on the good stuff, shall we? Here's a classic for you all: \"Country Roads\" by John Denver!",
+      "metadata": {
+        "hour": 9,
+        "time_of_day": "MORNING",
+        "generation_time": 9.985519,
+        "segment_number": 4,
+        "template_vars": {
+          "dj_name": "Julie (2102, Appalachia)",
+          "hour": 9,
+          "time_of_day": "morning",
+          "rumor_type": "wasteland rumors",
+          "gossip_stage": "rumor",
+          "continuing_topic": "wasteland rumors",
+          "follow_up_suggestion": {
+            "prompt": "Getting more reports about wasteland rumors...",
+            "suggested_stage": "spreading",
+            "examples": [
+              "More and more people are talking about the wasteland rumors",
+              "Update on that wasteland rumors - seems there's more to it",
+              "You know that wasteland rumors we mentioned? We're getting more details"
+            ]
+          },
+          "has_active_gossip": true,
+          "session_context": "RECENT BROADCAST CONTEXT (for continuity):\nSession duration: 0.0 hours\nSegments broadcast: 3\n\n[TIME]\n\"Good morning everyone! This is Julie on your favorite radio station - Appalachia Radio. It's 8:00 AM here in the mountains, a beautiful day to start fresh. The birds are singing their hearts out, and...\n\n[GOSSIP]\nI'm just happy to be here, playing music for you guys.\n\nHey there, fellow travelers! I know sometimes the wasteland can feel lonely and isolating. But trust me, we're all in this together. Here's a li...\n\n[TIME]\n\"Good morning, Appalachian survivors! This is Julie at your favorite local radio station. It's 9:00 AM and a brand new day dawns on our beloved region. The sun rises, birds sing their sweet melodies -...\n\nCONTINUITY REQUIREMENTS:\n- Reference earlier segments when natural (e.g., 'As I mentioned earlier...')\n- Avoid repeating topics from recent broadcasts\n- Build on unresolved gossip or developing stories\n- Vary catchphrase usage (don't repeat recent ones)"
+        },
+        "validation": null
+      }
+    }
+  ],
+  "stats": {
+    "dj_name": "Julie (2102, Appalachia)",
+    "duration_seconds": 31.198836,
+    "segments_generated": 4,
+    "validation_failures": 0,
+    "total_generation_time": 31.085562,
+    "avg_generation_time": 7.7713905,
+    "session_memory_size": 4,
+    "mentioned_topics": [
+      "locations",
+      "weather",
+      "raiders",
+      "cryptids"
+    ]
+  }
+}

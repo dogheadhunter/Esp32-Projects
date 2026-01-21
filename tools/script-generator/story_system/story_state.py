@@ -333,3 +333,85 @@ class StoryState:
         self.archived_stories = []
         self.escalation_history = []
         self.last_modified = datetime.now().isoformat()
+    
+    def to_dict(self) -> Dict[str, Any]:
+        """
+        Convert story state to dictionary for checkpoint serialization.
+        
+        Returns:
+            Dictionary representation of story state
+        """
+        # Helper to get value from enum or string
+        def get_value(obj):
+            return obj.value if hasattr(obj, 'value') else obj
+        
+        return {
+            "schema_version": self.schema_version,
+            "created_at": self.created_at,
+            "last_modified": self.last_modified or datetime.now().isoformat(),
+            
+            "story_pools": {
+                get_value(timeline): [story.model_dump(mode='json') for story in stories]
+                for timeline, stories in self.story_pools.items()
+            },
+            
+            "active_stories": {
+                get_value(timeline): active.model_dump(mode='json') if active else None
+                for timeline, active in self.active_stories.items()
+            },
+            
+            "completed_stories": self.completed_stories,
+            "archived_stories": self.archived_stories,
+            "escalation_history": self.escalation_history,
+            
+            "last_activation": {
+                get_value(timeline): timestamp.isoformat() if timestamp else None
+                for timeline, timestamp in self.last_activation.items()
+            },
+            
+            "total_broadcasts_by_timeline": {
+                get_value(timeline): count
+                for timeline, count in self.total_broadcasts_by_timeline.items()
+            }
+        }
+    
+    def from_dict(self, data: Dict[str, Any]) -> None:
+        """
+        Load story state from dictionary (for checkpoint restoration).
+        
+        Args:
+            data: Dictionary representation of story state
+        """
+        # Load metadata
+        self.schema_version = data.get("schema_version", "1.0")
+        self.created_at = data.get("created_at", self.created_at)
+        self.last_modified = data.get("last_modified")
+        
+        # Load story pools
+        for timeline_str, stories_data in data.get("story_pools", {}).items():
+            timeline = StoryTimeline(timeline_str)
+            self.story_pools[timeline] = [
+                Story(**story_data) for story_data in stories_data
+            ]
+        
+        # Load active stories
+        for timeline_str, active_data in data.get("active_stories", {}).items():
+            timeline = StoryTimeline(timeline_str)
+            if active_data:
+                self.active_stories[timeline] = ActiveStory(**active_data)
+        
+        # Load archives
+        self.completed_stories = data.get("completed_stories", [])
+        self.archived_stories = data.get("archived_stories", [])
+        self.escalation_history = data.get("escalation_history", [])
+        
+        # Load last activation times
+        for timeline_str, timestamp_str in data.get("last_activation", {}).items():
+            timeline = StoryTimeline(timeline_str)
+            if timestamp_str:
+                self.last_activation[timeline] = datetime.fromisoformat(timestamp_str)
+        
+        # Load broadcast counts
+        for timeline_str, count in data.get("total_broadcasts_by_timeline", {}).items():
+            timeline = StoryTimeline(timeline_str)
+            self.total_broadcasts_by_timeline[timeline] = count
