@@ -1137,3 +1137,200 @@ The DJ_QUERY_FILTERS applied to ChromaDB queries successfully prevented all temp
 - Stable base for building advanced features
 
 ---
+
+## Phase 2A: Tiered Validation
+
+**Status:** ✅ COMPLETE  
+**Completed:** January 21, 2026  
+**Test Results:** All tests passing (6 unit + 7 integration = 13 total)  
+**Test Duration:** 1.70 seconds
+
+### Implementation Summary
+
+Implemented tiered validation system with three severity levels (CRITICAL, QUALITY, WARNING) and a progressive quality gate that enforces different thresholds per severity category. Critical violations (lore, temporal) immediately fail validation, quality issues are tracked, and warnings are non-blocking.
+
+### Files Created
+
+1. **tools/script-generator/quality_gate.py** (213 lines)
+   - `QualityGateDecision` enum: PASS, FAIL_CRITICAL, FAIL_QUALITY, WARN
+   - `ProgressiveQualityGate` class with configurable thresholds
+   - `evaluate()`: Assesses violations against thresholds
+   - `should_abort()`: Determines if generation should stop
+   - `get_statistics()`: Tracks violation counts and rates
+   - `get_report()`: Generates human-readable quality gate summary
+   - Default thresholds: critical=0 (zero tolerance), quality=5%, warnings=unlimited
+
+2. **tests/unit/test_validation_tiers.py** (6 tests)
+   - `test_critical_lore_is_fatal`: Verifies lore violations are CRITICAL severity
+   - `test_format_is_warning_only`: Confirms voice/format issues are WARNING
+   - `test_progressive_thresholds`: Tests multi-severity violation categorization
+   - `test_abort_on_critical_threshold`: Validates zero tolerance for critical violations
+   - `test_continue_on_minor_threshold`: Ensures warnings don't block generation
+   - `test_temporal_violation_severity`: Confirms temporal violations are CRITICAL
+
+3. **tests/unit/test_quality_gate.py** (7 tests)
+   - `test_abort_on_critical_threshold`: Quality gate aborts on critical violations
+   - `test_continue_on_minor_threshold`: Quality gate allows warnings
+   - `test_quality_threshold_tracking`: Tracks quality issue rates (doesn't block yet)
+   - `test_pass_on_no_violations`: No violations = PASS decision
+   - `test_statistics_reporting`: Accurate violation counts and rates
+   - `test_reset_statistics`: Statistics can be reset between sessions
+   - `test_get_report`: Report generation works correctly
+
+### Files Modified
+
+1. **tools/script-generator/consistency_validator.py** (Major refactor)
+   - Added `ValidationSeverity` enum (CRITICAL, QUALITY, WARNING)
+   - Changed `violations` from `List[str]` to `List[Dict[str, Any]]` with severity metadata
+   - Updated `_check_temporal_violations()`: Returns CRITICAL violations with category='temporal'
+   - Updated `_check_forbidden_knowledge()`: Returns CRITICAL violations with category='lore'
+   - Updated `_check_tone_consistency()`: Returns QUALITY violations with category='tone'
+   - Updated `_check_voice_patterns()`: Returns WARNING violations with category='voice'
+   - Added `get_violations_by_severity()`: Filter violations by severity level
+   - Added `has_critical_violations()`: Check for critical issues
+   - Updated `validate()`: Only fails on CRITICAL violations (not quality/warnings)
+   - Updated `get_report()`: Groups violations by severity in output
+
+2. **tools/script-generator/broadcast_engine.py**
+   - Added `QUALITY_GATE_AVAILABLE` import check
+   - Added `quality_gate` instance variable (ProgressiveQualityGate)
+   - Integrated quality gate into `_generate_segment_once()` validation flow
+   - Quality gate evaluates violations after validator runs
+   - Overrides `is_valid` based on quality gate decision
+   - Logs quality gate decision (PASS/FAIL_CRITICAL/WARN)
+   - Tracks quality gate metadata in validation results
+
+### Technical Implementation Details
+
+#### Validation Severity Hierarchy
+```python
+class ValidationSeverity(Enum):
+    CRITICAL = "critical"  # Lore/temporal violations - immediate fail
+    QUALITY = "quality"    # LLM quality issues - affects score
+    WARNING = "warning"    # Format/style issues - non-blocking
+```
+
+#### Violation Structure (New Format)
+```python
+{
+    "message": "Temporal violation: References year 2281 but cutoff is 2102",
+    "severity": ValidationSeverity.CRITICAL,
+    "category": "temporal"  # temporal, lore, tone, voice
+}
+```
+
+#### Quality Gate Thresholds
+```python
+ProgressiveQualityGate(
+    critical_threshold=0,      # Zero tolerance (any critical = fail)
+    quality_threshold=0.05,    # Max 5% quality issues (tracked, not enforced yet)
+    warning_threshold=None     # Warnings unlimited (non-blocking)
+)
+```
+
+#### Integration Flow
+1. Validator runs and generates violations with severity
+2. Quality gate evaluates violations against thresholds
+3. Quality gate returns decision (PASS/FAIL_CRITICAL/WARN)
+4. `should_abort(decision)` determines if generation continues
+5. Statistics tracked for monitoring
+
+### Test Results
+
+#### Unit Tests (13/13 PASSED)
+```
+tests/unit/test_validation_tiers.py::TestValidationTiers::test_critical_lore_is_fatal PASSED
+tests/unit/test_validation_tiers.py::TestValidationTiers::test_format_is_warning_only PASSED
+tests/unit/test_validation_tiers.py::TestValidationTiers::test_progressive_thresholds PASSED
+tests/unit/test_validation_tiers.py::TestValidationTiers::test_abort_on_critical_threshold PASSED
+tests/unit/test_validation_tiers.py::TestValidationTiers::test_continue_on_minor_threshold PASSED
+tests/unit/test_validation_tiers.py::TestValidationTiers::test_temporal_violation_severity PASSED
+tests/unit/test_quality_gate.py::TestQualityGate::test_abort_on_critical_threshold PASSED
+tests/unit/test_quality_gate.py::TestQualityGate::test_continue_on_minor_threshold PASSED
+tests/unit/test_quality_gate.py::TestQualityGate::test_quality_threshold_tracking PASSED
+tests/unit/test_quality_gate.py::TestQualityGate::test_pass_on_no_violations PASSED
+tests/unit/test_quality_gate.py::TestQualityGate::test_statistics_reporting PASSED
+tests/unit/test_quality_gate.py::TestQualityGate::test_reset_statistics PASSED
+tests/unit/test_quality_gate.py::TestQualityGate::test_get_report PASSED
+
+Duration: 1.70s
+```
+
+#### Test Coverage
+- **consistency_validator.py**: 77% coverage (98/128 statements)
+- **quality_gate.py**: 100% coverage (64/64 statements)
+- All severity classification logic tested
+- All quality gate decision paths tested
+
+### Key Features Delivered
+
+1. **Tiered Severity System**
+   - CRITICAL: Lore and temporal violations (zero tolerance)
+   - QUALITY: Tone and content quality issues (5% threshold)
+   - WARNING: Voice and format issues (non-blocking)
+   - Each violation tagged with severity and category
+
+2. **Progressive Quality Gate**
+   - Enforces different thresholds per severity
+   - Immediate abort on critical violations
+   - Tracks quality issue rates (prepared for future enforcement)
+   - Warnings logged but don't block generation
+   - Statistics tracking for monitoring
+
+3. **Backward Compatibility**
+   - Old `get_violations()` still works (returns all violations)
+   - Legacy `get_warnings()` mapped to WARNING severity
+   - `validate()` method signature unchanged
+   - Integrates with existing retry system
+
+4. **Quality Gate Integration**
+   - Runs after validator in generation pipeline
+   - Overrides validation result based on thresholds
+   - Logs quality gate decisions
+   - Tracks metadata in validation results
+
+### Production Readiness Assessment
+
+**Phase 2A Checkpoint Gate - PASSED**
+
+| Criterion | Status | Evidence |
+|-----------|--------|----------|
+| All unit tests pass | ✅ | 13/13 tests passing |
+| Critical violations = severity CRITICAL | ✅ | Lore and temporal categorized correctly |
+| Quality gate aborts on critical threshold | ✅ | Zero tolerance enforced |
+| Quality gate continues on minor threshold | ✅ | Warnings non-blocking |
+| Validation log shows category breakdown | ✅ | Reports group by severity |
+
+**Confidence Level:** HIGH - Ready for Phase 2B
+
+### Design Decisions
+
+1. **Why Quality Threshold Not Enforced Yet**
+   - Phase 2A focuses on infrastructure
+   - Quality tracking enables Phase 3 monitoring
+   - Can be tightened in production without code changes
+   - Avoids over-aggressive blocking during development
+
+2. **Why Warnings Are Unlimited**
+   - Voice patterns naturally vary
+   - Filler words optional for many segment types
+   - Catchphrases not always appropriate
+   - Warnings provide visibility without blocking
+
+3. **Why Zero Tolerance for Critical**
+   - Lore violations break immersion
+   - Temporal violations destroy continuity
+   - These are preventable with proper ChromaDB filtering
+   - Any critical violation indicates system failure
+
+### Next Steps
+
+✅ **Phase 2A COMPLETE** - Tiered validation infrastructure ready
+
+**Ready for Phase 2B: Variety Manager**
+- Implement cooldown-based variety tracking
+- Prevent phrase/topic/weather repetition
+- Track structure patterns
+- 30-segment variety validation
+
+---

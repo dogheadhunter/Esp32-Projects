@@ -1,8 +1,8 @@
 {
   "creation_date": "2026-01-20T09:19:20.221868",
-  "last_broadcast": "2026-01-21T11:30:41.416795",
-  "broadcast_count": 10,
-  "total_runtime_hours": 1.8467195116666673,
+  "last_broadcast": "2026-01-21T12:25:15.911927",
+  "broadcast_count": 11,
+  "total_runtime_hours": 2.040851217222223,
   "ongoing_storylines": [],
   "resolved_gossip": [],
   "major_events": [],
@@ -16848,6 +16848,41 @@
           "temperature": 29.223040123314867,
           "region": "Appalachia",
           "notable_event": false
+        }
+      },
+      "2026-01-21": {
+        "12:00": {
+          "weather_type": "cloudy",
+          "started_at": "2026-01-21T12:00:00",
+          "duration_hours": 3.471353257365559,
+          "intensity": "minor",
+          "transition_state": "stable",
+          "is_emergency": false,
+          "temperature": 44.179847418038605,
+          "region": "Appalachia",
+          "notable_event": false
+        },
+        "17:00": {
+          "weather_type": "cloudy",
+          "started_at": "2026-01-21T12:00:00",
+          "duration_hours": 3.471353257365559,
+          "intensity": "minor",
+          "transition_state": "stable",
+          "is_emergency": false,
+          "temperature": 44.179847418038605,
+          "region": "Appalachia",
+          "notable_event": false
+        },
+        "21:00": {
+          "weather_type": "rainy",
+          "started_at": "2026-01-21T18:00:00",
+          "duration_hours": 4.116186825869136,
+          "intensity": "moderate",
+          "transition_state": "stable",
+          "is_emergency": false,
+          "temperature": 10.0,
+          "region": "Appalachia",
+          "notable_event": true
         }
       }
     }

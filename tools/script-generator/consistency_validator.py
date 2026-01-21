@@ -7,7 +7,15 @@ and character voice consistency. Helps prevent character drift and temporal viol
 
 from typing import Dict, List, Any, Optional, Tuple
 from datetime import datetime
+from enum import Enum
 import re
+
+
+class ValidationSeverity(Enum):
+    """Severity levels for validation issues."""
+    CRITICAL = "critical"  # Lore violations, temporal violations - immediate fail
+    QUALITY = "quality"    # LLM quality issues - affects overall score
+    WARNING = "warning"    # Format/style issues - non-blocking
 
 
 class ConsistencyValidator:
@@ -31,8 +39,8 @@ class ConsistencyValidator:
         """
         self.character_card = character_card or {"name": "Unknown"}
         self.name = self.character_card.get("name", "Unknown")
-        self.violations: List[str] = []
-        self.warnings: List[str] = []
+        self.violations: List[Dict[str, Any]] = []  # Each entry: {message, severity}
+        self.warnings: List[str] = []  # Legacy warnings list (deprecated)
     
     def validate(self, script: str) -> bool:
         """
@@ -45,7 +53,7 @@ class ConsistencyValidator:
             True if script is valid, False if critical violations found
         """
         self.violations = []
-        self.warnings = []
+        self.warnings = []  # Clear legacy warnings
         
         # Check temporal constraints
         self._check_temporal_violations(script)
@@ -59,8 +67,12 @@ class ConsistencyValidator:
         # Check voice patterns
         self._check_voice_patterns(script)
         
-        # Script is valid if no critical violations
-        return len(self.violations) == 0
+        # Script is valid if no CRITICAL violations
+        critical_violations = [
+            v for v in self.violations 
+            if v.get("severity") == ValidationSeverity.CRITICAL
+        ]
+        return len(critical_violations) == 0
     
     def _check_temporal_violations(self, script: str) -> None:
         """
@@ -93,10 +105,14 @@ class ConsistencyValidator:
             
             # Check if year is after DJ's knowledge cutoff
             if year > temporal_cutoff:
-                self.violations.append(
-                    f"Temporal violation: {self.name} references year {year} "
-                    f"but only knows up to {temporal_cutoff}"
-                )
+                self.violations.append({
+                    "message": (
+                        f"Temporal violation: {self.name} references year {year} "
+                        f"but only knows up to {temporal_cutoff}"
+                    ),
+                    "severity": ValidationSeverity.CRITICAL,
+                    "category": "temporal"
+                })
     
     def _check_forbidden_knowledge(self, script: str) -> None:
         """
@@ -115,20 +131,28 @@ class ConsistencyValidator:
         # Check forbidden topics
         for topic in forbidden_topics:
             if topic.lower() in script_lower:
-                self.violations.append(
-                    f"Forbidden knowledge: {self.name} references '{topic}' "
-                    f"which they shouldn't know about"
-                )
+                self.violations.append({
+                    "message": (
+                        f"Forbidden knowledge: {self.name} references '{topic}' "
+                        f"which they shouldn't know about"
+                    ),
+                    "severity": ValidationSeverity.CRITICAL,
+                    "category": "lore"
+                })
         
         # Check forbidden factions
         for faction in forbidden_factions:
             # Use word boundaries to avoid partial matches
             pattern = r'\b' + re.escape(faction) + r'\b'
             if re.search(pattern, script, re.IGNORECASE):
-                self.violations.append(
-                    f"Forbidden knowledge: {self.name} mentions '{faction}' "
-                    f"which is outside their knowledge"
-                )
+                self.violations.append({
+                    "message": (
+                        f"Forbidden knowledge: {self.name} mentions '{faction}' "
+                        f"which is outside their knowledge"
+                    ),
+                    "severity": ValidationSeverity.CRITICAL,
+                    "category": "lore"
+                })
     
     def _check_tone_consistency(self, script: str) -> None:
         """
@@ -166,13 +190,17 @@ class ConsistencyValidator:
                     break
         
         if not tone_found and len(script) > 50:
-            # Only warn if script is substantial
-            self.warnings.append(
-                f"Tone concern: Script may lack expected tone characteristics "
-                f"(expected: {tone})"
-            )
+            # Only warn if script is substantial - QUALITY issue
+            self.violations.append({
+                "message": (
+                    f"Tone concern: Script may lack expected tone characteristics "
+                    f"(expected: {tone})"
+                ),
+                "severity": ValidationSeverity.QUALITY,
+                "category": "tone"
+            })
         
-        # Check don't guidelines (critical violations)
+        # Check don't guidelines (QUALITY violations - not critical)
         for dont in dont_guidelines:
             dont_markers = {
                 "polished or slick": ["meticulously", "perfectly", "pristine"],
@@ -183,9 +211,11 @@ class ConsistencyValidator:
             for pattern, markers in dont_markers.items():
                 if pattern in dont.lower():
                     if any(marker in script_lower for marker in markers):
-                        self.violations.append(
-                            f"Tone violation: Script violates guideline 'don't {dont}'"
-                        )
+                        self.violations.append({
+                            "message": f"Tone violation: Script violates guideline 'don't {dont}'",
+                            "severity": ValidationSeverity.QUALITY,
+                            "category": "tone"
+                        })
     
     def _check_voice_patterns(self, script: str) -> None:
         """
@@ -207,10 +237,14 @@ class ConsistencyValidator:
             filler_found = sum(1 for word in filler_words if word in script_lower)
             
             if filler_found == 0 and len(script) > 100:
-                self.warnings.append(
-                    f"Voice pattern: Expected filler words for {self.name} "
-                    f"but none found in substantial script"
-                )
+                self.violations.append({
+                    "message": (
+                        f"Voice pattern: Expected filler words for {self.name} "
+                        f"but none found in substantial script"
+                    ),
+                    "severity": ValidationSeverity.WARNING,
+                    "category": "voice"
+                })
         
         # Check for catchphrases
         catchphrases = self.character_card.get("catchphrases", [])
@@ -222,44 +256,65 @@ class ConsistencyValidator:
             )
             
             if not catchphrase_found:
-                # Note: This is a warning, not violation, as some scripts
-                # legitimately won't have catchphrases
-                self.warnings.append(
-                    f"Voice pattern: No catchphrases found (expected at least one)"
-                )
+                # This is a warning - some scripts legitimately won't have catchphrases
+                self.violations.append({
+                    "message": "Voice pattern: No catchphrases found (expected at least one)",
+                    "severity": ValidationSeverity.WARNING,
+                    "category": "voice"
+                })
     
-    def get_violations(self) -> List[str]:
-        """Get list of critical violations."""
+    def get_violations(self) -> List[Dict[str, Any]]:
+        """Get list of all violations with severity."""
         return self.violations
     
+    def get_violations_by_severity(self, severity: ValidationSeverity) -> List[Dict[str, Any]]:
+        """Get violations filtered by severity level."""
+        return [v for v in self.violations if v.get("severity") == severity]
+    
     def get_warnings(self) -> List[str]:
-        """Get list of warnings (non-critical issues)."""
-        return self.warnings
+        """Get list of warnings (legacy - deprecated)."""
+        # Return WARNING severity violations as strings for backward compatibility
+        warning_violations = self.get_violations_by_severity(ValidationSeverity.WARNING)
+        return [v["message"] for v in warning_violations]
     
     def has_violations(self) -> bool:
-        """Check if there are critical violations."""
+        """Check if there are violations (any severity)."""
         return len(self.violations) > 0
+    
+    def has_critical_violations(self) -> bool:
+        """Check if there are critical violations."""
+        return len(self.get_violations_by_severity(ValidationSeverity.CRITICAL)) > 0
     
     def has_warnings(self) -> bool:
         """Check if there are warnings."""
-        return len(self.warnings) > 0
+        return len(self.get_violations_by_severity(ValidationSeverity.WARNING)) > 0
     
     def get_report(self) -> str:
         """Get human-readable validation report."""
         lines = []
         
-        if not self.violations and not self.warnings:
+        if not self.violations:
             return f"✓ {self.name} - Script passed all consistency checks"
         
-        if self.violations:
-            lines.append(f"✗ VIOLATIONS ({len(self.violations)}):")
-            for violation in self.violations:
-                lines.append(f"  - {violation}")
+        # Group violations by severity
+        critical = self.get_violations_by_severity(ValidationSeverity.CRITICAL)
+        quality = self.get_violations_by_severity(ValidationSeverity.QUALITY)
+        warnings = self.get_violations_by_severity(ValidationSeverity.WARNING)
         
-        if self.warnings:
-            lines.append(f"⚠ WARNINGS ({len(self.warnings)}):")
-            for warning in self.warnings:
-                lines.append(f"  - {warning}")
+        if critical:
+            lines.append(f"✗ CRITICAL VIOLATIONS ({len(critical)}):")
+            for violation in critical:
+                lines.append(f"  - {violation['message']}")
+        
+        if quality:
+            lines.append(f"⚠ QUALITY ISSUES ({len(quality)}):")
+            for violation in quality:
+                lines.append(f"  - {violation['message']}")
+        
+        if warnings:
+            lines.append(f"ℹ WARNINGS ({len(warnings)}):")
+            for violation in warnings:
+                lines.append(f"  - {violation['message']}")
         
         return "\n".join(lines)
 

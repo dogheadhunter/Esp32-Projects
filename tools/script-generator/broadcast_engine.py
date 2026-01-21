@@ -67,6 +67,12 @@ try:
 except ImportError:
     RETRY_MANAGER_AVAILABLE = False
 
+# Quality gate (Phase 2A)
+try:
+    from quality_gate import ProgressiveQualityGate, QualityGateDecision
+    QUALITY_GATE_AVAILABLE = True
+except ImportError:
+    QUALITY_GATE_AVAILABLE = False
 
 class BroadcastEngine:
     """
@@ -185,6 +191,15 @@ class BroadcastEngine:
         
         # Initialize gossip tracker
         self.gossip_tracker = GossipTracker()
+        
+        # Quality gate (Phase 2A)
+        self.quality_gate: Optional[ProgressiveQualityGate] = None
+        if QUALITY_GATE_AVAILABLE and enable_validation:
+            self.quality_gate = ProgressiveQualityGate(
+                critical_threshold=0,      # Zero tolerance for critical violations
+                quality_threshold=0.05,    # Max 5% quality issues
+                warning_threshold=None     # Warnings don't block
+            )
         
         # Weather simulation system (Phase 2 integration)
         self.weather_simulator: Optional[WeatherSimulator] = None
@@ -874,6 +889,7 @@ class BroadcastEngine:
         
         # Validate if enabled
         validation_result = None
+        quality_gate_decision = None
         if self.enable_validation and self.validator and result.get('script'):
             # Build context for validation
             validation_context = self._build_validation_context(
@@ -913,20 +929,46 @@ class BroadcastEngine:
                     ]
                 }
                 is_valid = val_result.is_valid
+                
+                # Phase 2A: Run quality gate if available
+                if self.quality_gate and not is_valid:
+                    # Convert LLM validation issues to quality gate format
+                    violations = validation_result['issues']
+                    quality_gate_decision = self.quality_gate.evaluate(
+                        violations=violations,
+                        segment_metadata={'hour': current_hour, 'type': segment_type}
+                    )
+                    # Override is_valid based on quality gate
+                    is_valid = not self.quality_gate.should_abort(quality_gate_decision)
+                    validation_result['quality_gate'] = quality_gate_decision.value
+                    
             else:
                 # Old ConsistencyValidator returns bool
                 is_valid = self.validator.validate(result['script'])
+                violations = self.validator.get_violations() if hasattr(self.validator, 'get_violations') else []
                 validation_result = {
                     'is_valid': is_valid,
-                    'violations': self.validator.get_violations() if hasattr(self.validator, 'get_violations') else [],
+                    'violations': violations,
                     'warnings': self.validator.get_warnings() if hasattr(self.validator, 'get_warnings') else [],
                     'mode': 'rules'
                 }
+                
+                # Phase 2A: Run quality gate if available (rules-based validation)
+                if self.quality_gate and violations:
+                    quality_gate_decision = self.quality_gate.evaluate(
+                        violations=violations,
+                        segment_metadata={'hour': current_hour, 'type': segment_type}
+                    )
+                    # Override is_valid based on quality gate
+                    is_valid = not self.quality_gate.should_abort(quality_gate_decision)
+                    validation_result['quality_gate'] = quality_gate_decision.value
             
             if not is_valid:
                 self.validation_failures += 1
                 issue_count = validation_result.get('critical_count', len(validation_result.get('violations', [])))
                 print(f"⚠️  Validation issues: {issue_count}")
+                if quality_gate_decision:
+                    print(f"🚦 Quality gate: {quality_gate_decision.value}")
         
         # Update session memory (normalize segment type aliases)
         segment_type_recorded = 'time' if segment_type == 'time_check' else segment_type
