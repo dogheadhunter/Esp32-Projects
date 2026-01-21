@@ -231,6 +231,162 @@ story_beat_history = {
 - ✅ Automatic checkpoint every hour
 - ✅ Failed segments retry 3× then skip
 
+### Q9: Ground Truth for Validation
+
+**Problem:** Rules say PASS, LLM says FAIL — who wins?
+
+**Decision:** Tiered Authority
+
+```
+TIER 1: Critical Rules (veto power)     → Temporal, forbidden content, lore
+TIER 2: LLM Quality (when enabled)      → Tone, coherence, character voice  
+TIER 3: Non-Critical Rules (warn only)  → Format, length, minor issues
+```
+
 ---
 
-**All 8 questions answered and actionable.  Ready to begin implementation!  🚀**
+### Q10: Measuring Narrative Quality
+
+**Problem:** Script is correct but boring — how do we catch it?
+
+**Decision:** Hybrid scoring + Human-in-the-loop
+
+```
+ENGAGEMENT SCORE = Voice (40%) + Variety (30%) + Emotion (30%)
+
+├── Score ≥ 0.7  → /approved/           (ready for broadcast)
+├── Score 0.5-0.7 → /review/{category}/ (human reviews)
+└── Score < 0.5  → /rejected/           (regenerate or skip)
+
+Human review folders:  /quality/, /voice/, /lore/, /pacing/, /format/
+Each flagged script includes:  script + metadata + issues + notes template
+Feedback aggregated → improves next run
+```
+
+---
+
+### Q11: Preventing Repetition Over 30 Days
+
+**Problem:** Same phrases, topics, weather become stale
+
+**Decision:** Variety Manager with cooldowns
+
+| Category | Rule |
+|----------|------|
+| Opening lines | Max 1x/day, 3x/week |
+| Catchphrases | Max 3x/day (not every segment) |
+| News topics | 48-hour cooldown |
+| Quest references | 7-day cooldown |
+| Location focus | 24-hour cooldown |
+| Weather type | Max 3 consecutive days |
+| Script pattern | No 2x in a row |
+
+**Enforcement:** Pre-gen prompt injection + post-validation flagging
+
+---
+
+### Q12: Handling "Boring" Periods
+
+**Problem:** Days 8-12 have no major events — what fills time?
+
+**Decision:** Music + Nightly Radio Show
+
+```
+├── Music system (in progress) handles mid-day lulls
+├── 8PM Nightly:  Golden Age radio dramas (The Shadow, Suspense, etc.)
+├── Thematic fit: 1940s-50s aesthetic = Fallout aesthetic
+└── DJ intro/outro frames the show
+```
+
+**Status:** No synthesized filler needed — format naturally covers variety
+
+---
+
+### Q13: Distinguishing Story-Worthy Quests
+
+**Problem:** "Collect 10 wood" vs "Save settlement from raiders" — both are quests
+
+**Decision:** Narrative Weight Scoring
+
+```
+SCORING: 
+├── +points:  Multiple stages, named characters, factions, choices, climax
+├── -points: Daily, repeatable, tutorial, single objective, "collect X"
+└── Auto-reject: Contains "daily", "repeatable", "tutorial"
+
+TIERS:
+├── Epic (25+)  → Yearly/Monthly arcs
+├── Major (15-24) → Weekly arcs  
+├── Minor (8-14)  → Daily arcs
+└── Skip (<8)     → Filter out
+
+Pre-compute quest_pools. json for runtime efficiency
+```
+
+---
+
+### Q14: ChromaDB Content Exhaustion
+
+**Problem:** ~50 major quests, need 120+ story beats
+
+**Decision:** Content Pool Hierarchy
+
+```
+ACTUAL CAPACITY:  ~100 usable quests × 4 beats = ~400 beats ✅ SUFFICIENT
+
+CONTENT LAYERS:
+├── Primary:    Quest pool (Epic/Major/Minor tiers)
+├── Secondary:  Lore pool (locations, characters, factions, creatures)
+└── Tertiary:  Synthesized (canon element combinations, framed as rumor)
+
+COOLDOWNS:
+├── Epic quest:   30-day (once per run)
+├── Major quest: 14-day
+└── Minor quest: 7-day
+
+PRE-RUN AUDIT:  Verify pools before starting
+RUNTIME MONITORING: Warn at 20-30% remaining
+```
+
+---
+
+## Implementation Timeline (From Possible_Solutions.md)
+
+| Week | Focus |
+|------|-------|
+| **Week 1** | Metadata filters, era filtering, engagement metrics, per-story tracking, retry with feedback |
+| **Week 2** | Auto-checkpointing, quest blacklist, escalation limits, quality gates, beat summarization |
+| **Week 3** | Adaptive story limits, canonical states, de-escalation, variety manager |
+| **Week 4** | 7-day pilot test → Full 30-day generation |
+
+---
+
+## Key Architecture Decisions
+
+```
+┌────────────────────────────────────────────────────────────────┐
+│  VALIDATION:      Tiered (Critical Rules > LLM > Non-Critical)  │
+│  QUALITY:        Hybrid scoring + Human review for borderline  │
+│  VARIETY:        Cooldowns + prompt injection + tracking       │
+│  CONTENT:        Quest pools + Lore pools + Synthesized        │
+│  BORING PERIODS:  Music + Nightly radio theater                 │
+│  HUMAN LOOP:     Review refined scripts, not raw output        │
+└────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Success Criteria
+
+| Metric | Target |
+|--------|--------|
+| Overall validation failure | <5% |
+| Critical lore errors | 0 |
+| Tokens per story validation | <750 |
+| Human review volume | ~8% of scripts (~768) |
+| Content pool remaining at Day 30 | >20% |
+| Repetition flags | <10% of scripts |
+
+---
+
+Ready to continue with **Question #15: How Do We Handle Quest Metadata Quality Issues? **
