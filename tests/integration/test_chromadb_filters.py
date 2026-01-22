@@ -292,3 +292,137 @@ class TestFilterPerformance:
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v", "-s"])
+
+
+class TestFalsePositiveFiltering:
+    """Phase 1B-R: Integration tests for false positive filtering."""
+    
+    def test_no_mechanics_in_quest_pool(self, chroma_collection):
+        """Test that mechanics pages are excluded from quest extraction."""
+        import re
+        
+        extractor = StoryExtractor(chroma_collection=chroma_collection)
+        dj_name = "Julie (2102, Appalachia)"
+        
+        # Extract quest stories
+        quest_stories = extractor._extract_quest_stories(
+            max_stories=50,
+            min_chunks=2,
+            max_chunks=10,
+            dj_name=dj_name
+        )
+        
+        # Define mechanics patterns (from QUEST_EXCLUDE_TITLE_PATTERNS)
+        mechanics_patterns = [
+            r"^Fallout \d+ (Perks|Stats|Items|Weapons|Armor|Achievements|Quests)$",
+            r"^Walkthrough:",
+            r"^Category:",
+            r"^List of",
+            r"^Template:",
+            r"^Portal:",
+            r".*\(perk\)$",
+            r".*\(weapon\)$",
+            r".*\(armor\)$",
+            r".*\(item\)$",
+        ]
+        
+        # Check for mechanics pages in extracted stories
+        mechanics_found = []
+        for story in quest_stories:
+            for pattern in mechanics_patterns:
+                if re.match(pattern, story.title):
+                    mechanics_found.append(story.title)
+                    break
+        
+        print(f"\nFalse Positive Check:")
+        print(f"  Total quest stories extracted: {len(quest_stories)}")
+        print(f"  Mechanics pages found: {len(mechanics_found)}")
+        
+        if mechanics_found:
+            print(f"  Examples:")
+            for title in mechanics_found[:5]:
+                print(f"    - {title}")
+        
+        # Assert no mechanics pages leaked through
+        assert len(mechanics_found) == 0, (
+            f"Found {len(mechanics_found)} mechanics pages in quest pool: {mechanics_found[:5]}"
+        )
+    
+    def test_false_positive_audit(self, chroma_collection):
+        """Test the false positive audit script integration."""
+        import sys
+        import os
+        
+        # Import the audit function
+        sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "scripts"))
+        from audit_chromadb_false_positives import audit_false_positives
+        
+        # Run the audit
+        result = audit_false_positives(chroma_db_path="chroma_db")
+        
+        print(f"\nFalse Positive Audit Results:")
+        print(f"  Success: {result.get('success')}")
+        print(f"  Status: {result.get('status')}")
+        print(f"  Total chunks: {result.get('total_chunks')}")
+        print(f"  Total titles: {result.get('total_titles')}")
+        print(f"  False positive chunks: {result.get('false_positive_chunks')}")
+        print(f"  False positive titles: {result.get('false_positive_titles')}")
+        print(f"  False positive rate: {result.get('false_positive_rate'):.1f}%")
+        
+        if result.get('examples'):
+            print(f"  Examples by category:")
+            for category, examples in result.get('examples', {}).items():
+                if examples:
+                    print(f"    {category}: {', '.join(examples[:2])}")
+        
+        # Verify audit succeeded
+        assert result.get('success'), "Audit failed to run"
+        
+        # Verify false positive rate is acceptable
+        false_positive_rate = result.get('false_positive_rate', 100)
+        
+        # Status can be PASS (<5%), WARNING (5-10%), or FAIL (>10%)
+        # We'll be lenient and allow WARNING as acceptable
+        assert false_positive_rate < 10.0, (
+            f"False positive rate {false_positive_rate:.1f}% exceeds 10% threshold"
+        )
+        
+        print(f"  ✓ False positive rate acceptable: {false_positive_rate:.1f}% < 10%")
+    
+    def test_exclusion_filter_in_query(self, chroma_collection):
+        """Test that quest filter is structured correctly for ChromaDB."""
+        extractor = StoryExtractor(chroma_collection=chroma_collection)
+        dj_name = "Julie (2102, Appalachia)"
+        
+        # Build quest filter
+        quest_filter = extractor._build_quest_filter(dj_name)
+        
+        # Verify filter structure
+        print(f"\nQuest Filter Structure:")
+        print(f"  {quest_filter}")
+        
+        # The filter should combine quest identification with DJ filter
+        # Top level: {$and: [quest_filter, dj_filter]}
+        # Quest filter: {$or: [infobox_type, content_type...]}
+        # Note: Phase 1B-R uses post-filter title exclusion, not $nor in ChromaDB
+        
+        assert "$and" in quest_filter, "Quest filter missing top-level $and"
+        
+        # First element is the quest identification filter
+        quest_id_filter = quest_filter["$and"][0]
+        assert "$or" in quest_id_filter, "Quest ID filter missing $or"
+        
+        # Verify positive quest conditions
+        quest_conditions = quest_id_filter["$or"]
+        content_types = [c.get("content_type") for c in quest_conditions if "content_type" in c]
+        infobox_types = [c.get("infobox_type") for c in quest_conditions if "infobox_type" in c]
+        
+        print(f"  Quest content types: {content_types}")
+        print(f"  Quest infobox types: {infobox_types}")
+        
+        assert "quest" in content_types, "Missing content_type: quest"
+        assert "questline" in content_types, "Missing content_type: questline"
+        assert "infobox quest" in infobox_types, "Missing infobox_type: infobox quest"
+        
+        print(f"  ✓ Quest filter correctly configured")
+        print(f"  ✓ Phase 1B-R uses post-filter title exclusion (not ChromaDB $nor)")

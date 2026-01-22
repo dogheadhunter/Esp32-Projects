@@ -108,6 +108,20 @@ class StoryExtractor:
         "consequence",
     ]
 
+    # Phase 1B-R: Title patterns to exclude (false positives)
+    QUEST_EXCLUDE_TITLE_PATTERNS = [
+        r"^Fallout \d+ (Perks|Stats|Items|Weapons|Armor|Achievements|Quests)$",
+        r"^Walkthrough:",
+        r"^Category:",
+        r"^List of",
+        r"^Template:",
+        r"^Portal:",
+        r".*\(perk\)$",
+        r".*\(weapon\)$",
+        r".*\(armor\)$",
+        r".*\(item\)$",
+    ]
+
     def __init__(self, chroma_collection=None, ollama_client: Optional[OllamaClient] = None):
         """
         Initialize story extractor.
@@ -193,6 +207,11 @@ class StoryExtractor:
 
             stories: List[Story] = []
             for title, chunks in sorted_titles[: max_stories * 2]:
+                # Phase 1B-R: Exclude false positive titles
+                if self._is_excluded_title(title):
+                    print(f"  [FILTER] Excluding non-quest page: {title}")
+                    continue
+                
                 if len(chunks) < min_chunks:
                     continue
                 story = self._chunks_to_story(title, chunks[:max_chunks], "quest")
@@ -266,33 +285,25 @@ class StoryExtractor:
         """
         Build ChromaDB where filter for quest extraction.
         
-        Combines:
-        - Quest content type identification
-        - DJ-specific temporal/spatial constraints
-        - Multi-layer discovery (infobox + content_type)
+        NOTE: ChromaDB metadata filtering limited - infobox_types field exists but
+        string operators ($contains) not supported. Rely on semantic search + DJ
+        temporal/spatial constraints. Post-filter by title patterns.
+        
+        Phase 1B-R: Title-based exclusion (post-filter, see _is_excluded_title())
         
         Args:
             dj_name: DJ name (e.g., "Julie (2102, Appalachia)")
         
         Returns:
-            ChromaDB where filter dict or None
+            ChromaDB where filter dict or None (DJ constraints only)
         """
-        # Base quest filter - multi-layer discovery
-        quest_filter = {
-            "$or": [
-                {"infobox_type": "infobox quest"},
-                {"content_type": "quest"},
-                {"content_type": "questline"}
-            ]
-        }
-        
-        # If no DJ specified, return just quest filter
+        # ChromaDB doesn't support $contains for string matching
+        # Quest detection relies on semantic search query
+        # Return only DJ temporal/spatial constraints
         if not dj_name or dj_name not in DJ_QUERY_FILTERS:
-            return quest_filter
+            return None
         
-        # Combine with DJ filter using $and
-        dj_filter = DJ_QUERY_FILTERS[dj_name]
-        return {"$and": [quest_filter, dj_filter]}
+        return DJ_QUERY_FILTERS[dj_name]
 
     def _build_event_filter(self, dj_name: Optional[str]) -> Optional[Dict[str, Any]]:
         """
@@ -324,6 +335,27 @@ class StoryExtractor:
         # Combine with DJ filter using $and
         dj_filter = DJ_QUERY_FILTERS[dj_name]
         return {"$and": [event_filter, dj_filter]}
+
+    def _is_excluded_title(self, title: str) -> bool:
+        """
+        Check if title matches exclusion patterns (Phase 1B-R).
+        
+        Filters out false positives like:
+        - "Fallout 3 Perks" (mechanics pages)
+        - "Walkthrough:" pages
+        - "Category:" pages
+        - Item/weapon/armor pages
+        
+        Args:
+            title: Wiki page title
+        
+        Returns:
+            True if title should be excluded, False otherwise
+        """
+        for pattern in self.QUEST_EXCLUDE_TITLE_PATTERNS:
+            if re.match(pattern, title):
+                return True
+        return False
     def _chunks_to_story(
         self,
         title: str,
@@ -502,10 +534,63 @@ Generate acts now:"""
                 return llm_acts
 
         num_chunks = len(chunks)
-        # Deterministic fallback that always yields 5 acts, even with 1–4 chunks
+        
+        # Adaptive act generation based on chunk count
         if num_chunks == 0:
             return []
-
+        
+        # Single-chunk: One act (brief update)
+        if num_chunks == 1:
+            chunk = chunks[0]
+            text = chunk.get("text", "No content available.")
+            summary = text[:200] if len(text) >= 10 else (text + " - Brief story update.")
+            if len(text) > 200:
+                summary += "..."
+            return [StoryAct(
+                act_number=1,
+                act_type=StoryActType.SETUP,
+                title="Story Update",
+                summary=summary,
+                source_chunks=[chunk.get("id", "")],
+                conflict_level=0.5,
+                emotional_tone="neutral"
+            )]
+        
+        # 2 chunks: Setup + Resolution
+        if num_chunks == 2:
+            chunk0_text = chunks[0].get("text", "No content available for setup.")
+            chunk1_text = chunks[1].get("text", "No content available for resolution.")
+            
+            summary0 = chunk0_text[:200] if len(chunk0_text) >= 10 else (chunk0_text + " - Story setup.")
+            summary1 = chunk1_text[:200] if len(chunk1_text) >= 10 else (chunk1_text + " - Story resolution.")
+            
+            if len(chunk0_text) > 200:
+                summary0 += "..."
+            if len(chunk1_text) > 200:
+                summary1 += "..."
+            
+            return [
+                StoryAct(
+                    act_number=1,
+                    act_type=StoryActType.SETUP,
+                    title="Setup",
+                    summary=summary0,
+                    source_chunks=[chunks[0].get("id", "")],
+                    conflict_level=0.3,
+                    emotional_tone="neutral"
+                ),
+                StoryAct(
+                    act_number=2,
+                    act_type=StoryActType.RESOLUTION,
+                    title="Resolution",
+                    summary=summary1,
+                    source_chunks=[chunks[1].get("id", "")],
+                    conflict_level=0.6,
+                    emotional_tone="neutral"
+                )
+            ]
+        
+        # 3+ chunks: Use 5-act structure
         act_types = [
             (StoryActType.SETUP, "Setup", 0.2),
             (StoryActType.RISING, "Rising Action", 0.5),
@@ -514,14 +599,10 @@ Generate acts now:"""
             (StoryActType.RESOLUTION, "Resolution", 0.3),
         ]
 
-        # Map sparse chunks across 5 acts
+        # Map chunks across 5 acts
         acts: List[StoryAct] = []
         def chunk_for_act(i: int) -> Dict:
             # Distribute available chunks across 5 acts fairly
-            if num_chunks == 1:
-                return chunks[0]
-            if num_chunks == 2:
-                return chunks[0] if i in (0,1) else chunks[1]
             if num_chunks == 3:
                 return [chunks[0], chunks[1], chunks[1], chunks[2], chunks[2]][i]
             if num_chunks == 4:
@@ -589,13 +670,13 @@ Generate acts now:"""
         """
         Check if a story's narrative weight is appropriate for its assigned timeline.
         
-        Minimum narrative weight thresholds:
-        - Daily: 1.0 (any quest can be daily content)
-        - Weekly: 5.0 (moderate complexity required)
-        - Monthly: 7.0 (significant stories only)
-        - Yearly: 9.0 (epic narratives only)
+        Thresholds adjusted based on actual score distribution:
+        - Daily: 1.0 (any story)
+        - Weekly: 3.0 (moderate - was 5.0)
+        - Monthly: 6.0 (significant - was 7.0)
+        - Yearly: 8.0 (epic - was 9.0)
         
-        Simple fetch quests (weight < 5.0) should not be featured in weekly/monthly/yearly pools.
+        Previous thresholds were too aggressive and filtered out most valid stories.
         
         Args:
             story: Story object with assigned timeline
@@ -606,20 +687,30 @@ Generate acts now:"""
         """
         # Minimum narrative weight requirements per timeline
         TIMELINE_MIN_WEIGHT = {
-            StoryTimeline.DAILY: 1.0,    # Allow any quest for daily content
-            StoryTimeline.WEEKLY: 5.0,   # Moderate complexity - no simple fetch quests
-            StoryTimeline.MONTHLY: 7.0,  # Significant stories - substantial arcs only
-            StoryTimeline.YEARLY: 9.0,   # Epic narratives - game-defining moments
+            StoryTimeline.DAILY: 1.0,    # Allow any story for daily content
+            StoryTimeline.WEEKLY: 3.0,   # Moderate complexity (lowered from 5.0)
+            StoryTimeline.MONTHLY: 6.0,  # Significant stories (lowered from 7.0)
+            StoryTimeline.YEARLY: 8.0,   # Epic narratives (lowered from 9.0)
         }
         
         min_weight = TIMELINE_MIN_WEIGHT.get(story.timeline, 1.0)
-        return narrative_weight >= min_weight
+        passes = narrative_weight >= min_weight
+        
+        if not passes:
+            print(f"  [FILTER] '{story.title}' (weight {narrative_weight:.1f}) needs {min_weight} for {story.timeline.value}")
+        
+        return passes
 
     def _generate_summary(self, chunks: List[Dict]) -> str:
         """Generate story summary from chunks."""
         if not chunks:
             return "A story from the wasteland."
-        text = chunks[0]["text"]
+        text = chunks[0].get("text", "Story content unavailable.")
+        
+        # Ensure minimum length for validation
+        if len(text) < 10:
+            return text + " - Wasteland story."
+        
         summary = text[:300]
         if len(text) > 300:
             summary += "..."

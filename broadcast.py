@@ -313,8 +313,8 @@ def print_summary(segments, stats, output_file, quiet=False):
     # Stats
     if stats:
         print(f'\nGeneration Stats:')
-        print(f'  Total time: {stats.get("total_time", 0):.1f}s')
-        print(f'  Avg per segment: {stats.get("avg_time_per_segment", 0):.1f}s')
+        print(f'  Total time: {stats.get("total_generation_time", 0):.1f}s')
+        print(f'  Avg per segment: {stats.get("avg_generation_time", 0):.1f}s')
         if stats.get('validation_failures', 0) > 0:
             print(f'  Validation failures: {stats.get("validation_failures", 0)}')
     
@@ -385,7 +385,7 @@ def main():
                 validation_mode=args.validation_mode if enable_validation else 'rules',
                 llm_validation_config=llm_validation_config,
                 enable_story_system=enable_stories,
-                checkpoint_dir=args.checkpoint_dir,
+                checkpoint_dir=args.checkpoint_dir.strip(),
                 checkpoint_interval=args.checkpoint_interval
             )
             

@@ -1,21 +1,45 @@
 # General Broadcast Monitor
 # Monitors any broadcast checkpoint directory and displays progress
 param(
-    [string]$CheckpointDir = ".",
-    [int]$RefreshSeconds = 30,
+    [string]$CheckpointDir = "",
+    [int]$RefreshSeconds = 10,
     [switch]$Continuous
 )
 
+function Find-ActiveCheckpointDir {
+    # Find the most recently active checkpoint directory by scanning ALL directories with checkpoints
+    $activeDir = $null
+    $newestTime = [datetime]::MinValue
+    
+    # Scan current directory for any folder containing checkpoint files
+    $allDirs = Get-ChildItem -Directory -ErrorAction SilentlyContinue
+    
+    foreach ($dir in $allDirs) {
+        $checkpoints = Get-ChildItem "$($dir.FullName)/checkpoint_*.json" -ErrorAction SilentlyContinue
+        if ($checkpoints) {
+            $latest = $checkpoints | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+            if ($latest.LastWriteTime -gt $newestTime) {
+                $newestTime = $latest.LastWriteTime
+                $activeDir = "./$($dir.Name)"
+            }
+        }
+    }
+    
+    return $activeDir
+}
+
 function Show-BroadcastProgress {
+    param([string]$TargetDir)
+    
     Clear-Host
     Write-Host "`n================================================================" -ForegroundColor Cyan
     Write-Host "     BROADCAST SESSION MONITOR" -ForegroundColor Cyan
     Write-Host "================================================================`n" -ForegroundColor Cyan
     
-    $checkpoints = Get-ChildItem "$CheckpointDir/checkpoint_*.json" -ErrorAction SilentlyContinue | Sort-Object LastWriteTime -Descending
+    $checkpoints = Get-ChildItem "$TargetDir/checkpoint_*.json" -ErrorAction SilentlyContinue | Sort-Object LastWriteTime -Descending
     
     if (-not $checkpoints) {
-        Write-Host "Waiting for checkpoint files in: $CheckpointDir" -ForegroundColor Yellow
+        Write-Host "Waiting for checkpoint files in: $TargetDir" -ForegroundColor Yellow
         Write-Host ""
         
         $pythonProc = Get-Process python -ErrorAction SilentlyContinue
@@ -30,6 +54,8 @@ function Show-BroadcastProgress {
         }
         return
     }
+    
+    Write-Host "Monitoring: $TargetDir" -ForegroundColor DarkGray
     
     $latest = $checkpoints[0]
     $cp = Get-Content $latest.FullName | ConvertFrom-Json
@@ -90,7 +116,8 @@ function Show-BroadcastProgress {
     
     Write-Host "  Runtime:      $runtimeDisplay" -ForegroundColor Green
     Write-Host "  Checkpoint:   $($latest.Name)" -ForegroundColor Gray
-    Write-Host "  Last Update:  $($latest.LastWriteTime.ToString('HH:mm:ss'))" -ForegroundColor Gray
+    $updateTime = $latest.LastWriteTime.ToString("HH:mm:ss")
+    Write-Host "  Last Update:  $updateTime" -ForegroundColor Gray
     Write-Host ""
     
     # Story State (if available)
@@ -110,8 +137,16 @@ function Show-BroadcastProgress {
         }
         
         if ($cp.story_state.beat_history) {
-            $beatCount = ($cp.story_state.beat_history.PSObject.Properties | Measure-Object).Count
-            Write-Host "  Beat Tracking: $beatCount stories" -ForegroundColor Yellow
+            # Count total beats across all stories
+            $totalBeats = 0
+            $storyCount = 0
+            foreach ($story in $cp.story_state.beat_history.PSObject.Properties) {
+                $storyCount++
+                if ($story.Value) {
+                    $totalBeats += $story.Value.Length
+                }
+            }
+            Write-Host "  Beat Tracking: $totalBeats beats from $storyCount stories" -ForegroundColor Yellow
         }
         
         Write-Host ""
@@ -154,11 +189,56 @@ function Show-BroadcastProgress {
     }
 }
 
+# Main execution
+if (-not $CheckpointDir) {
+    # Auto-detect active checkpoint directory
+    $CheckpointDir = Find-ActiveCheckpointDir
+    
+    if (-not $CheckpointDir) {
+        Write-Host "`n❌ No checkpoint directories found with recent activity" -ForegroundColor Red
+        Write-Host ""
+        Write-Host "Searched locations:" -ForegroundColor Gray
+        Write-Host "  - ./phase2_validation_rerun" -ForegroundColor Gray
+        Write-Host "  - ./phase2_validation" -ForegroundColor Gray
+        Write-Host "  - ./phase1_integration_test" -ForegroundColor Gray
+        Write-Host "  - ./checkpoints" -ForegroundColor Gray
+        Write-Host ""
+        Write-Host "Tip: Start a broadcast or specify directory:" -ForegroundColor Yellow
+        Write-Host "     .\scripts\monitor_broadcast.ps1 -CheckpointDir `"./your_dir`"" -ForegroundColor Yellow
+        Write-Host ""
+        exit 1
+    }
+    
+    Write-Host "`n✅ Auto-detected checkpoint directory: $CheckpointDir" -ForegroundColor Green
+    Start-Sleep -Seconds 1
+}
+
 if ($Continuous) {
     while ($true) {
-        Show-BroadcastProgress
+        # Re-scan for active directory on each refresh (detects new broadcasts)
+        if (-not $CheckpointDir) {
+            $CheckpointDir = Find-ActiveCheckpointDir
+            if (-not $CheckpointDir) {
+                Clear-Host
+                Write-Host "`n⏳ Waiting for broadcast to start..." -ForegroundColor Yellow
+                Write-Host "   No checkpoint files found yet.`n" -ForegroundColor Gray
+                Start-Sleep -Seconds $RefreshSeconds
+                continue
+            }
+        }
+        
+        Show-BroadcastProgress -TargetDir $CheckpointDir
+        
+        # Check if there's a newer checkpoint directory
+        $newestDir = Find-ActiveCheckpointDir
+        if ($newestDir -ne $CheckpointDir) {
+            Write-Host "`n🔄 Switched to newer broadcast: $newestDir" -ForegroundColor Cyan
+            $CheckpointDir = $newestDir
+            Start-Sleep -Seconds 2
+        }
+        
         Start-Sleep -Seconds $RefreshSeconds
     }
 } else {
-    Show-BroadcastProgress
+    Show-BroadcastProgress -TargetDir $CheckpointDir
 }

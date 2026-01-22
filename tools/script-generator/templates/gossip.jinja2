@@ -38,10 +38,22 @@ VARIETY GUIDANCE (avoid repetition):
 {{ variety_hints }}
 {% endif %}
 
+{% if story_context %}
+ACTIVE STORY BEATS (incorporate these into your gossip naturally):
+{{ story_context }}
+
+{% endif %}
+
+{% if session_context %}
+BROADCAST CONTINUITY:
+{{ session_context }}
+
+{% endif %}
+
 LORE CONTEXT (base your gossip on real wasteland events/characters):
 {{ lore_context }}
 
-TASK: Share some wasteland gossip about {{ rumor_type }}.
+TASK: Share some wasteland gossip{% if story_context %} that weaves in the story elements above{% endif %} about {{ rumor_type }}.
 
 GOSSIP DETAILS:
 - Type: {{ rumor_type }}

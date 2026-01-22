@@ -19,6 +19,22 @@ sys.path.insert(0, os.path.join(PROJECT_ROOT, "tools", "script-generator"))
 from chromadb_ingest import ChromaDBIngestor, DJ_QUERY_FILTERS
 from story_system.story_extractor import StoryExtractor
 from typing import Dict, Any
+import re
+
+
+# Phase 1B-R: False positive patterns (matching StoryExtractor.QUEST_EXCLUDE_TITLE_PATTERNS)
+FALSE_POSITIVE_PATTERNS = [
+    r"^Fallout \d+ (Perks|Stats|Items|Weapons|Armor|Achievements|Quests)$",
+    r"^Walkthrough:",
+    r"^Category:",
+    r"^List of",
+    r"^Template:",
+    r"^Portal:",
+    r".*\(perk\)$",
+    r".*\(weapon\)$",
+    r".*\(armor\)$",
+    r".*\(item\)$",
+]
 
 
 def audit_quest_pool(dj_name: str, chroma_db_path: str = "chroma_db") -> Dict[str, Any]:
@@ -81,6 +97,20 @@ def audit_quest_pool(dj_name: str, chroma_db_path: str = "chroma_db") -> Dict[st
         unique_quests = len(chunks_by_title)
         print(f"  Unique quest titles: {unique_quests}")
         
+        # Phase 1B-R: Check for false positives
+        false_positives = []
+        for title in chunks_by_title.keys():
+            for pattern in FALSE_POSITIVE_PATTERNS:
+                if re.match(pattern, title):
+                    false_positives.append(title)
+                    break
+        
+        false_positive_count = len(false_positives)
+        false_positive_rate = (false_positive_count / unique_quests * 100) if unique_quests > 0 else 0
+        print(f"  False positives detected: {false_positive_count} ({false_positive_rate:.1f}%)")
+        if false_positives:
+            print(f"    Examples: {', '.join(false_positives[:3])}")
+        
         # Check temporal violations
         temporal_violations = 0
         regional_violations = 0
@@ -108,7 +138,6 @@ def audit_quest_pool(dj_name: str, chroma_db_path: str = "chroma_db") -> Dict[st
         # Calculate narrative weight distribution
         print(f"\n  Analyzing narrative weights...")
         from story_system.narrative_weight import NarrativeWeightScorer
-        from story_system.story_extractor import StoryExtractor
         
         scorer = NarrativeWeightScorer()
         weight_distribution = {
@@ -224,6 +253,9 @@ def audit_quest_pool(dj_name: str, chroma_db_path: str = "chroma_db") -> Dict[st
         "sufficient": total_stories >= min_required,
         "temporal_violations": temporal_violations,
         "regional_violations": regional_violations,
+        "false_positive_count": false_positive_count,
+        "false_positive_rate": false_positive_rate,
+        "false_positive_examples": false_positives[:5] if false_positives else [],
         "weight_distribution": weight_distribution,
         "timeline_suitability": timeline_suitability,
     }
@@ -234,6 +266,7 @@ def audit_quest_pool(dj_name: str, chroma_db_path: str = "chroma_db") -> Dict[st
     print(f"Minimum Required:     {min_required}")
     print(f"Temporal Violations:  {temporal_violations}")
     print(f"Regional Violations:  {regional_violations}")
+    print(f"False Positives:      {false_positive_count} ({false_positive_rate:.1f}%)")
     print()
     
     if result["sufficient"]:
@@ -250,6 +283,14 @@ def audit_quest_pool(dj_name: str, chroma_db_path: str = "chroma_db") -> Dict[st
         print(f"✓ PASS: No regional violations")
     else:
         print(f"⚠ WARNING: {regional_violations} regional violations detected")
+    
+    # Phase 1B-R: False positive check
+    if false_positive_rate < 5.0:
+        print(f"✓ PASS: False positive rate {false_positive_rate:.1f}% < 5%")
+    elif false_positive_rate < 10.0:
+        print(f"⚠ WARNING: False positive rate {false_positive_rate:.1f}% between 5-10%")
+    else:
+        print(f"✗ FAIL: False positive rate {false_positive_rate:.1f}% > 10%")
     
     print()
     return result

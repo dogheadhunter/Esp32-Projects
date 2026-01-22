@@ -26,6 +26,18 @@ NATURAL SPEECH ELEMENTS:
 - {{ voice_elements.sentence_variety_hint }}
 {% endif %}
 
+{% if story_context %}
+ACTIVE STORY BEATS (reference naturally if relevant):
+{{ story_context }}
+
+{% endif %}
+
+{% if session_context %}
+BROADCAST CONTINUITY:
+{{ session_context }}
+
+{% endif %}
+
 TASK: Announce the time - {{ hour }}:00 ({{ time_of_day }}).
 
 TIME DETAILS:

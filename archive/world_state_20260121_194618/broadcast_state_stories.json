@@ -1,0 +1,838 @@
+{
+  "schema_version": "1.0",
+  "created_at": "2026-01-21T18:47:46.256775",
+  "last_modified": "2026-01-21T18:48:06.645742",
+  "story_pools": {
+    "daily": [
+      {
+        "story_id": "story_quest_beat_it",
+        "title": "Beat It",
+        "timeline": "daily",
+        "acts": [
+          {
+            "act_number": 1,
+            "act_type": "setup",
+            "title": "Story Update",
+            "summary": "Quest Objectives",
+            "source_chunks": [
+              "Beat It_Quest Objectives_1_455"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.5,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          }
+        ],
+        "summary": "Quest Objectives",
+        "content_type": "quest",
+        "themes": [],
+        "factions": [],
+        "locations": [
+          "general"
+        ],
+        "characters": [],
+        "era": null,
+        "region": null,
+        "year_min": null,
+        "year_max": null,
+        "dj_compatible": [
+          "julie",
+          "three_dog",
+          "mr_new_vegas",
+          "travis_miles_confident"
+        ],
+        "knowledge_tier": "common",
+        "suggested_framing": "direct",
+        "source_wiki_titles": [
+          "Beat It"
+        ],
+        "extraction_date": "2026-01-21T18:48:06.190828",
+        "estimated_broadcasts": 2,
+        "priority": 0.5
+      },
+      {
+        "story_id": "story_quest_higher_learning",
+        "title": "Higher Learning",
+        "timeline": "daily",
+        "acts": [
+          {
+            "act_number": 1,
+            "act_type": "setup",
+            "title": "Story Update",
+            "summary": "Quest Objectives",
+            "source_chunks": [
+              "Higher Learning_Quest Objectives_1_408"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.5,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          }
+        ],
+        "summary": "Quest Objectives",
+        "content_type": "quest",
+        "themes": [],
+        "factions": [],
+        "locations": [
+          "general"
+        ],
+        "characters": [],
+        "era": null,
+        "region": null,
+        "year_min": null,
+        "year_max": null,
+        "dj_compatible": [
+          "julie",
+          "three_dog",
+          "mr_new_vegas",
+          "travis_miles_confident"
+        ],
+        "knowledge_tier": "common",
+        "suggested_framing": "direct",
+        "source_wiki_titles": [
+          "Higher Learning"
+        ],
+        "extraction_date": "2026-01-21T18:48:06.190828",
+        "estimated_broadcasts": 2,
+        "priority": 0.5
+      },
+      {
+        "story_id": "story_quest_a_dividing_detonation",
+        "title": "A Dividing Detonation",
+        "timeline": "daily",
+        "acts": [
+          {
+            "act_number": 1,
+            "act_type": "setup",
+            "title": "Story Update",
+            "summary": "Quest Objectives",
+            "source_chunks": [
+              "A Dividing Detonation_Quest Objectives_1_479"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.5,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          }
+        ],
+        "summary": "Quest Objectives",
+        "content_type": "quest",
+        "themes": [],
+        "factions": [],
+        "locations": [
+          "general"
+        ],
+        "characters": [],
+        "era": null,
+        "region": null,
+        "year_min": null,
+        "year_max": null,
+        "dj_compatible": [
+          "julie",
+          "three_dog",
+          "mr_new_vegas",
+          "travis_miles_confident"
+        ],
+        "knowledge_tier": "common",
+        "suggested_framing": "direct",
+        "source_wiki_titles": [
+          "A Dividing Detonation"
+        ],
+        "extraction_date": "2026-01-21T18:48:06.190828",
+        "estimated_broadcasts": 2,
+        "priority": 0.5
+      },
+      {
+        "story_id": "story_quest_forged_in_the_dark",
+        "title": "Forged In The Dark",
+        "timeline": "daily",
+        "acts": [
+          {
+            "act_number": 1,
+            "act_type": "setup",
+            "title": "Story Update",
+            "summary": "Quest Objectives",
+            "source_chunks": [
+              "Forged In The Dark_Quest Objectives_1_122"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.5,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          }
+        ],
+        "summary": "Quest Objectives",
+        "content_type": "quest",
+        "themes": [],
+        "factions": [],
+        "locations": [
+          "general"
+        ],
+        "characters": [],
+        "era": null,
+        "region": null,
+        "year_min": null,
+        "year_max": null,
+        "dj_compatible": [
+          "julie",
+          "three_dog",
+          "mr_new_vegas",
+          "travis_miles_confident"
+        ],
+        "knowledge_tier": "common",
+        "suggested_framing": "direct",
+        "source_wiki_titles": [
+          "Forged In The Dark"
+        ],
+        "extraction_date": "2026-01-21T18:48:06.190828",
+        "estimated_broadcasts": 2,
+        "priority": 0.5
+      },
+      {
+        "story_id": "story_quest_a_favor_for_the_king",
+        "title": "A Favor for the King",
+        "timeline": "daily",
+        "acts": [
+          {
+            "act_number": 1,
+            "act_type": "setup",
+            "title": "Story Update",
+            "summary": "Quest Objectives",
+            "source_chunks": [
+              "A Favor for the King_Quest Objectives_0_0"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.5,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          }
+        ],
+        "summary": "Quest Objectives",
+        "content_type": "quest",
+        "themes": [],
+        "factions": [],
+        "locations": [
+          "general"
+        ],
+        "characters": [],
+        "era": null,
+        "region": null,
+        "year_min": null,
+        "year_max": null,
+        "dj_compatible": [
+          "julie",
+          "three_dog",
+          "mr_new_vegas",
+          "travis_miles_confident"
+        ],
+        "knowledge_tier": "common",
+        "suggested_framing": "direct",
+        "source_wiki_titles": [
+          "A Favor for the King"
+        ],
+        "extraction_date": "2026-01-21T18:48:06.190828",
+        "estimated_broadcasts": 2,
+        "priority": 0.5
+      },
+      {
+        "story_id": "story_quest_a_gun_in_every_hand,_for_now",
+        "title": "A Gun in Every Hand, For Now",
+        "timeline": "daily",
+        "acts": [
+          {
+            "act_number": 1,
+            "act_type": "setup",
+            "title": "Story Update",
+            "summary": "Quest Objectives",
+            "source_chunks": [
+              "A Gun in Every Hand, For Now_Quest Objectives_0_43"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.5,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          }
+        ],
+        "summary": "Quest Objectives",
+        "content_type": "quest",
+        "themes": [],
+        "factions": [],
+        "locations": [
+          "general"
+        ],
+        "characters": [],
+        "era": null,
+        "region": null,
+        "year_min": null,
+        "year_max": null,
+        "dj_compatible": [
+          "julie",
+          "three_dog",
+          "mr_new_vegas",
+          "travis_miles_confident"
+        ],
+        "knowledge_tier": "common",
+        "suggested_framing": "direct",
+        "source_wiki_titles": [
+          "A Gun in Every Hand, For Now"
+        ],
+        "extraction_date": "2026-01-21T18:48:06.190828",
+        "estimated_broadcasts": 2,
+        "priority": 0.5
+      },
+      {
+        "story_id": "story_quest_a_problem_of_legacy",
+        "title": "A Problem of Legacy",
+        "timeline": "daily",
+        "acts": [
+          {
+            "act_number": 1,
+            "act_type": "setup",
+            "title": "Story Update",
+            "summary": "Quest Objectives",
+            "source_chunks": [
+              "A Problem of Legacy_Quest Objectives_0_266"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.5,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          }
+        ],
+        "summary": "Quest Objectives",
+        "content_type": "quest",
+        "themes": [],
+        "factions": [],
+        "locations": [
+          "general"
+        ],
+        "characters": [],
+        "era": null,
+        "region": null,
+        "year_min": null,
+        "year_max": null,
+        "dj_compatible": [
+          "julie",
+          "three_dog",
+          "mr_new_vegas",
+          "travis_miles_confident"
+        ],
+        "knowledge_tier": "common",
+        "suggested_framing": "direct",
+        "source_wiki_titles": [
+          "A Problem of Legacy"
+        ],
+        "extraction_date": "2026-01-21T18:48:06.190828",
+        "estimated_broadcasts": 2,
+        "priority": 0.5
+      },
+      {
+        "story_id": "story_quest_a_very_good_neighbor",
+        "title": "A Very Good Neighbor",
+        "timeline": "daily",
+        "acts": [
+          {
+            "act_number": 1,
+            "act_type": "setup",
+            "title": "Story Update",
+            "summary": "Quest Objectives",
+            "source_chunks": [
+              "A Very Good Neighbor_Quest Objectives_1_388"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.5,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          }
+        ],
+        "summary": "Quest Objectives",
+        "content_type": "quest",
+        "themes": [],
+        "factions": [],
+        "locations": [
+          "general"
+        ],
+        "characters": [],
+        "era": null,
+        "region": null,
+        "year_min": null,
+        "year_max": null,
+        "dj_compatible": [
+          "julie",
+          "three_dog",
+          "mr_new_vegas",
+          "travis_miles_confident"
+        ],
+        "knowledge_tier": "common",
+        "suggested_framing": "direct",
+        "source_wiki_titles": [
+          "A Very Good Neighbor"
+        ],
+        "extraction_date": "2026-01-21T18:48:06.190828",
+        "estimated_broadcasts": 2,
+        "priority": 0.5
+      },
+      {
+        "story_id": "story_quest_fool's_golden_gloves",
+        "title": "Fool's Golden Gloves",
+        "timeline": "daily",
+        "acts": [
+          {
+            "act_number": 1,
+            "act_type": "setup",
+            "title": "Story Update",
+            "summary": "Quest Objectives",
+            "source_chunks": [
+              "Fool's Golden Gloves_Quest Objectives_0_212"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.5,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          }
+        ],
+        "summary": "Quest Objectives",
+        "content_type": "quest",
+        "themes": [],
+        "factions": [],
+        "locations": [
+          "California"
+        ],
+        "characters": [],
+        "era": null,
+        "region": null,
+        "year_min": null,
+        "year_max": null,
+        "dj_compatible": [
+          "julie",
+          "three_dog",
+          "mr_new_vegas",
+          "travis_miles_confident"
+        ],
+        "knowledge_tier": "common",
+        "suggested_framing": "direct",
+        "source_wiki_titles": [
+          "Fool's Golden Gloves"
+        ],
+        "extraction_date": "2026-01-21T18:48:06.190828",
+        "estimated_broadcasts": 2,
+        "priority": 0.5
+      }
+    ],
+    "weekly": [
+      {
+        "story_id": "story_quest_bounty:_butcher",
+        "title": "Bounty: Butcher",
+        "timeline": "weekly",
+        "acts": [
+          {
+            "act_number": 1,
+            "act_type": "setup",
+            "title": "Setup",
+            "summary": "Quest variant A",
+            "source_chunks": [
+              "Bounty: Butcher_Quest variant A_1_416"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.3,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          },
+          {
+            "act_number": 2,
+            "act_type": "resolution",
+            "title": "Resolution",
+            "summary": "Quest Stages",
+            "source_chunks": [
+              "Bounty: Butcher_Quest Stages_5_420"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.6,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          }
+        ],
+        "summary": "Quest variant A",
+        "content_type": "quest",
+        "themes": [],
+        "factions": [],
+        "locations": [
+          "general"
+        ],
+        "characters": [],
+        "era": null,
+        "region": null,
+        "year_min": null,
+        "year_max": null,
+        "dj_compatible": [
+          "julie",
+          "three_dog",
+          "mr_new_vegas",
+          "travis_miles_confident"
+        ],
+        "knowledge_tier": "common",
+        "suggested_framing": "direct",
+        "source_wiki_titles": [
+          "Bounty: Butcher"
+        ],
+        "extraction_date": "2026-01-21T18:48:06.190828",
+        "estimated_broadcasts": 4,
+        "priority": 0.5
+      },
+      {
+        "story_id": "story_event_citadel_terminal_entries",
+        "title": "Citadel Terminal Entries",
+        "timeline": "weekly",
+        "acts": [
+          {
+            "act_number": 1,
+            "act_type": "setup",
+            "title": "Setup",
+            "summary": "G.N.R. Battle After-Action Report",
+            "source_chunks": [
+              "Citadel Terminal Entries_G.N.R. Battle After-Action Report_20_47"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.3,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          },
+          {
+            "act_number": 2,
+            "act_type": "resolution",
+            "title": "Resolution",
+            "summary": "G.N.R. Battle After-Action Report",
+            "source_chunks": [
+              "Citadel Terminal Entries_G.N.R. Battle After-Action Report_105_132"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.6,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          }
+        ],
+        "summary": "G.N.R. Battle After-Action Report",
+        "content_type": "event",
+        "themes": [
+          "0"
+        ],
+        "factions": [],
+        "locations": [
+          "Capital Wasteland"
+        ],
+        "characters": [],
+        "era": null,
+        "region": null,
+        "year_min": null,
+        "year_max": null,
+        "dj_compatible": [
+          "julie",
+          "three_dog",
+          "mr_new_vegas",
+          "travis_miles_confident"
+        ],
+        "knowledge_tier": "common",
+        "suggested_framing": "direct",
+        "source_wiki_titles": [
+          "Citadel Terminal Entries"
+        ],
+        "extraction_date": "2026-01-21T18:48:06.628151",
+        "estimated_broadcasts": 4,
+        "priority": 0.5
+      },
+      {
+        "story_id": "story_event_wild_appalachia",
+        "title": "Wild Appalachia",
+        "timeline": "weekly",
+        "acts": [
+          {
+            "act_number": 1,
+            "act_type": "setup",
+            "title": "Setup",
+            "summary": "Events - Story setup.",
+            "source_chunks": [
+              "Wild Appalachia_Events_7_381"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.3,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          },
+          {
+            "act_number": 2,
+            "act_type": "resolution",
+            "title": "Resolution",
+            "summary": "Events - Story resolution.",
+            "source_chunks": [
+              "Wild Appalachia_Events_9_383"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.6,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          }
+        ],
+        "summary": "Events - Wasteland story.",
+        "content_type": "event",
+        "themes": [
+          "0"
+        ],
+        "factions": [],
+        "locations": [
+          "Appalachia"
+        ],
+        "characters": [],
+        "era": null,
+        "region": null,
+        "year_min": null,
+        "year_max": null,
+        "dj_compatible": [
+          "julie",
+          "three_dog",
+          "mr_new_vegas",
+          "travis_miles_confident"
+        ],
+        "knowledge_tier": "common",
+        "suggested_framing": "direct",
+        "source_wiki_titles": [
+          "Wild Appalachia"
+        ],
+        "extraction_date": "2026-01-21T18:48:06.628151",
+        "estimated_broadcasts": 4,
+        "priority": 0.5
+      }
+    ],
+    "monthly": [],
+    "yearly": []
+  },
+  "active_stories": {
+    "daily": {
+      "story": {
+        "story_id": "story_quest_and_stay_out!",
+        "title": "And Stay Out!",
+        "timeline": "daily",
+        "acts": [
+          {
+            "act_number": 1,
+            "act_type": "setup",
+            "title": "Story Update",
+            "summary": "Quest Objectives",
+            "source_chunks": [
+              "And Stay Out!_Quest Objectives_0_439"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.5,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          }
+        ],
+        "summary": "Quest Objectives",
+        "content_type": "quest",
+        "themes": [],
+        "factions": [],
+        "locations": [
+          "general"
+        ],
+        "characters": [],
+        "era": null,
+        "region": null,
+        "year_min": null,
+        "year_max": null,
+        "dj_compatible": [
+          "julie",
+          "three_dog",
+          "mr_new_vegas",
+          "travis_miles_confident"
+        ],
+        "knowledge_tier": "common",
+        "suggested_framing": "direct",
+        "source_wiki_titles": [
+          "And Stay Out!"
+        ],
+        "extraction_date": "2026-01-21T18:48:06.190828",
+        "estimated_broadcasts": 2,
+        "priority": 0.5
+      },
+      "status": "active",
+      "current_act_index": 1,
+      "total_broadcasts": 1,
+      "broadcasts_in_current_act": 0,
+      "started_at": "2026-01-21T18:48:06.645742",
+      "last_broadcast_at": "2026-01-21T18:50:11.295774",
+      "expected_completion": null,
+      "engagement_score": 0.475,
+      "novelty_factor": 0.95,
+      "escalated_from": null,
+      "escalation_count": 0,
+      "can_escalate": true
+    },
+    "weekly": {
+      "story": {
+        "story_id": "story_quest_beyond_the_beef",
+        "title": "Beyond the Beef",
+        "timeline": "weekly",
+        "acts": [
+          {
+            "act_number": 1,
+            "act_type": "setup",
+            "title": "A lone traveler stumbles into a trading post.",
+            "summary": "Jack, a weary survivor, enters Red Rock Trading Post seeking supplies and rest after a long trek across the Mojave desert. He meets the trader, Doc Wells, who is expecting a special shipment of beef jerky from an old acquaintance in Novac.",
+            "source_chunks": [
+              "Beyond the Beef_Quest Stages_8_399"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.2,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          },
+          {
+            "act_number": 2,
+            "act_type": "rising",
+            "title": "A delayed delivery causes frustration among the tr",
+            "summary": "Doc Wells grows impatient waiting for the beef jerky, which is crucial to his business. He bickers with the trader at Nellis Airfield about the shipment's status, while Jack tries to negotiate a better price on his own goods. Meanwhile, rumors circulate that a gang of raiders has been targeting trad",
+            "source_chunks": [
+              "Beyond the Beef_Quest Stages_10_401"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.5,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          },
+          {
+            "act_number": 3,
+            "act_type": "climax",
+            "title": "A surprise attack forces a desperate defense.",
+            "summary": "The raiders strike at Red Rock Trading Post, catching Doc and Jack off guard. In the ensuing chaos, valuable goods are stolen or destroyed, and the trader is gravely injured. Jack must fend off the attackers and try to rescue any survivors.",
+            "source_chunks": [
+              "Beyond the Beef_Quest Stages_14_405"
+            ],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 1.0,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          },
+          {
+            "act_number": 4,
+            "act_type": "falling",
+            "title": "The consequences of violence and the power of frie",
+            "summary": "Doc survives his injuries, but Red Rock Trading Post is severely damaged. Jack helps rebuild the post and tends to Doc's recovery. Meanwhile, the trader from Nellis Airfield shows up with a new shipment of beef jerky, revealing he was secretly working with the raiders all along. Jack must decide whe",
+            "source_chunks": [],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.7,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          },
+          {
+            "act_number": 5,
+            "act_type": "resolution",
+            "title": "A new path emerges from the ashes of betrayal.",
+            "summary": "Jack chooses to stand by Doc, rejecting the trader's offer. Together, they plan to expand Red Rock Trading Post into a thriving hub for travelers in the Mojave desert. Jack also decides to explore Novac and confront his old acquaintance about the missing beef jerky shipment.",
+            "source_chunks": [],
+            "entities": [],
+            "themes": [],
+            "conflict_level": 0.1,
+            "emotional_tone": "neutral",
+            "broadcast_count": 0,
+            "last_broadcast": null
+          }
+        ],
+        "summary": "Quest Stages",
+        "content_type": "quest",
+        "themes": [],
+        "factions": [],
+        "locations": [
+          "general"
+        ],
+        "characters": [],
+        "era": null,
+        "region": null,
+        "year_min": null,
+        "year_max": null,
+        "dj_compatible": [
+          "julie",
+          "three_dog",
+          "mr_new_vegas",
+          "travis_miles_confident"
+        ],
+        "knowledge_tier": "common",
+        "suggested_framing": "direct",
+        "source_wiki_titles": [
+          "Beyond the Beef"
+        ],
+        "extraction_date": "2026-01-21T18:48:06.189823",
+        "estimated_broadcasts": 10,
+        "priority": 0.5
+      },
+      "status": "resolution",
+      "current_act_index": 5,
+      "total_broadcasts": 18,
+      "broadcasts_in_current_act": 0,
+      "started_at": "2026-01-21T18:48:06.645742",
+      "last_broadcast_at": "2026-01-21T18:54:50.864963",
+      "expected_completion": null,
+      "engagement_score": 0.35,
+      "novelty_factor": 0.5,
+      "escalated_from": null,
+      "escalation_count": 0,
+      "can_escalate": true
+    },
+    "monthly": null,
+    "yearly": null
+  },
+  "completed_stories": [],
+  "archived_stories": [],
+  "escalation_history": [],
+  "beat_history": {},
+  "last_activation": {
+    "daily": "2026-01-21T18:48:06.645742",
+    "weekly": "2026-01-21T18:48:06.645742",
+    "monthly": null,
+    "yearly": null
+  },
+  "total_broadcasts_by_timeline": {
+    "daily": 65,
+    "weekly": 65,
+    "monthly": 0,
+    "yearly": 0
+  }
+}

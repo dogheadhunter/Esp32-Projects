@@ -32,6 +32,18 @@ NATURAL SPEECH ELEMENTS (use sparingly):
 {% endif %}
 {% endif %}
 
+{% if story_context %}
+ACTIVE STORY BEATS (reference naturally if relevant):
+{{ story_context }}
+
+{% endif %}
+
+{% if session_context %}
+BROADCAST CONTINUITY:
+{{ session_context }}
+
+{% endif %}
+
 RELEVANT LORE CONTEXT (use for realistic details):
 {{ lore_context }}
 

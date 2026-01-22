@@ -101,9 +101,11 @@ class StoryScheduler:
         beats: List[StoryBeat] = []
         self.current_broadcast_number += 1
         
+        # PHASE 3 TESTING: Temporarily only daily stories
         # Try each timeline in order (daily first, yearly last)
-        for timeline in [StoryTimeline.DAILY, StoryTimeline.WEEKLY, 
-                        StoryTimeline.MONTHLY, StoryTimeline.YEARLY]:
+        # for timeline in [StoryTimeline.DAILY, StoryTimeline.WEEKLY, 
+        #                 StoryTimeline.MONTHLY, StoryTimeline.YEARLY]:
+        for timeline in [StoryTimeline.DAILY]:  # PHASE 3: Daily only
             
             active_story = self.state.get_active_story(timeline)
             
@@ -118,6 +120,21 @@ class StoryScheduler:
                     active_story.total_broadcasts += 1
                     active_story.broadcasts_in_current_act += 1
                     active_story.last_broadcast_at = datetime.now()
+                    
+                    # Record beat in history (Phase 2C)
+                    # Combine characters, factions, and locations into entities list
+                    all_entities = (
+                        active_story.story.characters + 
+                        active_story.story.factions + 
+                        active_story.story.locations
+                    )
+                    self.state.record_story_beat(
+                        story_id=active_story.story.story_id,
+                        beat_summary=beat.beat_summary,
+                        entities=all_entities,
+                        act_number=active_story.current_act,
+                        conflict_level=beat.conflict_level
+                    )
                     
                     # Update engagement
                     self._update_engagement(active_story)
@@ -221,11 +238,33 @@ class StoryScheduler:
                 print(f"[COOLDOWN] Story activation blocked: {timeline.value} timeline (broadcasts since: {broadcasts_since}, cooldown: {cooldown})")
                 return False
         
-        # Get pool
+        # Get pool and check exhaustion
         pool = self.state.get_pool(timeline)
-        if not pool:
+        pool_size = len(pool)
+        
+        if pool_size == 0:
             print(f"[EMPTY] No stories in pool for {timeline.value} timeline")
             return False
+        
+        # Check for pool exhaustion (< 20% of original)
+        # Estimate original size based on timeline (rough heuristic)
+        estimated_original_size = {
+            StoryTimeline.DAILY: 10,
+            StoryTimeline.WEEKLY: 8,
+            StoryTimeline.MONTHLY: 6,
+            StoryTimeline.YEARLY: 4
+        }.get(timeline, 5)
+        
+        exhaustion_threshold = max(2, int(estimated_original_size * 0.2))  # At least 2 stories
+        
+        if pool_size <= exhaustion_threshold:
+            import logging
+            logger = logging.getLogger(__name__)
+            logger.warning(
+                f"Story pool exhaustion detected: {timeline.value} pool has {pool_size} stories "
+                f"(threshold: {exhaustion_threshold}, ~{(pool_size/estimated_original_size)*100:.0f}% remaining)"
+            )
+            print(f"⚠️  [LOW POOL] {timeline.value}: {pool_size} stories remaining (LOW)")
         
         # Select story (for now, just take first)
         # TODO: Could rank by priority, engagement potential, etc.

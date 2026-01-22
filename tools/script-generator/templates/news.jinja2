@@ -34,10 +34,22 @@ NATURAL SPEECH ELEMENTS (use sparingly):
 {% endif %}
 {% endif %}
 
+{% if story_context %}
+ACTIVE STORY BEATS (incorporate these into your news naturally):
+{{ story_context }}
+
+{% endif %}
+
+{% if session_context %}
+BROADCAST CONTINUITY:
+{{ session_context }}
+
+{% endif %}
+
 LORE CONTEXT (use for story ideas and accurate details):
 {{ lore_context }}
 
-TASK: Generate a news segment about {{ news_topic }}.
+TASK: Generate a news segment{% if story_context %} that weaves in the story elements above{% endif %} about {{ news_topic }}.
 
 NEWS DETAILS:
 - Topic: {{ news_topic }}

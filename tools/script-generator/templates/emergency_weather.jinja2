@@ -12,6 +12,18 @@ REQUIRED ALERT OPENING: "{{ catchphrase.emergency_alert }}"
 REQUIRED OPENING: "{{ catchphrase.opening }}"
 {% endif %}
 
+{% if story_context %}
+ACTIVE STORY BEATS (reference if directly relevant to emergency):
+{{ story_context }}
+
+{% endif %}
+
+{% if session_context %}
+BROADCAST CONTINUITY:
+{{ session_context }}
+
+{% endif %}
+
 EMERGENCY WEATHER DETAILS:
 - Type: {{ emergency_type }}
 - Severity: {{ severity }}

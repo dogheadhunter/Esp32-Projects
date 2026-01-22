@@ -1,0 +1,11 @@
+{
+  "archive_date": "2026-01-21T17:59:35.055735",
+  "archived_items": [
+    "\u2705 broadcast_state.json",
+    "\u2705 broadcast_state_stories.json",
+    "\u2705 tools/script-generator/broadcast_state.json",
+    "\u2705 8 broadcast JSON files"
+  ],
+  "reason": "World state reset",
+  "can_restore": true
+}

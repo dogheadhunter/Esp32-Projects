@@ -15,6 +15,9 @@ from typing import Dict, Any, Optional, List, Union
 from datetime import datetime
 from pathlib import Path
 import json
+import logging
+
+logger = logging.getLogger(__name__)
 
 from session_memory import SessionMemory
 from world_state import WorldState
@@ -323,10 +326,17 @@ class BroadcastEngine:
         
         # Check if pools need seeding
         pool_sizes = {timeline: self.story_state.get_pool_size(timeline) for timeline in StoryTimeline}
-        total_stories = sum(pool_sizes.values())
+        total_pool_stories = sum(pool_sizes.values())
+        total_active = self.story_state.get_total_active_stories()
         
-        if total_stories > 0:
-            print(f"[Story System] Story pools already populated ({total_stories} total stories)")
+        # DEBUG: Show what we're checking
+        print(f"[Story System] Pool check:")
+        print(f"  Pool stories: {dict(pool_sizes)} (total: {total_pool_stories})")
+        print(f"  Active stories: {total_active}")
+        print(f"  State file: {self.story_state.persistence_path}")
+        
+        if total_pool_stories > 0:
+            print(f"[Story System] Pools already populated ({total_pool_stories} in pools, {total_active} active)")
             return
         
         print("[Story System] Seeding story pools from ChromaDB...")
@@ -336,7 +346,7 @@ class BroadcastEngine:
         
         # Extract stories for each timeline (without timeline filter initially to see what we get)
         print("[Story System] DEBUG: Extracting stories without timeline filter...")
-        all_stories = extractor.extract_stories(max_stories=100, timeline=None, min_chunks=2, max_chunks=15)
+        all_stories = extractor.extract_stories(max_stories=100, timeline=None, min_chunks=1, max_chunks=15)
         print(f"[Story System] DEBUG: Extracted {len(all_stories)} total stories")
         
         # Group by timeline
@@ -693,9 +703,24 @@ class BroadcastEngine:
         # Initialize retry manager for this segment
         retry_manager = RetryManager()
         attempt = 1
+        story_fallback_triggered = False  # Track if we've removed story_context
         
         while attempt <= MAX_RETRIES:
             print(f"\n🔄 Generation attempt #{attempt}/{MAX_RETRIES} (Hour: {current_hour})")
+            
+            # FALLBACK: On 3rd attempt, if previous attempts had story incorporation failures,
+            # force removal of story context by setting force_type to 'gossip' (non-story)
+            segment_kwargs = kwargs.copy()
+            if attempt == 3 and not story_fallback_triggered:
+                # Check if previous attempts failed story incorporation
+                prev_errors = retry_manager.get_last_errors()
+                has_story_failure = any('story incorporation' in str(err).lower() for err in prev_errors)
+                
+                if has_story_failure and not force_type:
+                    print("⚠️  STORY FALLBACK: Forcing generic gossip (no story context)")
+                    story_fallback_triggered = True
+                    # Force gossip type to prevent story selection
+                    force_type = 'gossip'
             
             # Generate segment
             result = self._generate_segment_once(
@@ -703,7 +728,7 @@ class BroadcastEngine:
                 force_type, 
                 retry_manager=retry_manager,
                 attempt_number=attempt,
-                **kwargs
+                **segment_kwargs
             )
             
             # Check if validation passed
@@ -963,7 +988,8 @@ class BroadcastEngine:
                     
             else:
                 # Old ConsistencyValidator returns bool
-                is_valid = self.validator.validate(result['script'])
+                # Pass story_context to validator if available
+                is_valid = self.validator.validate(result['script'], story_context=story_context)
                 violations = self.validator.get_violations() if hasattr(self.validator, 'get_violations') else []
                 validation_result = {
                     'is_valid': is_valid,
@@ -988,6 +1014,68 @@ class BroadcastEngine:
                 print(f"⚠️  Validation issues: {issue_count}")
                 if quality_gate_decision:
                     print(f"🚦 Quality gate: {quality_gate_decision.value}")
+        
+        # Phase 7: Check story incorporation if story_context was provided
+        story_incorporation_score = None
+        story_incorporation_failed = False
+        if story_context and result.get('script'):
+            # Ensure story_context is a string (not a dict)
+            if isinstance(story_context, dict):
+                # If it's a dict, try to extract the string value
+                story_context = story_context.get('context_for_llm', str(story_context))
+            
+            if not isinstance(story_context, str):
+                story_context = str(story_context)
+            
+            # Import here to avoid circular dependency
+            from consistency_validator import ConsistencyValidator
+            
+            # Create temporary validator to check story incorporation
+            temp_validator = ConsistencyValidator({"name": self.dj_name})
+            story_incorporation_score = temp_validator.get_story_incorporation_score(
+                result['script'], 
+                story_context
+            )
+            
+            if story_incorporation_score < 0.5:
+                story_incorporation_failed = True
+                logger.warning(
+                    f"Story incorporation failed: score {story_incorporation_score:.2f} < 0.5. "
+                    f"Story beats not adequately incorporated. Attempt: {attempt_number}"
+                )
+                print(f"📖 Story incorporation score: {story_incorporation_score:.2f} (FAILED)")
+                
+                # Add to validation result for retry mechanism
+                if validation_result is None:
+                    validation_result = {'is_valid': False, 'violations': [], 'mode': 'story_incorporation'}
+                
+                # Mark as invalid to trigger retry
+                validation_result['is_valid'] = False
+                validation_result.setdefault('violations', []).append({
+                    'message': f'Story incorporation score {story_incorporation_score:.2f} < 0.5',
+                    'severity': 'quality',
+                    'category': 'story_incorporation',
+                    'score': story_incorporation_score
+                })
+                
+                # FALLBACK: After 2 attempts, remove story_context for next retry
+                if attempt_number >= 2 and story_beats:
+                    logger.warning(
+                        f"Story incorporation failed {attempt_number} times. "
+                        f"Fallback: Will skip story beats on next attempt."
+                    )
+                    print(f"⚠️  Story fallback activated: Skipping story context on next retry")
+                    # Note: The actual fallback happens in generate_next_segment when it retries
+                    
+            else:
+                print(f"📖 Story incorporation score: {story_incorporation_score:.2f} (PASSED)")
+                
+                # Story successfully incorporated - mark beats as broadcast
+                if self.story_scheduler and story_beats:
+                    for beat in story_beats:
+                        # Note: This will be called in the commit phase, not here
+                        # Just log success for now
+                        logger.info(f"Story beat incorporated successfully: {beat.story_id} (Act {beat.act_number})")
         
         # Update session memory (normalize segment type aliases)
         segment_type_recorded = 'time' if segment_type == 'time_check' else segment_type

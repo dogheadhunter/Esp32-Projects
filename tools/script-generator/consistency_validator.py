@@ -3,15 +3,19 @@ Consistency Validator Module
 
 Validates generated scripts against DJ personality constraints, temporal knowledge,
 and character voice consistency. Helps prevent character drift and temporal violations.
+Also validates story incorporation when story context is provided.
 """
 
 from typing import Dict, List, Any, Optional, Tuple
 from datetime import datetime
 from enum import Enum
 import re
+import logging
+
+logger = logging.getLogger(__name__)
 
 
-class ValidationSeverity(Enum):
+class ValidationSeverity(str, Enum):
     """Severity levels for validation issues."""
     CRITICAL = "critical"  # Lore violations, temporal violations - immediate fail
     QUALITY = "quality"    # LLM quality issues - affects overall score
@@ -42,12 +46,13 @@ class ConsistencyValidator:
         self.violations: List[Dict[str, Any]] = []  # Each entry: {message, severity}
         self.warnings: List[str] = []  # Legacy warnings list (deprecated)
     
-    def validate(self, script: str) -> bool:
+    def validate(self, script: str, story_context: Optional[str] = None) -> bool:
         """
         Validate a generated script against character constraints.
         
         Args:
             script: Generated script text to validate
+            story_context: Optional story context that should be incorporated in script
         
         Returns:
             True if script is valid, False if critical violations found
@@ -66,6 +71,16 @@ class ConsistencyValidator:
         
         # Check voice patterns
         self._check_voice_patterns(script)
+        
+        # Check story incorporation if story_context provided
+        if story_context:
+            # Ensure story_context is a string (not a dict)
+            if isinstance(story_context, dict):
+                story_context = story_context.get('context_for_llm', str(story_context))
+            if not isinstance(story_context, str):
+                story_context = str(story_context)
+            
+            self._check_story_incorporation(script, story_context)
         
         # Script is valid if no CRITICAL violations
         critical_violations = [
@@ -262,6 +277,139 @@ class ConsistencyValidator:
                     "severity": ValidationSeverity.WARNING,
                     "category": "voice"
                 })
+    
+    def _check_story_incorporation(self, script: str, story_context: str) -> float:
+        """
+        Check if script incorporates provided story context and return a score.
+        
+        Scoring:
+        - Story entity names (weight: 0.3)
+        - Key phrases from beat summary (weight: 0.4)
+        - Story themes/topics (weight: 0.2)
+        - Story ID or title references (weight: 0.1)
+        
+        Args:
+            script: Generated script text
+            story_context: Story context that should be incorporated
+        
+        Returns:
+            Score from 0.0 to 1.0 indicating incorporation quality
+        """
+        if not story_context or not story_context.strip():
+            return 1.0  # No context to check, pass by default
+        
+        score = 0.0
+        script_lower = script.lower()
+        context_lower = story_context.lower()
+        
+        # Extract entities from story context
+        # Look for lines like "Entities: Foundation, Duchess, Helvetia"
+        entities = []
+        entity_match = re.search(r'entities?:\s*(.+)', context_lower, re.IGNORECASE)
+        if entity_match:
+            entity_str = entity_match.group(1)
+            # Split on commas and clean up
+            entities = [e.strip() for e in entity_str.split(',') if e.strip()]
+        
+        # Extract story title
+        # Look for lines like "Story: The Lost Caravan (Daily, Act 1/1)"
+        story_title = None
+        title_match = re.search(r'story:\s*([^(]+)', context_lower)
+        if title_match:
+            story_title = title_match.group(1).strip()
+        
+        # Extract summary
+        summary = None
+        summary_match = re.search(r'summary:\s*(.+)', context_lower, re.IGNORECASE)
+        if summary_match:
+            summary = summary_match.group(1).strip()
+        
+        # Extract themes
+        themes = []
+        theme_match = re.search(r'themes?:\s*(.+)', context_lower, re.IGNORECASE)
+        if theme_match:
+            theme_str = theme_match.group(1)
+            themes = [t.strip() for t in theme_str.split(',') if t.strip()]
+        
+        # Score: Entity names (weight 0.3)
+        if entities:
+            entity_count = 0
+            for entity in entities:
+                # Check for entity or variations (e.g., "Jack" in "Jack the survivor")
+                entity_words = entity.split()
+                # Look for at least one word from the entity name
+                for word in entity_words:
+                    if len(word) > 3 and word in script_lower:  # Skip short words like "the"
+                        entity_count += 1
+                        break  # Only count each entity once
+            
+            entity_score = min(entity_count / len(entities), 1.0) * 0.3
+            score += entity_score
+        
+        # Score: Key phrases from summary (weight 0.4)
+        if summary:
+            # Extract key phrases (3+ words) from summary
+            # Remove common words to focus on meaningful content
+            stopwords = {'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'is', 'has', 'have', 'been'}
+            summary_words = [w for w in summary.split() if w.lower() not in stopwords and len(w) > 3]
+            
+            if summary_words:
+                # Count how many key words from summary appear in script
+                matches = sum(1 for word in summary_words if word in script_lower)
+                phrase_score = min(matches / len(summary_words), 1.0) * 0.4
+                score += phrase_score
+        
+        # Score: Themes/topics (weight 0.2)
+        if themes:
+            theme_count = sum(1 for theme in themes if theme in script_lower)
+            theme_score = min(theme_count / len(themes), 1.0) * 0.2
+            score += theme_score
+        
+        # Score: Story title or ID (weight 0.1)
+        if story_title:
+            # Check for title or significant words from title
+            title_words = [w for w in story_title.split() if len(w) > 3]
+            if title_words:
+                title_matches = sum(1 for word in title_words if word in script_lower)
+                title_score = min(title_matches / len(title_words), 1.0) * 0.1
+                score += title_score
+        
+        # Log warning if story_context provided but score < 0.5
+        if score < 0.5:
+            logger.warning(
+                f"Low story incorporation score: {score:.2f} for {self.name}. "
+                f"Expected story elements not found in script."
+            )
+            self.violations.append({
+                "message": (
+                    f"Story incorporation: Script score {score:.2f} < 0.5. "
+                    f"Expected story elements not adequately incorporated."
+                ),
+                "severity": ValidationSeverity.QUALITY,
+                "category": "story_incorporation",
+                "score": score
+            })
+        
+        return score
+    
+    def get_story_incorporation_score(self, script: str, story_context: str) -> float:
+        """
+        Public method to get story incorporation score without side effects.
+        
+        Args:
+            script: Generated script text
+            story_context: Story context that should be incorporated (string or dict)
+        
+        Returns:
+            Score from 0.0 to 1.0
+        """
+        # Ensure story_context is a string
+        if isinstance(story_context, dict):
+            story_context = story_context.get('context_for_llm', str(story_context))
+        if not isinstance(story_context, str):
+            story_context = str(story_context)
+        
+        return self._check_story_incorporation(script, story_context)
     
     def get_violations(self) -> List[Dict[str, Any]]:
         """Get list of all violations with severity."""

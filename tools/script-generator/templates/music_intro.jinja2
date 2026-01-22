@@ -29,6 +29,18 @@ NATURAL SPEECH ELEMENTS:
 {% endif %}
 {% endif %}
 
+{% if story_context %}
+ACTIVE STORY BEATS (reference naturally if song connects to story):
+{{ story_context }}
+
+{% endif %}
+
+{% if session_context %}
+BROADCAST CONTINUITY:
+{{ session_context }}
+
+{% endif %}
+
 LORE CONTEXT (for era/cultural references):
 {{ lore_context }}
 
