@@ -1160,6 +1160,12 @@ class BroadcastEngine:
             }
         }
         
+        # Add story context and incorporation score to result if present
+        if story_context:
+            segment_result['story_context'] = story_context
+        if story_incorporation_score is not None:
+            segment_result['story_incorporation_score'] = story_incorporation_score
+        
         print(f"✅ Generated in {generation_time:.2f}s")
         
         return segment_result
