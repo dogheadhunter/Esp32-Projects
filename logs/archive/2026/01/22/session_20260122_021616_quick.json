@@ -1,0 +1,38 @@
+{
+  "session_name": "quick",
+  "session_id": "20260122_021616",
+  "start_time": "2026-01-22T02:16:16.605748",
+  "command": "run_tests.py quick",
+  "working_directory": "/home/runner/work/Esp32-Projects/Esp32-Projects",
+  "python_version": "3.12.3 (main, Nov  6 2025, 13:44:16) [GCC 13.3.0]",
+  "events": [
+    {
+      "timestamp": "2026-01-22T02:16:16.606177",
+      "type": "TEST_COMMAND",
+      "data": {
+        "command": "pytest -v -m mock",
+        "test_type": "quick"
+      }
+    },
+    {
+      "timestamp": "2026-01-22T02:16:16.606757",
+      "type": "TEST_ERROR",
+      "data": {
+        "error": "[Errno 2] No such file or directory: 'pytest'",
+        "error_type": "FileNotFoundError"
+      }
+    },
+    {
+      "timestamp": "2026-01-22T02:16:16.610825",
+      "type": "EXCEPTION",
+      "data": {
+        "type": "FileNotFoundError",
+        "message": "[Errno 2] No such file or directory: 'pytest'",
+        "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/Esp32-Projects/Esp32-Projects/tools/shared/logging_config.py\", line 537, in capture_output\n    yield session\n  File \"/home/runner/work/Esp32-Projects/Esp32-Projects/run_tests.py\", line 149, in run_command_with_logging\n    result = subprocess.run(\n             ^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/subprocess.py\", line 548, in run\n    with Popen(*popenargs, **kwargs) as process:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/subprocess.py\", line 1026, in __init__\n    self._execute_child(args, executable, preexec_fn, close_fds,\n  File \"/usr/lib/python3.12/subprocess.py\", line 1955, in _execute_child\n    raise child_exception_type(errno_num, err_msg, err_filename)\nFileNotFoundError: [Errno 2] No such file or directory: 'pytest'\n"
+      }
+    }
+  ],
+  "status": "failed",
+  "end_time": "2026-01-22T02:16:16.611416",
+  "duration_seconds": 0.005668
+}
