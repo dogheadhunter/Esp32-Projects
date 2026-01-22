@@ -738,12 +738,17 @@ class BroadcastEngine:
             if validation_result:
                 is_valid = validation_result.get('is_valid', True)
             
-            # Extract validation errors
+            # Extract validation errors (ensure all are strings)
             validation_errors = []
             if not is_valid and validation_result:
                 # Get errors from validation result
                 if 'violations' in validation_result:
-                    validation_errors = validation_result['violations']
+                    # Violations can be dicts or strings - extract messages
+                    for v in validation_result['violations']:
+                        if isinstance(v, dict):
+                            validation_errors.append(v.get('message', str(v)))
+                        else:
+                            validation_errors.append(str(v))
                 elif 'issues' in validation_result:
                     # LLM validator format
                     validation_errors = [

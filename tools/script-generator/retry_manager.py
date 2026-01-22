@@ -116,7 +116,11 @@ These errors MUST be fixed in your new generation. Specifically:"""
         guidance_items = []
         
         for error in errors:
-            error_lower = error.lower()
+            # Ensure error is a string before calling .lower()
+            if isinstance(error, dict):
+                error = error.get('message', str(error))
+            error_str = str(error) if not isinstance(error, str) else error
+            error_lower = error_str.lower()
             
             if "temporal" in error_lower or "year" in error_lower:
                 guidance_items.append(
