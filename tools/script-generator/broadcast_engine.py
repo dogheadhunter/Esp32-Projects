@@ -858,10 +858,15 @@ class BroadcastEngine:
             if required_segment:
                 segment_type = required_segment
                 print(f"🕐 Required {segment_type} for hour {current_hour}")
+                # Don't use story beats for non-gossip segments
+                # Story beats are only incorporated into gossip segments
+                if segment_type != 'gossip' and story_context:
+                    story_context = ""
+                    has_story_available = False
             elif has_story_available:
                 # Story beats available and no required segments
-                segment_type = 'story'
-                print("📚 Story beats available - prioritizing story segment")
+                segment_type = 'gossip'  # Changed from 'story' to 'gossip'
+                print("📚 Story beats available - generating gossip with story context")
             else:
                 # No required segments, no stories - default to gossip
                 segment_type = 'gossip'
