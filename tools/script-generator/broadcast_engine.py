@@ -835,7 +835,11 @@ class BroadcastEngine:
             story_beats = self.story_scheduler.get_story_beats_for_broadcast()
             if story_beats:
                 woven_result = self.story_weaver.weave_beats(story_beats)
+                # Always extract the string from the dict, never pass the dict itself
                 story_context = woven_result.get('context_for_llm', '')
+                # Ensure it's actually a string
+                if not isinstance(story_context, str):
+                    story_context = str(story_context) if story_context else ""
                 has_story_available = True
                 print(f"📖 Story beats: {self.story_weaver.get_story_summary(story_beats)}")
         
@@ -899,6 +903,11 @@ class BroadcastEngine:
         
         # Add story context to template vars
         if story_context:
+            # Ensure story_context is a string before adding to template vars
+            if isinstance(story_context, dict):
+                story_context = story_context.get('context_for_llm', '')
+            if not isinstance(story_context, str):
+                story_context = str(story_context) if story_context else ""
             template_vars['story_context'] = story_context
         
         # Add variety hints if variety manager is available (Phase 2B)

@@ -295,6 +295,12 @@ class ConsistencyValidator:
         Returns:
             Score from 0.0 to 1.0 indicating incorporation quality
         """
+        # Defensive type checking - ensure story_context is a string
+        if isinstance(story_context, dict):
+            story_context = story_context.get('context_for_llm', str(story_context))
+        if not isinstance(story_context, str):
+            story_context = str(story_context) if story_context else ""
+        
         if not story_context or not story_context.strip():
             return 1.0  # No context to check, pass by default
         
