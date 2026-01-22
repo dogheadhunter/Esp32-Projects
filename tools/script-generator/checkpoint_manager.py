@@ -36,6 +36,20 @@ from pathlib import Path
 from datetime import datetime
 from typing import Dict, Any, Optional, List
 from dataclasses import dataclass, asdict
+from pydantic import BaseModel
+
+
+class PydanticJSONEncoder(json.JSONEncoder):
+    """Custom JSON encoder that handles Pydantic BaseModel objects."""
+    
+    def default(self, obj):
+        """Convert Pydantic models to dicts for JSON serialization."""
+        if isinstance(obj, BaseModel):
+            # Use model_dump() for Pydantic v2, falls back to dict() for v1
+            if hasattr(obj, 'model_dump'):
+                return obj.model_dump()
+            return obj.dict()
+        return super().default(obj)
 
 
 @dataclass
@@ -151,7 +165,7 @@ class CheckpointManager:
                 suffix='.tmp'
             ) as temp_file:
                 temp_path = Path(temp_file.name)
-                json.dump(checkpoint_data, temp_file, indent=2)
+                json.dump(checkpoint_data, temp_file, indent=2, cls=PydanticJSONEncoder)
             
             # Validate temp file is valid JSON
             with open(temp_path, 'r', encoding='utf-8') as f:
